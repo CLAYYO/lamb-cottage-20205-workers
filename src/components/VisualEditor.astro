@@ -1,0 +1,405 @@
+---
+export interface Props {
+  sectionId: string;
+  fieldPath: string;
+  content: string;
+  type?: 'text' | 'textarea' | 'rich' | 'image';
+  placeholder?: string;
+  className?: string;
+}
+
+const { sectionId, fieldPath, content, type = 'text', placeholder, className = '' } = Astro.props;
+const editorId = `editor-${sectionId}-${fieldPath.replace(/\./g, '-')}`;
+---
+
+<div class={`visual-editor-wrapper ${className}`} data-section={sectionId} data-field={fieldPath}>
+  {type === 'text' && (
+    <input
+      type="text"
+      id={editorId}
+      class="visual-editor-input"
+      value={content}
+      placeholder={placeholder}
+      data-original={content}
+    />
+  )}
+  
+  {type === 'textarea' && (
+    <textarea
+      id={editorId}
+      class="visual-editor-textarea"
+      placeholder={placeholder}
+      data-original={content}
+    >{content}</textarea>
+  )}
+  
+  {type === 'rich' && (
+    <div
+      id={editorId}
+      class="visual-editor-rich"
+      contenteditable="true"
+      data-placeholder={placeholder}
+      data-original={content}
+      set:html={content}
+    ></div>
+  )}
+  
+  {type === 'image' && (
+    <div class="visual-editor-image-wrapper">
+      <img
+        id={editorId}
+        src={content}
+        alt="Editable image"
+        class="visual-editor-image"
+        data-original={content}
+      />
+      <div class="image-editor-overlay">
+        <button type="button" class="btn-change-image" data-target={editorId}>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+          </svg>
+          Change Image
+        </button>
+      </div>
+    </div>
+  )}
+  
+  <div class="editor-controls">
+    <button type="button" class="btn-save" data-target={editorId}>
+      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+      </svg>
+    </button>
+    <button type="button" class="btn-cancel" data-target={editorId}>
+      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<style>
+  .visual-editor-wrapper {
+    position: relative;
+    display: inline-block;
+    min-width: 100px;
+  }
+  
+  .visual-editor-wrapper:hover .editor-controls {
+    opacity: 1;
+  }
+  
+  .visual-editor-input,
+  .visual-editor-textarea {
+    @apply w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+  }
+  
+  .visual-editor-rich {
+    @apply min-h-[100px] p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+  }
+  
+  .visual-editor-rich:empty:before {
+    content: attr(data-placeholder);
+    @apply text-gray-400;
+  }
+  
+  .visual-editor-image-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .visual-editor-image {
+    @apply max-w-full h-auto rounded;
+  }
+  
+  .image-editor-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+    border-radius: 0.375rem;
+  }
+  
+  .visual-editor-image-wrapper:hover .image-editor-overlay {
+    opacity: 1;
+  }
+  
+  .btn-change-image {
+    @apply bg-white text-gray-800 px-3 py-2 rounded-md text-sm font-medium flex items-center gap-2 hover:bg-gray-100 transition-colors;
+  }
+  
+  .editor-controls {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  
+  .btn-save,
+  .btn-cancel {
+    @apply w-6 h-6 rounded-full flex items-center justify-center text-white text-xs transition-colors;
+  }
+  
+  .btn-save {
+    @apply bg-green-500 hover:bg-green-600;
+  }
+  
+  .btn-cancel {
+    @apply bg-red-500 hover:bg-red-600;
+  }
+</style>
+
+<script>
+  import { secureRequest, handleResponse, sanitizeInput } from '../lib/client-security.js';
+  
+  class VisualEditor {
+    constructor() {
+      this.initializeEditors();
+      this.setupEventListeners();
+    }
+    
+    initializeEditors() {
+      // Initialize rich text editors
+      document.querySelectorAll('.visual-editor-rich').forEach(editor => {
+        this.setupRichEditor(editor);
+      });
+    }
+    
+    setupRichEditor(editor) {
+      // Basic rich text editing commands
+      editor.addEventListener('keydown', (e) => {
+        if (e.ctrlKey || e.metaKey) {
+          switch (e.key) {
+            case 'b':
+              e.preventDefault();
+              document.execCommand('bold');
+              break;
+            case 'i':
+              e.preventDefault();
+              document.execCommand('italic');
+              break;
+            case 'u':
+              e.preventDefault();
+              document.execCommand('underline');
+              break;
+          }
+        }
+      });
+    }
+    
+    setupEventListeners() {
+      // Save button handlers
+      document.addEventListener('click', (e) => {
+        if (e.target.closest('.btn-save')) {
+          const button = e.target.closest('.btn-save');
+          const targetId = button.dataset.target;
+          this.saveContent(targetId);
+        }
+        
+        if (e.target.closest('.btn-cancel')) {
+          const button = e.target.closest('.btn-cancel');
+          const targetId = button.dataset.target;
+          this.cancelEdit(targetId);
+        }
+        
+        if (e.target.closest('.btn-change-image')) {
+          const button = e.target.closest('.btn-change-image');
+          const targetId = button.dataset.target;
+          this.changeImage(targetId);
+        }
+      });
+      
+      // Auto-save on blur for text inputs
+      document.addEventListener('blur', (e) => {
+        if (e.target.matches('.visual-editor-input, .visual-editor-textarea')) {
+          this.saveContent(e.target.id);
+        }
+      }, true);
+    }
+    
+    async saveContent(editorId) {
+      const editor = document.getElementById(editorId);
+      if (!editor) return;
+      
+      const wrapper = editor.closest('.visual-editor-wrapper');
+      const sectionId = wrapper.dataset.section;
+      const fieldPath = wrapper.dataset.field;
+      
+      let content;
+      if (editor.matches('.visual-editor-rich')) {
+        content = editor.innerHTML;
+      } else if (editor.matches('.visual-editor-image')) {
+        content = editor.src;
+      } else {
+        content = editor.value;
+      }
+      
+      try {
+        // Sanitize content if it's a string
+        if (typeof content === 'string') {
+          content = sanitizeInput(content);
+        }
+        
+        const response = await secureRequest('/api/content/save', {
+          method: 'POST',
+          body: JSON.stringify({
+            section: sectionId,
+            field: fieldPath,
+            content: content
+          })
+        });
+        
+        const result = await handleResponse(response);
+        // Update original data
+        editor.dataset.original = content;
+        this.showSuccess('Content saved successfully');
+      } catch (error) {
+        console.error('Save error:', error);
+        this.showError(error.message || 'Failed to save content');
+      }
+    }
+    
+    cancelEdit(editorId) {
+      const editor = document.getElementById(editorId);
+      if (!editor) return;
+      
+      const originalContent = editor.dataset.original;
+      
+      if (editor.matches('.visual-editor-rich')) {
+        editor.innerHTML = originalContent;
+      } else if (editor.matches('.visual-editor-image')) {
+        editor.src = originalContent;
+      } else {
+        editor.value = originalContent;
+      }
+    }
+    
+    validateFile(file) {
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+      const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
+
+      // Check file size
+      if (file.size > maxSize) {
+        return { valid: false, error: 'File size exceeds 5MB limit' };
+      }
+
+      // Check MIME type
+      if (!allowedTypes.includes(file.type)) {
+        return { valid: false, error: 'Invalid file type. Only images are allowed.' };
+      }
+
+      // Check file extension
+      const extension = file.name.toLowerCase().substring(file.name.lastIndexOf('.'));
+      if (!allowedExtensions.includes(extension)) {
+        return { valid: false, error: 'Invalid file extension' };
+      }
+
+      // Check for potential malicious filenames
+      if (file.name.includes('..') || file.name.includes('/') || file.name.includes('\\')) {
+        return { valid: false, error: 'Invalid filename' };
+      }
+
+      return { valid: true };
+    }
+    
+    changeImage(editorId) {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      
+      input.onchange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        try {
+          // Validate file before upload
+          const validation = this.validateFile(file);
+          if (!validation.valid) {
+            this.showError(validation.error);
+            throw new Error(validation.error);
+          }
+          
+          const formData = new FormData();
+          formData.append('image', file);
+          
+          // For file uploads, we need to handle CSRF manually since we can't use JSON
+          const authToken = localStorage.getItem('auth_token');
+          if (!authToken) {
+            throw new Error('Authentication required');
+          }
+          
+          // Get CSRF tokens
+          const csrfResponse = await fetch('/api/auth/csrf', {
+            headers: { 'Authorization': `Bearer ${authToken}` }
+          });
+          
+          if (!csrfResponse.ok) {
+            throw new Error('Failed to get security tokens');
+          }
+          
+          const { csrfToken, sessionId } = await csrfResponse.json();
+          
+          const response = await fetch('/api/images/upload', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${authToken}`,
+              'X-CSRF-Token': csrfToken,
+              'X-Session-ID': sessionId
+            },
+            body: formData
+          });
+          
+          const result = await handleResponse(response);
+          const editor = document.getElementById(editorId);
+          editor.src = result.url;
+          this.saveContent(editorId);
+        } catch (error) {
+          console.error('Upload error:', error);
+          this.showError(error.message || 'Failed to upload image');
+        }
+      };
+      
+      input.click();
+    }
+    
+    showSuccess(message) {
+      this.showNotification(message, 'success');
+    }
+    
+    showError(message) {
+      this.showNotification(message, 'error');
+    }
+    
+    showNotification(message, type) {
+      const notification = document.createElement('div');
+      notification.className = `fixed top-4 right-4 px-4 py-2 rounded-md text-white z-50 ${
+        type === 'success' ? 'bg-green-500' : 'bg-red-500'
+      }`;
+      notification.textContent = message;
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.remove();
+      }, 3000);
+    }
+  }
+  
+  // Initialize when DOM is loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new VisualEditor());
+  } else {
+    new VisualEditor();
+  }
+</script>

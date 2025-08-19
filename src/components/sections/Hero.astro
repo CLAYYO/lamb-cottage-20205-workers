@@ -1,0 +1,152 @@
+---
+// Hero section with aerial photo and overlay text
+---
+
+<section id="home" class="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
+  <!-- Background Image -->
+  <div class="absolute inset-0 z-0">
+    <img 
+      src="/lamb-cottage-hero.jpg" 
+      alt="Aerial view of Lamb Cottage Caravan Park showing beautiful countryside setting" 
+      class="w-full h-full object-cover"
+      loading="eager"
+    />
+    <!-- Gradient Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60"></div>
+  </div>
+  
+  <!-- Hero Content -->
+  <div class="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
+    <!-- Main Heading -->
+    <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight animate-fade-in-up">
+      Welcome to
+      <span class="block text-lamb-green-light drop-shadow-lg">
+        Lamb Cottage
+      </span>
+      <span class="block text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-medium mt-2">
+        Caravan Park
+      </span>
+    </h1>
+    
+    <!-- Subtitle -->
+    <p class="text-lg sm:text-xl lg:text-2xl mb-8 text-gray-100 max-w-2xl mx-auto leading-relaxed animate-fade-in-up animation-delay-300">
+      Experience the perfect blend of countryside tranquility and modern comfort in the heart of beautiful countryside
+    </p>
+    
+    <!-- Call-to-Action Buttons -->
+    <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 animate-fade-in-up animation-delay-600">
+      <a 
+        href="#contact" 
+        class="bg-lamb-green-dark text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-lamb-green-medium transform hover:scale-105 transition-all duration-300 shadow-large hover:shadow-xl flex items-center space-x-2"
+        aria-label="Book your stay at Lamb Cottage Caravan Park"
+      >
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+        </svg>
+        <span>Book Your Stay</span>
+      </a>
+      
+      <a 
+        href="#facilities" 
+        class="bg-white/10 backdrop-blur-sm text-white border-2 border-white/30 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white/20 hover:border-white/50 transition-all duration-300 flex items-center space-x-2"
+        aria-label="Explore our facilities and amenities"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+        </svg>
+        <span>Explore Facilities</span>
+      </a>
+    </div>
+    
+    <!-- Key Features -->
+    <div class="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto animate-fade-in-up animation-delay-900">
+      <div class="flex items-center justify-center space-x-2 text-white/90">
+        <svg class="w-6 h-6 text-lamb-green-light" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+        </svg>
+        <span class="font-medium">Prime Location</span>
+      </div>
+      
+      <div class="flex items-center justify-center space-x-2 text-white/90">
+        <svg class="w-6 h-6 text-lamb-green-light" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <span class="font-medium">Modern Facilities</span>
+      </div>
+      
+      <div class="flex items-center justify-center space-x-2 text-white/90">
+        <svg class="w-6 h-6 text-lamb-green-light" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+        </svg>
+        <span class="font-medium">Family Friendly</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Scroll Indicator -->
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
+    <a 
+      href="#about" 
+      class="text-white/80 hover:text-white transition-colors duration-200"
+      aria-label="Scroll down to learn more"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+      </svg>
+    </a>
+  </div>
+</section>
+
+<style>
+  /* Custom animations */
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fade-in-up {
+    animation: fade-in-up 0.8s ease-out forwards;
+  }
+  
+  .animation-delay-300 {
+    animation-delay: 0.3s;
+    opacity: 0;
+  }
+  
+  .animation-delay-600 {
+    animation-delay: 0.6s;
+    opacity: 0;
+  }
+  
+  .animation-delay-900 {
+    animation-delay: 0.9s;
+    opacity: 0;
+  }
+  
+  /* Ensure hero takes full viewport height */
+  section {
+    min-height: 100vh;
+  }
+  
+  /* Responsive text shadows for better readability */
+  h1, p {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Button hover effects */
+  .transform {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  /* Backdrop blur support */
+  .backdrop-blur-sm {
+    backdrop-filter: blur(4px);
+  }
+</style>

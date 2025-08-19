@@ -1,0 +1,965 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import VisualEditor from '../../components/VisualEditor.astro';
+import LivePreview from '../../components/LivePreview.astro';
+import { getContent } from '../api/content/load.ts';
+
+const content = await getContent();
+---
+
+<AdminLayout title="Content Editor">
+  <div class="content-editor">
+    <div class="editor-header">
+      <h1>Content Editor</h1>
+      <div class="editor-actions">
+        <button id="save-btn" class="btn btn-primary">Save Changes</button>
+        <button id="toggle-preview-btn" class="btn btn-secondary">
+          <span id="preview-toggle-text">Show Preview</span>
+        </button>
+        <button id="reset-btn" class="btn btn-outline">Reset</button>
+      </div>
+    </div>
+    
+    <div class="editor-content">
+      <div class="content-layout" id="content-layout">
+        <div class="editor-panel">
+          <!-- Section Navigation -->
+          <div class="section-nav">
+            <h3>Page Sections</h3>
+            <nav class="section-list">
+              <button class="section-btn active" data-section="hero">Hero Section</button>
+              <button class="section-btn" data-section="welcome">Welcome</button>
+              <button class="section-btn" data-section="tagline">Tagline</button>
+              <button class="section-btn" data-section="facilities">Facilities</button>
+              <button class="section-btn" data-section="property">Property Sales</button>
+              <button class="section-btn" data-section="reviews">Customer Reviews</button>
+              <button class="section-btn" data-section="booking">Booking Banner</button>
+              <button class="section-btn" data-section="contact">Contact Form</button>
+              <button class="section-btn" data-section="footer">Footer</button>
+            </nav>
+          </div>
+          
+          <!-- Content Editor Panel -->
+          <div class="section-panels">
+        <!-- Hero Section Editor -->
+        <div class="section-editor active" id="hero-editor">
+          <h2>Hero Section</h2>
+          <div class="form-group">
+            <label for="hero-title">Main Title</label>
+            <VisualEditor 
+              sectionId="hero" 
+              fieldPath="title" 
+              content={content.hero.title} 
+              type="text" 
+              placeholder="Enter hero title"
+              className="form-input"
+            />
+          </div>
+          <div class="form-group">
+            <label for="hero-subtitle">Subtitle</label>
+            <VisualEditor 
+              sectionId="hero" 
+              fieldPath="subtitle" 
+              content={content.hero.subtitle} 
+              type="textarea" 
+              placeholder="Enter hero subtitle"
+              className="form-textarea"
+            />
+          </div>
+          <div class="form-group">
+            <label for="hero-cta">Call to Action Button Text</label>
+            <VisualEditor 
+              sectionId="hero" 
+              fieldPath="ctaButton.text" 
+              content={content.hero.ctaButton.text} 
+              type="text" 
+              placeholder="Enter CTA text"
+              className="form-input"
+            />
+          </div>
+          <div class="form-group">
+            <label for="hero-image">Background Image</label>
+            <VisualEditor 
+              sectionId="hero" 
+              fieldPath="backgroundImage.src" 
+              content={content.hero.backgroundImage.src} 
+              type="image" 
+              className="image-preview"
+            />
+          </div>
+        </div>
+        
+        <!-- Welcome Section Editor -->
+        <div class="section-editor" id="welcome-editor">
+          <div class="section-header">
+            <h2 class="section-title">Welcome Section</h2>
+            <p class="section-description">Edit the welcome message and introduction content</p>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Title</label>
+            <VisualEditor 
+              type="text" 
+              section="welcome" 
+              fieldPath="title" 
+              content={content.welcome.title} 
+            />
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Content</label>
+            <VisualEditor 
+              type="richtext" 
+              section="welcome" 
+              fieldPath="content" 
+              content={content.welcome.content} 
+            />
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Image</label>
+            <VisualEditor 
+              type="image" 
+              section="welcome" 
+              fieldPath="image.src" 
+              content={content.welcome.image.src} 
+            />
+          </div>
+        </div>
+        
+        <!-- Tagline Section Editor -->
+        <div class="section-editor" id="tagline-editor">
+          <div class="section-header">
+            <h2 class="section-title">Tagline Section</h2>
+            <p class="section-description">Edit the main tagline that appears prominently on the page</p>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Tagline Text</label>
+            <VisualEditor 
+              type="text" 
+              section="tagline" 
+              fieldPath="text" 
+              content={content.tagline.text} 
+            />
+          </div>
+        </div>
+        
+        <!-- Facilities Section Editor -->
+        <div class="section-editor" id="facilities-editor">
+          <div class="section-header">
+            <h2 class="section-title">Facilities Section</h2>
+            <p class="section-description">Manage the facilities and amenities showcase</p>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Section Title</label>
+            <VisualEditor 
+              type="text" 
+              section="facilities" 
+              fieldPath="title" 
+              content={content.facilities.title} 
+            />
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Section Subtitle</label>
+            <VisualEditor 
+              type="textarea" 
+              section="facilities" 
+              fieldPath="subtitle" 
+              content={content.facilities.subtitle} 
+            />
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Facilities List</label>
+            <div class="facilities-list">
+              {content.facilities.items.map((facility, index) => (
+                <div class="facility-item border border-gray-200 rounded-lg p-4 mb-4">
+                  <div class="grid grid-cols-2 gap-4">
+                    <div>
+                      <label class="form-label text-sm">Facility Name</label>
+                      <VisualEditor 
+                        type="text" 
+                        section="facilities" 
+                        fieldPath={`items.${index}.name`} 
+                        content={facility.name} 
+                      />
+                    </div>
+                    <div>
+                      <label class="form-label text-sm">Description</label>
+                      <VisualEditor 
+                        type="textarea" 
+                        section="facilities" 
+                        fieldPath={`items.${index}.description`} 
+                        content={facility.description} 
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        
+        <!-- Property Sales Section Editor -->
+        <div class="section-editor" id="property-editor">
+          <div class="section-header">
+            <h2 class="section-title">Property Sales Section</h2>
+            <p class="section-description">Manage property listings and sales information</p>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Section Title</label>
+            <VisualEditor 
+              type="text" 
+              section="propertySales" 
+              fieldPath="title" 
+              content={content.propertySales.title} 
+            />
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Section Subtitle</label>
+            <VisualEditor 
+              type="textarea" 
+              section="propertySales" 
+              fieldPath="subtitle" 
+              content={content.propertySales.subtitle} 
+            />
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Properties</label>
+            <div class="properties-list">
+              {content.propertySales.properties.map((property, index) => (
+                <div class="property-item border border-gray-200 rounded-lg p-4 mb-4">
+                  <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <label class="form-label text-sm">Property Title</label>
+                      <VisualEditor 
+                        type="text" 
+                        section="propertySales" 
+                        fieldPath={`properties.${index}.title`} 
+                        content={property.title} 
+                      />
+                    </div>
+                    <div>
+                      <label class="form-label text-sm">Price</label>
+                      <VisualEditor 
+                        type="text" 
+                        section="propertySales" 
+                        fieldPath={`properties.${index}.price`} 
+                        content={property.price} 
+                      />
+                    </div>
+                  </div>
+                  <div class="mb-4">
+                    <label class="form-label text-sm">Description</label>
+                    <VisualEditor 
+                      type="textarea" 
+                      section="propertySales" 
+                      fieldPath={`properties.${index}.description`} 
+                      content={property.description} 
+                    />
+                  </div>
+                  <div class="grid grid-cols-2 gap-4">
+                    <div>
+                      <label class="form-label text-sm">Property Image</label>
+                      <VisualEditor 
+                        type="image" 
+                        section="propertySales" 
+                        fieldPath={`properties.${index}.image.src`} 
+                        content={property.image.src} 
+                      />
+                    </div>
+                    <div>
+                      <label class="form-label text-sm">Link URL</label>
+                      <VisualEditor 
+                        type="text" 
+                        section="propertySales" 
+                        fieldPath={`properties.${index}.link.url`} 
+                        content={property.link.url} 
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        
+        <!-- Reviews Section Editor -->
+        <div class="section-editor" id="reviews-editor">
+          <div class="section-header">
+            <h2 class="section-title">Customer Reviews Section</h2>
+            <p class="section-description">Manage customer testimonials and reviews</p>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Section Title</label>
+            <VisualEditor 
+              type="text" 
+              section="reviews" 
+              fieldPath="title" 
+              content={content.reviews.title} 
+            />
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Section Subtitle</label>
+            <VisualEditor 
+              type="textarea" 
+              section="reviews" 
+              fieldPath="subtitle" 
+              content={content.reviews.subtitle} 
+            />
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Customer Reviews</label>
+            <div class="reviews-list">
+              {content.reviews.items.map((review, index) => (
+                <div class="review-item border border-gray-200 rounded-lg p-4 mb-4">
+                  <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <label class="form-label text-sm">Customer Name</label>
+                      <VisualEditor 
+                        type="text" 
+                        section="reviews" 
+                        fieldPath={`items.${index}.name`} 
+                        content={review.name} 
+                      />
+                    </div>
+                    <div>
+                      <label class="form-label text-sm">Rating (1-5)</label>
+                      <VisualEditor 
+                        type="text" 
+                        section="reviews" 
+                        fieldPath={`items.${index}.rating`} 
+                        content={review.rating.toString()} 
+                      />
+                    </div>
+                  </div>
+                  <div class="mb-4">
+                    <label class="form-label text-sm">Review Text</label>
+                    <VisualEditor 
+                      type="textarea" 
+                      section="reviews" 
+                      fieldPath={`items.${index}.text`} 
+                      content={review.text} 
+                    />
+                  </div>
+                  <div>
+                    <label class="form-label text-sm">Review Date</label>
+                    <VisualEditor 
+                      type="text" 
+                      section="reviews" 
+                      fieldPath={`items.${index}.date`} 
+                      content={review.date} 
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        
+        <!-- Booking Banner Section Editor -->
+        <div class="section-editor" id="booking-editor">
+          <div class="section-header">
+            <h2 class="section-title">Booking Banner Section</h2>
+            <p class="section-description">Edit the booking call-to-action banner</p>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Banner Title</label>
+            <VisualEditor 
+              type="text" 
+              section="bookingBanner" 
+              fieldPath="title" 
+              content={content.bookingBanner.title} 
+            />
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Banner Subtitle</label>
+            <VisualEditor 
+              type="textarea" 
+              section="bookingBanner" 
+              fieldPath="subtitle" 
+              content={content.bookingBanner.subtitle} 
+            />
+          </div>
+          
+          <div class="grid grid-cols-2 gap-6">
+            <div class="form-group">
+              <label class="form-label">Primary Button Text</label>
+              <VisualEditor 
+                type="text" 
+                section="bookingBanner" 
+                fieldPath="primaryButton.text" 
+                content={content.bookingBanner.primaryButton.text} 
+              />
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Primary Button URL</label>
+              <VisualEditor 
+                type="text" 
+                section="bookingBanner" 
+                fieldPath="primaryButton.url" 
+                content={content.bookingBanner.primaryButton.url} 
+              />
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-2 gap-6">
+            <div class="form-group">
+              <label class="form-label">Secondary Button Text</label>
+              <VisualEditor 
+                type="text" 
+                section="bookingBanner" 
+                fieldPath="secondaryButton.text" 
+                content={content.bookingBanner.secondaryButton.text} 
+              />
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Secondary Button URL</label>
+              <VisualEditor 
+                type="text" 
+                section="bookingBanner" 
+                fieldPath="secondaryButton.url" 
+                content={content.bookingBanner.secondaryButton.url} 
+              />
+            </div>
+          </div>
+        </div>
+        
+        <!-- Contact Section Editor -->
+        <div class="section-editor" id="contact-editor">
+          <div class="section-header">
+            <h2 class="section-title">Contact Section</h2>
+            <p class="section-description">Edit contact information and form settings</p>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Section Title</label>
+            <VisualEditor 
+              type="text" 
+              section="contact" 
+              fieldPath="title" 
+              content={content.contact.title} 
+            />
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Section Subtitle</label>
+            <VisualEditor 
+              type="textarea" 
+              section="contact" 
+              fieldPath="subtitle" 
+              content={content.contact.subtitle} 
+            />
+          </div>
+          
+          <div class="grid grid-cols-2 gap-6">
+            <div class="form-group">
+              <label class="form-label">Address</label>
+              <VisualEditor 
+                type="textarea" 
+                section="contact" 
+                fieldPath="address" 
+                content={content.contact.address} 
+              />
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Phone</label>
+              <VisualEditor 
+                type="text" 
+                section="contact" 
+                fieldPath="phone" 
+                content={content.contact.phone} 
+              />
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <VisualEditor 
+              type="text" 
+              section="contact" 
+              fieldPath="email" 
+              content={content.contact.email} 
+            />
+          </div>
+        </div>
+        
+        <!-- Footer Section Editor -->
+        <div class="section-editor" id="footer-editor">
+          <div class="section-header">
+            <h2 class="section-title">Footer Section</h2>
+            <p class="section-description">Edit footer content and links</p>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Company Name</label>
+            <VisualEditor 
+              type="text" 
+              section="footer" 
+              fieldPath="companyName" 
+              content={content.footer.companyName} 
+            />
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <VisualEditor 
+              type="textarea" 
+              section="footer" 
+              fieldPath="description" 
+              content={content.footer.description} 
+            />
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Copyright Text</label>
+            <VisualEditor 
+              type="text" 
+              section="footer" 
+              fieldPath="copyright" 
+              content={content.footer.copyright} 
+            />
+          </div>
+        </div>
+      </div>
+      
+      <!-- Live Preview Panel -->
+      <div class="preview-panel" id="preview-panel" style="display: none;">
+        <LivePreview content={content} />
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .content-editor {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .editor-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .editor-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin: 0;
+    }
+    
+    .editor-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+    
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+    }
+    
+    .btn-primary {
+      background-color: #4CAF50;
+      color: white;
+      border-color: #4CAF50;
+    }
+    
+    .btn-primary:hover {
+      background-color: #45a049;
+    }
+    
+    .btn-secondary {
+      background-color: #6b7280;
+      color: white;
+    }
+    
+    .btn-secondary:hover {
+      background-color: #5b6470;
+    }
+    
+    .btn-outline {
+      background-color: transparent;
+      color: #4CAF50;
+      border-color: #4CAF50;
+    }
+    
+    .btn-outline:hover {
+      background-color: #4CAF50;
+      color: white;
+    }
+    
+    .btn-danger {
+      background-color: #ef4444;
+      color: white;
+    }
+    
+    .btn-sm {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.875rem;
+    }
+    
+    .editor-content {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 2rem;
+    }
+    
+    .content-layout {
+      display: flex;
+      gap: 2rem;
+      transition: all 0.3s ease;
+    }
+    
+    .content-layout.with-preview .editor-panel {
+      width: 50%;
+    }
+    
+    .content-layout.with-preview .preview-panel {
+      width: 50%;
+      display: block !important;
+    }
+    
+    .preview-panel {
+      background: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+      border: 1px solid #e5e7eb;
+    }
+    
+    .section-nav {
+      background: white;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+      height: fit-content;
+      position: sticky;
+      top: 2rem;
+    }
+    
+    .section-nav h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #1f2937;
+    }
+    
+    .section-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .section-btn {
+      padding: 0.75rem;
+      text-align: left;
+      background: transparent;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #6b7280;
+    }
+    
+    .section-btn:hover {
+      background-color: #f9fafb;
+      border-color: #4CAF50;
+    }
+    
+    .section-btn.active {
+      background-color: #4CAF50;
+      color: white;
+      border-color: #4CAF50;
+    }
+    
+    .editor-panel {
+      background: white;
+      border-radius: 0.5rem;
+      padding: 2rem;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    }
+    
+    .section-editor {
+      display: none;
+    }
+    
+    .section-editor.active {
+      display: block;
+    }
+    
+    .section-editor h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: #1f2937;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: #374151;
+    }
+    
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      transition: border-color 0.2s;
+    }
+    
+    .form-input:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: #4CAF50;
+      box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+    }
+    
+    .image-upload {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .image-preview {
+      width: 100px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 0.375rem;
+      border: 1px solid #d1d5db;
+    }
+    
+    .file-input {
+      display: none;
+    }
+    
+    .wysiwyg-editor {
+      border: 1px solid #d1d5db;
+      border-radius: 0.375rem;
+      overflow: hidden;
+    }
+    
+    .editor-toolbar {
+      background: #f9fafb;
+      padding: 0.5rem;
+      border-bottom: 1px solid #d1d5db;
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .editor-toolbar button {
+      padding: 0.25rem 0.5rem;
+      border: 1px solid #d1d5db;
+      background: white;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    
+    .editor-toolbar button:hover {
+      background: #e5e7eb;
+    }
+    
+    .editor-content[contenteditable] {
+      padding: 1rem;
+      min-height: 150px;
+      outline: none;
+    }
+    
+    .facility-item {
+      display: grid;
+      grid-template-columns: 1fr 2fr auto;
+      gap: 1rem;
+      align-items: start;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.375rem;
+    }
+    
+    @media (max-width: 768px) {
+      .editor-content {
+        grid-template-columns: 1fr;
+      }
+      
+      .section-nav {
+        position: static;
+      }
+      
+      .facility-item {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <script is:inline>
+    // Section navigation
+    document.querySelectorAll('.section-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Remove active class from all buttons and editors
+        document.querySelectorAll('.section-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.section-editor').forEach(e => e.classList.remove('active'));
+        
+        // Add active class to clicked button and corresponding editor
+        btn.classList.add('active');
+        const sectionId = btn.dataset.section + '-editor';
+        document.getElementById(sectionId).classList.add('active');
+      });
+    });
+    
+    // WYSIWYG editor functionality
+    document.querySelectorAll('.editor-toolbar button').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const command = btn.dataset.command;
+        document.execCommand(command, false, null);
+      });
+    });
+    
+    // Add facility functionality
+    document.getElementById('add-facility').addEventListener('click', () => {
+      const facilitiesList = document.querySelector('.facilities-list');
+      const newFacility = document.createElement('div');
+      newFacility.className = 'facility-item';
+      newFacility.innerHTML = `
+        <input type="text" class="form-input" placeholder="Facility name">
+        <textarea class="form-textarea" rows="2" placeholder="Description"></textarea>
+        <button class="btn btn-danger btn-sm">Remove</button>
+      `;
+      facilitiesList.appendChild(newFacility);
+      
+      // Add remove functionality to new facility
+      newFacility.querySelector('.btn-danger').addEventListener('click', () => {
+        newFacility.remove();
+      });
+    });
+    
+    // Remove facility functionality for existing items
+    document.querySelectorAll('.facility-item .btn-danger').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.closest('.facility-item').remove();
+      });
+    });
+    
+    // Save functionality
+    document.getElementById('save-btn').addEventListener('click', async () => {
+      const saveBtn = document.getElementById('save-btn');
+      saveBtn.textContent = 'Saving...';
+      saveBtn.disabled = true;
+      
+      // Collect all form data
+      const contentData = {
+        hero: {
+          title: document.getElementById('hero-title').value,
+          subtitle: document.getElementById('hero-subtitle').value,
+          cta: document.getElementById('hero-cta').value
+        },
+        welcome: {
+          title: document.getElementById('welcome-title').value,
+          content: document.getElementById('welcome-content').innerHTML
+        },
+        tagline: {
+          text: document.getElementById('tagline-text').value,
+          description: document.getElementById('tagline-description').value
+        },
+        facilities: {
+          title: document.getElementById('facilities-title').value,
+          items: Array.from(document.querySelectorAll('.facility-item')).map(item => ({
+            name: item.querySelector('input').value,
+            description: item.querySelector('textarea').value
+          }))
+        },
+        propertyS ales: {
+          title: document.getElementById('property-title').value,
+          description: document.getElementById('property-description').value,
+          cta: document.getElementById('property-cta').value
+        },
+        contact: {
+          title: document.getElementById('contact-title').value,
+          description: document.getElementById('contact-description').value,
+          email: document.getElementById('contact-email').value,
+          phone: document.getElementById('contact-phone').value
+        },
+        footer: {
+          description: document.getElementById('footer-description').value,
+          address: document.getElementById('footer-address').value,
+          hours: document.getElementById('footer-hours').value
+        }
+      };
+      
+      try {
+        const response = await fetch('/api/content/save', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(contentData)
+        });
+        
+        if (response.ok) {
+          alert('Content saved successfully!');
+        } else {
+          alert('Error saving content. Please try again.');
+        }
+      } catch (error) {
+        alert('Error saving content. Please try again.');
+      }
+      
+      saveBtn.textContent = 'Save Changes';
+      saveBtn.disabled = false;
+    });
+    
+    // Preview functionality
+    document.getElementById('toggle-preview-btn').addEventListener('click', () => {
+      const previewPanel = document.getElementById('preview-panel');
+      const contentLayout = document.getElementById('content-layout');
+      const toggleText = document.getElementById('preview-toggle-text');
+      
+      if (previewPanel.style.display === 'none') {
+        previewPanel.style.display = 'block';
+        contentLayout.classList.add('with-preview');
+        toggleText.textContent = 'Hide Preview';
+      } else {
+        previewPanel.style.display = 'none';
+        contentLayout.classList.remove('with-preview');
+        toggleText.textContent = 'Show Preview';
+      }
+    });
+    
+    // Reset functionality
+    document.getElementById('reset-btn').addEventListener('click', () => {
+      if (confirm('Are you sure you want to reset all changes? This cannot be undone.')) {
+        location.reload();
+      }
+    });
+  </script>
+</AdminLayout>

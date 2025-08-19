@@ -1,0 +1,412 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getContent } from './api/content/load.ts';
+
+const content = await getContent();
+const isPreview = Astro.url.searchParams.has('preview');
+---
+
+<BaseLayout title={content.header.title}>
+  <!-- Top Bar -->
+  <div class="bg-green-800 text-white py-2">
+    <div class="container mx-auto px-4">
+      <div class="flex justify-between items-center text-sm">
+        <div class="flex items-center gap-4">
+          <span class="flex items-center gap-1">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+            </svg>
+            {content.topBar.phone}
+          </span>
+          <span class="flex items-center gap-1">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+            </svg>
+            {content.topBar.email}
+          </span>
+        </div>
+        <div class="flex items-center gap-4">
+          {content.topBar.socialLinks.map(link => (
+            <a href={link.url} class="hover:text-green-200 transition-colors" target="_blank" rel="noopener noreferrer">
+              <span class="sr-only">{link.name}</span>
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+              </svg>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="bg-white shadow-sm">
+    <div class="container mx-auto px-4">
+      <div class="flex items-center justify-between py-4">
+        <div class="flex items-center">
+          {content.header.logo.src && (
+            <img src={content.header.logo.src} alt={content.header.logo.alt} class="h-12 w-auto mr-3" />
+          )}
+          <div>
+            <h1 class="text-2xl font-bold text-gray-900">{content.header.title}</h1>
+            {content.header.subtitle && (
+              <p class="text-gray-600 text-sm">{content.header.subtitle}</p>
+            )}
+          </div>
+        </div>
+        
+        <!-- Navigation -->
+        <nav class="hidden md:flex items-center space-x-8">
+          {content.navigation.items.map(item => (
+            <a href={item.url} class="text-gray-700 hover:text-green-600 transition-colors">
+              {item.label}
+            </a>
+          ))}
+        </nav>
+        
+        <!-- Mobile menu button -->
+        <button class="md:hidden p-2" id="mobile-menu-btn">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Mobile Navigation -->
+      <nav class="md:hidden hidden" id="mobile-menu">
+        <div class="py-4 space-y-2">
+          {content.navigation.items.map(item => (
+            <a href={item.url} class="block py-2 text-gray-700 hover:text-green-600 transition-colors">
+              {item.label}
+            </a>
+          ))}
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative h-screen flex items-center justify-center text-white" style={`background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('${content.hero.backgroundImage.src}'); background-size: cover; background-position: center;`}>
+    <div class="text-center max-w-4xl mx-auto px-4">
+      <h1 class="text-5xl md:text-7xl font-bold mb-6">{content.hero.title}</h1>
+      <p class="text-xl md:text-2xl mb-8 opacity-90">{content.hero.subtitle}</p>
+      <p class="text-lg mb-8 max-w-2xl mx-auto">{content.hero.description}</p>
+      <a href={content.hero.ctaButton.url} class="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-8 rounded-lg text-lg transition-colors">
+        {content.hero.ctaButton.text}
+      </a>
+    </div>
+  </section>
+
+  <!-- Welcome Section -->
+  <section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 class="text-4xl font-bold text-gray-900 mb-6">{content.welcome.title}</h2>
+          <div class="prose prose-lg text-gray-700" set:html={content.welcome.content}></div>
+        </div>
+        <div>
+          <img src={content.welcome.image.src} alt={content.welcome.image.alt} class="w-full h-auto rounded-lg shadow-lg" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tagline Section -->
+  <section class="py-16 bg-green-600 text-white text-center">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl md:text-4xl font-bold">{content.tagline.text}</h2>
+    </div>
+  </section>
+
+  <!-- Facilities Section -->
+  <section class="py-20">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">{content.facilities.title}</h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">{content.facilities.subtitle}</p>
+      </div>
+      
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {content.facilities.items.map(facility => (
+          <div class="bg-white rounded-lg shadow-md p-6 text-center">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">{facility.name}</h3>
+            <p class="text-gray-600">{facility.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Property Sales Section -->
+  <section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">{content.propertySales.title}</h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">{content.propertySales.subtitle}</p>
+      </div>
+      
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {content.propertySales.properties.map(property => (
+          <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <img src={property.image.src} alt={property.image.alt} class="w-full h-48 object-cover" />
+            <div class="p-6">
+              <h3 class="text-xl font-semibold text-gray-900 mb-2">{property.title}</h3>
+              <p class="text-gray-600 mb-4">{property.description}</p>
+              <div class="flex items-center justify-between">
+                <span class="text-2xl font-bold text-green-600">{property.price}</span>
+                <a href={property.link.url} class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded transition-colors">
+                  {property.link.text}
+                </a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews Section -->
+  <section class="py-20">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">{content.reviews.title}</h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">{content.reviews.subtitle}</p>
+      </div>
+      
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {content.reviews.items.map(review => (
+          <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center mb-4">
+              <div class="flex text-yellow-400">
+                {Array.from({ length: review.rating }, (_, i) => (
+                  <svg key={i} class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                  </svg>
+                ))}
+              </div>
+            </div>
+            <p class="text-gray-700 mb-4 italic">"{review.comment}"</p>
+            <div class="flex items-center">
+              <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mr-3">
+                <span class="text-gray-600 font-semibold">{review.author.charAt(0)}</span>
+              </div>
+              <div>
+                <p class="font-semibold text-gray-900">{review.author}</p>
+                <p class="text-sm text-gray-600">{review.date}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">{content.contact.title}</h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">{content.contact.subtitle}</p>
+      </div>
+      
+      <div class="grid md:grid-cols-2 gap-12">
+        <div>
+          <div class="space-y-6">
+            <div class="flex items-start">
+              <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-1">Address</h3>
+                <p class="text-gray-600">{content.contact.address}</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-1">Phone</h3>
+                <p class="text-gray-600">{content.contact.phone}</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-1">Email</h3>
+                <p class="text-gray-600">{content.contact.email}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <form class="space-y-6">
+            <div class="grid md:grid-cols-2 gap-6">
+              <div>
+                <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                <input type="text" id="name" name="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" required />
+              </div>
+              <div>
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                <input type="email" id="email" name="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" required />
+              </div>
+            </div>
+            <div>
+              <label for="subject" class="block text-sm font-medium text-gray-700 mb-2">Subject</label>
+              <input type="text" id="subject" name="subject" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" required />
+            </div>
+            <div>
+              <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Message</label>
+              <textarea id="message" name="message" rows="6" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" required></textarea>
+            </div>
+            <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors">
+              Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking Banner -->
+  <section class="py-16 bg-green-600 text-white text-center">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">{content.bookingBanner.title}</h2>
+      <p class="text-xl mb-8 opacity-90">{content.bookingBanner.subtitle}</p>
+      <a href={content.bookingBanner.ctaButton.url} class="inline-block bg-white text-green-600 hover:bg-gray-100 font-semibold py-4 px-8 rounded-lg text-lg transition-colors">
+        {content.bookingBanner.ctaButton.text}
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-lg font-semibold mb-4">{content.footer.companyName}</h3>
+          <p class="text-gray-400 mb-4">{content.footer.description}</p>
+          <div class="flex space-x-4">
+            {content.footer.socialLinks.map(link => (
+              <a href={link.url} class="text-gray-400 hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">
+                <span class="sr-only">{link.name}</span>
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                </svg>
+              </a>
+            ))}
+          </div>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            {content.footer.quickLinks.map(link => (
+              <li>
+                <a href={link.url} class="text-gray-400 hover:text-white transition-colors">
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Contact Info</h3>
+          <div class="space-y-2 text-gray-400">
+            <p>{content.footer.contactInfo.address}</p>
+            <p>{content.footer.contactInfo.phone}</p>
+            <p>{content.footer.contactInfo.email}</p>
+          </div>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Newsletter</h3>
+          <p class="text-gray-400 mb-4">Stay updated with our latest news and offers.</p>
+          <form class="flex">
+            <input type="email" placeholder="Your email" class="flex-1 px-4 py-2 bg-gray-800 text-white rounded-l-lg focus:outline-none focus:ring-2 focus:ring-green-500" />
+            <button type="submit" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-r-lg transition-colors">
+              Subscribe
+            </button>
+          </form>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+        <p>{content.footer.copyright}</p>
+      </div>
+    </div>
+  </footer>
+
+  {isPreview && (
+    <div class="fixed top-4 right-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg z-50">
+      <div class="flex items-center gap-2">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+        </svg>
+        <span class="text-sm font-medium">Preview Mode</span>
+      </div>
+    </div>
+  )}
+</BaseLayout>
+
+<script>
+  // Mobile menu toggle
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  
+  if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  }
+  
+  // Contact form submission
+  const contactForm = document.querySelector('form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(contactForm);
+      const data = Object.fromEntries(formData);
+      
+      try {
+        const response = await fetch('/api/contact/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+        
+        if (response.ok) {
+          alert('Thank you for your message! We will get back to you soon.');
+          contactForm.reset();
+        } else {
+          throw new Error('Failed to send message');
+        }
+      } catch (error) {
+        alert('Sorry, there was an error sending your message. Please try again.');
+      }
+    });
+  }
+</script>

@@ -1,16 +1,368 @@
 ---
+// Homepage - Lamb Cottage Caravan Park
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TopBar from '../components/layout/TopBar.astro';
+import Header from '../components/layout/Header.astro';
+import Navigation from '../components/layout/Navigation.astro';
+import Hero from '../components/sections/Hero.astro';
+import Welcome from '../components/sections/Welcome.astro';
+import Tagline from '../components/sections/Tagline.astro';
+import Facilities from '../components/sections/Facilities.astro';
+import PropertySales from '../components/sections/PropertySales.astro';
+import CustomerReviews from '../components/sections/CustomerReviews.astro';
+import ContactForm from '../components/sections/ContactForm.astro';
+import BookingBanner from '../components/sections/BookingBanner.astro';
+import Footer from '../components/sections/Footer.astro';
 
+const pageTitle = 'Lamb Cottage Caravan Park - Your Perfect Countryside Getaway';
+const pageDescription = 'Experience tranquil countryside living at Lamb Cottage Caravan Park. Modern facilities, family-friendly atmosphere, and beautiful rural setting. Book your stay today!';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout 
+  title={pageTitle}
+  description={pageDescription}
+  keywords="caravan park, holiday park, countryside accommodation, family holidays, static caravans, park homes, rural getaway, camping, glamping"
+  ogImage="/lamb-cottage-hero.jpg"
+>
+  <!-- Top Bar -->
+  <TopBar />
+  
+  <!-- Header -->
+  <Header />
+  
+  <!-- Navigation -->
+  <Navigation />
+  
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section -->
+    <Hero />
+    
+    <!-- Welcome Section -->
+    <Welcome />
+    
+    <!-- Tagline Section -->
+    <Tagline />
+    
+    <!-- Facilities Section -->
+    <Facilities />
+    
+    <!-- Property Sales Section -->
+    <PropertySales />
+    
+    <!-- Customer Reviews Section -->
+    <CustomerReviews />
+    
+    <!-- Contact Form Section -->
+    <ContactForm />
+    
+    <!-- Booking Banner Section -->
+    <BookingBanner />
+  </main>
+  
+  <!-- Footer -->
+  <Footer />
+  
+  <!-- Scroll to Top Button -->
+  <button 
+    id="scroll-to-top" 
+    class="fixed bottom-6 right-6 w-12 h-12 bg-lamb-green-dark text-white rounded-full shadow-large hover:bg-lamb-green-medium transform hover:scale-110 transition-all duration-200 opacity-0 pointer-events-none z-50"
+    aria-label="Scroll to top"
+  >
+    <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20">
+      <path fill-rule="evenodd" d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+    </svg>
+  </button>
+</BaseLayout>
+
+<!-- Global JavaScript -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Scroll to Top Button
+    const scrollToTopBtn = document.getElementById('scroll-to-top');
+    
+    // Show/hide scroll to top button
+    window.addEventListener('scroll', function() {
+      if (window.pageYOffset > 300) {
+        scrollToTopBtn.classList.remove('opacity-0', 'pointer-events-none');
+        scrollToTopBtn.classList.add('opacity-100');
+      } else {
+        scrollToTopBtn.classList.add('opacity-0', 'pointer-events-none');
+        scrollToTopBtn.classList.remove('opacity-100');
+      }
+    });
+    
+    // Scroll to top functionality
+    scrollToTopBtn.addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          const headerHeight = 80; // Account for fixed header
+          const targetPosition = target.offsetTop - headerHeight;
+          
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+    
+    // Intersection Observer for scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-fade-in-up');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    
+    // Observe sections for animations
+    document.querySelectorAll('section').forEach(section => {
+      observer.observe(section);
+    });
+    
+    // Lazy loading for images
+    const imageObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          if (img.dataset.src) {
+            img.src = img.dataset.src;
+            img.classList.remove('opacity-0');
+            img.classList.add('opacity-100');
+            imageObserver.unobserve(img);
+          }
+        }
+      });
+    });
+    
+    // Observe images with data-src attribute
+    document.querySelectorAll('img[data-src]').forEach(img => {
+      imageObserver.observe(img);
+    });
+    
+    // Performance optimization: Preload critical images
+    const criticalImages = [
+      '/lamb-cottage-hero.jpg',
+      '/welcome-main.jpg'
+    ];
+    
+    criticalImages.forEach(src => {
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = src;
+      document.head.appendChild(link);
+    });
+    
+    // Add loading states for interactive elements
+    document.querySelectorAll('button[type="submit"]').forEach(button => {
+      button.addEventListener('click', function() {
+        if (this.form && this.form.checkValidity()) {
+          this.classList.add('loading');
+        }
+      });
+    });
+    
+    // Enhanced accessibility: Skip to main content
+    const skipLink = document.createElement('a');
+    skipLink.href = '#main';
+    skipLink.textContent = 'Skip to main content';
+    skipLink.className = 'sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-lamb-green-dark text-white px-4 py-2 rounded z-50';
+    document.body.insertBefore(skipLink, document.body.firstChild);
+    
+    // Add main id to main element
+    const mainElement = document.querySelector('main');
+    if (mainElement) {
+      mainElement.id = 'main';
+    }
+    
+    // Cookie consent (basic implementation)
+    if (!localStorage.getItem('cookieConsent')) {
+      const cookieBanner = document.createElement('div');
+      cookieBanner.className = 'fixed bottom-0 left-0 right-0 bg-lamb-green-dark text-white p-4 z-50 shadow-large';
+      cookieBanner.innerHTML = `
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
+          <div class="flex-1">
+            <p class="text-sm">
+              We use cookies to enhance your browsing experience and provide personalized content. 
+              <a href="/cookie-policy" class="underline hover:text-lamb-green-light">Learn more</a>
+            </p>
+          </div>
+          <div class="flex space-x-4">
+            <button id="accept-cookies" class="bg-lamb-green-medium hover:bg-lamb-green-light text-white px-4 py-2 rounded text-sm font-medium transition-colors duration-200">
+              Accept All
+            </button>
+            <button id="decline-cookies" class="border border-white hover:bg-white hover:text-lamb-green-dark px-4 py-2 rounded text-sm font-medium transition-colors duration-200">
+              Decline
+            </button>
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(cookieBanner);
+      
+      // Cookie consent handlers
+      document.getElementById('accept-cookies').addEventListener('click', function() {
+        localStorage.setItem('cookieConsent', 'accepted');
+        cookieBanner.remove();
+      });
+      
+      document.getElementById('decline-cookies').addEventListener('click', function() {
+        localStorage.setItem('cookieConsent', 'declined');
+        cookieBanner.remove();
+      });
+    }
+  });
+  
+  // Service Worker registration for PWA capabilities
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/sw.js')
+        .then(function(registration) {
+          console.log('ServiceWorker registration successful');
+        })
+        .catch(function(error) {
+          console.log('ServiceWorker registration failed');
+        });
+    });
+  }
+</script>
+
+<style>
+  /* Global animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+  
+  /* Scroll behavior */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Loading states */
+  .loading {
+    position: relative;
+    pointer-events: none;
+  }
+  
+  .loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* Screen reader only content */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  
+  .focus\:not-sr-only:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: 0.5rem 1rem;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+  
+  /* Improved focus indicators */
+  *:focus {
+    outline: 2px solid #4CAF50;
+    outline-offset: 2px;
+  }
+  
+  /* Reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    
+    html {
+      scroll-behavior: auto;
+    }
+  }
+  
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .bg-lamb-green-dark {
+      background-color: #000000;
+    }
+    
+    .text-lamb-green-light {
+      color: #ffffff;
+    }
+  }
+  
+  /* Print styles */
+  @media print {
+    .fixed,
+    nav,
+    .no-print {
+      display: none !important;
+    }
+    
+    body {
+      font-size: 12pt;
+      line-height: 1.4;
+    }
+    
+    h1, h2, h3 {
+      page-break-after: avoid;
+    }
+  }
+</style>

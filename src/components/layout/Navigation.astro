@@ -1,0 +1,199 @@
+---
+// Navigation component with responsive hamburger menu
+---
+
+<nav class="bg-lamb-green-medium shadow-soft sticky top-0 z-20">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex items-center justify-between h-16">
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center space-x-8">
+        <a 
+          href="#home" 
+          class="text-white hover:text-lamb-green-light font-medium transition-colors duration-200 py-2 border-b-2 border-transparent hover:border-lamb-green-light"
+        >
+          Home
+        </a>
+        <a 
+          href="#about" 
+          class="text-white hover:text-lamb-green-light font-medium transition-colors duration-200 py-2 border-b-2 border-transparent hover:border-lamb-green-light"
+        >
+          About Us
+        </a>
+        <a 
+          href="#facilities" 
+          class="text-white hover:text-lamb-green-light font-medium transition-colors duration-200 py-2 border-b-2 border-transparent hover:border-lamb-green-light"
+        >
+          Facilities
+        </a>
+        <a 
+          href="#property-sales" 
+          class="text-white hover:text-lamb-green-light font-medium transition-colors duration-200 py-2 border-b-2 border-transparent hover:border-lamb-green-light"
+        >
+          Property Sales
+        </a>
+        <a 
+          href="#reviews" 
+          class="text-white hover:text-lamb-green-light font-medium transition-colors duration-200 py-2 border-b-2 border-transparent hover:border-lamb-green-light"
+        >
+          Reviews
+        </a>
+        <a 
+          href="#contact" 
+          class="text-white hover:text-lamb-green-light font-medium transition-colors duration-200 py-2 border-b-2 border-transparent hover:border-lamb-green-light"
+        >
+          Contact
+        </a>
+      </div>
+      
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden flex items-center">
+        <button 
+          id="mobile-menu-button"
+          class="text-white hover:text-lamb-green-light focus:outline-none focus:text-lamb-green-light transition-colors duration-200"
+          aria-label="Toggle mobile menu"
+          aria-expanded="false"
+        >
+          <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+          <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Desktop Quick Actions -->
+      <div class="hidden md:flex items-center space-x-4">
+        <a 
+          href="tel:+441234567890" 
+          class="text-white hover:text-lamb-green-light transition-colors duration-200 flex items-center space-x-1"
+          aria-label="Call us"
+        >
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+          </svg>
+          <span class="text-sm">Call Now</span>
+        </a>
+      </div>
+    </div>
+    
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu" class="md:hidden hidden">
+      <div class="px-2 pt-2 pb-3 space-y-1 bg-lamb-green-dark rounded-b-lg shadow-large">
+        <a 
+          href="#home" 
+          class="block px-3 py-2 text-white hover:text-lamb-green-light hover:bg-lamb-green-medium rounded-md font-medium transition-all duration-200"
+        >
+          Home
+        </a>
+        <a 
+          href="#about" 
+          class="block px-3 py-2 text-white hover:text-lamb-green-light hover:bg-lamb-green-medium rounded-md font-medium transition-all duration-200"
+        >
+          About Us
+        </a>
+        <a 
+          href="#facilities" 
+          class="block px-3 py-2 text-white hover:text-lamb-green-light hover:bg-lamb-green-medium rounded-md font-medium transition-all duration-200"
+        >
+          Facilities
+        </a>
+        <a 
+          href="#property-sales" 
+          class="block px-3 py-2 text-white hover:text-lamb-green-light hover:bg-lamb-green-medium rounded-md font-medium transition-all duration-200"
+        >
+          Property Sales
+        </a>
+        <a 
+          href="#reviews" 
+          class="block px-3 py-2 text-white hover:text-lamb-green-light hover:bg-lamb-green-medium rounded-md font-medium transition-all duration-200"
+        >
+          Reviews
+        </a>
+        <a 
+          href="#contact" 
+          class="block px-3 py-2 text-white hover:text-lamb-green-light hover:bg-lamb-green-medium rounded-md font-medium transition-all duration-200"
+        >
+          Contact
+        </a>
+        
+        <!-- Mobile Contact Actions -->
+        <div class="pt-4 border-t border-lamb-green-medium">
+          <a 
+            href="tel:+441234567890" 
+            class="flex items-center px-3 py-2 text-white hover:text-lamb-green-light hover:bg-lamb-green-medium rounded-md font-medium transition-all duration-200"
+          >
+            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+            </svg>
+            Call: 01234 567890
+          </a>
+          <a 
+            href="mailto:info@lambcottage.co.uk" 
+            class="flex items-center px-3 py-2 text-white hover:text-lamb-green-light hover:bg-lamb-green-medium rounded-md font-medium transition-all duration-200"
+          >
+            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+            </svg>
+            Email Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // Mobile menu toggle functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+    const closeIcon = document.getElementById('close-icon');
+    
+    if (mobileMenuButton && mobileMenu && menuIcon && closeIcon) {
+      mobileMenuButton.addEventListener('click', function() {
+        const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+        
+        // Toggle menu visibility
+        mobileMenu.classList.toggle('hidden');
+        
+        // Toggle icons
+        menuIcon.classList.toggle('hidden');
+        closeIcon.classList.toggle('hidden');
+        
+        // Update aria-expanded
+        mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+      });
+      
+      // Close menu when clicking on links
+      const mobileLinks = mobileMenu.querySelectorAll('a');
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          mobileMenu.classList.add('hidden');
+          menuIcon.classList.remove('hidden');
+          closeIcon.classList.add('hidden');
+          mobileMenuButton.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+  });
+</script>
+
+<style>
+  /* Smooth transitions for navigation */
+  nav {
+    backdrop-filter: blur(10px);
+  }
+  
+  /* Active link styles */
+  .border-b-2 {
+    transition: border-color 0.2s ease-in-out;
+  }
+  
+  /* Mobile menu animation */
+  #mobile-menu {
+    transition: all 0.3s ease-in-out;
+  }
+</style>

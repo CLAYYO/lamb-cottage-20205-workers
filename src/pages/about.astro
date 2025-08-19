@@ -1,0 +1,186 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+
+const title = 'About Us - Lamb Cottage Caravan Park';
+const description = 'Learn about our award-winning 7.5 acre caravan park in Vale Royal, Cheshire. Discover our facilities, awards, and what makes us special.';
+---
+
+<BaseLayout title={title} description={description}>
+  <Header />
+  
+  <main class="min-h-screen bg-gradient-to-b from-green-50 to-white">
+    <!-- Hero Section -->
+    <section class="relative py-16 bg-gradient-to-r from-green-600 to-green-700">
+      <div class="absolute inset-0 bg-black opacity-20"></div>
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">
+          About Lamb Cottage Caravan Park
+        </h1>
+        <p class="text-xl text-green-100 max-w-3xl mx-auto">
+          Discover our award-winning 7.5 acre caravan park nestled in the heart of Vale Royal, Cheshire
+        </p>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-16">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Introduction -->
+        <div class="prose prose-lg max-w-none mb-12">
+          <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
+            <h2 class="text-3xl font-bold text-green-800 mb-6">Welcome to Lamb Cottage</h2>
+            <p class="text-gray-700 leading-relaxed mb-6">
+              Lamb Cottage Caravan Park is a beautiful 7.5 acre site situated in Vale Royal in the heart of Cheshire. 
+              We pride ourselves on providing a peaceful, family-friendly environment for our guests to enjoy.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+              Our park operates a child-free policy, ensuring a tranquil atmosphere perfect for couples and adults 
+              seeking a relaxing getaway in the Cheshire countryside.
+            </p>
+          </div>
+        </div>
+
+        <!-- Pitch Information -->
+        <div class="grid md:grid-cols-2 gap-8 mb-12">
+          <div class="bg-green-50 rounded-lg p-6">
+            <h3 class="text-2xl font-bold text-green-800 mb-4">Our Pitches</h3>
+            <div class="space-y-4">
+              <div class="flex items-center">
+                <div class="w-3 h-3 bg-green-600 rounded-full mr-3"></div>
+                <span class="text-gray-700"><strong>41 Super Pitches</strong> - Premium locations with excellent facilities</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-3 h-3 bg-green-600 rounded-full mr-3"></div>
+                <span class="text-gray-700"><strong>30 Seasonal Pitches</strong> - Perfect for extended stays</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-3 h-3 bg-green-600 rounded-full mr-3"></div>
+                <span class="text-gray-700">All pitches include electric hook-up</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-3 h-3 bg-green-600 rounded-full mr-3"></div>
+                <span class="text-gray-700">Spacious plots with beautiful countryside views</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-blue-50 rounded-lg p-6">
+            <h3 class="text-2xl font-bold text-blue-800 mb-4">Location Benefits</h3>
+            <div class="space-y-4">
+              <div class="flex items-center">
+                <div class="w-3 h-3 bg-blue-600 rounded-full mr-3"></div>
+                <span class="text-gray-700">Heart of Cheshire countryside</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-3 h-3 bg-blue-600 rounded-full mr-3"></div>
+                <span class="text-gray-700">Easy access to Chester and surrounding areas</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-3 h-3 bg-blue-600 rounded-full mr-3"></div>
+                <span class="text-gray-700">Peaceful Vale Royal setting</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-3 h-3 bg-blue-600 rounded-full mr-3"></div>
+                <span class="text-gray-700">Close to local attractions and amenities</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Awards Section -->
+        <div class="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg p-8 mb-12">
+          <h3 class="text-3xl font-bold text-center text-gray-800 mb-8">Our Awards & Recognition</h3>
+          <div class="grid md:grid-cols-3 gap-6">
+            <div class="text-center">
+              <div class="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-8 h-8 text-yellow-800" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                </svg>
+              </div>
+              <h4 class="font-bold text-gray-800 mb-2">AA Gold Pennant</h4>
+              <p class="text-gray-600 text-sm">Awarded for exceptional quality and service standards</p>
+            </div>
+            
+            <div class="text-center">
+              <div class="w-16 h-16 bg-green-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-8 h-8 text-green-800" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <h4 class="font-bold text-gray-800 mb-2">Visit England</h4>
+              <p class="text-gray-600 text-sm">Recognized for outstanding visitor experience</p>
+            </div>
+            
+            <div class="text-center">
+              <div class="w-16 h-16 bg-blue-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-8 h-8 text-blue-800" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"></path>
+                </svg>
+              </div>
+              <h4 class="font-bold text-gray-800 mb-2">Excellence Award</h4>
+              <p class="text-gray-600 text-sm">Consistently high customer satisfaction ratings</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Arrival Information -->
+        <div class="bg-white rounded-lg shadow-lg p-8">
+          <h3 class="text-2xl font-bold text-green-800 mb-6">Arrival Information</h3>
+          <div class="grid md:grid-cols-2 gap-8">
+            <div>
+              <h4 class="font-semibold text-gray-800 mb-3">Check-in Details</h4>
+              <ul class="space-y-2 text-gray-700">
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  Arrival from 1:00 PM
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  Reception open until 6:00 PM
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  Late arrivals by arrangement
+                </li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 class="font-semibold text-gray-800 mb-3">What to Expect</h4>
+              <ul class="space-y-2 text-gray-700">
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  Warm welcome from our team
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  Site orientation and information
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  Assistance with pitch selection
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <Footer />
+</BaseLayout>

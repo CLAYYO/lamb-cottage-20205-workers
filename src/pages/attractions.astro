@@ -1,0 +1,277 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+---
+
+<BaseLayout title="Local Attractions - Lamb Cottage Caravan Park">
+  <main class="min-h-screen bg-gradient-to-b from-green-50 to-white">
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-green-600 to-green-700 text-white py-16">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <h1 class="text-4xl md:text-5xl font-bold mb-6">Local Attractions</h1>
+          <p class="text-xl md:text-2xl text-green-100 leading-relaxed">
+            Discover the best of Cheshire - "The Garden County" - with attractions ranging from historic Chester to beautiful countryside walks
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-16">
+      <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+          <!-- Introduction -->
+          <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Explore Cheshire & Beyond</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+              Located in the heart of the Vale Royal area, Lamb Cottage is perfectly positioned for exploring Cheshire's rich heritage, 
+              stunning countryside, and vibrant attractions. From historic Chester to seasonal events, there's something for everyone.
+            </p>
+          </div>
+
+          <!-- Attractions Grid -->
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            <!-- Chester Christmas Markets -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div class="h-48 bg-gradient-to-br from-red-500 to-green-600 flex items-center justify-center">
+                <div class="text-white text-center">
+                  <h3 class="text-xl font-bold mb-2">Chester Christmas Markets</h3>
+                  <p class="text-sm opacity-90">Seasonal Event</p>
+                </div>
+              </div>
+              <div class="p-6">
+                <p class="text-gray-600 mb-4">
+                  Experience the magic of Christmas in historic Chester with traditional markets, festive food, and unique gifts in the heart of this Roman city.
+                </p>
+                <div class="text-sm text-gray-500">
+                  <p><strong>Season:</strong> November - December</p>
+                  <p><strong>Distance:</strong> 15 minutes drive</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Arley Christmas Fairs -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div class="h-48 bg-gradient-to-br from-green-600 to-red-500 flex items-center justify-center">
+                <div class="text-white text-center">
+                  <h3 class="text-xl font-bold mb-2">Arley Christmas Fairs</h3>
+                  <p class="text-sm opacity-90">Seasonal Event</p>
+                </div>
+              </div>
+              <div class="p-6">
+                <p class="text-gray-600 mb-4">
+                  Charming local Christmas fairs featuring local crafts, seasonal treats, and festive entertainment in the picturesque village of Arley.
+                </p>
+                <div class="text-sm text-gray-500">
+                  <p><strong>Season:</strong> December</p>
+                  <p><strong>Distance:</strong> 10 minutes drive</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Whitegate Daffodil Walk -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div class="h-48 bg-gradient-to-br from-yellow-400 to-green-500 flex items-center justify-center">
+                <div class="text-white text-center">
+                  <h3 class="text-xl font-bold mb-2">Whitegate Daffodil Walk</h3>
+                  <p class="text-sm opacity-90">Spring Attraction</p>
+                </div>
+              </div>
+              <div class="p-6">
+                <p class="text-gray-600 mb-4">
+                  A spectacular spring display of thousands of daffodils creating a golden carpet through the Cheshire countryside.
+                </p>
+                <div class="text-sm text-gray-500">
+                  <p><strong>Season:</strong> March - April</p>
+                  <p><strong>Distance:</strong> 5 minutes drive</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- RHS Flower Show -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div class="h-48 bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center">
+                <div class="text-white text-center">
+                  <h3 class="text-xl font-bold mb-2">RHS Flower Show</h3>
+                  <p class="text-sm opacity-90">Annual Event</p>
+                </div>
+              </div>
+              <div class="p-6">
+                <p class="text-gray-600 mb-4">
+                  World-class horticultural displays, garden inspiration, and expert advice at one of the UK's premier flower shows.
+                </p>
+                <div class="text-sm text-gray-500">
+                  <p><strong>Season:</strong> Summer</p>
+                  <p><strong>Distance:</strong> 30 minutes drive</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Storyhouse Chester -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div class="h-48 bg-gradient-to-br from-blue-600 to-purple-700 flex items-center justify-center">
+                <div class="text-white text-center">
+                  <h3 class="text-xl font-bold mb-2">Storyhouse Chester</h3>
+                  <p class="text-sm opacity-90">Theatre & Cinema</p>
+                </div>
+              </div>
+              <div class="p-6">
+                <p class="text-gray-600 mb-4">
+                  Award-winning theatre, cinema, and library complex offering world-class performances, films, and cultural events in Chester's city center.
+                </p>
+                <div class="text-sm text-gray-500">
+                  <p><strong>Open:</strong> Year-round</p>
+                  <p><strong>Distance:</strong> 15 minutes drive</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Royal Cheshire Show -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div class="h-48 bg-gradient-to-br from-green-700 to-blue-600 flex items-center justify-center">
+                <div class="text-white text-center">
+                  <h3 class="text-xl font-bold mb-2">Royal Cheshire Show</h3>
+                  <p class="text-sm opacity-90">Annual Agricultural Show</p>
+                </div>
+              </div>
+              <div class="p-6">
+                <p class="text-gray-600 mb-4">
+                  Cheshire's premier agricultural show featuring livestock competitions, rural crafts, local food, and family entertainment.
+                </p>
+                <div class="text-sm text-gray-500">
+                  <p><strong>Season:</strong> June</p>
+                  <p><strong>Distance:</strong> 20 minutes drive</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Beeston Castle -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div class="h-48 bg-gradient-to-br from-gray-600 to-stone-700 flex items-center justify-center">
+                <div class="text-white text-center">
+                  <h3 class="text-xl font-bold mb-2">Beeston Castle</h3>
+                  <p class="text-sm opacity-90">Historic Castle</p>
+                </div>
+              </div>
+              <div class="p-6">
+                <p class="text-gray-600 mb-4">
+                  Spectacular 13th-century castle ruins perched on a rocky crag with panoramic views across the Cheshire Plain.
+                </p>
+                <div class="text-sm text-gray-500">
+                  <p><strong>Open:</strong> Year-round</p>
+                  <p><strong>Distance:</strong> 10 minutes drive</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Chester Food & Drink Festival -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div class="h-48 bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center">
+                <div class="text-white text-center">
+                  <h3 class="text-xl font-bold mb-2">Chester Food & Drink Festival</h3>
+                  <p class="text-sm opacity-90">Annual Festival</p>
+                </div>
+              </div>
+              <div class="p-6">
+                <p class="text-gray-600 mb-4">
+                  Celebrate local and international cuisine with food stalls, cooking demonstrations, and tastings in Chester's historic streets.
+                </p>
+                <div class="text-sm text-gray-500">
+                  <p><strong>Season:</strong> September</p>
+                  <p><strong>Distance:</strong> 15 minutes drive</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Chester City Center -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div class="h-48 bg-gradient-to-br from-amber-600 to-orange-700 flex items-center justify-center">
+                <div class="text-white text-center">
+                  <h3 class="text-xl font-bold mb-2">Historic Chester</h3>
+                  <p class="text-sm opacity-90">Roman City</p>
+                </div>
+              </div>
+              <div class="p-6">
+                <p class="text-gray-600 mb-4">
+                  Explore 2,000 years of history with Roman walls, medieval Rows, Chester Cathedral, and excellent shopping and dining.
+                </p>
+                <div class="text-sm text-gray-500">
+                  <p><strong>Open:</strong> Year-round</p>
+                  <p><strong>Distance:</strong> 15 minutes drive</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Additional Information -->
+          <div class="bg-green-50 rounded-lg p-8">
+            <h3 class="text-2xl font-bold text-gray-800 mb-4">Perfect Location for Exploring</h3>
+            <div class="grid md:grid-cols-2 gap-8">
+              <div>
+                <h4 class="text-lg font-semibold text-green-700 mb-3">Cheshire Highlights</h4>
+                <ul class="space-y-2 text-gray-600">
+                  <li class="flex items-start">
+                    <span class="text-green-600 mr-2">•</span>
+                    Known as "The Garden County" for its beautiful landscapes
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-green-600 mr-2">•</span>
+                    Rich Roman and medieval heritage
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-green-600 mr-2">•</span>
+                    Bordered by North Wales and the Peak District
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-green-600 mr-2">•</span>
+                    Excellent shopping and dining opportunities
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="text-lg font-semibold text-green-700 mb-3">Nearby Areas</h4>
+                <ul class="space-y-2 text-gray-600">
+                  <li class="flex items-start">
+                    <span class="text-green-600 mr-2">•</span>
+                    North Wales - 30 minutes drive
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-green-600 mr-2">•</span>
+                    Peak District - 45 minutes drive
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-green-600 mr-2">•</span>
+                    Liverpool - 45 minutes drive
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-green-600 mr-2">•</span>
+                    Manchester - 1 hour drive
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="bg-green-600 text-white py-12">
+      <div class="container mx-auto px-4 text-center">
+        <h3 class="text-2xl font-bold mb-4">Plan Your Visit</h3>
+        <p class="text-green-100 mb-6 max-w-2xl mx-auto">
+          With so much to see and do in the area, Lamb Cottage is the perfect base for your Cheshire adventure.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/contact" class="bg-white text-green-600 px-8 py-3 rounded-lg font-semibold hover:bg-green-50 transition-colors duration-300">
+            Contact Us
+          </a>
+          <a href="/tariff" class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-green-600 transition-colors duration-300">
+            View Prices
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

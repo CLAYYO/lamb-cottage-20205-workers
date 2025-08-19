@@ -1,0 +1,240 @@
+---
+export interface Props {
+  content: any;
+}
+
+const { content } = Astro.props;
+---
+
+<div class="live-preview-container">
+  <div class="preview-header">
+    <h3 class="text-lg font-semibold">Live Preview</h3>
+    <div class="preview-controls">
+      <button type="button" class="btn-refresh" title="Refresh Preview">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+        </svg>
+      </button>
+      <button type="button" class="btn-fullscreen" title="Open in New Tab">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+  
+  <div class="preview-content">
+    <iframe 
+      id="preview-frame" 
+      src="/preview?preview=true" 
+      class="preview-iframe"
+      title="Website Preview"
+    ></iframe>
+  </div>
+  
+  <div class="preview-footer">
+    <div class="device-selector">
+      <button type="button" class="device-btn active" data-device="desktop" title="Desktop View">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+          <line x1="8" y1="21" x2="16" y2="21"></line>
+          <line x1="12" y1="17" x2="12" y2="21"></line>
+        </svg>
+      </button>
+      <button type="button" class="device-btn" data-device="tablet" title="Tablet View">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+          <line x1="12" y1="18" x2="12.01" y2="18"></line>
+        </svg>
+      </button>
+      <button type="button" class="device-btn" data-device="mobile" title="Mobile View">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+          <line x1="12" y1="18" x2="12.01" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="preview-status">
+      <span class="status-indicator" id="preview-status">Ready</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .live-preview-container {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 h-full flex flex-col;
+  }
+  
+  .preview-header {
+    @apply flex items-center justify-between p-4 border-b border-gray-200;
+  }
+  
+  .preview-controls {
+    @apply flex items-center gap-2;
+  }
+  
+  .btn-refresh,
+  .btn-fullscreen {
+    @apply p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded transition-colors;
+  }
+  
+  .preview-content {
+    @apply flex-1 p-4;
+  }
+  
+  .preview-iframe {
+    @apply w-full h-full border border-gray-300 rounded transition-all duration-300;
+  }
+  
+  .preview-iframe.desktop {
+    @apply w-full;
+  }
+  
+  .preview-iframe.tablet {
+    @apply w-3/4 mx-auto;
+  }
+  
+  .preview-iframe.mobile {
+    @apply w-96 mx-auto;
+  }
+  
+  .preview-footer {
+    @apply flex items-center justify-between p-4 border-t border-gray-200;
+  }
+  
+  .device-selector {
+    @apply flex items-center gap-1 bg-gray-100 rounded-lg p-1;
+  }
+  
+  .device-btn {
+    @apply p-2 text-gray-600 hover:text-gray-800 rounded transition-colors;
+  }
+  
+  .device-btn.active {
+    @apply bg-white text-blue-600 shadow-sm;
+  }
+  
+  .preview-status {
+    @apply text-sm text-gray-600;
+  }
+  
+  .status-indicator {
+    @apply inline-flex items-center gap-2;
+  }
+  
+  .status-indicator::before {
+    content: '';
+    @apply w-2 h-2 bg-green-500 rounded-full;
+  }
+  
+  .status-indicator.loading::before {
+    @apply bg-yellow-500 animate-pulse;
+  }
+  
+  .status-indicator.error::before {
+    @apply bg-red-500;
+  }
+</style>
+
+<script>
+  class LivePreview {
+    constructor() {
+      this.iframe = document.getElementById('preview-frame');
+      this.statusIndicator = document.getElementById('preview-status');
+      this.currentDevice = 'desktop';
+      
+      this.setupEventListeners();
+      this.setupAutoRefresh();
+    }
+    
+    setupEventListeners() {
+      // Device selector
+      document.querySelectorAll('.device-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const device = e.currentTarget.dataset.device;
+          this.switchDevice(device);
+        });
+      });
+      
+      // Refresh button
+      document.querySelector('.btn-refresh').addEventListener('click', () => {
+        this.refreshPreview();
+      });
+      
+      // Fullscreen button
+      document.querySelector('.btn-fullscreen').addEventListener('click', () => {
+        window.open(this.iframe.src, '_blank');
+      });
+      
+      // Listen for content changes
+      document.addEventListener('contentSaved', () => {
+        this.refreshPreview();
+      });
+    }
+    
+    setupAutoRefresh() {
+      // Auto-refresh when content is saved
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.type === 'attributes' && 
+              mutation.attributeName === 'data-original') {
+            // Content was saved, refresh preview
+            setTimeout(() => this.refreshPreview(), 500);
+          }
+        });
+      });
+      
+      // Observe all visual editors
+      document.querySelectorAll('.visual-editor-wrapper').forEach(wrapper => {
+        observer.observe(wrapper, {
+          attributes: true,
+          subtree: true,
+          attributeFilter: ['data-original']
+        });
+      });
+    }
+    
+    switchDevice(device) {
+      // Update active button
+      document.querySelectorAll('.device-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      document.querySelector(`[data-device="${device}"]`).classList.add('active');
+      
+      // Update iframe class
+      this.iframe.className = `preview-iframe ${device}`;
+      this.currentDevice = device;
+    }
+    
+    refreshPreview() {
+      this.setStatus('loading', 'Refreshing...');
+      
+      // Add timestamp to force refresh
+      const url = new URL(this.iframe.src);
+      url.searchParams.set('t', Date.now().toString());
+      
+      this.iframe.onload = () => {
+        this.setStatus('ready', 'Ready');
+      };
+      
+      this.iframe.onerror = () => {
+        this.setStatus('error', 'Error loading preview');
+      };
+      
+      this.iframe.src = url.toString();
+    }
+    
+    setStatus(type, message) {
+      this.statusIndicator.className = `status-indicator ${type}`;
+      this.statusIndicator.textContent = message;
+    }
+  }
+  
+  // Initialize when DOM is loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new LivePreview());
+  } else {
+    new LivePreview();
+  }
+</script>

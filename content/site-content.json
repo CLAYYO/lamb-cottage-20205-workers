@@ -1,0 +1,284 @@
+{
+  "topBar": {
+    "phone": "+44 1234 567890",
+    "email": "info@lambcottage.com",
+    "socialLinks": [
+      {
+        "platform": "facebook",
+        "url": "https://facebook.com/lambcottage",
+        "icon": "facebook"
+      },
+      {
+        "platform": "instagram",
+        "url": "https://instagram.com/lambcottage",
+        "icon": "instagram"
+      }
+    ]
+  },
+  "header": {
+    "logo": {
+      "src": "/images/logo.png",
+      "alt": "Lamb Cottage",
+      "width": 120,
+      "height": 60
+    },
+    "title": "Lamb Cottage",
+    "subtitle": "Luxury Holiday Accommodation"
+  },
+  "navigation": {
+    "items": [
+      {
+        "label": "Home",
+        "href": "#home",
+        "active": true
+      },
+      {
+        "label": "About",
+        "href": "#about",
+        "active": false
+      },
+      {
+        "label": "Facilities",
+        "href": "#facilities",
+        "active": false
+      },
+      {
+        "label": "Gallery",
+        "href": "#gallery",
+        "active": false
+      },
+      {
+        "label": "Contact",
+        "href": "#contact",
+        "active": false
+      }
+    ]
+  },
+  "hero": {
+    "title": "Welcome to Lamb Cottage",
+    "subtitle": "Experience luxury in the heart of the countryside",
+    "description": "Discover our beautifully restored cottage offering the perfect blend of traditional charm and modern comfort.",
+    "backgroundImage": {
+      "src": "/images/hero-bg.jpg",
+      "alt": "Lamb Cottage exterior view"
+    },
+    "ctaButton": {
+      "text": "Book Now",
+      "href": "#booking",
+      "variant": "primary"
+    }
+  },
+  "welcome": {
+    "title": "A Warm Welcome Awaits",
+    "content": "<p>Nestled in the picturesque countryside, Lamb Cottage offers an unforgettable escape from the hustle and bustle of everyday life. Our carefully restored 18th-century cottage combines period charm with modern amenities to ensure your stay is both comfortable and memorable.</p><p>Whether you're seeking a romantic getaway, a family holiday, or a peaceful retreat with friends, Lamb Cottage provides the perfect setting for creating lasting memories.</p>",
+    "image": {
+      "src": "/images/welcome.jpg",
+      "alt": "Cozy interior of Lamb Cottage"
+    }
+  },
+  "tagline": {
+    "text": "Where countryside charm meets modern luxury",
+    "highlight": "modern luxury"
+  },
+  "facilities": {
+    "title": "Exceptional Facilities",
+    "subtitle": "Everything you need for a perfect stay",
+    "items": [
+      {
+        "name": "Fully Equipped Kitchen",
+        "description": "Modern appliances and everything you need to prepare meals",
+        "icon": "chef-hat",
+        "image": {
+          "src": "/images/kitchen.jpg",
+          "alt": "Modern kitchen"
+        }
+      },
+      {
+        "name": "Cozy Living Areas",
+        "description": "Comfortable seating areas with original features",
+        "icon": "home",
+        "image": {
+          "src": "/images/living-room.jpg",
+          "alt": "Living room"
+        }
+      },
+      {
+        "name": "Beautiful Gardens",
+        "description": "Private outdoor space with stunning countryside views",
+        "icon": "flower",
+        "image": {
+          "src": "/images/garden.jpg",
+          "alt": "Garden view"
+        }
+      },
+      {
+        "name": "Free WiFi",
+        "description": "High-speed internet throughout the property",
+        "icon": "wifi",
+        "image": {
+          "src": "/images/wifi.jpg",
+          "alt": "WiFi connectivity"
+        }
+      }
+    ]
+  },
+  "propertySales": {
+    "title": "Featured Properties",
+    "subtitle": "Discover our collection of exceptional accommodations",
+    "properties": [
+      {
+        "id": "lamb-cottage-main",
+        "name": "Lamb Cottage - Main House",
+        "description": "The original cottage with 3 bedrooms and traditional features",
+        "price": "£150",
+        "priceUnit": "per night",
+        "bedrooms": 3,
+        "bathrooms": 2,
+        "maxGuests": 6,
+        "images": [
+          {
+            "src": "/images/property-1.jpg",
+            "alt": "Main house exterior"
+          }
+        ],
+        "features": ["Garden", "Parking", "WiFi", "Kitchen"],
+        "available": true
+      }
+    ]
+  },
+  "reviews": {
+    "title": "What Our Guests Say",
+    "subtitle": "Real reviews from real guests",
+    "items": [
+      {
+        "id": "review-1",
+        "author": "Sarah Johnson",
+        "rating": 5,
+        "date": "2024-01-15",
+        "content": "Absolutely wonderful stay! The cottage is beautifully maintained and the location is perfect for exploring the countryside.",
+        "verified": true,
+        "source": "direct"
+      },
+      {
+        "id": "review-2",
+        "author": "Michael Brown",
+        "rating": 5,
+        "date": "2024-01-10",
+        "content": "Exceeded all expectations. The attention to detail is remarkable and the hosts were incredibly welcoming.",
+        "verified": true,
+        "source": "tripadvisor"
+      }
+    ],
+    "averageRating": 5,
+    "totalReviews": 2
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "subtitle": "We'd love to hear from you",
+    "address": {
+      "street": "123 Countryside Lane",
+      "city": "Cotswolds",
+      "postcode": "GL1 2AB",
+      "country": "United Kingdom"
+    },
+    "phone": "+44 1234 567890",
+    "email": "info@lambcottage.com",
+    "hours": {
+      "weekdays": "9:00 AM - 6:00 PM",
+      "weekends": "10:00 AM - 4:00 PM"
+    },
+    "form": {
+      "enabled": true,
+      "fields": [
+        {
+          "name": "name",
+          "label": "Full Name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "email",
+          "label": "Email Address",
+          "type": "email",
+          "required": true
+        },
+        {
+          "name": "phone",
+          "label": "Phone Number",
+          "type": "tel",
+          "required": false
+        },
+        {
+          "name": "message",
+          "label": "Message",
+          "type": "textarea",
+          "required": true
+        }
+      ]
+    }
+  },
+  "bookingBanner": {
+    "title": "Ready to Book Your Stay?",
+    "subtitle": "Don't miss out on the perfect countryside getaway",
+    "ctaButton": {
+      "text": "Check Availability",
+      "href": "#booking",
+      "variant": "primary"
+    },
+    "backgroundImage": {
+      "src": "/images/booking-banner.jpg",
+      "alt": "Lamb Cottage at sunset"
+    }
+  },
+  "footer": {
+    "logo": {
+      "src": "/images/logo-white.png",
+      "alt": "Lamb Cottage",
+      "width": 100,
+      "height": 50
+    },
+    "description": "Experience the perfect blend of countryside charm and modern comfort at Lamb Cottage.",
+    "contact": {
+      "address": "123 Countryside Lane, Cotswolds, GL1 2AB",
+      "phone": "+44 1234 567890",
+      "email": "info@lambcottage.com"
+    },
+    "socialLinks": [
+      {
+        "platform": "facebook",
+        "url": "https://facebook.com/lambcottage",
+        "icon": "facebook"
+      },
+      {
+        "platform": "instagram",
+        "url": "https://instagram.com/lambcottage",
+        "icon": "instagram"
+      },
+      {
+        "platform": "twitter",
+        "url": "https://twitter.com/lambcottage",
+        "icon": "twitter"
+      }
+    ],
+    "links": [
+      {
+        "label": "Privacy Policy",
+        "href": "/privacy"
+      },
+      {
+        "label": "Terms of Service",
+        "href": "/terms"
+      },
+      {
+        "label": "Cookie Policy",
+        "href": "/cookies"
+      }
+    ],
+    "copyright": "© 2024 Lamb Cottage. All rights reserved."
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "lastModified": "2024-01-20T10:00:00.000Z",
+    "modifiedBy": "system"
+  }
+}

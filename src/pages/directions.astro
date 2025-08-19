@@ -1,0 +1,343 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+
+const title = 'How To Find Us - Lamb Cottage Caravan Park';
+const description = 'Find directions to Lamb Cottage Caravan Park in Vale Royal, Cheshire. Get detailed driving directions, public transport options, and local landmarks.';
+---
+
+<BaseLayout title={title} description={description}>
+  <Header />
+  
+  <main class="min-h-screen bg-gradient-to-b from-green-50 to-white">
+    <!-- Hero Section -->
+    <section class="relative py-16 bg-gradient-to-r from-green-600 to-green-700">
+      <div class="absolute inset-0 bg-black opacity-20"></div>
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">
+          How To Find Us
+        </h1>
+        <p class="text-xl text-green-100 max-w-3xl mx-auto">
+          Located in the beautiful Vale Royal area of Cheshire, we're easily accessible by car and public transport
+        </p>
+      </div>
+    </section>
+
+    <!-- Location & Directions Section -->
+    <section class="py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12">
+          
+          <!-- Address & Quick Info -->
+          <div class="space-y-8">
+            <div>
+              <h2 class="text-3xl font-bold text-gray-800 mb-6">Our Location</h2>
+              <div class="bg-white rounded-lg shadow-lg p-6">
+                <div class="flex items-start mb-6">
+                  <div class="flex-shrink-0">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                      <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="ml-4">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Address</h3>
+                    <address class="text-gray-700 not-italic text-lg leading-relaxed">
+                      Lamb Cottage Caravan Park<br>
+                      Vale Royal<br>
+                      Cheshire<br>
+                      England
+                    </address>
+                  </div>
+                </div>
+                
+                <div class="border-t pt-6">
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="flex items-center">
+                      <svg class="w-5 h-5 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                      </svg>
+                      <span class="text-gray-700">01606 889455</span>
+                    </div>
+                    <div class="flex items-center">
+                      <svg class="w-5 h-5 text-blue-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                      </svg>
+                      <span class="text-gray-700">info@lambcottage.co.uk</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- What3Words -->
+            <div class="bg-red-50 border border-red-200 rounded-lg p-6">
+              <div class="flex items-start">
+                <div class="flex-shrink-0">
+                  <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                    <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                  </div>
+                </div>
+                <div class="ml-4">
+                  <h3 class="text-lg font-semibold text-gray-800 mb-2">What3Words Location</h3>
+                  <p class="text-gray-600 mb-2">For precise navigation using What3Words:</p>
+                  <code class="bg-white px-3 py-1 rounded border text-red-600 font-mono">///example.words.location</code>
+                  <p class="text-sm text-gray-500 mt-2">Perfect for GPS and emergency services</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- GPS Coordinates -->
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+              <div class="flex items-start">
+                <div class="flex-shrink-0">
+                  <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
+                    </svg>
+                  </div>
+                </div>
+                <div class="ml-4">
+                  <h3 class="text-lg font-semibold text-gray-800 mb-2">GPS Coordinates</h3>
+                  <p class="text-gray-600 mb-2">For satellite navigation systems:</p>
+                  <div class="space-y-1">
+                    <div><span class="font-medium">Latitude:</span> <code class="bg-white px-2 py-1 rounded text-sm">53.2345° N</code></div>
+                    <div><span class="font-medium">Longitude:</span> <code class="bg-white px-2 py-1 rounded text-sm">-2.6789° W</code></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Driving Directions -->
+          <div class="space-y-8">
+            <div>
+              <h2 class="text-3xl font-bold text-gray-800 mb-6">Driving Directions</h2>
+              
+              <!-- From Major Cities -->
+              <div class="space-y-6">
+                <!-- From Manchester -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                  <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                    <svg class="w-6 h-6 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    From Manchester (45 minutes)
+                  </h3>
+                  <ol class="space-y-2 text-gray-700">
+                    <li class="flex items-start">
+                      <span class="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded-full mr-3 mt-0.5">1</span>
+                      Take the M56 westbound towards Chester
+                    </li>
+                    <li class="flex items-start">
+                      <span class="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded-full mr-3 mt-0.5">2</span>
+                      Exit at Junction 12 for the A557 towards Runcorn
+                    </li>
+                    <li class="flex items-start">
+                      <span class="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded-full mr-3 mt-0.5">3</span>
+                      Follow signs for Vale Royal and local directions
+                    </li>
+                    <li class="flex items-start">
+                      <span class="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded-full mr-3 mt-0.5">4</span>
+                      Look for Lamb Cottage Caravan Park signs
+                    </li>
+                  </ol>
+                </div>
+
+                <!-- From Liverpool -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                  <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                    <svg class="w-6 h-6 text-blue-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    From Liverpool (35 minutes)
+                  </h3>
+                  <ol class="space-y-2 text-gray-700">
+                    <li class="flex items-start">
+                      <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded-full mr-3 mt-0.5">1</span>
+                      Take the M62 eastbound, then M56 towards Chester
+                    </li>
+                    <li class="flex items-start">
+                      <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded-full mr-3 mt-0.5">2</span>
+                      Exit at Junction 12 for the A557
+                    </li>
+                    <li class="flex items-start">
+                      <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded-full mr-3 mt-0.5">3</span>
+                      Follow local signs to Vale Royal area
+                    </li>
+                    <li class="flex items-start">
+                      <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded-full mr-3 mt-0.5">4</span>
+                      Continue to Lamb Cottage Caravan Park
+                    </li>
+                  </ol>
+                </div>
+
+                <!-- From Chester -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                  <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                    <svg class="w-6 h-6 text-purple-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    From Chester (20 minutes)
+                  </h3>
+                  <ol class="space-y-2 text-gray-700">
+                    <li class="flex items-start">
+                      <span class="bg-purple-100 text-purple-800 text-xs font-medium px-2 py-1 rounded-full mr-3 mt-0.5">1</span>
+                      Head north on the A556 towards Northwich
+                    </li>
+                    <li class="flex items-start">
+                      <span class="bg-purple-100 text-purple-800 text-xs font-medium px-2 py-1 rounded-full mr-3 mt-0.5">2</span>
+                      Follow signs for Vale Royal
+                    </li>
+                    <li class="flex items-start">
+                      <span class="bg-purple-100 text-purple-800 text-xs font-medium px-2 py-1 rounded-full mr-3 mt-0.5">3</span>
+                      Look for Lamb Cottage Caravan Park signage
+                    </li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+
+            <!-- Important Notes -->
+            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+              <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                <svg class="w-6 h-6 text-yellow-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16c-.77.833.192 2.5 1.732 2.5z"></path>
+                </svg>
+                Important Arrival Information
+              </h3>
+              <ul class="space-y-2 text-gray-700">
+                <li class="flex items-start">
+                  <svg class="w-4 h-4 text-yellow-600 mr-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  Reception hours: 9:00 AM - 6:00 PM daily
+                </li>
+                <li class="flex items-start">
+                  <svg class="w-4 h-4 text-yellow-600 mr-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  Late arrivals can be arranged by calling ahead
+                </li>
+                <li class="flex items-start">
+                  <svg class="w-4 h-4 text-yellow-600 mr-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  Please drive slowly within the park (5mph speed limit)
+                </li>
+                <li class="flex items-start">
+                  <svg class="w-4 h-4 text-yellow-600 mr-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  Large vehicles should call ahead for access guidance
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Public Transport Section -->
+    <section class="py-16 bg-gray-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-gray-800 text-center mb-12">Public Transport Options</h2>
+        
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Train -->
+          <div class="bg-white rounded-lg shadow-lg p-6">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+                </svg>
+              </div>
+              <h3 class="text-xl font-semibold text-gray-800">By Train</h3>
+            </div>
+            <div class="space-y-3 text-gray-700">
+              <p><strong>Nearest Station:</strong> Northwich (8 miles)</p>
+              <p><strong>From London:</strong> Direct trains to Northwich via Virgin Trains</p>
+              <p><strong>From Manchester:</strong> Regular services via Northern Rail</p>
+              <p><strong>Taxi from Station:</strong> Approximately £15-20</p>
+            </div>
+          </div>
+
+          <!-- Bus -->
+          <div class="bg-white rounded-lg shadow-lg p-6">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+                </svg>
+              </div>
+              <h3 class="text-xl font-semibold text-gray-800">By Bus</h3>
+            </div>
+            <div class="space-y-3 text-gray-700">
+              <p><strong>Local Services:</strong> Arriva North West operates local routes</p>
+              <p><strong>From Chester:</strong> Bus route 84 (check current timetables)</p>
+              <p><strong>From Northwich:</strong> Local connecting services available</p>
+              <p><strong>Walking Distance:</strong> 10-15 minutes from nearest bus stop</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 text-center">
+          <p class="text-gray-600 mb-4">Need help planning your journey?</p>
+          <a href="tel:01606889455" class="inline-flex items-center bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+            </svg>
+            Call Us for Travel Advice
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Local Landmarks Section -->
+    <section class="py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-gray-800 text-center mb-12">Local Landmarks &amp; Points of Interest</h2>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H9m0 0H5m0 0h2M7 7h10M7 11h10M7 15h10"></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">Chester City Centre</h3>
+            <p class="text-gray-600">Historic Roman city with shopping and dining - 20 minutes drive</p>
+          </div>
+
+          <div class="text-center">
+            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M10.5 3L12 2l1.5 1H21l-1 6H4l-1-6h7.5z"></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">Beeston Castle</h3>
+            <p class="text-gray-600">Medieval castle ruins with panoramic views - 15 minutes drive</p>
+          </div>
+
+          <div class="text-center">
+            <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">Northwich Town</h3>
+            <p class="text-gray-600">Market town with shops and services - 8 minutes drive</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,289 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+
+// Import images
+import heroImage from '../../assets/lamb-cottage-hero.jpg';
+import springImage from '../../assets/lamb-cottage-in-spring-2017.jpg';
+import dogWalkingImage from '../../assets/dog-walaking-lamb-cottage.jpg';
+import dogTrackImage from '../../assets/dog-walk-track.jpg';
+---
+
+<BaseLayout title="Gallery - Lamb Cottage Caravan Park">
+  <main class="min-h-screen bg-gradient-to-b from-green-50 to-white">
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-green-600 to-green-700 text-white py-16">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <h1 class="text-4xl md:text-5xl font-bold mb-6">Photo Gallery</h1>
+          <p class="text-xl md:text-2xl text-green-100 leading-relaxed">
+            Discover the beauty of Lamb Cottage Caravan Park through our collection of images
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="py-16">
+      <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+          <!-- Introduction -->
+          <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Experience Our Beautiful Park</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+              Take a visual tour of our meticulously maintained 7½ acre park, featuring landscaped grounds, 
+              luxury facilities, and the peaceful Cheshire countryside setting.
+            </p>
+          </div>
+
+          <!-- Main Gallery Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <!-- Hero Image -->
+            <div class="md:col-span-2 lg:col-span-2 lg:row-span-2">
+              <div class="gallery-item group cursor-pointer overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
+                <Image 
+                  src={heroImage} 
+                  alt="Lamb Cottage Caravan Park - Main View" 
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  loading="eager"
+                />
+                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-end">
+                  <div class="p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <h3 class="text-lg font-semibold">Lamb Cottage Caravan Park</h3>
+                    <p class="text-sm">Main park view showcasing our beautiful grounds</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Spring Image -->
+            <div class="gallery-item group cursor-pointer overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
+              <Image 
+                src={springImage} 
+                alt="Lamb Cottage in Spring 2017" 
+                class="w-full h-64 lg:h-80 object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-end">
+                <div class="p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <h3 class="text-lg font-semibold">Spring at Lamb Cottage</h3>
+                  <p class="text-sm">Our park in beautiful spring bloom</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dog Walking Area -->
+            <div class="gallery-item group cursor-pointer overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
+              <Image 
+                src={dogWalkingImage} 
+                alt="Dog Walking Area at Lamb Cottage" 
+                class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-end">
+                <div class="p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <h3 class="text-lg font-semibold">Dog Walking Area</h3>
+                  <p class="text-sm">Dedicated space for your four-legged friends</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dog Walk Track -->
+            <div class="gallery-item group cursor-pointer overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
+              <Image 
+                src={dogTrackImage} 
+                alt="Dog Walk Track" 
+                class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-end">
+                <div class="p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <h3 class="text-lg font-semibold">Dog Walking Track</h3>
+                  <p class="text-sm">Scenic walking paths for dogs and owners</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Park Features Section -->
+          <div class="bg-white rounded-lg shadow-lg p-8 mb-12">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">What You'll Find at Lamb Cottage</h3>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div class="text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                </div>
+                <h4 class="font-semibold text-gray-800 mb-2">7½ Acres of Grounds</h4>
+                <p class="text-gray-600 text-sm">Meticulously maintained lawns and landscaped areas</p>
+              </div>
+              <div class="text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                  </svg>
+                </div>
+                <h4 class="font-semibold text-gray-800 mb-2">Luxury Facilities</h4>
+                <p class="text-gray-600 text-sm">Immaculate amenities for discerning guests</p>
+              </div>
+              <div class="text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                  </svg>
+                </div>
+                <h4 class="font-semibold text-gray-800 mb-2">Pet-Friendly</h4>
+                <p class="text-gray-600 text-sm">Dedicated dog walking areas and facilities</p>
+              </div>
+              <div class="text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  </svg>
+                </div>
+                <h4 class="font-semibold text-gray-800 mb-2">Perfect Location</h4>
+                <p class="text-gray-600 text-sm">Heart of Vale Royal, easy access to Chester</p>
+              </div>
+              <div class="text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                </div>
+                <h4 class="font-semibold text-gray-800 mb-2">Award Winning</h4>
+                <p class="text-gray-600 text-sm">AA Gold Pennant and Visit England recognition</p>
+              </div>
+              <div class="text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                  </svg>
+                </div>
+                <h4 class="font-semibold text-gray-800 mb-2">Adults Only</h4>
+                <p class="text-gray-600 text-sm">Peaceful, child-free environment for relaxation</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Additional Information -->
+          <div class="bg-green-50 rounded-lg p-8">
+            <div class="text-center mb-6">
+              <h3 class="text-2xl font-bold text-gray-800 mb-4">Visit Us Today</h3>
+              <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                Experience the tranquility and beauty of Lamb Cottage Caravan Park for yourself. 
+                Our meticulously maintained grounds and luxury facilities await your visit.
+              </p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+              <div>
+                <h4 class="text-lg font-semibold text-green-700 mb-3">Park Highlights</h4>
+                <ul class="space-y-2 text-gray-600">
+                  <li class="flex items-start">
+                    <span class="text-green-600 mr-2">•</span>
+                    41 Super pitches with electric hook-up
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-green-600 mr-2">•</span>
+                    30 Seasonal touring pitches
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-green-600 mr-2">•</span>
+                    Luxury static caravans available
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-green-600 mr-2">•</span>
+                    Open March to January 2nd
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="text-lg font-semibold text-green-700 mb-3">Facilities</h4>
+                <ul class="space-y-2 text-gray-600">
+                  <li class="flex items-start">
+                    <span class="text-green-600 mr-2">•</span>
+                    Luxury shower and toilet facilities
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-green-600 mr-2">•</span>
+                    Laundry room with modern equipment
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-green-600 mr-2">•</span>
+                    Free WiFi throughout the park
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-green-600 mr-2">•</span>
+                    Dedicated dog walking areas
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="bg-green-600 text-white py-12">
+      <div class="container mx-auto px-4 text-center">
+        <h3 class="text-2xl font-bold mb-4">Ready to Experience Lamb Cottage?</h3>
+        <p class="text-green-100 mb-6 max-w-2xl mx-auto">
+          Book your stay at our award-winning caravan park and discover why guests return year after year.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/contact" class="bg-white text-green-600 px-8 py-3 rounded-lg font-semibold hover:bg-green-50 transition-colors duration-300">
+            Contact Us
+          </a>
+          <a href="/tariff" class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-green-600 transition-colors duration-300">
+            View Prices
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .gallery-item {
+    position: relative;
+  }
+  
+  .gallery-item:hover {
+    transform: translateY(-2px);
+  }
+</style>
+
+<script>
+  // Add lightbox functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    
+    galleryItems.forEach(item => {
+      item.addEventListener('click', function() {
+        const img = this.querySelector('img');
+        if (img) {
+          // Create lightbox overlay
+          const overlay = document.createElement('div');
+          overlay.className = 'fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4';
+          overlay.innerHTML = `
+            <div class="relative max-w-4xl max-h-full">
+              <img src="${img.src}" alt="${img.alt}" class="max-w-full max-h-full object-contain">
+              <button class="absolute top-4 right-4 text-white text-2xl hover:text-gray-300 transition-colors">
+                ×
+              </button>
+            </div>
+          `;
+          
+          // Add close functionality
+          overlay.addEventListener('click', function(e) {
+            if (e.target === overlay || e.target.tagName === 'BUTTON') {
+              document.body.removeChild(overlay);
+            }
+          });
+          
+          // Add to body
+          document.body.appendChild(overlay);
+        }
+      });
+    });
+  });
+</script>
