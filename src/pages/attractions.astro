@@ -1,9 +1,19 @@
 ---
+export const prerender = true;
+
+// Local Attractions - Lamb Cottage Caravan Park
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { Image } from 'astro:assets';
+import { contentStorage } from '../lib/content-storage';
+
+// Load content
+const content = await contentStorage.load();
+
+// Page metadata
+const title = 'Local Attractions - Lamb Cottage Caravan Park';
+const description = 'Discover the best of Cheshire with attractions ranging from historic Chester to beautiful countryside walks and seasonal events.';
 ---
 
-<BaseLayout title="Local Attractions - Lamb Cottage Caravan Park">
+<BaseLayout title={title} description={description}>
   <main class="min-h-screen bg-gradient-to-b from-green-50 to-white">
     <!-- Hero Section -->
     <section class="bg-gradient-to-r from-green-600 to-green-700 text-white py-16">

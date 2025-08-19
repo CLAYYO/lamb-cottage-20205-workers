@@ -1,14 +1,19 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/layout/Header.astro';
-import Footer from '../components/layout/Footer.astro';
+export const prerender = true;
 
-const title = 'Tariff & Conditions - Lamb Cottage Caravan Park';
-const description = 'View our competitive pricing for 2022, including pitch rates, seasonal dates, and booking conditions at Lamb Cottage Caravan Park.';
+// Tariff & Conditions - Lamb Cottage Caravan Park
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { contentStorage } from '../lib/content-storage';
+
+// Load content
+const content = await contentStorage.load();
+
+// Page metadata
+const title = 'Tariff & Pricing - Lamb Cottage Caravan Park';
+const description = 'View our competitive pricing and tariff information for stays at Lamb Cottage Caravan Park in Cheshire.';
 ---
 
 <BaseLayout title={title} description={description}>
-  <Header />
   
   <main class="min-h-screen bg-gradient-to-b from-green-50 to-white">
     <!-- Hero Section -->
@@ -375,6 +380,4 @@ const description = 'View our competitive pricing for 2022, including pitch rate
       </div>
     </section>
   </main>
-  
-  <Footer />
 </BaseLayout>

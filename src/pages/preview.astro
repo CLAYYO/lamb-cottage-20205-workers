@@ -1,8 +1,11 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { getContent } from './api/content/load.ts';
+export const prerender = true;
 
-const content = await getContent();
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { contentStorage } from '../lib/content-storage';
+
+// Load content
+const content = await contentStorage.load();
 const isPreview = Astro.url.searchParams.has('preview');
 ---
 
@@ -16,19 +19,19 @@ const isPreview = Astro.url.searchParams.has('preview');
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
             </svg>
-            {content.topBar.phone}
+            {content.topBar?.phone || 'Phone not available'}
           </span>
           <span class="flex items-center gap-1">
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
               <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
             </svg>
-            {content.topBar.email}
+            {content.topBar?.email || 'Email not available'}
           </span>
         </div>
         <div class="flex items-center gap-4">
-          {content.topBar.socialLinks.map(link => (
-            <a href={link.url} class="hover:text-green-200 transition-colors" target="_blank" rel="noopener noreferrer">
+          {(content.topBar?.socialLinks || []).map(link => (
+            <a href={link.url || '#'} class="hover:text-green-200 transition-colors" target="_blank" rel="noopener noreferrer">
               <span class="sr-only">{link.name}</span>
               <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
@@ -58,8 +61,8 @@ const isPreview = Astro.url.searchParams.has('preview');
         
         <!-- Navigation -->
         <nav class="hidden md:flex items-center space-x-8">
-          {content.navigation.items.map(item => (
-            <a href={item.url} class="text-gray-700 hover:text-green-600 transition-colors">
+          {(content.navigation?.items || []).map(item => (
+            <a href={item.url || '#'} class="text-gray-700 hover:text-green-600 transition-colors">
               {item.label}
             </a>
           ))}
@@ -76,8 +79,8 @@ const isPreview = Astro.url.searchParams.has('preview');
       <!-- Mobile Navigation -->
       <nav class="md:hidden hidden" id="mobile-menu">
         <div class="py-4 space-y-2">
-          {content.navigation.items.map(item => (
-            <a href={item.url} class="block py-2 text-gray-700 hover:text-green-600 transition-colors">
+          {(content.navigation?.items || []).map(item => (
+            <a href={item.url || '#'} class="block py-2 text-gray-700 hover:text-green-600 transition-colors">
               {item.label}
             </a>
           ))}
@@ -92,8 +95,8 @@ const isPreview = Astro.url.searchParams.has('preview');
       <h1 class="text-5xl md:text-7xl font-bold mb-6">{content.hero.title}</h1>
       <p class="text-xl md:text-2xl mb-8 opacity-90">{content.hero.subtitle}</p>
       <p class="text-lg mb-8 max-w-2xl mx-auto">{content.hero.description}</p>
-      <a href={content.hero.ctaButton.url} class="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-8 rounded-lg text-lg transition-colors">
-        {content.hero.ctaButton.text}
+      <a href={content.hero?.ctaButton?.url || '#'} class="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-8 rounded-lg text-lg transition-colors">
+        {content.hero?.ctaButton?.text || 'Learn More'}
       </a>
     </div>
   </section>
@@ -116,7 +119,7 @@ const isPreview = Astro.url.searchParams.has('preview');
   <!-- Tagline Section -->
   <section class="py-16 bg-green-600 text-white text-center">
     <div class="container mx-auto px-4">
-      <h2 class="text-3xl md:text-4xl font-bold">{content.tagline.text}</h2>
+      <h2 class="text-3xl md:text-4xl font-bold">{content.tagline?.text || 'Welcome'}</h2>
     </div>
   </section>
 
@@ -129,7 +132,7 @@ const isPreview = Astro.url.searchParams.has('preview');
       </div>
       
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {content.facilities.items.map(facility => (
+        {(content.facilities?.items || []).map(facility => (
           <div class="bg-white rounded-lg shadow-md p-6 text-center">
             <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg class="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 20 20">
@@ -153,7 +156,7 @@ const isPreview = Astro.url.searchParams.has('preview');
       </div>
       
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {content.propertySales.properties.map(property => (
+        {(content.propertySales?.properties || []).map(property => (
           <div class="bg-white rounded-lg shadow-md overflow-hidden">
             <img src={property.image.src} alt={property.image.alt} class="w-full h-48 object-cover" />
             <div class="p-6">
@@ -161,8 +164,8 @@ const isPreview = Astro.url.searchParams.has('preview');
               <p class="text-gray-600 mb-4">{property.description}</p>
               <div class="flex items-center justify-between">
                 <span class="text-2xl font-bold text-green-600">{property.price}</span>
-                <a href={property.link.url} class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded transition-colors">
-                  {property.link.text}
+                <a href={property.link?.url || '#'} class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded transition-colors">
+                  {property.link?.text || 'View Details'}
                 </a>
               </div>
             </div>
@@ -181,7 +184,7 @@ const isPreview = Astro.url.searchParams.has('preview');
       </div>
       
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {content.reviews.items.map(review => (
+        {(content.reviews?.items || []).map(review => (
           <div class="bg-white rounded-lg shadow-md p-6">
             <div class="flex items-center mb-4">
               <div class="flex text-yellow-400">
@@ -195,7 +198,7 @@ const isPreview = Astro.url.searchParams.has('preview');
             <p class="text-gray-700 mb-4 italic">"{review.comment}"</p>
             <div class="flex items-center">
               <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mr-3">
-                <span class="text-gray-600 font-semibold">{review.author.charAt(0)}</span>
+                <span class="text-gray-600 font-semibold">{review.author?.charAt(0) || 'A'}</span>
               </div>
               <div>
                 <p class="font-semibold text-gray-900">{review.author}</p>
@@ -227,7 +230,7 @@ const isPreview = Astro.url.searchParams.has('preview');
               </div>
               <div>
                 <h3 class="text-lg font-semibold text-gray-900 mb-1">Address</h3>
-                <p class="text-gray-600">{content.contact.address}</p>
+                <p class="text-gray-600">{content.contact?.address || 'Address not available'}</p>
               </div>
             </div>
             
@@ -239,7 +242,7 @@ const isPreview = Astro.url.searchParams.has('preview');
               </div>
               <div>
                 <h3 class="text-lg font-semibold text-gray-900 mb-1">Phone</h3>
-                <p class="text-gray-600">{content.contact.phone}</p>
+                <p class="text-gray-600">{content.contact?.phone || 'Phone not available'}</p>
               </div>
             </div>
             
@@ -252,7 +255,7 @@ const isPreview = Astro.url.searchParams.has('preview');
               </div>
               <div>
                 <h3 class="text-lg font-semibold text-gray-900 mb-1">Email</h3>
-                <p class="text-gray-600">{content.contact.email}</p>
+                <p class="text-gray-600">{content.contact?.email || 'Email not available'}</p>
               </div>
             </div>
           </div>
@@ -292,8 +295,8 @@ const isPreview = Astro.url.searchParams.has('preview');
     <div class="container mx-auto px-4">
       <h2 class="text-3xl md:text-4xl font-bold mb-4">{content.bookingBanner.title}</h2>
       <p class="text-xl mb-8 opacity-90">{content.bookingBanner.subtitle}</p>
-      <a href={content.bookingBanner.ctaButton.url} class="inline-block bg-white text-green-600 hover:bg-gray-100 font-semibold py-4 px-8 rounded-lg text-lg transition-colors">
-        {content.bookingBanner.ctaButton.text}
+      <a href={content.bookingBanner?.ctaButton?.url || '#'} class="inline-block bg-white text-green-600 hover:bg-gray-100 font-semibold py-4 px-8 rounded-lg text-lg transition-colors">
+        {content.bookingBanner?.ctaButton?.text || 'Book Now'}
       </a>
     </div>
   </section>
@@ -306,8 +309,8 @@ const isPreview = Astro.url.searchParams.has('preview');
           <h3 class="text-lg font-semibold mb-4">{content.footer.companyName}</h3>
           <p class="text-gray-400 mb-4">{content.footer.description}</p>
           <div class="flex space-x-4">
-            {content.footer.socialLinks.map(link => (
-              <a href={link.url} class="text-gray-400 hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">
+            {(content.footer?.socialLinks || []).map(link => (
+              <a href={link.url || '#'} class="text-gray-400 hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">
                 <span class="sr-only">{link.name}</span>
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
@@ -320,9 +323,9 @@ const isPreview = Astro.url.searchParams.has('preview');
         <div>
           <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
           <ul class="space-y-2">
-            {content.footer.quickLinks.map(link => (
+            {(content.footer?.quickLinks || []).map(link => (
               <li>
-                <a href={link.url} class="text-gray-400 hover:text-white transition-colors">
+                <a href={link.url || '#'} class="text-gray-400 hover:text-white transition-colors">
                   {link.label}
                 </a>
               </li>
@@ -333,9 +336,9 @@ const isPreview = Astro.url.searchParams.has('preview');
         <div>
           <h3 class="text-lg font-semibold mb-4">Contact Info</h3>
           <div class="space-y-2 text-gray-400">
-            <p>{content.footer.contactInfo.address}</p>
-            <p>{content.footer.contactInfo.phone}</p>
-            <p>{content.footer.contactInfo.email}</p>
+            <p>{content.footer?.contactInfo?.address || 'Address not available'}</p>
+            <p>{content.footer?.contactInfo?.phone || 'Phone not available'}</p>
+            <p>{content.footer?.contactInfo?.email || 'Email not available'}</p>
           </div>
         </div>
         

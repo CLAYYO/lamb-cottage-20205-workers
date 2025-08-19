@@ -1,12 +1,23 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { Image } from 'astro:assets';
+export const prerender = true;
 
-// Import images
-import heroImage from '../../assets/lamb-cottage-hero.jpg';
-import springImage from '../../assets/lamb-cottage-in-spring-2017.jpg';
-import dogWalkingImage from '../../assets/dog-walaking-lamb-cottage.jpg';
-import dogTrackImage from '../../assets/dog-walk-track.jpg';
+// Gallery - Lamb Cottage Caravan Park
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { contentStorage } from '../lib/content-storage';
+
+// Load content
+const content = await contentStorage.load();
+
+// Page metadata
+const title = 'Gallery - Lamb Cottage Caravan Park';
+const description = 'View photos of our beautiful caravan park, facilities, and the stunning Cheshire countryside at Lamb Cottage.';
+const images = content?.images || [];
+
+// Define image sources
+const heroImage = "https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=beautiful%20caravan%20park%20main%20view%20with%20landscaped%20grounds%20luxury%20pitches%20and%20mature%20trees%20in%20Cheshire%20countryside&image_size=landscape_4_3";
+const springImage = "https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=caravan%20park%20in%20spring%20with%20blooming%20flowers%20green%20grass%20and%20beautiful%20landscaping&image_size=portrait_4_3";
+const dogWalkingImage = "https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=dedicated%20dog%20walking%20area%20at%20caravan%20park%20with%20open%20grass%20space%20and%20trees&image_size=square";
+const dogTrackImage = "https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=scenic%20dog%20walking%20track%20path%20through%20countryside%20with%20trees%20and%20grass&image_size=square";
 ---
 
 <BaseLayout title="Gallery - Lamb Cottage Caravan Park">
@@ -41,7 +52,7 @@ import dogTrackImage from '../../assets/dog-walk-track.jpg';
             <!-- Hero Image -->
             <div class="md:col-span-2 lg:col-span-2 lg:row-span-2">
               <div class="gallery-item group cursor-pointer overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
-                <Image 
+                <img 
                   src={heroImage} 
                   alt="Lamb Cottage Caravan Park - Main View" 
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
@@ -58,7 +69,7 @@ import dogTrackImage from '../../assets/dog-walk-track.jpg';
 
             <!-- Spring Image -->
             <div class="gallery-item group cursor-pointer overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
-              <Image 
+              <img 
                 src={springImage} 
                 alt="Lamb Cottage in Spring 2017" 
                 class="w-full h-64 lg:h-80 object-cover group-hover:scale-105 transition-transform duration-300"
@@ -73,7 +84,7 @@ import dogTrackImage from '../../assets/dog-walk-track.jpg';
 
             <!-- Dog Walking Area -->
             <div class="gallery-item group cursor-pointer overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
-              <Image 
+              <img 
                 src={dogWalkingImage} 
                 alt="Dog Walking Area at Lamb Cottage" 
                 class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
@@ -88,7 +99,7 @@ import dogTrackImage from '../../assets/dog-walk-track.jpg';
 
             <!-- Dog Walk Track -->
             <div class="gallery-item group cursor-pointer overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
-              <Image 
+              <img 
                 src={dogTrackImage} 
                 alt="Dog Walk Track" 
                 class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"

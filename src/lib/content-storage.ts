@@ -463,6 +463,15 @@ export async function initializeContent(): Promise<void> {
   }
 }
 
+// Content storage object
+export const contentStorage = {
+  load: loadContent,
+  save: saveContent,
+  createBackup,
+  initialize: initializeContent,
+  validate: validateContent
+};
+
 // Export types
 export type ContentType = z.infer<typeof ContentSchema>;
 export type ImageType = z.infer<typeof ImageSchema>;

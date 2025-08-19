@@ -1,14 +1,19 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/layout/Header.astro';
-import Footer from '../components/layout/Footer.astro';
+export const prerender = true;
 
+// Static Caravans - Lamb Cottage Caravan Park
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { contentStorage } from '../lib/content-storage';
+
+// Load content
+const content = await contentStorage.load();
+
+// Page metadata
 const title = 'Static Caravans - Lamb Cottage Caravan Park';
-const description = 'Discover our premium static caravan options at Lamb Cottage Caravan Park. Perfect for extended stays and seasonal holidays in beautiful Cheshire.';
+const description = 'Explore our comfortable static caravans for hire at Lamb Cottage Caravan Park in Vale Royal, Cheshire.';
 ---
 
 <BaseLayout title={title} description={description}>
-  <Header />
   
   <main class="min-h-screen bg-gradient-to-b from-blue-50 to-white">
     <!-- Hero Section -->
@@ -422,6 +427,4 @@ const description = 'Discover our premium static caravan options at Lamb Cottage
       </div>
     </section>
   </main>
-  
-  <Footer />
 </BaseLayout>

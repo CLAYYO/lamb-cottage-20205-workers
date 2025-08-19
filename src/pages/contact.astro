@@ -1,16 +1,21 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/layout/Header.astro';
-import Footer from '../components/layout/Footer.astro';
+export const prerender = true;
 
+// Contact Us - Lamb Cottage Caravan Park
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { contentStorage } from '../lib/content-storage';
+
+// Load content
+const content = await contentStorage.load();
+
+// Page metadata
 const title = 'Contact Us - Lamb Cottage Caravan Park';
-const description = 'Get in touch with Lamb Cottage Caravan Park. Contact us for bookings, inquiries, or general information about our facilities and services.';
+const description = 'Get in touch with Lamb Cottage Caravan Park for bookings, inquiries, or questions about our facilities in Vale Royal, Cheshire.';
 ---
 
 <BaseLayout title={title} description={description}>
-  <Header />
   
-  <main class="min-h-screen bg-gradient-to-b from-green-50 to-white">
+  <main class="min-h-screen bg-gradient-to-b from-green-50 to-white" transition:name="main-content">
     <!-- Hero Section -->
     <section class="relative py-16 bg-gradient-to-r from-green-600 to-green-700">
       <div class="absolute inset-0 bg-black opacity-20"></div>
@@ -247,8 +252,6 @@ const description = 'Get in touch with Lamb Cottage Caravan Park. Contact us for
       </div>
     </section>
   </main>
-  
-  <Footer />
 </BaseLayout>
 
 <script>

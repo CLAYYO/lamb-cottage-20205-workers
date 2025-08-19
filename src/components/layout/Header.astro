@@ -3,7 +3,7 @@
 const currentPath = Astro.url.pathname;
 ---
 
-<header class="bg-white shadow-soft">
+<header class="bg-white shadow-soft" transition:name="header">
   <!-- Top Header with Logo and CTA -->
   <div class="py-4 px-4">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
@@ -15,6 +15,7 @@ const currentPath = Astro.url.pathname;
             alt="Lamb Cottage Caravan Park Logo" 
             class="h-12 w-auto sm:h-16 hover:scale-105 transition-transform duration-200"
             loading="eager"
+            transition:name="logo"
           />
           <div class="hidden sm:block">
             <h1 class="text-xl sm:text-2xl font-bold text-lamb-green-dark leading-tight">

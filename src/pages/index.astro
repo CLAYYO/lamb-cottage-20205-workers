@@ -1,4 +1,6 @@
 ---
+export const prerender = true;
+
 // Homepage - Lamb Cottage Caravan Park
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TopBar from '../components/layout/TopBar.astro';
@@ -18,23 +20,15 @@ const pageTitle = 'Lamb Cottage Caravan Park - Your Perfect Countryside Getaway'
 const pageDescription = 'Experience tranquil countryside living at Lamb Cottage Caravan Park. Modern facilities, family-friendly atmosphere, and beautiful rural setting. Book your stay today!';
 ---
 
-<BaseLayout 
-  title={pageTitle}
-  description={pageDescription}
-  keywords="caravan park, holiday park, countryside accommodation, family holidays, static caravans, park homes, rural getaway, camping, glamping"
-  ogImage="/lamb-cottage-hero.jpg"
->
+<BaseLayout title="Lamb Cottage Caravan Park - Peaceful Adult-Only Holiday Park in Cheshire" description="Discover tranquil holidays at Lamb Cottage Caravan Park. Adult-only park in beautiful Cheshire countryside with luxury facilities, touring pitches, and static caravan options.">
   <!-- Top Bar -->
   <TopBar />
-  
-  <!-- Header -->
-  <Header />
   
   <!-- Navigation -->
   <Navigation />
   
   <!-- Main Content -->
-  <main>
+  <main transition:name="main-content">
     <!-- Hero Section -->
     <Hero />
     
@@ -59,9 +53,6 @@ const pageDescription = 'Experience tranquil countryside living at Lamb Cottage 
     <!-- Booking Banner Section -->
     <BookingBanner />
   </main>
-  
-  <!-- Footer -->
-  <Footer />
   
   <!-- Scroll to Top Button -->
   <button 

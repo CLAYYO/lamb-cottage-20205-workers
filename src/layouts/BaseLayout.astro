@@ -1,4 +1,7 @@
 ---
+import { ViewTransitions } from 'astro:transitions';
+import '../styles/transitions.css';
+
 export interface Props {
   title: string;
   description?: string;
@@ -37,6 +40,7 @@ const { title, description = 'Lamb Cottage Caravan Park - A Dog Walkers Paradise
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     
     <title>{title}</title>
+    <ViewTransitions />
   </head>
   <body class="font-sans antialiased">
     <slot />

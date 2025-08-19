@@ -1,16 +1,21 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/layout/Header.astro';
-import Footer from '../components/layout/Footer.astro';
+export const prerender = true;
 
-const title = 'Onsite Facilities - Lamb Cottage Caravan Park';
-const description = 'Discover our luxury onsite facilities including modern shower rooms, laundry facilities, dishwashing areas, and more amenities for your comfort.';
+// Onsite Facilities - Lamb Cottage Caravan Park
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { contentStorage } from '../lib/content-storage';
+
+// Load content
+const content = await contentStorage.load();
+
+// Page metadata
+const title = 'Facilities - Lamb Cottage Caravan Park';
+const description = 'Discover our excellent facilities including modern amenities, recreational areas, and services at Lamb Cottage Caravan Park.';
 ---
 
 <BaseLayout title={title} description={description}>
-  <Header />
   
-  <main class="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+  <main class="min-h-screen bg-gradient-to-b from-blue-50 to-white" transition:name="main-content">
     <!-- Hero Section -->
     <section class="relative py-16 bg-gradient-to-r from-blue-600 to-blue-700">
       <div class="absolute inset-0 bg-black opacity-20"></div>
@@ -347,6 +352,4 @@ const description = 'Discover our luxury onsite facilities including modern show
       </div>
     </section>
   </main>
-  
-  <Footer />
 </BaseLayout>
