@@ -62,5 +62,5 @@ const loginHandler: APIRoute = async ({ request, cookies }) => {
 
 export const POST = secureAPIRoute(loginHandler, {
   requireCSRF: false, // Disable CSRF for login endpoint
-  rateLimit: { windowMs: 15 * 60 * 1000, maxRequests: 5 } // 5 attempts per 15 minutes
+  rateLimit: { window: 15 * 60 * 1000, requests: 10 } // 10 attempts per 15 minutes
 });

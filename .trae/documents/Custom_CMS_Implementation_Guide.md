@@ -101,7 +101,7 @@ graph TD
 |-----------|-------------|-------------|
 | Admin Login | Authentication Form | Centered card layout, branded header, input fields with validation states, loading indicators, error messaging |
 | Admin Dashboard | Overview Cards | Grid layout with metric cards, recent activity feed, quick action buttons, responsive design |
-| Content Editor | Visual Interface | Split-pane layout with editor on left and live preview on right, toolbar with formatting options, auto-save indicators |
+| Content Editor | Visual Interface | Enhanced split-pane layout with expanded 380px navigation sidebar (up from 320px), improved content area spacing with 3rem gaps, optimized grid system with better column widths, enhanced form spacing (2.5rem between groups), improved facility item layout with 2.5fr content columns, responsive design with maintained spacing on all screen sizes, and better mobile experience with adaptive padding |
 | Image Management | Media Gallery | Grid-based image gallery with upload dropzone, preview thumbnails, metadata editing forms |
 | Settings | Configuration Panels | Tabbed interface with grouped settings, form validation, save confirmation states, backup/restore controls |
 | Reviews Management | Review Cards | Card-based layout with rating displays, approval buttons, response forms, filtering options |
@@ -296,7 +296,115 @@ RATE_LIMIT_WINDOW=900000
 - Fixed routing issues between admin pages
 - Added proper loading states and error boundaries
 
-### 7.2 Authentication System Fixes
+### 7.2 Content Editor Layout Enhancements (Latest Update)
+
+**Improved Column Layout and Spacing:**
+- **Expanded Navigation Sidebar**: Increased from 250px to 320px for better readability and navigation comfort
+- **Enhanced Content Area**: Improved grid layout with better proportions and increased spacing between elements
+- **Responsive Design Improvements**: 
+  - Desktop (>1200px): Optimized 3-column layout with 320px sidebar and flexible content area
+  - Tablet (768px-1200px): Adaptive 2-column layout with collapsible sidebar
+  - Mobile (<768px): Single-column stack layout for optimal mobile experience
+- **Form Element Spacing**: Increased padding and margins for better visual hierarchy and touch interaction
+- **Facility Management Grid**: Improved 3-column facility item layout with better proportions (1fr 2fr auto)
+- **Section Headers**: Enhanced typography and spacing for better content organization
+
+**Technical Implementation:**
+```css
+/* Key Layout Improvements */
+.editor-content {
+  grid-template-columns: 320px 1fr; /* Expanded from 250px */
+  gap: 2rem; /* Increased spacing */
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.content-layout {
+  width: 100%;
+  min-width: 600px; /* Ensures minimum usable width */
+  padding: 1.5rem;
+}
+
+.section-nav {
+  width: 320px;
+  min-width: 280px;
+  background: #f8fafc;
+  border-radius: 12px;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1200px) {
+  .editor-content {
+    grid-template-columns: 280px 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .editor-content {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+```
+
+**User Experience Benefits:**
+- More comfortable editing experience with expanded content areas
+- Better visual hierarchy and content organization
+- Improved mobile and tablet responsiveness
+- Enhanced accessibility with larger touch targets
+- Reduced visual cramping and better content flow
+
+### 7.3 Content Editor Layout Improvements (Latest Update)
+
+**Issue**: Content editor columns were too narrow and spacing was restrictive, making content editing difficult
+**Solution**: Comprehensive layout improvements to enhance usability and visual comfort
+
+**Layout Enhancements:**
+- **Expanded Navigation Sidebar**: Increased from 320px to 380px width for better section visibility
+- **Improved Grid Spacing**: Enhanced gap from 2.5rem to 3rem between main layout sections
+- **Enhanced Form Spacing**: Increased form group margins from 2rem to 2.5rem for better visual separation
+- **Optimized Facility Items**: Improved grid layout with 2.5fr content columns and 2rem gaps
+- **Better Editor Panel**: Increased padding from 2.5rem to 3rem with max-width: none for full utilization
+- **Responsive Improvements**: Maintained better spacing across all breakpoints
+
+```css
+/* Key Layout Improvements */
+.editor-content {
+  grid-template-columns: 380px 1fr; /* Expanded from 320px */
+  gap: 3rem; /* Increased from 2.5rem */
+}
+
+.section-nav {
+  min-width: 340px; /* Expanded from 280px */
+  padding: 2rem; /* Increased from 1.5rem */
+}
+
+.editor-panel {
+  padding: 3rem; /* Increased from 2.5rem */
+  max-width: none; /* Removed width restrictions */
+}
+
+.facility-item {
+  grid-template-columns: 1fr 2.5fr auto; /* Improved content ratio */
+  gap: 2rem; /* Increased from 1.5rem */
+  padding: 2rem; /* Increased from 1.5rem */
+}
+```
+
+**Responsive Design Updates:**
+- **Medium Screens (1200px)**: Navigation maintained at 320px with 2.5rem gaps
+- **Mobile Screens (768px)**: Adaptive padding with 2rem editor panel and 1.5rem navigation
+- **Preview Mode**: Enhanced split-view with 58%/42% ratio and larger minimum widths
+
+**User Experience Impact:**
+- Significantly improved content editing comfort with expanded working areas
+- Better visual hierarchy with enhanced spacing and proportions
+- Reduced cognitive load with clearer section separation
+- Enhanced mobile editing experience with optimized touch targets
+- More professional appearance with consistent spacing throughout
+
+### 7.4 Authentication System Fixes
 
 **Issue**: Login form JavaScript incorrectly accessing `data.token` from API response
 **Solution**: Updated frontend to handle HTTP-only cookie authentication and correct user role access
@@ -316,7 +424,7 @@ if (data.success) {
 }
 ```
 
-### 7.3 Content Editor Error Handling
+### 7.5 Content Editor Error Handling
 
 **Issue**: "Cannot read properties of undefined (reading 'src')" errors in admin panel
 **Solution**: Added comprehensive null checks and default values
@@ -339,7 +447,7 @@ const ImageEditor = ({ image, onUpdate }) => {
 };
 ```
 
-### 7.4 Content Structure Validation
+### 7.6 Content Structure Validation
 
 **Issue**: Mismatch between default content structure and actual JSON structure
 **Solution**: Standardized content schema with proper fallbacks

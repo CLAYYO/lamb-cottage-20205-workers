@@ -630,22 +630,27 @@ const content = await getContent();
     
     .editor-content {
       display: grid;
-      grid-template-columns: 250px 1fr;
-      gap: 2rem;
+      grid-template-columns: 380px 1fr;
+      gap: 3rem;
+      max-width: 100%;
+      overflow-x: auto;
     }
     
     .content-layout {
       display: flex;
-      gap: 2rem;
+      gap: 2.5rem;
       transition: all 0.3s ease;
+      min-height: 600px;
     }
     
     .content-layout.with-preview .editor-panel {
-      width: 50%;
+      width: 58%;
+      min-width: 650px;
     }
     
     .content-layout.with-preview .preview-panel {
-      width: 50%;
+      width: 42%;
+      min-width: 450px;
       display: block !important;
     }
     
@@ -659,11 +664,12 @@ const content = await getContent();
     .section-nav {
       background: white;
       border-radius: 0.5rem;
-      padding: 1.5rem;
+      padding: 2rem;
       box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
       height: fit-content;
       position: sticky;
       top: 2rem;
+      min-width: 340px;
     }
     
     .section-nav h3 {
@@ -704,8 +710,11 @@ const content = await getContent();
     .editor-panel {
       background: white;
       border-radius: 0.5rem;
-      padding: 2rem;
+      padding: 3rem;
       box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+      flex: 1;
+      min-width: 0;
+      max-width: none;
     }
     
     .section-editor {
@@ -724,7 +733,7 @@ const content = await getContent();
     }
     
     .form-group {
-      margin-bottom: 1.5rem;
+      margin-bottom: 2.5rem;
     }
     
     .form-group label {
@@ -804,26 +813,95 @@ const content = await getContent();
     
     .facility-item {
       display: grid;
-      grid-template-columns: 1fr 2fr auto;
-      gap: 1rem;
+      grid-template-columns: 1fr 2.5fr auto;
+      gap: 2rem;
       align-items: start;
-      margin-bottom: 1rem;
-      padding: 1rem;
+      margin-bottom: 2rem;
+      padding: 2rem;
       border: 1px solid #e5e7eb;
-      border-radius: 0.375rem;
+      border-radius: 0.5rem;
+      background: #fafafa;
+    }
+    
+    .section-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 0.5rem;
+    }
+    
+    .section-description {
+      color: #6b7280;
+      font-size: 0.875rem;
+      margin: 0;
+    }
+    
+    .form-label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+      color: #374151;
+      font-size: 0.875rem;
+    }
+    
+    @media (max-width: 1200px) {
+      .editor-content {
+        grid-template-columns: 320px 1fr;
+        gap: 2.5rem;
+      }
+      
+      .content-layout.with-preview .editor-panel {
+        width: 62%;
+        min-width: 550px;
+      }
+      
+      .content-layout.with-preview .preview-panel {
+        width: 38%;
+        min-width: 380px;
+      }
     }
     
     @media (max-width: 768px) {
       .editor-content {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
       }
       
       .section-nav {
         position: static;
+        min-width: auto;
+      }
+      
+      .content-layout {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      
+      .content-layout.with-preview .editor-panel,
+      .content-layout.with-preview .preview-panel {
+        width: 100%;
+        min-width: auto;
       }
       
       .facility-item {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 1.5rem;
+      }
+      
+      .editor-panel {
+        padding: 2rem;
+      }
+      
+      .section-nav {
+        padding: 1.5rem;
+        min-width: auto;
       }
     }
   </style>

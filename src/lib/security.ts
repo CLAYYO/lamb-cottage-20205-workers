@@ -326,7 +326,7 @@ export function secureAPIRoute(
           });
         }
 
-        if (!validateCSRFToken(csrfToken, sessionId)) {
+        if (!validateCSRFToken(sessionId, csrfToken)) {
           return new Response(JSON.stringify({ error: 'Invalid CSRF token' }), {
             status: 403,
             headers: { 'Content-Type': 'application/json' }
