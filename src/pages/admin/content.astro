@@ -4,6 +4,12 @@ import VisualEditor from '../../components/VisualEditor.astro';
 import LivePreview from '../../components/LivePreview.astro';
 import { getContent } from '../api/content/load.ts';
 
+// Check authentication
+const authToken = Astro.cookies.get('auth_token')?.value;
+if (!authToken) {
+  return Astro.redirect('/admin/login');
+}
+
 const content = await getContent();
 ---
 
@@ -545,7 +551,7 @@ const content = await getContent();
     </div>
 
   <style>
-    /* Content Editor Styles - Updated Layout v2.1 */
+    /* Content Editor Styles - Updated Layout v2.2 - Cache Bust */
     .content-editor {
       max-width: 1200px;
       margin: 0 auto;
@@ -624,7 +630,7 @@ const content = await getContent();
     
     .editor-content {
       display: grid;
-      grid-template-columns: 300px 1fr;
+      grid-template-columns: 250px 1fr;
       gap: 2rem;
       height: calc(100vh - 120px);
       overflow: hidden;
@@ -701,12 +707,13 @@ const content = await getContent();
     
     .editor-panel {
       background: #ffffff;
-      padding: 2rem;
+      padding: 2rem 3rem;
       overflow-y: auto;
       border-radius: 8px;
       box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.1);
       border: 1px solid #f1f5f9;
       flex: 1;
+      max-width: 1000px;
     }
     
     .section-editor {
@@ -725,21 +732,22 @@ const content = await getContent();
     }
     
     .form-group {
-      margin-bottom: 1.5rem;
-      padding: 0.5rem 0;
+      margin-bottom: 2rem;
+      padding: 0.75rem 0;
     }
     
     .form-group label {
       display: block;
       font-weight: 500;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
       color: #374151;
+      font-size: 0.95rem;
     }
     
     .form-input,
     .form-textarea {
       width: 100%;
-      max-width: none;
+      max-width: 800px;
       padding: 1.25rem;
       border: 1px solid #d1d5db;
       border-radius: 0.5rem;
@@ -812,14 +820,15 @@ const content = await getContent();
     
     .facility-item {
       display: grid;
-      grid-template-columns: 1fr 2.5fr auto;
-      gap: 1rem;
+      grid-template-columns: 1fr 3fr auto;
+      gap: 1.5rem;
       align-items: start;
-      margin-bottom: 1rem;
-      padding: 1rem;
+      margin-bottom: 1.5rem;
+      padding: 1.5rem;
       border: 1px solid #e5e7eb;
       border-radius: 0.5rem;
       background: #fafafa;
+      max-width: 800px;
     }
     
     .section-header {
@@ -851,8 +860,18 @@ const content = await getContent();
     
     @media (max-width: 1200px) {
       .editor-content {
-        grid-template-columns: 280px 1fr;
+        grid-template-columns: 220px 1fr;
         gap: 1.5rem;
+      }
+      
+      .editor-panel {
+        padding: 1.5rem 2rem;
+        max-width: 900px;
+      }
+      
+      .form-input,
+      .form-textarea {
+        max-width: 700px;
       }
       
       .content-layout.with-preview .editor-panel {
