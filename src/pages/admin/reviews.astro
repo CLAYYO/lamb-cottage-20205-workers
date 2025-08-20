@@ -1,0 +1,529 @@
+---
+export const prerender = false;
+
+import { getUserFromRequest } from '../../lib/auth';
+import AdminLayout from '../../layouts/AdminLayout.astro';
+
+// Check authentication at page level
+const user = await getUserFromRequest(Astro);
+if (!user) {
+  return Astro.redirect('/admin/login');
+}
+---
+
+<AdminLayout title="Reviews Management" user={user}>
+  <div class="reviews-container">
+    <!-- Reviews Stats -->
+    <div class="stats-section">
+      <div class="stat-card">
+        <div class="stat-icon">⭐</div>
+        <div class="stat-content">
+          <h3>Average Rating</h3>
+          <p class="stat-number">4.8</p>
+          <p class="stat-label">Based on 127 reviews</p>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">📈</div>
+        <div class="stat-content">
+          <h3>This Month</h3>
+          <p class="stat-number">12</p>
+          <p class="stat-label">New reviews</p>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">🔄</div>
+        <div class="stat-content">
+          <h3>Last Sync</h3>
+          <p class="stat-number">2h</p>
+          <p class="stat-label">ago</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Sync Controls -->
+    <div class="sync-section">
+      <h2>TripAdvisor Integration</h2>
+      <div class="sync-controls">
+        <button class="sync-btn" id="sync-reviews">
+          <span class="btn-icon">🔄</span>
+          Sync Reviews Now
+        </button>
+        <button class="export-btn" id="export-reviews">
+          <span class="btn-icon">📥</span>
+          Export Reviews
+        </button>
+        <div class="sync-status" id="sync-status">
+          <span class="status-indicator success"></span>
+          Last synced: 2 hours ago
+        </div>
+      </div>
+    </div>
+    
+    <!-- Reviews List -->
+    <div class="reviews-section">
+      <h2>Recent Reviews</h2>
+      <div class="reviews-list" id="reviews-list">
+        <!-- Sample reviews - these would be loaded dynamically -->
+        <div class="review-card">
+          <div class="review-header">
+            <div class="reviewer-info">
+              <div class="reviewer-avatar">JD</div>
+              <div class="reviewer-details">
+                <h4>John D.</h4>
+                <p class="review-date">March 15, 2024</p>
+              </div>
+            </div>
+            <div class="review-rating">
+              <span class="stars">⭐⭐⭐⭐⭐</span>
+              <span class="rating-number">5.0</span>
+            </div>
+          </div>
+          <div class="review-content">
+            <p>"Absolutely wonderful stay at Lamb Cottage! The location is perfect for exploring the Lake District, and the cottage itself is beautifully maintained. Highly recommend!"</p>
+          </div>
+          <div class="review-actions">
+            <button class="action-btn respond">Respond</button>
+            <button class="action-btn feature">Feature</button>
+            <button class="action-btn hide">Hide</button>
+          </div>
+        </div>
+        
+        <div class="review-card">
+          <div class="review-header">
+            <div class="reviewer-info">
+              <div class="reviewer-avatar">SM</div>
+              <div class="reviewer-details">
+                <h4>Sarah M.</h4>
+                <p class="review-date">March 12, 2024</p>
+              </div>
+            </div>
+            <div class="review-rating">
+              <span class="stars">⭐⭐⭐⭐⭐</span>
+              <span class="rating-number">5.0</span>
+            </div>
+          </div>
+          <div class="review-content">
+            <p>"Perfect cottage for a family getaway. Clean, comfortable, and the kids loved the garden. Great communication from the hosts too."</p>
+          </div>
+          <div class="review-actions">
+            <button class="action-btn respond">Respond</button>
+            <button class="action-btn feature">Feature</button>
+            <button class="action-btn hide">Hide</button>
+          </div>
+        </div>
+        
+        <div class="review-card">
+          <div class="review-header">
+            <div class="reviewer-info">
+              <div class="reviewer-avatar">RT</div>
+              <div class="reviewer-details">
+                <h4>Robert T.</h4>
+                <p class="review-date">March 8, 2024</p>
+              </div>
+            </div>
+            <div class="review-rating">
+              <span class="stars">⭐⭐⭐⭐</span>
+              <span class="rating-number">4.0</span>
+            </div>
+          </div>
+          <div class="review-content">
+            <p>"Great location and lovely cottage. Only minor issue was the WiFi could be stronger, but overall a fantastic stay."</p>
+          </div>
+          <div class="review-actions">
+            <button class="action-btn respond">Respond</button>
+            <button class="action-btn feature">Feature</button>
+            <button class="action-btn hide">Hide</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Featured Reviews -->
+    <div class="featured-section">
+      <h2>Featured Reviews</h2>
+      <p class="section-description">These reviews will be displayed prominently on your website.</p>
+      <div class="featured-reviews" id="featured-reviews">
+        <div class="featured-review">
+          <div class="featured-content">
+            <p>"Absolutely wonderful stay at Lamb Cottage! The location is perfect for exploring the Lake District."</p>
+            <div class="featured-author">- John D. ⭐⭐⭐⭐⭐</div>
+          </div>
+          <button class="remove-featured">Remove</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .reviews-container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .stats-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+      background: linear-gradient(135deg, #4CAF50 0%, #006837 100%);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .stat-icon {
+      font-size: 2rem;
+      opacity: 0.9;
+    }
+    
+    .stat-content h3 {
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      opacity: 0.9;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    
+    .stat-label {
+      font-size: 0.75rem;
+      opacity: 0.8;
+    }
+    
+    .sync-section,
+    .reviews-section,
+    .featured-section {
+      background: white;
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    }
+    
+    .sync-section h2,
+    .reviews-section h2,
+    .featured-section h2 {
+      color: #1f2937;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #4CAF50;
+    }
+    
+    .sync-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    .sync-btn,
+    .export-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    
+    .sync-btn {
+      background: #4CAF50;
+      color: white;
+    }
+    
+    .sync-btn:hover {
+      background: #45a049;
+    }
+    
+    .export-btn {
+      background: #6b7280;
+      color: white;
+    }
+    
+    .export-btn:hover {
+      background: #4b5563;
+    }
+    
+    .sync-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+    
+    .status-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    
+    .status-indicator.success {
+      background: #4CAF50;
+    }
+    
+    .reviews-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .review-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      background: #f8fafc;
+    }
+    
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .reviewer-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .reviewer-avatar {
+      width: 3rem;
+      height: 3rem;
+      background: #4CAF50;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+    
+    .reviewer-details h4 {
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 0.25rem;
+    }
+    
+    .review-date {
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+    
+    .review-rating {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .stars {
+      font-size: 1.125rem;
+    }
+    
+    .rating-number {
+      font-weight: 600;
+      color: #1f2937;
+    }
+    
+    .review-content {
+      margin-bottom: 1rem;
+      line-height: 1.6;
+      color: #374151;
+    }
+    
+    .review-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .action-btn {
+      padding: 0.5rem 1rem;
+      border: 1px solid #d1d5db;
+      background: white;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+    }
+    
+    .action-btn:hover {
+      background: #f3f4f6;
+    }
+    
+    .action-btn.respond {
+      border-color: #4CAF50;
+      color: #4CAF50;
+    }
+    
+    .action-btn.feature {
+      border-color: #f59e0b;
+      color: #f59e0b;
+    }
+    
+    .action-btn.hide {
+      border-color: #dc2626;
+      color: #dc2626;
+    }
+    
+    .section-description {
+      color: #6b7280;
+      margin-bottom: 1rem;
+    }
+    
+    .featured-reviews {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .featured-review {
+      background: #f0f9ff;
+      border: 1px solid #0ea5e9;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .featured-content {
+      flex: 1;
+    }
+    
+    .featured-author {
+      font-size: 0.875rem;
+      color: #6b7280;
+      margin-top: 0.5rem;
+    }
+    
+    .remove-featured {
+      background: #dc2626;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    
+    .remove-featured:hover {
+      background: #b91c1c;
+    }
+    
+    @media (max-width: 768px) {
+      .review-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      
+      .sync-controls {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+
+  <script>
+    // Sync reviews functionality
+    document.getElementById('sync-reviews').addEventListener('click', async () => {
+      const syncBtn = document.getElementById('sync-reviews');
+      const syncStatus = document.getElementById('sync-status');
+      
+      syncBtn.disabled = true;
+      syncBtn.innerHTML = '<span class="btn-icon">⏳</span> Syncing...';
+      
+      try {
+        const response = await fetch('/api/admin/reviews/sync', {
+          method: 'POST'
+        });
+        
+        if (response.ok) {
+          syncStatus.innerHTML = '<span class="status-indicator success"></span> Last synced: Just now';
+          alert('Reviews synced successfully!');
+        } else {
+          alert('Failed to sync reviews. Please try again.');
+        }
+      } catch (error) {
+        console.error('Sync error:', error);
+        alert('An error occurred while syncing reviews.');
+      } finally {
+        syncBtn.disabled = false;
+        syncBtn.innerHTML = '<span class="btn-icon">🔄</span> Sync Reviews Now';
+      }
+    });
+    
+    // Export reviews functionality
+    document.getElementById('export-reviews').addEventListener('click', async () => {
+      try {
+        const response = await fetch('/api/admin/reviews/export');
+        
+        if (response.ok) {
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'reviews-export.csv';
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+          document.body.removeChild(a);
+        } else {
+          alert('Failed to export reviews. Please try again.');
+        }
+      } catch (error) {
+        console.error('Export error:', error);
+        alert('An error occurred while exporting reviews.');
+      }
+    });
+    
+    // Review action handlers
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('action-btn')) {
+        const action = e.target.textContent.toLowerCase();
+        const reviewCard = e.target.closest('.review-card');
+        const reviewerName = reviewCard.querySelector('.reviewer-details h4').textContent;
+        
+        switch (action) {
+          case 'respond':
+            alert(`Opening response dialog for ${reviewerName}'s review...`);
+            break;
+          case 'feature':
+            alert(`Featuring ${reviewerName}'s review...`);
+            break;
+          case 'hide':
+            if (confirm(`Hide ${reviewerName}'s review?`)) {
+              reviewCard.style.opacity = '0.5';
+              alert('Review hidden.');
+            }
+            break;
+        }
+      }
+      
+      if (e.target.classList.contains('remove-featured')) {
+        if (confirm('Remove this review from featured reviews?')) {
+          e.target.closest('.featured-review').remove();
+        }
+      }
+    });
+  </script>
+</AdminLayout>

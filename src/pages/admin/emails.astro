@@ -1,0 +1,843 @@
+---
+export const prerender = false;
+
+import { getUserFromRequest } from '../../lib/auth';
+import AdminLayout from '../../layouts/AdminLayout.astro';
+
+// Check authentication at page level
+const user = await getUserFromRequest(Astro);
+if (!user) {
+  return Astro.redirect('/admin/login');
+}
+---
+
+<AdminLayout title="Email Management" user={user}>
+  <div class="emails-container">
+    <!-- Email Stats -->
+    <div class="stats-section">
+      <div class="stat-card">
+        <div class="stat-icon">📧</div>
+        <div class="stat-content">
+          <h3>Total Emails</h3>
+          <p class="stat-number">1,247</p>
+          <p class="stat-label">All time</p>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">📨</div>
+        <div class="stat-content">
+          <h3>This Month</h3>
+          <p class="stat-number">89</p>
+          <p class="stat-label">Sent emails</p>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">📬</div>
+        <div class="stat-content">
+          <h3>Unread</h3>
+          <p class="stat-number">3</p>
+          <p class="stat-label">New messages</p>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">📈</div>
+        <div class="stat-content">
+          <h3>Open Rate</h3>
+          <p class="stat-number">78%</p>
+          <p class="stat-label">Last 30 days</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Email Templates -->
+    <div class="templates-section">
+      <h2>Email Templates</h2>
+      <div class="templates-grid">
+        <div class="template-card">
+          <div class="template-header">
+            <h3>Booking Confirmation</h3>
+            <div class="template-actions">
+              <button class="edit-template" data-template="booking-confirmation">Edit</button>
+              <button class="preview-template" data-template="booking-confirmation">Preview</button>
+            </div>
+          </div>
+          <p class="template-description">Sent automatically when a booking is confirmed</p>
+          <div class="template-stats">
+            <span class="stat">📊 Used 45 times this month</span>
+            <span class="stat">📈 85% open rate</span>
+          </div>
+        </div>
+        
+        <div class="template-card">
+          <div class="template-header">
+            <h3>Pre-Arrival Instructions</h3>
+            <div class="template-actions">
+              <button class="edit-template" data-template="pre-arrival">Edit</button>
+              <button class="preview-template" data-template="pre-arrival">Preview</button>
+            </div>
+          </div>
+          <p class="template-description">Sent 3 days before guest arrival</p>
+          <div class="template-stats">
+            <span class="stat">📊 Used 42 times this month</span>
+            <span class="stat">📈 92% open rate</span>
+          </div>
+        </div>
+        
+        <div class="template-card">
+          <div class="template-header">
+            <h3>Welcome Message</h3>
+            <div class="template-actions">
+              <button class="edit-template" data-template="welcome">Edit</button>
+              <button class="preview-template" data-template="welcome">Preview</button>
+            </div>
+          </div>
+          <p class="template-description">Sent on arrival day</p>
+          <div class="template-stats">
+            <span class="stat">📊 Used 38 times this month</span>
+            <span class="stat">📈 88% open rate</span>
+          </div>
+        </div>
+        
+        <div class="template-card">
+          <div class="template-header">
+            <h3>Post-Stay Follow-up</h3>
+            <div class="template-actions">
+              <button class="edit-template" data-template="follow-up">Edit</button>
+              <button class="preview-template" data-template="follow-up">Preview</button>
+            </div>
+          </div>
+          <p class="template-description">Sent 2 days after checkout</p>
+          <div class="template-stats">
+            <span class="stat">📊 Used 35 times this month</span>
+            <span class="stat">📈 76% open rate</span>
+          </div>
+        </div>
+      </div>
+      
+      <button class="create-template-btn" id="create-template">
+        <span class="btn-icon">➕</span>
+        Create New Template
+      </button>
+    </div>
+    
+    <!-- Recent Emails -->
+    <div class="emails-section">
+      <div class="section-header">
+        <h2>Recent Emails</h2>
+        <div class="email-filters">
+          <select id="email-filter">
+            <option value="all">All Emails</option>
+            <option value="sent">Sent</option>
+            <option value="received">Received</option>
+            <option value="automated">Automated</option>
+          </select>
+          <button class="compose-btn" id="compose-email">
+            <span class="btn-icon">✏️</span>
+            Compose
+          </button>
+        </div>
+      </div>
+      
+      <div class="emails-list" id="emails-list">
+        <!-- Sample emails - these would be loaded dynamically -->
+        <div class="email-item unread">
+          <div class="email-checkbox">
+            <input type="checkbox" id="email-1">
+          </div>
+          <div class="email-content">
+            <div class="email-header">
+              <div class="email-from">
+                <strong>Sarah Johnson</strong>
+                <span class="email-address">&lt;sarah.j@email.com&gt;</span>
+              </div>
+              <div class="email-date">2 hours ago</div>
+            </div>
+            <div class="email-subject">Question about late checkout</div>
+            <div class="email-preview">Hi, I was wondering if it would be possible to have a late checkout on Sunday as our flight...</div>
+          </div>
+          <div class="email-actions">
+            <button class="action-btn reply">Reply</button>
+            <button class="action-btn archive">Archive</button>
+          </div>
+        </div>
+        
+        <div class="email-item">
+          <div class="email-checkbox">
+            <input type="checkbox" id="email-2">
+          </div>
+          <div class="email-content">
+            <div class="email-header">
+              <div class="email-from">
+                <strong>System</strong>
+                <span class="email-type automated">Automated</span>
+              </div>
+              <div class="email-date">4 hours ago</div>
+            </div>
+            <div class="email-subject">Booking Confirmation - March 20-25</div>
+            <div class="email-preview">Booking confirmation sent to michael.brown@email.com for dates March 20-25, 2024...</div>
+          </div>
+          <div class="email-actions">
+            <button class="action-btn view">View</button>
+            <button class="action-btn archive">Archive</button>
+          </div>
+        </div>
+        
+        <div class="email-item">
+          <div class="email-checkbox">
+            <input type="checkbox" id="email-3">
+          </div>
+          <div class="email-content">
+            <div class="email-header">
+              <div class="email-from">
+                <strong>David Wilson</strong>
+                <span class="email-address">&lt;d.wilson@email.com&gt;</span>
+              </div>
+              <div class="email-date">Yesterday</div>
+            </div>
+            <div class="email-subject">Thank you for a wonderful stay!</div>
+            <div class="email-preview">We had such a lovely time at Lamb Cottage. Everything was perfect and the location was ideal...</div>
+          </div>
+          <div class="email-actions">
+            <button class="action-btn reply">Reply</button>
+            <button class="action-btn archive">Archive</button>
+          </div>
+        </div>
+        
+        <div class="email-item">
+          <div class="email-checkbox">
+            <input type="checkbox" id="email-4">
+          </div>
+          <div class="email-content">
+            <div class="email-header">
+              <div class="email-from">
+                <strong>System</strong>
+                <span class="email-type automated">Automated</span>
+              </div>
+              <div class="email-date">Yesterday</div>
+            </div>
+            <div class="email-subject">Pre-arrival Instructions - March 18-22</div>
+            <div class="email-preview">Pre-arrival instructions sent to emma.taylor@email.com for upcoming stay...</div>
+          </div>
+          <div class="email-actions">
+            <button class="action-btn view">View</button>
+            <button class="action-btn archive">Archive</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Email Settings -->
+    <div class="settings-section">
+      <h2>Email Settings</h2>
+      <div class="settings-grid">
+        <div class="setting-group">
+          <h3>Automated Emails</h3>
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" checked>
+              <span class="checkmark"></span>
+              Send booking confirmations
+            </label>
+          </div>
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" checked>
+              <span class="checkmark"></span>
+              Send pre-arrival instructions
+            </label>
+          </div>
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" checked>
+              <span class="checkmark"></span>
+              Send welcome messages
+            </label>
+          </div>
+          <div class="setting-item">
+            <label class="setting-label">
+              <input type="checkbox" checked>
+              <span class="checkmark"></span>
+              Send post-stay follow-ups
+            </label>
+          </div>
+        </div>
+        
+        <div class="setting-group">
+          <h3>Email Preferences</h3>
+          <div class="setting-item">
+            <label for="sender-name">Sender Name</label>
+            <input type="text" id="sender-name" value="Lamb Cottage Team">
+          </div>
+          <div class="setting-item">
+            <label for="sender-email">Sender Email</label>
+            <input type="email" id="sender-email" value="hello@lambcottage.co.uk">
+          </div>
+          <div class="setting-item">
+            <label for="reply-to">Reply-To Email</label>
+            <input type="email" id="reply-to" value="bookings@lambcottage.co.uk">
+          </div>
+        </div>
+      </div>
+      
+      <div class="settings-actions">
+        <button class="save-settings-btn" id="save-email-settings">
+          <span class="btn-icon">💾</span>
+          Save Settings
+        </button>
+        <button class="test-email-btn" id="test-email">
+          <span class="btn-icon">📧</span>
+          Send Test Email
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .emails-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .stats-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+      background: linear-gradient(135deg, #4CAF50 0%, #006837 100%);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .stat-icon {
+      font-size: 2rem;
+      opacity: 0.9;
+    }
+    
+    .stat-content h3 {
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      opacity: 0.9;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    
+    .stat-label {
+      font-size: 0.75rem;
+      opacity: 0.8;
+    }
+    
+    .templates-section,
+    .emails-section,
+    .settings-section {
+      background: white;
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    }
+    
+    .templates-section h2,
+    .emails-section h2,
+    .settings-section h2 {
+      color: #1f2937;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #4CAF50;
+    }
+    
+    .templates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .template-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      background: #f8fafc;
+    }
+    
+    .template-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .template-header h3 {
+      font-weight: 600;
+      color: #1f2937;
+    }
+    
+    .template-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .edit-template,
+    .preview-template {
+      padding: 0.375rem 0.75rem;
+      border: 1px solid #d1d5db;
+      background: white;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+    }
+    
+    .edit-template:hover,
+    .preview-template:hover {
+      background: #f3f4f6;
+    }
+    
+    .template-description {
+      color: #6b7280;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    
+    .template-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    
+    .template-stats .stat {
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+    
+    .create-template-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    
+    .create-template-btn:hover {
+      background: #45a049;
+    }
+    
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .email-filters {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .email-filters select {
+      padding: 0.5rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.375rem;
+      background: white;
+    }
+    
+    .compose-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    
+    .compose-btn:hover {
+      background: #45a049;
+    }
+    
+    .emails-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .email-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.5rem;
+      background: white;
+      transition: all 0.2s;
+    }
+    
+    .email-item:hover {
+      background: #f8fafc;
+    }
+    
+    .email-item.unread {
+      background: #f0f9ff;
+      border-color: #0ea5e9;
+    }
+    
+    .email-checkbox {
+      flex-shrink: 0;
+    }
+    
+    .email-content {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .email-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    
+    .email-from {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .email-address {
+      color: #6b7280;
+      font-size: 0.875rem;
+    }
+    
+    .email-type {
+      padding: 0.125rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    
+    .email-type.automated {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    
+    .email-date {
+      color: #6b7280;
+      font-size: 0.875rem;
+    }
+    
+    .email-subject {
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 0.25rem;
+    }
+    
+    .email-preview {
+      color: #6b7280;
+      font-size: 0.875rem;
+      line-height: 1.4;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    
+    .email-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+    
+    .action-btn {
+      padding: 0.375rem 0.75rem;
+      border: 1px solid #d1d5db;
+      background: white;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+    }
+    
+    .action-btn:hover {
+      background: #f3f4f6;
+    }
+    
+    .action-btn.reply {
+      border-color: #4CAF50;
+      color: #4CAF50;
+    }
+    
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .setting-group h3 {
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 1rem;
+    }
+    
+    .setting-item {
+      margin-bottom: 1rem;
+    }
+    
+    .setting-label {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      font-size: 0.875rem;
+      color: #374151;
+    }
+    
+    .setting-label input[type="checkbox"] {
+      display: none;
+    }
+    
+    .checkmark {
+      width: 1.25rem;
+      height: 1.25rem;
+      border: 2px solid #d1d5db;
+      border-radius: 0.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    
+    .setting-label input[type="checkbox"]:checked + .checkmark {
+      background: #4CAF50;
+      border-color: #4CAF50;
+    }
+    
+    .setting-label input[type="checkbox"]:checked + .checkmark::after {
+      content: '✓';
+      color: white;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+    
+    .setting-item label:not(.setting-label) {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #374151;
+      margin-bottom: 0.5rem;
+    }
+    
+    .setting-item input[type="text"],
+    .setting-item input[type="email"] {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+    }
+    
+    .settings-actions {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .save-settings-btn,
+    .test-email-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    
+    .save-settings-btn {
+      background: #4CAF50;
+      color: white;
+    }
+    
+    .save-settings-btn:hover {
+      background: #45a049;
+    }
+    
+    .test-email-btn {
+      background: #6b7280;
+      color: white;
+    }
+    
+    .test-email-btn:hover {
+      background: #4b5563;
+    }
+    
+    @media (max-width: 768px) {
+      .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      
+      .email-filters {
+        width: 100%;
+        justify-content: space-between;
+      }
+      
+      .email-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      
+      .email-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+      
+      .settings-actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+
+  <script>
+    // Template management
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('edit-template')) {
+        const template = e.target.dataset.template;
+        alert(`Opening editor for ${template} template...`);
+      }
+      
+      if (e.target.classList.contains('preview-template')) {
+        const template = e.target.dataset.template;
+        alert(`Previewing ${template} template...`);
+      }
+    });
+    
+    // Create new template
+    document.getElementById('create-template').addEventListener('click', () => {
+      alert('Opening template creator...');
+    });
+    
+    // Compose email
+    document.getElementById('compose-email').addEventListener('click', () => {
+      alert('Opening email composer...');
+    });
+    
+    // Email actions
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('action-btn')) {
+        const action = e.target.textContent.toLowerCase();
+        const emailItem = e.target.closest('.email-item');
+        const subject = emailItem.querySelector('.email-subject').textContent;
+        
+        switch (action) {
+          case 'reply':
+            alert(`Replying to: ${subject}`);
+            break;
+          case 'view':
+            alert(`Viewing: ${subject}`);
+            break;
+          case 'archive':
+            if (confirm(`Archive email: ${subject}?`)) {
+              emailItem.style.opacity = '0.5';
+              alert('Email archived.');
+            }
+            break;
+        }
+      }
+    });
+    
+    // Email filter
+    document.getElementById('email-filter').addEventListener('change', (e) => {
+      const filter = e.target.value;
+      alert(`Filtering emails by: ${filter}`);
+    });
+    
+    // Save email settings
+    document.getElementById('save-email-settings').addEventListener('click', async () => {
+      const settings = {
+        senderName: document.getElementById('sender-name').value,
+        senderEmail: document.getElementById('sender-email').value,
+        replyTo: document.getElementById('reply-to').value,
+        automatedEmails: {
+          bookingConfirmation: document.querySelector('input[type="checkbox"]').checked,
+          preArrival: document.querySelectorAll('input[type="checkbox"]')[1].checked,
+          welcome: document.querySelectorAll('input[type="checkbox"]')[2].checked,
+          followUp: document.querySelectorAll('input[type="checkbox"]')[3].checked
+        }
+      };
+      
+      try {
+        const response = await fetch('/api/admin/email-settings', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(settings)
+        });
+        
+        if (response.ok) {
+          alert('Email settings saved successfully!');
+        } else {
+          alert('Failed to save settings. Please try again.');
+        }
+      } catch (error) {
+        console.error('Save error:', error);
+        alert('An error occurred while saving settings.');
+      }
+    });
+    
+    // Send test email
+    document.getElementById('test-email').addEventListener('click', async () => {
+      const testEmail = prompt('Enter email address to send test email:');
+      if (testEmail) {
+        try {
+          const response = await fetch('/api/admin/test-email', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: testEmail })
+          });
+          
+          if (response.ok) {
+            alert(`Test email sent to ${testEmail}!`);
+          } else {
+            alert('Failed to send test email. Please try again.');
+          }
+        } catch (error) {
+          console.error('Test email error:', error);
+          alert('An error occurred while sending test email.');
+        }
+      }
+    });
+  </script>
+</AdminLayout>

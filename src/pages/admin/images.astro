@@ -178,10 +178,48 @@ if (!user) {
   </div>
 
   <script is:inline>
-    import { secureRequest, handleResponse, validateFile } from '../../lib/client-security.js';
-    
     let currentImages = [];
     let currentImageData = null;
+    
+    // Basic security functions
+    function validateFile(file) {
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+      
+      if (!allowedTypes.includes(file.type)) {
+        return { valid: false, error: 'Invalid file type. Only JPG, PNG, WebP, and GIF are allowed.' };
+      }
+      
+      if (file.size > maxSize) {
+        return { valid: false, error: 'File too large. Maximum size is 5MB.' };
+      }
+      
+      return { valid: true };
+    }
+    
+    async function secureRequest(url, options = {}) {
+      const authToken = localStorage.getItem('auth_token');
+      if (!authToken) {
+        throw new Error('Authentication required');
+      }
+      
+      return fetch(url, {
+        ...options,
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json',
+          ...options.headers
+        }
+      });
+    }
+    
+    async function handleResponse(response) {
+      if (!response.ok) {
+        const error = await response.text();
+        throw new Error(error || 'Request failed');
+      }
+      return response.json();
+    }
 
     // DOM elements
     const uploadBtn = document.getElementById('upload-btn');

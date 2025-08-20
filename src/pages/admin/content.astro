@@ -78,7 +78,7 @@ const content = await getContent();
             <VisualEditor 
               sectionId="hero" 
               fieldPath="ctaButton.text" 
-              content={content.hero.ctaButton.text} 
+              content={content.hero.ctaButton?.text || ''} 
               type="text" 
               placeholder="Enter CTA text"
               className="form-input"
@@ -89,7 +89,7 @@ const content = await getContent();
             <VisualEditor 
               sectionId="hero" 
               fieldPath="backgroundImage.src" 
-              content={content.hero.backgroundImage.src} 
+              content={content.hero.backgroundImage?.src || ''} 
               type="image" 
               className="image-preview"
             />
@@ -129,7 +129,7 @@ const content = await getContent();
               type="image" 
               section="welcome" 
               fieldPath="image.src" 
-              content={content.welcome.image.src} 
+              content={content.welcome.image?.src || ''} 
             />
           </div>
         </div>
@@ -278,7 +278,7 @@ const content = await getContent();
                         type="image" 
                         section="propertySales" 
                         fieldPath={`properties.${index}.image.src`} 
-                        content={property.image.src} 
+                        content={property.image?.src || ''} 
                       />
                     </div>
                     <div>
@@ -287,7 +287,7 @@ const content = await getContent();
                         type="text" 
                         section="propertySales" 
                         fieldPath={`properties.${index}.link.url`} 
-                        content={property.link.url} 
+                        content={property.link?.url || ''} 
                       />
                     </div>
                   </div>
@@ -407,7 +407,7 @@ const content = await getContent();
                 type="text" 
                 section="bookingBanner" 
                 fieldPath="primaryButton.text" 
-                content={content.bookingBanner.primaryButton.text} 
+                content={content.bookingBanner.primaryButton?.text || ''} 
               />
             </div>
             
@@ -417,7 +417,7 @@ const content = await getContent();
                 type="text" 
                 section="bookingBanner" 
                 fieldPath="primaryButton.url" 
-                content={content.bookingBanner.primaryButton.url} 
+                content={content.bookingBanner.primaryButton?.url || ''} 
               />
             </div>
           </div>
@@ -429,7 +429,7 @@ const content = await getContent();
                 type="text" 
                 section="bookingBanner" 
                 fieldPath="secondaryButton.text" 
-                content={content.bookingBanner.secondaryButton.text} 
+                content={content.bookingBanner.secondaryButton?.text || ''} 
               />
             </div>
             
@@ -439,7 +439,7 @@ const content = await getContent();
                 type="text" 
                 section="bookingBanner" 
                 fieldPath="secondaryButton.url" 
-                content={content.bookingBanner.secondaryButton.url} 
+                content={content.bookingBanner.secondaryButton?.url || ''} 
               />
             </div>
           </div>
@@ -853,22 +853,25 @@ const content = await getContent();
     });
     
     // Add facility functionality
-    document.getElementById('add-facility').addEventListener('click', () => {
-      const facilitiesList = document.querySelector('.facilities-list');
-      const newFacility = document.createElement('div');
-      newFacility.className = 'facility-item';
-      newFacility.innerHTML = `
-        <input type="text" class="form-input" placeholder="Facility name">
-        <textarea class="form-textarea" rows="2" placeholder="Description"></textarea>
-        <button class="btn btn-danger btn-sm">Remove</button>
-      `;
-      facilitiesList.appendChild(newFacility);
-      
-      // Add remove functionality to new facility
-      newFacility.querySelector('.btn-danger').addEventListener('click', () => {
-        newFacility.remove();
+    const addFacilityBtn = document.getElementById('add-facility');
+    if (addFacilityBtn) {
+      addFacilityBtn.addEventListener('click', () => {
+        const facilitiesList = document.querySelector('.facilities-list');
+        const newFacility = document.createElement('div');
+        newFacility.className = 'facility-item';
+        newFacility.innerHTML = `
+          <input type="text" class="form-input" placeholder="Facility name">
+          <textarea class="form-textarea" rows="2" placeholder="Description"></textarea>
+          <button class="btn btn-danger btn-sm">Remove</button>
+        `;
+        facilitiesList.appendChild(newFacility);
+        
+        // Add remove functionality to new facility
+        newFacility.querySelector('.btn-danger').addEventListener('click', () => {
+          newFacility.remove();
+        });
       });
-    });
+    }
     
     // Remove facility functionality for existing items
     document.querySelectorAll('.facility-item .btn-danger').forEach(btn => {
@@ -878,95 +881,104 @@ const content = await getContent();
     });
     
     // Save functionality
-    document.getElementById('save-btn').addEventListener('click', async () => {
-      const saveBtn = document.getElementById('save-btn');
-      saveBtn.textContent = 'Saving...';
-      saveBtn.disabled = true;
-      
-      // Collect all form data
-      const contentData = {
-        hero: {
-          title: document.getElementById('hero-title').value,
-          subtitle: document.getElementById('hero-subtitle').value,
-          cta: document.getElementById('hero-cta').value
-        },
-        welcome: {
-          title: document.getElementById('welcome-title').value,
-          content: document.getElementById('welcome-content').innerHTML
-        },
-        tagline: {
-          text: document.getElementById('tagline-text').value,
-          description: document.getElementById('tagline-description').value
-        },
-        facilities: {
-          title: document.getElementById('facilities-title').value,
-          items: Array.from(document.querySelectorAll('.facility-item')).map(item => ({
-            name: item.querySelector('input').value,
-            description: item.querySelector('textarea').value
-          }))
-        },
-        propertySales: {
-          title: document.getElementById('property-title').value,
-          description: document.getElementById('property-description').value,
-          cta: document.getElementById('property-cta').value
-        },
-        contact: {
-          title: document.getElementById('contact-title').value,
-          description: document.getElementById('contact-description').value,
-          email: document.getElementById('contact-email').value,
-          phone: document.getElementById('contact-phone').value
-        },
-        footer: {
-          description: document.getElementById('footer-description').value,
-          address: document.getElementById('footer-address').value,
-          hours: document.getElementById('footer-hours').value
-        }
-      };
-      
-      try {
-        const response = await fetch('/api/content/save', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(contentData)
-        });
+    const saveBtn = document.getElementById('save-btn');
+    if (saveBtn) {
+      saveBtn.addEventListener('click', async () => {
+        const saveBtn = document.getElementById('save-btn');
+        saveBtn.textContent = 'Saving...';
+        saveBtn.disabled = true;
         
-        if (response.ok) {
-          alert('Content saved successfully!');
-        } else {
+        // Collect all form data
+        const contentData = {
+          hero: {
+            title: document.getElementById('hero-title').value,
+            subtitle: document.getElementById('hero-subtitle').value,
+            cta: document.getElementById('hero-cta').value
+          },
+          welcome: {
+            title: document.getElementById('welcome-title').value,
+            content: document.getElementById('welcome-content').innerHTML
+          },
+          tagline: {
+            text: document.getElementById('tagline-text').value,
+            description: document.getElementById('tagline-description').value
+          },
+          facilities: {
+            title: document.getElementById('facilities-title').value,
+            items: Array.from(document.querySelectorAll('.facility-item')).map(item => ({
+              name: item.querySelector('input').value,
+              description: item.querySelector('textarea').value
+            }))
+          },
+          propertySales: {
+            title: document.getElementById('property-title').value,
+            description: document.getElementById('property-description').value,
+            cta: document.getElementById('property-cta').value
+          },
+          contact: {
+            title: document.getElementById('contact-title').value,
+            description: document.getElementById('contact-description').value,
+            email: document.getElementById('contact-email').value,
+            phone: document.getElementById('contact-phone').value
+          },
+          footer: {
+            description: document.getElementById('footer-description').value,
+            address: document.getElementById('footer-address').value,
+            hours: document.getElementById('footer-hours').value
+          }
+        };
+        
+        try {
+          const response = await fetch('/api/content/save', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(contentData)
+          });
+          
+          if (response.ok) {
+            alert('Content saved successfully!');
+          } else {
+            alert('Error saving content. Please try again.');
+          }
+        } catch (error) {
           alert('Error saving content. Please try again.');
         }
-      } catch (error) {
-        alert('Error saving content. Please try again.');
-      }
-      
-      saveBtn.textContent = 'Save Changes';
-      saveBtn.disabled = false;
-    });
+        
+        saveBtn.textContent = 'Save Changes';
+        saveBtn.disabled = false;
+      });
+    }
     
     // Preview functionality
-    document.getElementById('toggle-preview-btn').addEventListener('click', () => {
-      const previewPanel = document.getElementById('preview-panel');
-      const contentLayout = document.getElementById('content-layout');
-      const toggleText = document.getElementById('preview-toggle-text');
-      
-      if (previewPanel.style.display === 'none') {
-        previewPanel.style.display = 'block';
-        contentLayout.classList.add('with-preview');
-        toggleText.textContent = 'Hide Preview';
-      } else {
-        previewPanel.style.display = 'none';
-        contentLayout.classList.remove('with-preview');
-        toggleText.textContent = 'Show Preview';
-      }
-    });
+    const togglePreviewBtn = document.getElementById('toggle-preview-btn');
+    if (togglePreviewBtn) {
+      togglePreviewBtn.addEventListener('click', () => {
+        const previewPanel = document.getElementById('preview-panel');
+        const contentLayout = document.getElementById('content-layout');
+        const toggleText = document.getElementById('preview-toggle-text');
+        
+        if (previewPanel.style.display === 'none') {
+          previewPanel.style.display = 'block';
+          contentLayout.classList.add('with-preview');
+          toggleText.textContent = 'Hide Preview';
+        } else {
+          previewPanel.style.display = 'none';
+          contentLayout.classList.remove('with-preview');
+          toggleText.textContent = 'Show Preview';
+        }
+      });
+    }
     
     // Reset functionality
-    document.getElementById('reset-btn').addEventListener('click', () => {
-      if (confirm('Are you sure you want to reset all changes? This cannot be undone.')) {
-        location.reload();
-      }
-    });
+    const resetBtn = document.getElementById('reset-btn');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        if (confirm('Are you sure you want to reset all changes? This cannot be undone.')) {
+          location.reload();
+        }
+      });
+    }
   </script>
 </AdminLayout>
