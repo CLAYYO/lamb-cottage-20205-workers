@@ -1,17 +1,10 @@
 ---
 export const prerender = false;
 
-import { getUserFromRequest } from '../../lib/auth';
 import AdminLayout from '../../layouts/AdminLayout.astro';
-
-// Check authentication at page level
-const user = await getUserFromRequest(Astro);
-if (!user) {
-  return Astro.redirect('/admin/login');
-}
 ---
 
-<AdminLayout title="Email Management" user={user}>
+<AdminLayout title="Email Management">
   <div class="emails-container">
     <!-- Email Stats -->
     <div class="stats-section">
@@ -730,33 +723,42 @@ if (!user) {
   <script>
     // Template management
     document.addEventListener('click', (e) => {
-      if (e.target.classList.contains('edit-template')) {
-        const template = e.target.dataset.template;
+      const target = e.target as HTMLElement;
+      if (target && target.classList.contains('edit-template')) {
+        const template = target.dataset.template;
         alert(`Opening editor for ${template} template...`);
       }
       
-      if (e.target.classList.contains('preview-template')) {
-        const template = e.target.dataset.template;
+      if (target && target.classList.contains('preview-template')) {
+        const template = target.dataset.template;
         alert(`Previewing ${template} template...`);
       }
     });
     
     // Create new template
-    document.getElementById('create-template').addEventListener('click', () => {
-      alert('Opening template creator...');
-    });
+    const createTemplateBtn = document.getElementById('create-template');
+    if (createTemplateBtn) {
+      createTemplateBtn.addEventListener('click', () => {
+        alert('Opening template creator...');
+      });
+    }
     
     // Compose email
-    document.getElementById('compose-email').addEventListener('click', () => {
-      alert('Opening email composer...');
-    });
+    const composeEmailBtn = document.getElementById('compose-email');
+    if (composeEmailBtn) {
+      composeEmailBtn.addEventListener('click', () => {
+        alert('Opening email composer...');
+      });
+    }
     
     // Email actions
     document.addEventListener('click', (e) => {
-      if (e.target.classList.contains('action-btn')) {
-        const action = e.target.textContent.toLowerCase();
-        const emailItem = e.target.closest('.email-item');
-        const subject = emailItem.querySelector('.email-subject').textContent;
+      const target = e.target as HTMLElement;
+      if (target && target.classList.contains('action-btn')) {
+        const action = target.textContent?.toLowerCase() || '';
+        const emailItem = target.closest('.email-item');
+        const subjectEl = emailItem?.querySelector('.email-subject');
+        const subject = subjectEl?.textContent || '';
         
         switch (action) {
           case 'reply':
@@ -776,24 +778,35 @@ if (!user) {
     });
     
     // Email filter
-    document.getElementById('email-filter').addEventListener('change', (e) => {
-      const filter = e.target.value;
-      alert(`Filtering emails by: ${filter}`);
-    });
+    const emailFilterEl = document.getElementById('email-filter') as HTMLSelectElement | null;
+    if (emailFilterEl) {
+      emailFilterEl.addEventListener('change', (e) => {
+        const target = e.target as HTMLSelectElement;
+        const filter = target.value;
+        alert(`Filtering emails by: ${filter}`);
+      });
+    }
     
     // Save email settings
-    document.getElementById('save-email-settings').addEventListener('click', async () => {
-      const settings = {
-        senderName: document.getElementById('sender-name').value,
-        senderEmail: document.getElementById('sender-email').value,
-        replyTo: document.getElementById('reply-to').value,
-        automatedEmails: {
-          bookingConfirmation: document.querySelector('input[type="checkbox"]').checked,
-          preArrival: document.querySelectorAll('input[type="checkbox"]')[1].checked,
-          welcome: document.querySelectorAll('input[type="checkbox"]')[2].checked,
-          followUp: document.querySelectorAll('input[type="checkbox"]')[3].checked
-        }
-      };
+    const saveSettingsBtn = document.getElementById('save-email-settings');
+    if (saveSettingsBtn) {
+      saveSettingsBtn.addEventListener('click', async () => {
+        const senderNameEl = document.getElementById('sender-name') as HTMLInputElement | null;
+        const senderEmailEl = document.getElementById('sender-email') as HTMLInputElement | null;
+        const replyToEl = document.getElementById('reply-to') as HTMLInputElement | null;
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]') as NodeListOf<HTMLInputElement>;
+        
+        const settings = {
+          senderName: senderNameEl?.value || '',
+          senderEmail: senderEmailEl?.value || '',
+          replyTo: replyToEl?.value || '',
+          automatedEmails: {
+            bookingConfirmation: checkboxes[0]?.checked || false,
+            preArrival: checkboxes[1]?.checked || false,
+            welcome: checkboxes[2]?.checked || false,
+            followUp: checkboxes[3]?.checked || false
+          }
+        };
       
       try {
         const response = await fetch('/api/admin/email-settings', {
@@ -809,35 +822,39 @@ if (!user) {
         } else {
           alert('Failed to save settings. Please try again.');
         }
-      } catch (error) {
-        console.error('Save error:', error);
-        alert('An error occurred while saving settings.');
-      }
-    });
+        } catch (error) {
+          console.error('Save error:', error);
+          alert('An error occurred while saving settings.');
+        }
+      });
+    }
     
     // Send test email
-    document.getElementById('test-email').addEventListener('click', async () => {
-      const testEmail = prompt('Enter email address to send test email:');
-      if (testEmail) {
-        try {
-          const response = await fetch('/api/admin/test-email', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email: testEmail })
-          });
-          
-          if (response.ok) {
-            alert(`Test email sent to ${testEmail}!`);
-          } else {
-            alert('Failed to send test email. Please try again.');
+    const testEmailBtn = document.getElementById('test-email');
+    if (testEmailBtn) {
+      testEmailBtn.addEventListener('click', async () => {
+        const testEmail = prompt('Enter email address to send test email:');
+        if (testEmail) {
+          try {
+            const response = await fetch('/api/admin/test-email', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ email: testEmail })
+            });
+            
+            if (response.ok) {
+              alert(`Test email sent to ${testEmail}!`);
+            } else {
+              alert('Failed to send test email. Please try again.');
+            }
+          } catch (error) {
+            console.error('Test email error:', error);
+            alert('An error occurred while sending test email.');
           }
-        } catch (error) {
-          console.error('Test email error:', error);
-          alert('An error occurred while sending test email.');
         }
-      }
-    });
+      });
+    }
   </script>
 </AdminLayout>

@@ -1,15 +1,8 @@
 ---
 import AdminLayout from '../../layouts/AdminLayout.astro';
-import { getUserFromRequest } from '../../lib/auth';
-
-// Check authentication at page level
-const user = await getUserFromRequest(Astro);
-if (!user) {
-  return Astro.redirect('/admin/login');
-}
 ---
 
-<AdminLayout title="Image Manager" user={user}>
+<AdminLayout title="Image Manager">
   <div class="space-y-6">
     <!-- Header -->
     <div class="flex justify-between items-center">

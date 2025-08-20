@@ -1,13 +1,10 @@
 ---
-import type { User } from '../lib/auth';
-
 export interface Props {
   title: string;
   description?: string;
-  user: User;
 }
 
-const { title, description = 'Lamb Cottage CMS Admin Panel', user } = Astro.props;
+const { title, description = 'Lamb Cottage CMS Admin Panel' } = Astro.props;
 ---
 
 <html lang="en">
@@ -230,10 +227,9 @@ const { title, description = 'Lamb Cottage CMS Admin Panel', user } = Astro.prop
           <h1 class="page-title">{title}</h1>
           <div class="user-info">
             <div class="user-avatar">
-              {user.username.charAt(0).toUpperCase()}
+              A
             </div>
-            <span>{user.username} ({user.role})</span>
-            <button class="logout-btn" id="logout-btn">Logout</button>
+            <span>Admin (No Auth)</span>
           </div>
         </div>
         
@@ -244,21 +240,6 @@ const { title, description = 'Lamb Cottage CMS Admin Panel', user } = Astro.prop
     </div>
 
     <script>
-      // Handle logout
-      document.getElementById('logout-btn').addEventListener('click', async () => {
-        try {
-          const response = await fetch('/api/auth/logout', {
-            method: 'POST',
-          });
-          
-          if (response.ok) {
-            window.location.href = '/admin/login';
-          }
-        } catch (error) {
-          console.error('Logout error:', error);
-        }
-      });
-      
       // Highlight active nav item
       const currentPath = window.location.pathname;
       const navLinks = document.querySelectorAll('.nav-link');
@@ -272,7 +253,9 @@ const { title, description = 'Lamb Cottage CMS Admin Panel', user } = Astro.prop
       // Mobile sidebar toggle (for future mobile support)
       function toggleSidebar() {
         const sidebar = document.getElementById('sidebar');
-        sidebar.classList.toggle('open');
+        if (sidebar) {
+          sidebar.classList.toggle('open');
+        }
       }
     </script>
   </body>

@@ -1,17 +1,10 @@
 ---
 export const prerender = false;
 
-import { getUserFromRequest } from '../../lib/auth';
 import AdminLayout from '../../layouts/AdminLayout.astro';
-
-// Check authentication at page level
-const user = await getUserFromRequest(Astro);
-if (!user) {
-  return Astro.redirect('/admin/login');
-}
 ---
 
-<AdminLayout title="Reviews Management" user={user}>
+<AdminLayout title="Reviews Management">
   <div class="reviews-container">
     <!-- Reviews Stats -->
     <div class="stats-section">
@@ -445,12 +438,14 @@ if (!user) {
 
   <script>
     // Sync reviews functionality
-    document.getElementById('sync-reviews').addEventListener('click', async () => {
-      const syncBtn = document.getElementById('sync-reviews');
+    document.getElementById('sync-reviews')?.addEventListener('click', async () => {
+      const syncBtn = document.getElementById('sync-reviews') as HTMLButtonElement | null;
       const syncStatus = document.getElementById('sync-status');
       
-      syncBtn.disabled = true;
-      syncBtn.innerHTML = '<span class="btn-icon">⏳</span> Syncing...';
+      if (syncBtn) {
+        syncBtn.disabled = true;
+        syncBtn.innerHTML = '<span class="btn-icon">⏳</span> Syncing...';
+      }
       
       try {
         const response = await fetch('/api/admin/reviews/sync', {
@@ -458,7 +453,9 @@ if (!user) {
         });
         
         if (response.ok) {
-          syncStatus.innerHTML = '<span class="status-indicator success"></span> Last synced: Just now';
+          if (syncStatus) {
+            syncStatus.innerHTML = '<span class="status-indicator success"></span> Last synced: Just now';
+          }
           alert('Reviews synced successfully!');
         } else {
           alert('Failed to sync reviews. Please try again.');
@@ -467,13 +464,15 @@ if (!user) {
         console.error('Sync error:', error);
         alert('An error occurred while syncing reviews.');
       } finally {
-        syncBtn.disabled = false;
-        syncBtn.innerHTML = '<span class="btn-icon">🔄</span> Sync Reviews Now';
+        if (syncBtn) {
+          syncBtn.disabled = false;
+          syncBtn.innerHTML = '<span class="btn-icon">🔄</span> Sync Reviews Now';
+        }
       }
     });
     
     // Export reviews functionality
-    document.getElementById('export-reviews').addEventListener('click', async () => {
+    document.getElementById('export-reviews')?.addEventListener('click', async () => {
       try {
         const response = await fetch('/api/admin/reviews/export');
         
@@ -498,10 +497,12 @@ if (!user) {
     
     // Review action handlers
     document.addEventListener('click', (e) => {
-      if (e.target.classList.contains('action-btn')) {
-        const action = e.target.textContent.toLowerCase();
-        const reviewCard = e.target.closest('.review-card');
-        const reviewerName = reviewCard.querySelector('.reviewer-details h4').textContent;
+      const target = e.target as HTMLElement;
+      if (target && target.classList.contains('action-btn')) {
+        const action = target.textContent?.toLowerCase();
+        const reviewCard = target.closest('.review-card') as HTMLElement | null;
+        const reviewerNameElement = reviewCard?.querySelector('.reviewer-details h4') as HTMLElement | null;
+        const reviewerName = reviewerNameElement?.textContent;
         
         switch (action) {
           case 'respond':
@@ -512,16 +513,21 @@ if (!user) {
             break;
           case 'hide':
             if (confirm(`Hide ${reviewerName}'s review?`)) {
-              reviewCard.style.opacity = '0.5';
+              if (reviewCard) {
+                reviewCard.style.opacity = '0.5';
+              }
               alert('Review hidden.');
             }
             break;
         }
       }
       
-      if (e.target.classList.contains('remove-featured')) {
+      if (target && target.classList.contains('remove-featured')) {
         if (confirm('Remove this review from featured reviews?')) {
-          e.target.closest('.featured-review').remove();
+          const featuredReview = target.closest('.featured-review') as HTMLElement | null;
+          if (featuredReview) {
+            featuredReview.remove();
+          }
         }
       }
     });

@@ -1,17 +1,10 @@
 ---
 export const prerender = false;
 
-import { getUserFromRequest } from '../../lib/auth';
 import AdminLayout from '../../layouts/AdminLayout.astro';
-
-// Check authentication at page level
-const user = await getUserFromRequest(Astro);
-if (!user) {
-  return Astro.redirect('/admin/login');
-}
 ---
 
-<AdminLayout title="Settings" user={user}>
+<AdminLayout title="Settings">
   <div class="settings-container">
     <!-- Site Settings -->
     <div class="settings-section">
@@ -271,21 +264,36 @@ if (!user) {
 
   <script>
     // Save settings functionality
-    document.getElementById('save-settings').addEventListener('click', async () => {
-      const settings = {
-        siteTitle: document.getElementById('site-title').value,
-        siteDescription: document.getElementById('site-description').value,
-        contactEmail: document.getElementById('contact-email').value,
-        contactPhone: document.getElementById('contact-phone').value,
-        metaKeywords: document.getElementById('meta-keywords').value,
-        googleAnalytics: document.getElementById('google-analytics').value,
-        tripadvisorId: document.getElementById('tripadvisor-id').value,
-        bookingUrl: document.getElementById('booking-url').value,
-        sessionTimeout: document.getElementById('session-timeout').value,
-        forceHttps: document.getElementById('force-https').checked,
-        enableRateLimit: document.getElementById('enable-rate-limiting').checked,
-        backupFrequency: document.getElementById('backup-frequency').value
-      };
+    const saveSettingsBtn = document.getElementById('save-settings');
+    if (saveSettingsBtn) {
+      saveSettingsBtn.addEventListener('click', async () => {
+        const siteTitleEl = document.getElementById('site-title') as HTMLInputElement | null;
+        const siteDescriptionEl = document.getElementById('site-description') as HTMLTextAreaElement | null;
+        const contactEmailEl = document.getElementById('contact-email') as HTMLInputElement | null;
+        const contactPhoneEl = document.getElementById('contact-phone') as HTMLInputElement | null;
+        const metaKeywordsEl = document.getElementById('meta-keywords') as HTMLInputElement | null;
+        const googleAnalyticsEl = document.getElementById('google-analytics') as HTMLInputElement | null;
+        const tripadvisorIdEl = document.getElementById('tripadvisor-id') as HTMLInputElement | null;
+        const bookingUrlEl = document.getElementById('booking-url') as HTMLInputElement | null;
+        const sessionTimeoutEl = document.getElementById('session-timeout') as HTMLInputElement | null;
+        const forceHttpsEl = document.getElementById('force-https') as HTMLInputElement | null;
+        const enableRateLimitEl = document.getElementById('enable-rate-limiting') as HTMLInputElement | null;
+        const backupFrequencyEl = document.getElementById('backup-frequency') as HTMLSelectElement | null;
+        
+        const settings = {
+          siteTitle: siteTitleEl?.value || '',
+          siteDescription: siteDescriptionEl?.value || '',
+          contactEmail: contactEmailEl?.value || '',
+          contactPhone: contactPhoneEl?.value || '',
+          metaKeywords: metaKeywordsEl?.value || '',
+          googleAnalytics: googleAnalyticsEl?.value || '',
+          tripadvisorId: tripadvisorIdEl?.value || '',
+          bookingUrl: bookingUrlEl?.value || '',
+          sessionTimeout: sessionTimeoutEl?.value || '60',
+          forceHttps: forceHttpsEl?.checked || false,
+          enableRateLimit: enableRateLimitEl?.checked || false,
+          backupFrequency: backupFrequencyEl?.value || 'weekly'
+        };
       
       try {
         const response = await fetch('/api/admin/settings', {
@@ -305,17 +313,23 @@ if (!user) {
         console.error('Settings save error:', error);
         alert('An error occurred while saving settings.');
       }
-    });
+      });
+    }
     
     // Reset settings functionality
-    document.getElementById('reset-settings').addEventListener('click', () => {
-      if (confirm('Are you sure you want to reset all settings to defaults? This action cannot be undone.')) {
-        location.reload();
-      }
-    });
+    const resetSettingsBtn = document.getElementById('reset-settings');
+    if (resetSettingsBtn) {
+      resetSettingsBtn.addEventListener('click', () => {
+        if (confirm('Are you sure you want to reset all settings to defaults? This action cannot be undone.')) {
+          location.reload();
+        }
+      });
+    }
     
     // Backup functionality
-    document.querySelector('.backup-btn').addEventListener('click', async () => {
+    const backupBtn = document.querySelector('.backup-btn');
+    if (backupBtn) {
+      backupBtn.addEventListener('click', async () => {
       try {
         const response = await fetch('/api/admin/backup', {
           method: 'POST'
@@ -330,10 +344,13 @@ if (!user) {
         console.error('Backup error:', error);
         alert('An error occurred while creating backup.');
       }
-    });
+      });
+    }
     
     // Clear cache functionality
-    document.querySelector('.maintenance-btn').addEventListener('click', async () => {
+    const maintenanceBtn = document.querySelector('.maintenance-btn');
+    if (maintenanceBtn) {
+      maintenanceBtn.addEventListener('click', async () => {
       try {
         const response = await fetch('/api/admin/cache/clear', {
           method: 'POST'
@@ -348,6 +365,7 @@ if (!user) {
         console.error('Cache clear error:', error);
         alert('An error occurred while clearing cache.');
       }
-    });
+      });
+    }
   </script>
 </AdminLayout>

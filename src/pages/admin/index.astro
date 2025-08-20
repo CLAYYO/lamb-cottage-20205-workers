@@ -1,17 +1,10 @@
 ---
 export const prerender = false;
 
-import { getUserFromRequest } from '../../lib/auth';
 import AdminLayout from '../../layouts/AdminLayout.astro';
-
-// Check authentication at page level
-const user = await getUserFromRequest(Astro);
-if (!user) {
-  return Astro.redirect('/admin/login');
-}
 ---
 
-<AdminLayout title="Dashboard" user={user}>
+<AdminLayout title="Dashboard">
   <div class="dashboard-grid">
     <!-- Quick Stats -->
     <div class="stats-grid">
