@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 
 export const GET: APIRoute = async ({ request, locals }) => {
-  // Debug endpoint to check environment variables and request info
+  // Debug endpoint to check environment variables and request info - updated
   const debugInfo = {
     timestamp: new Date().toISOString(),
     environment: {
