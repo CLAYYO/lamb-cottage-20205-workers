@@ -75,21 +75,19 @@ async function cleanOldBackups() {
 }
 
 // Create backup
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async (context) => {
   try {
-    // Check authentication
-    const authResult = await requireAuth(request);
-    if (!authResult.success) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-        status: 401,
-        headers: { 'Content-Type': 'application/json' }
-      });
+    // Check authentication - requireAuth returns Response on failure, null on success
+    const authResult = await requireAuth(context);
+    if (authResult) {
+      // Authentication failed, return the error response
+      return authResult;
     }
     
     // Parse request body
     let requestData = { type: 'manual', description: '' };
     try {
-      const body = await request.json();
+      const body = await context.request.json();
       requestData = { ...requestData, ...body };
     } catch {
       // Use defaults if no body provided
@@ -123,7 +121,7 @@ export const POST: APIRoute = async ({ request }) => {
       content: JSON.parse(contentData),
       metadata: {
         createdAt: new Date().toISOString(),
-        createdBy: authResult.user?.email || 'unknown',
+        createdBy: 'admin',
         type: type || 'manual',
         description: description || '',
         version: Date.now()
@@ -141,7 +139,7 @@ export const POST: APIRoute = async ({ request }) => {
     await cleanOldBackups();
     
     // Log backup activity
-    console.log(`Backup created: ${backupFilename} by ${authResult.user?.email || 'unknown'}`);
+    console.log(`Backup created: ${backupFilename} by admin`);
     
     return new Response(JSON.stringify({
       success: true,
@@ -169,15 +167,13 @@ export const POST: APIRoute = async ({ request }) => {
 };
 
 // List backups
-export const GET: APIRoute = async ({ request }) => {
+export const GET: APIRoute = async (context) => {
   try {
-    // Check authentication
-    const authResult = await requireAuth(request);
-    if (!authResult.success) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-        status: 401,
-        headers: { 'Content-Type': 'application/json' }
-      });
+    // Check authentication - requireAuth returns Response on failure, null on success
+    const authResult = await requireAuth(context);
+    if (authResult) {
+      // Authentication failed, return the error response
+      return authResult;
     }
     
     // Ensure backup directory exists
@@ -244,21 +240,19 @@ export const GET: APIRoute = async ({ request }) => {
 };
 
 // Restore backup
-export const PUT: APIRoute = async ({ request }) => {
+export const PUT: APIRoute = async (context) => {
   try {
-    // Check authentication
-    const authResult = await requireAuth(request);
-    if (!authResult.success) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-        status: 401,
-        headers: { 'Content-Type': 'application/json' }
-      });
+    // Check authentication - requireAuth returns Response on failure, null on success
+    const authResult = await requireAuth(context);
+    if (authResult) {
+      // Authentication failed, return the error response
+      return authResult;
     }
     
     // Parse request body
     let requestData;
     try {
-      requestData = await request.json();
+      requestData = await context.request.json();
     } catch {
       return new Response(JSON.stringify({ error: 'Invalid JSON data' }), {
         status: 400,
@@ -302,7 +296,7 @@ export const PUT: APIRoute = async ({ request }) => {
         content: JSON.parse(currentContent),
         metadata: {
           createdAt: new Date().toISOString(),
-          createdBy: authResult.user?.email || 'unknown',
+          createdBy: 'admin',
           type: 'auto',
           description: `Auto backup before restore of ${filename}`,
           version: Date.now()
@@ -324,7 +318,7 @@ export const PUT: APIRoute = async ({ request }) => {
     await fs.writeFile(CONTENT_FILE, JSON.stringify(backupData.content, null, 2));
     
     // Log restore activity
-    console.log(`Content restored from backup: ${filename} by ${authResult.user?.email || 'unknown'}`);
+    console.log(`Content restored from backup: ${filename} by admin`);
     
     return new Response(JSON.stringify({
       success: true,
@@ -332,7 +326,7 @@ export const PUT: APIRoute = async ({ request }) => {
       restored: {
         filename,
         restoredAt: new Date().toISOString(),
-        restoredBy: authResult.user?.email || 'unknown',
+        restoredBy: 'admin',
         originalMetadata: backupData.metadata
       }
     }), {

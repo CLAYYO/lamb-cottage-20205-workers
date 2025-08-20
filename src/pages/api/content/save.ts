@@ -84,21 +84,19 @@ function sanitizeContent(content: any): any {
   return content;
 }
 
-const saveHandler: APIRoute = async ({ request }) => {
+const saveHandler: APIRoute = async (context) => {
   try {
-    // Check authentication
-    const authResult = await requireAuth(request);
-    if (!authResult.success) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-        status: 401,
-        headers: { 'Content-Type': 'application/json' }
-      });
+    // Check authentication - requireAuth returns Response on failure, null on success
+    const authResult = await requireAuth(context);
+    if (authResult) {
+      // Authentication failed, return the error response
+      return authResult;
     }
     
     // Parse request body
     let contentData;
     try {
-      const body = await request.json();
+      const body = await context.request.json();
       const section = sanitize.text(body.section);
       const field = sanitize.text(body.field);
       let content = body.content;
@@ -122,11 +120,11 @@ const saveHandler: APIRoute = async ({ request }) => {
     }
     
     // Validate content
-    const validationErrors = validateContent(contentData);
-    if (validationErrors.length > 0) {
+    const validationResult = validateContent(contentData);
+    if (!validationResult.valid && validationResult.errors && validationResult.errors.length > 0) {
       return new Response(JSON.stringify({ 
         error: 'Validation failed', 
-        details: validationErrors 
+        details: validationResult.errors 
       }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' }
@@ -147,7 +145,7 @@ const saveHandler: APIRoute = async ({ request }) => {
       ...sanitizedContent,
       _metadata: {
         lastUpdated: new Date().toISOString(),
-        updatedBy: authResult.user?.email || 'unknown',
+        updatedBy: 'admin',
         version: Date.now()
       }
     };
@@ -176,5 +174,5 @@ const saveHandler: APIRoute = async ({ request }) => {
 export const POST = secureAPIRoute(saveHandler, {
   requireAuth: true,
   requireCSRF: true,
-  rateLimit: { windowMs: 60 * 1000, maxRequests: 30 } // 30 requests per minute
+  rateLimit: { window: 60 * 1000, requests: 30 } // 30 requests per minute
 });
