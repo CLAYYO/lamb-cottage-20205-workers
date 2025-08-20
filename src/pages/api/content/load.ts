@@ -148,13 +148,11 @@ const DEFAULT_CONTENT = {
 
 export const GET: APIRoute = async (context) => {
   try {
-    // Check authentication
+    // Check authentication - requireAuth returns Response on failure, null on success
     const authResult = await requireAuth(context);
-    if (!authResult.success) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-        status: 401,
-        headers: { 'Content-Type': 'application/json' }
-      });
+    if (authResult) {
+      // Authentication failed, return the error response
+      return authResult;
     }
     
     let content;
