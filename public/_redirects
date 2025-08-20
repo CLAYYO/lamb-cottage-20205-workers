@@ -3,8 +3,8 @@
 # Admin routes - let Astro handle authentication
 # /admin/* routes will be handled by Astro's server-side rendering
 
-# API routes - ensure they work properly
-/api/* /api/:splat 200
+# API routes - handled by Astro SSR (no redirect needed)
+# /api/* routes will be processed by server-side functions
 
 # Main site pages - handle clean URLs
 /about /about/index.html 200
