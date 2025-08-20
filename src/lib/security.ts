@@ -247,7 +247,7 @@ export function secureAPIRoute(
     requireAuth = false,
     requireAdmin = false,
     requireCSRF = true,
-    rateLimit
+    rateLimit: rateLimitOptions
   } = options;
 
   return async (context) => {
@@ -259,10 +259,10 @@ export function secureAPIRoute(
       addSecurityHeaders(response);
 
       // Apply rate limiting if configured
-      if (rateLimit) {
+      if (rateLimitOptions) {
         const rateLimiter = rateLimit({
-          windowMs: rateLimit.window,
-          maxRequests: rateLimit.requests
+          windowMs: rateLimitOptions.window,
+          maxRequests: rateLimitOptions.requests
         });
         
         const rateLimitResult = rateLimiter(request);

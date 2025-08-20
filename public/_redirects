@@ -28,5 +28,6 @@
 /gallery/ /gallery/index.html 200
 /reviews/ /reviews/index.html 200
 
-# Fallback for SPA-like behavior
-/* /index.html 200
+# Static pages fallback - but exclude admin and API routes
+# Note: Admin routes (/admin/*) and API routes (/api/*) should be handled by SSR
+# Only redirect other routes to static files

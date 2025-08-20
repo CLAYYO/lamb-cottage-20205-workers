@@ -3,11 +3,18 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
 import VisualEditor from '../../components/VisualEditor.astro';
 import LivePreview from '../../components/LivePreview.astro';
 import { getContent } from '../api/content/load.ts';
+import { getUserFromRequest } from '../../lib/auth';
+
+// Check authentication at page level
+const user = await getUserFromRequest(Astro);
+if (!user) {
+  return Astro.redirect('/admin/login');
+}
 
 const content = await getContent();
 ---
 
-<AdminLayout title="Content Editor">
+<AdminLayout title="Content Editor" user={user}>
   <div class="content-editor">
     <div class="editor-header">
       <h1>Content Editor</h1>

@@ -1,49 +1,61 @@
 import type { APIRoute } from 'astro';
-import bcrypt from 'bcryptjs';
 import { secureAPIRoute, sanitize } from '../../../lib/security';
-import fs from 'fs';
+import fs from 'fs/promises';
 import path from 'path';
+
+// Simple password hashing using Web Crypto API
+async function hashPassword(password: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password + 'salt_2024');
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
 
 const USERS_FILE = path.join(process.cwd(), 'data', 'users.json');
 
 // Ensure users file exists
-function ensureUsersFile() {
+async function ensureUsersFile() {
   const dataDir = path.dirname(USERS_FILE);
-  if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir, { recursive: true });
+  try {
+    await fs.access(dataDir);
+  } catch {
+    await fs.mkdir(dataDir, { recursive: true });
   }
   
-  if (!fs.existsSync(USERS_FILE)) {
-    fs.writeFileSync(USERS_FILE, JSON.stringify({ users: [] }, null, 2));
+  try {
+    await fs.access(USERS_FILE);
+  } catch {
+    await fs.writeFile(USERS_FILE, JSON.stringify({ users: [] }, null, 2));
   }
 }
 
 // Get all users
-function getUsers() {
-  ensureUsersFile();
-  const data = fs.readFileSync(USERS_FILE, 'utf-8');
+async function getUsers() {
+  await ensureUsersFile();
+  const data = await fs.readFile(USERS_FILE, 'utf-8');
   return JSON.parse(data);
 }
 
 // Save users
-function saveUsers(data: any) {
-  fs.writeFileSync(USERS_FILE, JSON.stringify(data, null, 2));
+async function saveUsers(data: any) {
+  await fs.writeFile(USERS_FILE, JSON.stringify(data, null, 2));
 }
 
 // Update user password
-function updateUserPassword(userId: string, newPassword: string) {
-  const data = getUsers();
+async function updateUserPassword(userId: string, newPassword: string) {
+  const data = await getUsers();
   const userIndex = data.users.findIndex((u: any) => u.id === userId);
   
   if (userIndex === -1) {
     throw new Error('User not found');
   }
   
-  const hashedPassword = bcrypt.hashSync(newPassword, 10);
+  const hashedPassword = await hashPassword(newPassword);
   data.users[userIndex].password = hashedPassword;
   data.users[userIndex].updatedAt = new Date().toISOString();
   
-  saveUsers(data);
+  await saveUsers(data);
   return data.users[userIndex];
 }
 
@@ -73,7 +85,7 @@ async function resetPasswordHandler(request: Request): Promise<Response> {
     const sanitizedUserId = sanitize.text(userId);
     
     // Update password
-    const updatedUser = updateUserPassword(sanitizedUserId, newPassword);
+    const updatedUser = await updateUserPassword(sanitizedUserId, newPassword);
     
     // Remove password from response
     const { password, ...userResponse } = updatedUser;

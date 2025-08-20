@@ -3,7 +3,7 @@ import { getUserFromRequest } from '../../../lib/auth';
 
 export const GET: APIRoute = async (context) => {
   try {
-    const user = getUserFromRequest(context);
+    const user = await getUserFromRequest(context);
     
     if (!user) {
       return new Response(JSON.stringify({

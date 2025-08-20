@@ -1,10 +1,13 @@
 ---
+import type { User } from '../lib/auth';
+
 export interface Props {
   title: string;
   description?: string;
+  user: User;
 }
 
-const { title, description = 'Lamb Cottage CMS Admin Panel' } = Astro.props;
+const { title, description = 'Lamb Cottage CMS Admin Panel', user } = Astro.props;
 ---
 
 <html lang="en">

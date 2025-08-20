@@ -2,8 +2,16 @@ import type { APIRoute } from 'astro';
 import { secureAPIRoute, sanitize } from '../../../lib/security';
 import fs from 'fs/promises';
 import path from 'path';
-import bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
+
+// Simple password hashing using Web Crypto API
+async function hashPassword(password: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password + 'salt_2024');
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
 
 const USERS_FILE = path.join(process.cwd(), 'data', 'users.json');
 
@@ -31,7 +39,7 @@ async function ensureUsersFile() {
         id: uuidv4(),
         username: 'admin',
         email: 'admin@lambcottage.com',
-        password: await bcrypt.hash('admin123', 10),
+        password: await hashPassword('admin123'),
         role: 'admin',
         createdAt: new Date().toISOString(),
         active: true
@@ -154,7 +162,7 @@ async function updateUserPassword(id: string, newPassword: string): Promise<void
     throw new Error('User not found');
   }
   
-  users[userIndex].password = await bcrypt.hash(newPassword, 10);
+  users[userIndex].password = await hashPassword(newPassword);
   await fs.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
 }
 
@@ -206,7 +214,7 @@ const createUserHandler: APIRoute = async ({ request }) => {
     };
     
     // Hash password
-    const hashedPassword = await bcrypt.hash(sanitizedData.password, 10);
+    const hashedPassword = await hashPassword(sanitizedData.password);
     
     const user = await createUser({
       ...sanitizedData,

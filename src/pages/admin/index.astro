@@ -5,13 +5,13 @@ import { getUserFromRequest } from '../../lib/auth';
 import AdminLayout from '../../layouts/AdminLayout.astro';
 
 // Check authentication at page level
-const user = getUserFromRequest(Astro);
+const user = await getUserFromRequest(Astro);
 if (!user) {
   return Astro.redirect('/admin/login');
 }
 ---
 
-<AdminLayout title="Dashboard">
+<AdminLayout title="Dashboard" user={user}>
   <div class="dashboard-grid">
     <!-- Quick Stats -->
     <div class="stats-grid">
