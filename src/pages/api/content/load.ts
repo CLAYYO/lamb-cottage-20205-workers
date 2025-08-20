@@ -1,10 +1,24 @@
 import type { APIRoute } from 'astro';
 import { requireAuth } from '../../../lib/auth';
-import fs from 'fs/promises';
-import path from 'path';
 
-const CONTENT_DIR = path.join(process.cwd(), 'content');
-const CONTENT_FILE = path.join(CONTENT_DIR, 'site-content.json');
+// Check if we're in a Node.js environment (local development)
+const isNodeEnvironment = typeof process !== 'undefined' && process.versions && process.versions.node;
+
+let fs: any = null;
+let path: any = null;
+let CONTENT_DIR: string = '';
+let CONTENT_FILE: string = '';
+
+if (isNodeEnvironment) {
+  try {
+    fs = await import('fs/promises');
+    path = await import('path');
+    CONTENT_DIR = path.join(process.cwd(), 'content');
+    CONTENT_FILE = path.join(CONTENT_DIR, 'site-content.json');
+  } catch (error) {
+    console.warn('File system modules not available:', error);
+  }
+}
 
 // Default content structure
 const DEFAULT_CONTENT = {
@@ -132,10 +146,10 @@ const DEFAULT_CONTENT = {
   }
 };
 
-export const GET: APIRoute = async ({ request }) => {
+export const GET: APIRoute = async (context) => {
   try {
     // Check authentication
-    const authResult = await requireAuth(request);
+    const authResult = await requireAuth(context);
     if (!authResult.success) {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), {
         status: 401,
@@ -145,22 +159,27 @@ export const GET: APIRoute = async ({ request }) => {
     
     let content;
     
-    try {
-      // Try to read existing content file
-      const contentData = await fs.readFile(CONTENT_FILE, 'utf-8');
-      content = JSON.parse(contentData);
-    } catch (error) {
-      // If file doesn't exist or is invalid, use default content
-      console.log('Using default content:', error);
-      content = DEFAULT_CONTENT;
-      
-      // Try to create the content directory and file
+    // Try to load content from file system (Node.js environment only)
+    if (isNodeEnvironment && fs && CONTENT_FILE) {
       try {
-        await fs.mkdir(CONTENT_DIR, { recursive: true });
-        await fs.writeFile(CONTENT_FILE, JSON.stringify(DEFAULT_CONTENT, null, 2));
-      } catch (writeError) {
-        console.warn('Could not create default content file:', writeError);
+        const contentData = await fs.readFile(CONTENT_FILE, 'utf-8');
+        content = JSON.parse(contentData);
+      } catch (error) {
+        console.log('Using default content (file not found):', error);
+        content = DEFAULT_CONTENT;
+        
+        // Try to create the content directory and file
+        try {
+          await fs.mkdir(CONTENT_DIR, { recursive: true });
+          await fs.writeFile(CONTENT_FILE, JSON.stringify(DEFAULT_CONTENT, null, 2));
+        } catch (writeError) {
+          console.warn('Could not create default content file:', writeError);
+        }
       }
+    } else {
+      // In serverless environment (Cloudflare), always use default content
+      console.log('Using default content (serverless environment)');
+      content = DEFAULT_CONTENT;
     }
     
     return new Response(JSON.stringify({
@@ -190,6 +209,11 @@ export const GET: APIRoute = async ({ request }) => {
 
 // Also export a function to get content for SSR
 export async function getContent() {
+  // In serverless environments, always return default content
+  if (!isNodeEnvironment || !fs || !CONTENT_FILE) {
+    return DEFAULT_CONTENT;
+  }
+  
   try {
     const contentData = await fs.readFile(CONTENT_FILE, 'utf-8');
     return JSON.parse(contentData);
