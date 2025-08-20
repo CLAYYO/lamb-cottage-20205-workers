@@ -17,16 +17,8 @@
 /gallery /gallery/index.html 200
 /reviews /reviews/index.html 200
 
-# Handle trailing slashes
-/about/ /about/index.html 200
-/facilities/ /facilities/index.html 200
-/static-caravans/ /static-caravans/index.html 200
-/tariff/ /tariff/index.html 200
-/attractions/ /attractions/index.html 200
-/contact/ /contact/index.html 200
-/directions/ /directions/index.html 200
-/gallery/ /gallery/index.html 200
-/reviews/ /reviews/index.html 200
+# Trailing slash redirects removed to prevent infinite loops
+# Cloudflare automatically handles trailing slash normalization
 
 # Static pages fallback - but exclude admin and API routes
 # Note: Admin routes (/admin/*) and API routes (/api/*) should be handled by SSR
