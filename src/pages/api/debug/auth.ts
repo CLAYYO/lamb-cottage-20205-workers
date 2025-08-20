@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 
-export const GET: APIRoute = async ({ request }) => {
+export const GET: APIRoute = async ({ request, locals }) => {
   // Debug endpoint to check environment variables and request info
   const debugInfo = {
     timestamp: new Date().toISOString(),
@@ -8,6 +8,14 @@ export const GET: APIRoute = async ({ request }) => {
       NODE_ENV: process.env.NODE_ENV || 'undefined',
       JWT_SECRET: process.env.JWT_SECRET ? 'SET (length: ' + process.env.JWT_SECRET.length + ')' : 'NOT SET',
       ADMIN_PASSWORD_HASH: process.env.ADMIN_PASSWORD_HASH ? 'SET (starts with: ' + process.env.ADMIN_PASSWORD_HASH.substring(0, 10) + '...)' : 'NOT SET'
+    },
+    astroLocals: {
+      JWT_SECRET: (locals as any)?.JWT_SECRET ? 'SET (length: ' + (locals as any).JWT_SECRET.length + ')' : 'NOT SET',
+      ADMIN_PASSWORD_HASH: (locals as any)?.ADMIN_PASSWORD_HASH ? 'SET (starts with: ' + (locals as any).ADMIN_PASSWORD_HASH.substring(0, 10) + '...)' : 'NOT SET'
+    },
+    runtimeEnv: {
+      JWT_SECRET: (globalThis as any)?.JWT_SECRET ? 'SET' : 'NOT SET',
+      ADMIN_PASSWORD_HASH: (globalThis as any)?.ADMIN_PASSWORD_HASH ? 'SET' : 'NOT SET'
     },
     headers: {
       'user-agent': request.headers.get('user-agent'),
