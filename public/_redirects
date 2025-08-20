@@ -1,7 +1,7 @@
 # Cloudflare Pages redirects for Lamb Cottage Caravan Park
 
-# Admin routes - protect admin area
-/admin/* /admin/login 302! Role=guest
+# Admin routes - let Astro handle authentication
+# /admin/* routes will be handled by Astro's server-side rendering
 
 # API routes - ensure they work properly
 /api/* /api/:splat 200
