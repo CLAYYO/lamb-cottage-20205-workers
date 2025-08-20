@@ -119,30 +119,32 @@ export async function verifyToken(token: string): Promise<AuthToken | null> {
 }
 
 // Verify password (simplified for demo purposes)
-export async function verifyPassword(password: string, storedHash: string): Promise<boolean> {
-  // For demo purposes, simplified password verification
-  // The default ADMIN_PASSWORD_HASH corresponds to 'password'
-  // In production, use proper bcrypt verification
+export async function verifyPassword(password: string): Promise<boolean> {
+  console.log('🔐 AUTH: Verifying password, length:', password?.length);
   
-  // Check if it's the default bcrypt hash for 'password'
-  if (storedHash === '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi') {
-    return password === 'password';
-  }
+  // Simplified authentication - directly check for expected passwords
+  const isValid = password === 'password' || password === 'admin123';
+  console.log('🔐 AUTH: Password verification result:', isValid);
   
-  // Fallback for other common passwords (for demo)
-  return password === 'admin123' || password === 'password';
+  return isValid;
 }
 
 // Authenticate user
 export async function authenticateUser(username: string, password: string): Promise<User | null> {
+  console.log('🔐 AUTH: Authenticating user:', username);
+  
   if (username === 'admin') {
-    const isValid = await verifyPassword(password, ADMIN_PASSWORD_HASH);
+    console.log('🔐 AUTH: Username matches admin, checking password');
+    const isValid = await verifyPassword(password);
+    console.log('🔐 AUTH: Password check result:', isValid);
     
     if (isValid) {
+      console.log('🔐 AUTH: Authentication successful for admin');
       return { id: 'admin-1', username: 'admin', role: 'admin' };
     }
   }
   
+  console.log('🔐 AUTH: Authentication failed');
   return null;
 }
 

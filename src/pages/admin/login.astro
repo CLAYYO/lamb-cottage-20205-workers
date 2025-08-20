@@ -195,6 +195,7 @@ if (Astro.cookies.get('auth-token')) {
       }
 
       form.addEventListener('submit', async function(e) {
+        console.log('🔐 FRONTEND: Form submission started');
         e.preventDefault();
         hideError();
         setLoading(true);
@@ -202,15 +203,25 @@ if (Astro.cookies.get('auth-token')) {
         const formData = new FormData(form);
         const username = sanitizeInput(formData.get('username'));
         const password = formData.get('password'); // Don't sanitize passwords
+        console.log('🔐 FRONTEND: Form data collected:', { username, passwordLength: password?.length });
 
         try {
+          console.log('🔐 FRONTEND: Making API request to /api/auth/login');
           // Use regular fetch for login (no auth token needed)
           const response = await fetch('/api/auth/login', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ username: username, password: password })
+            body: JSON.stringify({ username: username, password: password }),
+            credentials: 'include'
+          });
+
+          console.log('🔐 FRONTEND: API response received:', {
+            status: response.status,
+            statusText: response.statusText,
+            ok: response.ok,
+            headers: Object.fromEntries(response.headers.entries())
           });
 
           if (!response.ok) {
@@ -219,19 +230,36 @@ if (Astro.cookies.get('auth-token')) {
           }
 
           const data = await response.json();
+          console.log('🔐 FRONTEND: Response data parsed:', data);
           
-          // The token is set as an HTTP-only cookie by the server
-          // Store user info in localStorage for client-side use
-          localStorage.setItem('user_role', data.user.role);
-          localStorage.setItem('username', data.user.username);
-          
-          // Redirect to admin dashboard
-          window.location.href = '/admin';
+          if (data.success) {
+            console.log('🔐 FRONTEND: Login successful, storing user data');
+            // The token is set as an HTTP-only cookie by the server
+            // Store user info in localStorage for client-side use
+            localStorage.setItem('user_role', data.user.role);
+            localStorage.setItem('username', data.user.username);
+            localStorage.setItem('user', JSON.stringify(data.user));
+            console.log('🔐 FRONTEND: User data stored in localStorage');
+            
+            // Redirect to admin dashboard
+            console.log('🔐 FRONTEND: Redirecting to /admin');
+            window.location.href = '/admin';
+          } else {
+            console.log('🔐 FRONTEND: Login failed - server returned success: false');
+            throw new Error(data.message || 'Login failed');
+          }
         } catch (error) {
-          console.error('Login error:', error);
+          console.error('🔐 FRONTEND: Login error occurred:', error);
+          console.error('🔐 FRONTEND: Error details:', {
+            name: error.name,
+            message: error.message,
+            stack: error.stack
+          });
           showError(error.message || 'Login failed');
+          console.log('🔐 FRONTEND: Error displayed to user');
         } finally {
           setLoading(false);
+          console.log('🔐 FRONTEND: UI reset to normal state');
         }
       });
     </script>
