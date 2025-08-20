@@ -135,7 +135,7 @@ const uploadHandler: APIRoute = async (context) => {
     const publicUrl = `/images/uploads/${filename}`;
     
     // Log upload activity
-    console.log(`File uploaded: ${filename} by ${authResult.user?.email || 'unknown'}`);
+    console.log(`File uploaded: ${filename} by user`);
     
     return new Response(JSON.stringify({
       success: true,
@@ -170,7 +170,7 @@ const uploadHandler: APIRoute = async (context) => {
 export const POST = secureAPIRoute(uploadHandler, {
   requireAuth: true,
   requireCSRF: true,
-  rateLimit: { windowMs: 60 * 1000, maxRequests: 10 } // 10 uploads per minute
+  rateLimit: { window: 60 * 1000, requests: 10 } // 10 uploads per minute
 });
 
 // Get list of uploaded images
@@ -232,7 +232,7 @@ const getImagesHandler: APIRoute = async (context) => {
 
 export const GET = secureAPIRoute(getImagesHandler, {
   requireAuth: true,
-  rateLimit: { windowMs: 60 * 1000, maxRequests: 60 } // 60 requests per minute
+  rateLimit: { window: 60 * 1000, requests: 60 } // 60 requests per minute
 });
 
 // Delete uploaded image
@@ -288,7 +288,7 @@ const deleteImageHandler: APIRoute = async (context) => {
     await fs.unlink(filePath);
     
     // Log deletion activity
-    console.log(`File deleted: ${filename} by ${authResult.user?.email || 'unknown'}`);
+    console.log(`File deleted: ${filename} by user`);
     
     return new Response(JSON.stringify({
       success: true,
@@ -314,5 +314,5 @@ const deleteImageHandler: APIRoute = async (context) => {
 export const DELETE = secureAPIRoute(deleteImageHandler, {
   requireAuth: true,
   requireCSRF: true,
-  rateLimit: { windowMs: 60 * 1000, maxRequests: 20 } // 20 deletions per minute
+  rateLimit: { window: 60 * 1000, requests: 20 } // 20 deletions per minute
 });
