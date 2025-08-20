@@ -552,6 +552,7 @@ const content = await getContent();
   </div>
 
   <style>
+    /* Content Editor Styles - Updated Layout v2.1 */
     .content-editor {
       max-width: 1200px;
       margin: 0 auto;
@@ -630,10 +631,10 @@ const content = await getContent();
     
     .editor-content {
       display: grid;
-      grid-template-columns: 380px 1fr;
-      gap: 3rem;
-      max-width: 100%;
-      overflow-x: auto;
+      grid-template-columns: 250px 1fr;
+      gap: 5rem;
+      height: calc(100vh - 120px);
+      overflow: hidden;
     }
     
     .content-layout {
@@ -662,14 +663,11 @@ const content = await getContent();
     }
     
     .section-nav {
-      background: white;
-      border-radius: 0.5rem;
+      background: #f8fafc;
+      border-right: 2px solid #e2e8f0;
       padding: 2rem;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-      height: fit-content;
-      position: sticky;
-      top: 2rem;
-      min-width: 340px;
+      overflow-y: auto;
+      box-shadow: 2px 0 4px rgba(0,0,0,0.05);
     }
     
     .section-nav h3 {
@@ -708,13 +706,13 @@ const content = await getContent();
     }
     
     .editor-panel {
-      background: white;
-      border-radius: 0.5rem;
-      padding: 3rem;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-      flex: 1;
-      min-width: 0;
-      max-width: none;
+      background: #ffffff;
+      padding: 5rem;
+      margin-left: 3rem;
+      overflow-y: auto;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.1);
+      border: 1px solid #f1f5f9;
     }
     
     .section-editor {
@@ -733,7 +731,8 @@ const content = await getContent();
     }
     
     .form-group {
-      margin-bottom: 2.5rem;
+      margin-bottom: 4rem;
+      padding: 1rem 0;
     }
     
     .form-group label {
@@ -852,8 +851,8 @@ const content = await getContent();
     
     @media (max-width: 1200px) {
       .editor-content {
-        grid-template-columns: 320px 1fr;
-        gap: 2.5rem;
+        grid-template-columns: 280px 1fr;
+        gap: 3rem;
       }
       
       .content-layout.with-preview .editor-panel {

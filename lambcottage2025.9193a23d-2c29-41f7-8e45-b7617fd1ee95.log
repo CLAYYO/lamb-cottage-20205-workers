@@ -1,0 +1,283 @@
+2025-08-20T12:13:52.918243Z	Cloning repository...
+2025-08-20T12:13:54.407177Z	From https://github.com/CLAYYO/lambcottage2025
+2025-08-20T12:13:54.407865Z	 * branch            71ae6a3c82f1d9df9cc5e2dc58fa0738e9ad74aa -> FETCH_HEAD
+2025-08-20T12:13:54.407989Z	
+2025-08-20T12:13:54.653915Z	HEAD is now at 71ae6a3 Fix admin login 405 error by removing secureAPIRoute wrapper
+2025-08-20T12:13:54.654438Z	
+2025-08-20T12:13:54.732687Z	
+2025-08-20T12:13:54.733124Z	Using v2 root directory strategy
+2025-08-20T12:13:54.754288Z	Success: Finished cloning repository files
+2025-08-20T12:13:56.483406Z	Checking for configuration in a Wrangler configuration file (BETA)
+2025-08-20T12:13:56.484243Z	
+2025-08-20T12:13:56.485577Z	Found wrangler.toml file. Reading build configuration...
+2025-08-20T12:13:57.600675Z	A wrangler.toml file was found but it does not appear to be valid. Did you mean to use wrangler.toml to configure Pages? If so, then make sure the file is valid and contains the `pages_build_output_dir` property. Skipping file and continuing.
+2025-08-20T12:13:57.67807Z	Detected the following tools from environment: nodejs@22.16.0, npm@10.9.2
+2025-08-20T12:13:57.678559Z	Installing project dependencies: npm clean-install --progress=false
+2025-08-20T12:14:04.848411Z	
+2025-08-20T12:14:04.848701Z	added 503 packages, and audited 504 packages in 7s
+2025-08-20T12:14:04.848922Z	
+2025-08-20T12:14:04.849033Z	180 packages are looking for funding
+2025-08-20T12:14:04.849151Z	  run `npm fund` for details
+2025-08-20T12:14:04.850197Z	
+2025-08-20T12:14:04.850361Z	found 0 vulnerabilities
+2025-08-20T12:14:04.876439Z	Executing user command: npm run build
+2025-08-20T12:14:05.274665Z	
+2025-08-20T12:14:05.274894Z	> exotic-ellipse@0.0.1 build
+2025-08-20T12:14:05.275088Z	> astro build
+2025-08-20T12:14:05.275204Z	
+2025-08-20T12:14:07.05379Z	12:14:07 [@astrojs/cloudflare] Enabling sessions with Cloudflare KV with the "SESSION" KV binding.
+2025-08-20T12:14:07.054083Z	12:14:07 [@astrojs/cloudflare] If you see the error "Invalid binding `SESSION`" in your build output, you need to add the binding to your wrangler config file.
+2025-08-20T12:14:07.106148Z	12:14:07 [WARN] [adapter] Cloudflare does not support sharp at runtime. However, you can configure `imageService: "compile"` to optimize images with sharp on prerendered pages during build time.
+2025-08-20T12:14:07.231684Z	12:14:07 [content] Syncing content
+2025-08-20T12:14:07.23559Z	12:14:07 [content] Synced content
+2025-08-20T12:14:07.238777Z	12:14:07 [types] Generated 115ms
+2025-08-20T12:14:07.239494Z	12:14:07 [build] output: "server"
+2025-08-20T12:14:07.239655Z	12:14:07 [build] mode: "server"
+2025-08-20T12:14:07.239741Z	12:14:07 [build] directory: /opt/buildhome/repo/dist/
+2025-08-20T12:14:07.239839Z	12:14:07 [build] adapter: @astrojs/cloudflare
+2025-08-20T12:14:07.240281Z	12:14:07 [build] Collecting build info...
+2025-08-20T12:14:07.241014Z	12:14:07 [build] ✓ Completed in 189ms.
+2025-08-20T12:14:07.24226Z	12:14:07 [build] Building server entrypoints...
+2025-08-20T12:14:08.086264Z	12:14:08 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "fs/promises" imported from "src/pages/api/content/save.ts". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:08.086574Z	12:14:08 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "path" imported from "src/pages/api/content/save.ts". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:08.088845Z	12:14:08 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "fs/promises" imported from "src/pages/api/users/manage.ts". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:08.089012Z	12:14:08 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "path" imported from "src/pages/api/users/manage.ts". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:08.091294Z	12:14:08 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "fs/promises" imported from "src/pages/api/users/reset-password.ts". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:08.09144Z	12:14:08 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "path" imported from "src/pages/api/users/reset-password.ts". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:08.092602Z	12:14:08 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "fs/promises" imported from "src/pages/api/content/load.ts". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:08.092822Z	12:14:08 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "path" imported from "src/pages/api/content/load.ts". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:08.095328Z	12:14:08 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "fs/promises" imported from "src/pages/api/content/backup.ts". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:08.09572Z	12:14:08 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "path" imported from "src/pages/api/content/backup.ts". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:08.09935Z	12:14:08 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "fs/promises" imported from "src/pages/api/images/upload.ts". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:08.099865Z	12:14:08 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "path" imported from "src/pages/api/images/upload.ts". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:08.100156Z	12:14:08 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "crypto" imported from "src/pages/api/images/upload.ts". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:08.515107Z	12:14:08 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "fs/promises" imported from "src/lib/content-storage.ts". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:08.515468Z	12:14:08 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "path" imported from "src/lib/content-storage.ts". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:08.541397Z	12:14:08 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "crypto" imported from "src/lib/security.ts". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:08.638176Z	12:14:08 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "crypto" imported from "node_modules/jsonwebtoken/verify.js". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:08.646079Z	12:14:08 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "crypto" imported from "node_modules/jsonwebtoken/sign.js". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:08.802251Z	12:14:08 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "stream" imported from "node_modules/jws/lib/sign-stream.js". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:08.802599Z	12:14:08 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "util" imported from "node_modules/jws/lib/sign-stream.js". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:08.804945Z	12:14:08 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "stream" imported from "node_modules/jws/lib/verify-stream.js". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:08.805228Z	12:14:08 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "util" imported from "node_modules/jws/lib/verify-stream.js". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:09.208603Z	12:14:09 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "buffer" imported from "node_modules/safe-buffer/index.js". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:09.21095Z	12:14:09 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "stream" imported from "node_modules/jws/lib/data-stream.js". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:09.21113Z	12:14:09 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "util" imported from "node_modules/jws/lib/data-stream.js". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:09.213483Z	12:14:09 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "crypto" imported from "node_modules/jwa/index.js". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:09.21401Z	12:14:09 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "util" imported from "node_modules/jwa/index.js". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:09.215279Z	12:14:09 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "buffer" imported from "node_modules/jws/lib/tostring.js". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:09.405149Z	12:14:09 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "buffer" imported from "node_modules/buffer-equal-constant-time/index.js". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:09.472985Z	12:14:09 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "crypto" imported from " crypto?commonjs-external". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:09.473429Z	12:14:09 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "stream" imported from " stream?commonjs-external". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:09.473926Z	12:14:09 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "util" imported from " util?commonjs-external". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:09.474437Z	12:14:09 [WARN] [vite] [33m[plugin vite:resolve] Automatically externalized node built-in module "buffer" imported from " buffer?commonjs-external". Consider adding it to environments.ssr.external if it is intended.[39m
+2025-08-20T12:14:10.012998Z	12:14:10 [WARN] [vite] [33m"createHash" is imported from external module "crypto" but never used in "src/pages/api/images/upload.ts", " crypto?commonjs-external" and "src/lib/security.ts".[39m
+2025-08-20T12:14:10.156892Z	12:14:10 [WARN] [vite] [33m[esbuild css minify]
+2025-08-20T12:14:10.157189Z	▲ [WARNING] Expected identifier but found "200px" [css-syntax-error]
+2025-08-20T12:14:10.158023Z	
+2025-08-20T12:14:10.158136Z	    <stdin>:1:3486:
+2025-08-20T12:14:10.158317Z	      1 │ ...ia (max-width: 640px){.min-w-[200px]{min-width:100%}}.bg-opacity...
+2025-08-20T12:14:10.158427Z	        ╵                                  ~~~~~
+2025-08-20T12:14:10.158538Z	
+2025-08-20T12:14:10.158599Z	[39m
+2025-08-20T12:14:10.19429Z	12:14:10 [vite] [32m✓ built in 2.92s[39m
+2025-08-20T12:14:10.194534Z	12:14:10 [build] ✓ Completed in 2.95s.
+2025-08-20T12:14:10.194995Z	
+2025-08-20T12:14:10.19516Z	 building client (vite) 
+2025-08-20T12:14:10.215579Z	12:14:10 [vite] transforming...
+2025-08-20T12:14:10.291391Z	12:14:10 [vite] [32m✓[39m 27 modules transformed.
+2025-08-20T12:14:10.321331Z	12:14:10 [vite] rendering chunks...
+2025-08-20T12:14:10.329355Z	12:14:10 [vite] computing gzip size...
+2025-08-20T12:14:10.331224Z	12:14:10 [vite] [2mdist/[22m[2m_astro/[22m[36musers.astro_astro_type_script_index_0_lang.CxO_JRN6.js         [39m[1m[2m 0.04 kB[22m[1m[22m[2m │ gzip: 0.06 kB[22m
+2025-08-20T12:14:10.331435Z	12:14:10 [vite] [2mdist/[22m[2m_astro/[22m[36mVisualEditor.astro_astro_type_script_index_0_lang.Ci_08EO4.js  [39m[1m[2m 6.66 kB[22m[1m[22m[2m │ gzip: 2.35 kB[22m
+2025-08-20T12:14:10.331544Z	12:14:10 [vite] [2mdist/[22m[2m_astro/[22m[36mClientRouter.astro_astro_type_script_index_0_lang.DZnDNxNb.js  [39m[1m[2m14.84 kB[22m[1m[22m[2m │ gzip: 5.08 kB[22m
+2025-08-20T12:14:10.332089Z	12:14:10 [vite] [32m✓ built in 133ms[39m
+2025-08-20T12:14:10.350067Z	
+2025-08-20T12:14:10.350288Z	 prerendering static routes 
+2025-08-20T12:14:10.354803Z	12:14:10 ▶ src/pages/about.astro
+2025-08-20T12:14:10.361355Z	12:14:10   └─ /about/index.htmlContent file not found or invalid, using default content
+2025-08-20T12:14:10.367339Z	 (+12ms) 
+2025-08-20T12:14:10.368386Z	12:14:10 ▶ src/pages/attractions.astro
+2025-08-20T12:14:10.369196Z	12:14:10   └─ /attractions/index.htmlContent file not found or invalid, using default content
+2025-08-20T12:14:10.370753Z	 (+2ms) 
+2025-08-20T12:14:10.371809Z	12:14:10 ▶ src/pages/contact.astro
+2025-08-20T12:14:10.372618Z	12:14:10   └─ /contact/index.htmlContent file not found or invalid, using default content
+2025-08-20T12:14:10.374257Z	 (+2ms) 
+2025-08-20T12:14:10.375318Z	12:14:10 ▶ src/pages/directions.astro
+2025-08-20T12:14:10.37616Z	12:14:10   └─ /directions/index.htmlContent file not found or invalid, using default content
+2025-08-20T12:14:10.377419Z	 (+2ms) 
+2025-08-20T12:14:10.37844Z	12:14:10 ▶ src/pages/facilities.astro
+2025-08-20T12:14:10.379202Z	12:14:10   └─ /facilities/index.htmlContent file not found or invalid, using default content
+2025-08-20T12:14:10.380763Z	 (+2ms) 
+2025-08-20T12:14:10.382081Z	12:14:10 ▶ src/pages/gallery.astro
+2025-08-20T12:14:10.382737Z	12:14:10   └─ /gallery/index.htmlContent file not found or invalid, using default content
+2025-08-20T12:14:10.383934Z	 (+2ms) 
+2025-08-20T12:14:10.385081Z	12:14:10 ▶ src/pages/preview.astro
+2025-08-20T12:14:10.38616Z	12:14:10   └─ /preview/index.htmlContent file not found or invalid, using default content
+2025-08-20T12:14:10.388429Z	 (+3ms) 
+2025-08-20T12:14:10.389475Z	12:14:10 ▶ src/pages/reviews.astro
+2025-08-20T12:14:10.391312Z	12:14:10   └─ /reviews/index.html (+2ms) 
+2025-08-20T12:14:10.392603Z	12:14:10 ▶ src/pages/static-caravans.astro
+2025-08-20T12:14:10.393752Z	12:14:10   └─ /static-caravans/index.htmlContent file not found or invalid, using default content
+2025-08-20T12:14:10.395598Z	 (+3ms) 
+2025-08-20T12:14:10.396828Z	12:14:10 ▶ src/pages/tariff.astro
+2025-08-20T12:14:10.39776Z	12:14:10   └─ /tariff/index.htmlContent file not found or invalid, using default content
+2025-08-20T12:14:10.398967Z	 (+2ms) 
+2025-08-20T12:14:10.400934Z	12:14:10 ▶ src/pages/index.astro
+2025-08-20T12:14:10.403235Z	12:14:10   └─ /index.html (+2ms) 
+2025-08-20T12:14:10.403397Z	12:14:10 ✓ Completed in 65ms.
+2025-08-20T12:14:10.403541Z	
+2025-08-20T12:14:10.407612Z	12:14:10 [build] Rearranging server assets...
+2025-08-20T12:14:10.415062Z	12:14:10 [build] Server built in 3.36s
+2025-08-20T12:14:10.415264Z	12:14:10 [build] Complete!
+2025-08-20T12:14:10.457101Z	Finished
+2025-08-20T12:14:11.348373Z	Checking for configuration in a Wrangler configuration file (BETA)
+2025-08-20T12:14:11.349155Z	
+2025-08-20T12:14:11.349558Z	Found wrangler.toml file. Reading build configuration...
+2025-08-20T12:14:12.444138Z	A wrangler.toml file was found but it does not appear to be valid. Did you mean to use wrangler.toml to configure Pages? If so, then make sure the file is valid and contains the `pages_build_output_dir` property. Skipping file and continuing.
+2025-08-20T12:14:12.444669Z	Found _worker.js in output directory. Uploading.
+2025-08-20T12:14:12.450685Z	 ⛅️ wrangler 3.101.0
+2025-08-20T12:14:12.450934Z	-------------------
+2025-08-20T12:14:13.319009Z	Attaching additional modules:
+2025-08-20T12:14:13.343846Z	┌────────────────────────────────────────────────┬──────┬────────────┐
+2025-08-20T12:14:13.344197Z	│ Name                                           │ Type │ Size       │
+2025-08-20T12:14:13.34444Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.344576Z	│ _@astrojs-ssr-adapter.mjs                      │ esm  │ 0.14 KiB   │
+2025-08-20T12:14:13.344724Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.344875Z	│ _astro-internal_middleware.mjs                 │ esm  │ 0.45 KiB   │
+2025-08-20T12:14:13.345069Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.345214Z	│ _noop-actions.mjs                              │ esm  │ 0.09 KiB   │
+2025-08-20T12:14:13.345341Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.345466Z	│ chunks/AdminLayout_Cxa3JhLy.mjs                │ esm  │ 3.35 KiB   │
+2025-08-20T12:14:13.345587Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.345702Z	│ chunks/_@astrojs-ssr-adapter_t9zItGg1.mjs      │ esm  │ 34.71 KiB  │
+2025-08-20T12:14:13.345833Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.345975Z	│ chunks/astro/server_DNf2SaOT.mjs               │ esm  │ 245.17 KiB │
+2025-08-20T12:14:13.346088Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.34619Z	│ chunks/astro-designed-error-pages_BEzyhJQR.mjs │ esm  │ 46.57 KiB  │
+2025-08-20T12:14:13.346278Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.346399Z	│ chunks/auth_D77esDDQ.mjs                       │ esm  │ 3.92 KiB   │
+2025-08-20T12:14:13.346534Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.346657Z	│ chunks/cloudflare-kv-binding_DMly_2Gl.mjs      │ esm  │ 2.94 KiB   │
+2025-08-20T12:14:13.346762Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.346897Z	│ chunks/content-storage_D786xsOX.mjs            │ esm  │ 13.18 KiB  │
+2025-08-20T12:14:13.347018Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.347401Z	│ chunks/index_B5wZOa6j.mjs                      │ esm  │ 102.40 KiB │
+2025-08-20T12:14:13.3476Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.34775Z	│ chunks/load_BT4zBiA0.mjs                       │ esm  │ 6.68 KiB   │
+2025-08-20T12:14:13.347883Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.348011Z	│ chunks/noop-middleware_iMDQt7-z.mjs            │ esm  │ 0.33 KiB   │
+2025-08-20T12:14:13.348149Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.348356Z	│ chunks/security_AQreHW46.mjs                   │ esm  │ 175.04 KiB │
+2025-08-20T12:14:13.348503Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.348617Z	│ manifest_Baxw78wL.mjs                          │ esm  │ 76.48 KiB  │
+2025-08-20T12:14:13.348723Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.348837Z	│ pages/_image.astro.mjs                         │ esm  │ 0.60 KiB   │
+2025-08-20T12:14:13.348901Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.349123Z	│ pages/about.astro.mjs                          │ esm  │ 0.06 KiB   │
+2025-08-20T12:14:13.349206Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.349269Z	│ pages/admin/content.astro.mjs                  │ esm  │ 48.71 KiB  │
+2025-08-20T12:14:13.349503Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.349594Z	│ pages/admin/emails.astro.mjs                   │ esm  │ 13.41 KiB  │
+2025-08-20T12:14:13.349713Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.349879Z	│ pages/admin/images.astro.mjs                   │ esm  │ 35.94 KiB  │
+2025-08-20T12:14:13.350029Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.35014Z	│ pages/admin/login.astro.mjs                    │ esm  │ 5.29 KiB   │
+2025-08-20T12:14:13.350239Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.350532Z	│ pages/admin/reviews.astro.mjs                  │ esm  │ 7.63 KiB   │
+2025-08-20T12:14:13.350764Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.350943Z	│ pages/admin/settings.astro.mjs                 │ esm  │ 6.43 KiB   │
+2025-08-20T12:14:13.364227Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.364856Z	│ pages/admin/users.astro.mjs                    │ esm  │ 36.11 KiB  │
+2025-08-20T12:14:13.365173Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.365317Z	│ pages/admin.astro.mjs                          │ esm  │ 6.29 KiB   │
+2025-08-20T12:14:13.365437Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.365588Z	│ pages/api/auth/csrf.astro.mjs                  │ esm  │ 1.44 KiB   │
+2025-08-20T12:14:13.365691Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.36582Z	│ pages/api/auth/login.astro.mjs                 │ esm  │ 2.69 KiB   │
+2025-08-20T12:14:13.365957Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.366132Z	│ pages/api/auth/logout.astro.mjs                │ esm  │ 0.89 KiB   │
+2025-08-20T12:14:13.36636Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.366592Z	│ pages/api/auth/me.astro.mjs                    │ esm  │ 1.19 KiB   │
+2025-08-20T12:14:13.366781Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.367049Z	│ pages/api/contact.astro.mjs                    │ esm  │ 2.10 KiB   │
+2025-08-20T12:14:13.367317Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.367555Z	│ pages/api/content/_type_.astro.mjs             │ esm  │ 4.19 KiB   │
+2025-08-20T12:14:13.367676Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.367774Z	│ pages/api/content/backup.astro.mjs             │ esm  │ 9.02 KiB   │
+2025-08-20T12:14:13.367877Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.367987Z	│ pages/api/content/load.astro.mjs               │ esm  │ 0.21 KiB   │
+2025-08-20T12:14:13.368082Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.368173Z	│ pages/api/content/save.astro.mjs               │ esm  │ 4.70 KiB   │
+2025-08-20T12:14:13.36826Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.368351Z	│ pages/api/images/upload.astro.mjs              │ esm  │ 8.56 KiB   │
+2025-08-20T12:14:13.368438Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.368545Z	│ pages/api/reviews/tripadvisor.astro.mjs        │ esm  │ 2.61 KiB   │
+2025-08-20T12:14:13.368634Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.368737Z	│ pages/api/users/manage.astro.mjs               │ esm  │ 10.35 KiB  │
+2025-08-20T12:14:13.36885Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.368946Z	│ pages/api/users/reset-password.astro.mjs       │ esm  │ 3.28 KiB   │
+2025-08-20T12:14:13.369042Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.369144Z	│ pages/attractions.astro.mjs                    │ esm  │ 0.06 KiB   │
+2025-08-20T12:14:13.369256Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.369356Z	│ pages/contact.astro.mjs                        │ esm  │ 0.06 KiB   │
+2025-08-20T12:14:13.369474Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.369583Z	│ pages/directions.astro.mjs                     │ esm  │ 0.06 KiB   │
+2025-08-20T12:14:13.369688Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.369784Z	│ pages/facilities.astro.mjs                     │ esm  │ 0.06 KiB   │
+2025-08-20T12:14:13.36989Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.369984Z	│ pages/gallery.astro.mjs                        │ esm  │ 0.06 KiB   │
+2025-08-20T12:14:13.370078Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.370165Z	│ pages/index.astro.mjs                          │ esm  │ 0.06 KiB   │
+2025-08-20T12:14:13.37027Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.370357Z	│ pages/preview.astro.mjs                        │ esm  │ 0.06 KiB   │
+2025-08-20T12:14:13.370615Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.370755Z	│ pages/reviews.astro.mjs                        │ esm  │ 0.06 KiB   │
+2025-08-20T12:14:13.370869Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.370967Z	│ pages/static-caravans.astro.mjs                │ esm  │ 0.06 KiB   │
+2025-08-20T12:14:13.371057Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.371149Z	│ pages/tariff.astro.mjs                         │ esm  │ 0.06 KiB   │
+2025-08-20T12:14:13.371252Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.371348Z	│ renderers.mjs                                  │ esm  │ 0.10 KiB   │
+2025-08-20T12:14:13.371444Z	├────────────────────────────────────────────────┼──────┼────────────┤
+2025-08-20T12:14:13.371566Z	│ Total (49 modules)                             │      │ 923.83 KiB │
+2025-08-20T12:14:13.371673Z	└────────────────────────────────────────────────┴──────┴────────────┘
+2025-08-20T12:14:13.411913Z	✨ Compiled Worker successfully
+2025-08-20T12:14:14.524984Z	Found _routes.json in output directory. Uploading.
+2025-08-20T12:14:14.537266Z	Validating asset output directory
+2025-08-20T12:14:17.454121Z	Deploying your site to Cloudflare's global network...
+2025-08-20T12:14:19.79212Z	Parsed 10 valid redirect rules.
+2025-08-20T12:14:19.792568Z	Found invalid redirect lines:
+2025-08-20T12:14:19.792678Z	  - #21: /about/ /about/index.html 200
+2025-08-20T12:14:19.792749Z	    Infinite loop detected in this rule and has been ignored. This will cause a redirect to strip `.html` or `/index` and end up triggering this rule again. Please fix or remove this rule to silence this warning.
+2025-08-20T12:14:19.792815Z	  - #22: /facilities/ /facilities/index.html 200
+2025-08-20T12:14:19.792885Z	    Infinite loop detected in this rule and has been ignored. This will cause a redirect to strip `.html` or `/index` and end up triggering this rule again. Please fix or remove this rule to silence this warning.
+2025-08-20T12:14:19.792957Z	  - #23: /static-caravans/ /static-caravans/index.html 200
+2025-08-20T12:14:19.793018Z	    Infinite loop detected in this rule and has been ignored. This will cause a redirect to strip `.html` or `/index` and end up triggering this rule again. Please fix or remove this rule to silence this warning.
+2025-08-20T12:14:19.793087Z	  - #24: /tariff/ /tariff/index.html 200
+2025-08-20T12:14:19.793149Z	    Infinite loop detected in this rule and has been ignored. This will cause a redirect to strip `.html` or `/index` and end up triggering this rule again. Please fix or remove this rule to silence this warning.
+2025-08-20T12:14:19.793213Z	  - #25: /attractions/ /attractions/index.html 200
+2025-08-20T12:14:19.793319Z	    Infinite loop detected in this rule and has been ignored. This will cause a redirect to strip `.html` or `/index` and end up triggering this rule again. Please fix or remove this rule to silence this warning.
+2025-08-20T12:14:19.793396Z	  - #26: /contact/ /contact/index.html 200
+2025-08-20T12:14:19.793479Z	    Infinite loop detected in this rule and has been ignored. This will cause a redirect to strip `.html` or `/index` and end up triggering this rule again. Please fix or remove this rule to silence this warning.
+2025-08-20T12:14:19.793556Z	  - #27: /directions/ /directions/index.html 200
+2025-08-20T12:14:19.793612Z	    Infinite loop detected in this rule and has been ignored. This will cause a redirect to strip `.html` or `/index` and end up triggering this rule again. Please fix or remove this rule to silence this warning.
+2025-08-20T12:14:19.793668Z	  - #28: /gallery/ /gallery/index.html 200
+2025-08-20T12:14:19.793729Z	    Infinite loop detected in this rule and has been ignored. This will cause a redirect to strip `.html` or `/index` and end up triggering this rule again. Please fix or remove this rule to silence this warning.
+2025-08-20T12:14:19.793786Z	  - #29: /reviews/ /reviews/index.html 200
+2025-08-20T12:14:19.793848Z	    Infinite loop detected in this rule and has been ignored. This will cause a redirect to strip `.html` or `/index` and end up triggering this rule again. Please fix or remove this rule to silence this warning.
+2025-08-20T12:14:19.793914Z	Info: the redirect rule /about → 200 /about/index.html could be made more performant by bringing it above any lines with splats or placeholders.
+2025-08-20T12:14:19.79398Z	Info: the redirect rule /facilities → 200 /facilities/index.html could be made more performant by bringing it above any lines with splats or placeholders.
+2025-08-20T12:14:19.794049Z	Info: the redirect rule /static-caravans → 200 /static-caravans/index.html could be made more performant by bringing it above any lines with splats or placeholders.
+2025-08-20T12:14:19.79412Z	Info: the redirect rule /tariff → 200 /tariff/index.html could be made more performant by bringing it above any lines with splats or placeholders.
+2025-08-20T12:14:19.794185Z	Info: the redirect rule /attractions → 200 /attractions/index.html could be made more performant by bringing it above any lines with splats or placeholders.
+2025-08-20T12:14:19.794241Z	Info: the redirect rule /contact → 200 /contact/index.html could be made more performant by bringing it above any lines with splats or placeholders.
+2025-08-20T12:14:19.794305Z	Info: the redirect rule /directions → 200 /directions/index.html could be made more performant by bringing it above any lines with splats or placeholders.
+2025-08-20T12:14:19.794379Z	Info: the redirect rule /gallery → 200 /gallery/index.html could be made more performant by bringing it above any lines with splats or placeholders.
+2025-08-20T12:14:19.794445Z	Info: the redirect rule /reviews → 200 /reviews/index.html could be made more performant by bringing it above any lines with splats or placeholders.
+2025-08-20T12:14:21.100253Z	Uploading... (26/26)
+2025-08-20T12:14:21.101065Z	✨ Success! Uploaded 0 files (26 already uploaded) (0.25 sec)
+2025-08-20T12:14:21.101213Z	
+2025-08-20T12:14:21.454003Z	✨ Upload complete!
+2025-08-20T12:14:25.22014Z	Success: Assets published!
+2025-08-20T12:14:31.23578Z	Error: Failed to publish your Function. Got error: Unknown internal error occurred.

@@ -441,3 +441,166 @@ lamb-cottage-website/
 
 * Color contrast compliance (WCAG 2.1 AA)
 
+## 10. Deployment and Build Processes
+
+### 10.1 Cloudflare Pages Configuration
+
+**Build Settings**
+```bash
+# Build command
+npm run build
+
+# Build output directory
+dist
+
+# Node.js version
+22.14.0
+```
+
+**Environment Variables**
+```bash
+# Required for production deployment
+NODE_VERSION=22.14.0
+NPM_FLAGS=--version
+UNSTABLE_PRE_BUILD=asdf install nodejs 22.14.0 && asdf global nodejs 22.14.0
+```
+
+### 10.2 Redirect Configuration
+
+**_redirects File Management**
+
+The `_redirects` file is automatically generated during build and placed in the `dist` directory. Key considerations:
+
+* **Avoid Infinite Loops**: Never redirect trailing slash paths (e.g., `/about/`) to index.html files, as Cloudflare automatically strips trailing slashes
+* **Clean URL Support**: Use redirects like `/about → /about/index.html` for clean URLs
+* **API Route Handling**: Ensure API routes (`/api/*`) are properly configured for server-side rendering
+
+**Current Working Configuration**:
+```
+# API routes - ensure they work properly
+/api/* /api/:splat 200
+
+# Main site pages - handle clean URLs (NO trailing slash versions)
+/about /about/index.html 200
+/facilities /facilities/index.html 200
+/static-caravans /static-caravans/index.html 200
+/tariff /tariff/index.html 200
+/attractions /attractions/index.html 200
+/contact /contact/index.html 200
+/directions /directions/index.html 200
+/gallery /gallery/index.html 200
+/reviews /reviews/index.html 200
+```
+
+### 10.3 Build Process Optimization
+
+**Pre-build Checks**
+* Verify Node.js version compatibility (22.14.0)
+* Ensure all dependencies are installed with `npm ci`
+* Run linting and type checking before build
+
+**Build Warnings Resolution**
+* **wrangler.toml Invalid**: Expected for Astro projects using Cloudflare adapter
+* **CSS Syntax Warnings**: TailwindCSS arbitrary values (e.g., `min-w-[200px]`) are valid
+* **Content Files Not Found**: Default content is used when CMS content is unavailable
+
+### 10.4 Common Deployment Issues and Solutions
+
+**Issue: 405 Method Not Allowed on API Routes**
+* **Cause**: Incorrect HTTP method handling or authentication middleware
+* **Solution**: Ensure API routes export correct HTTP methods (GET, POST, etc.)
+* **Prevention**: Test API endpoints locally before deployment
+
+**Issue: Redirect Loop Warnings**
+* **Cause**: Trailing slash redirects conflicting with Cloudflare's automatic URL normalization
+* **Solution**: Remove trailing slash redirect rules from `_redirects`
+* **Prevention**: Only use clean URL redirects without trailing slashes
+
+**Issue: Static Assets Not Loading**
+* **Cause**: Incorrect asset paths or missing files in build output
+* **Solution**: Verify asset paths and ensure files exist in `public` directory
+* **Prevention**: Use relative paths and test asset loading locally
+
+### 10.5 Environment-Specific Configurations
+
+**Development Environment**
+```bash
+# Local development server
+npm run dev
+# Runs on http://localhost:4321
+
+# Environment variables
+NODE_ENV=development
+ASTRO_TELEMETRY_DISABLED=1
+```
+
+**Production Environment**
+```bash
+# Production build
+npm run build
+npm run preview
+
+# Environment variables
+NODE_ENV=production
+SITE_URL=https://lambcottage.co.uk
+```
+
+### 10.6 Best Practices for Future Deployments
+
+**Pre-Deployment Checklist**
+1. ✅ Test all navigation links and ensure no 404 errors
+2. ✅ Verify API endpoints respond correctly
+3. ✅ Check redirect rules for infinite loops
+4. ✅ Validate form submissions work properly
+5. ✅ Test responsive design across devices
+6. ✅ Confirm external integrations (booking system) function
+
+**Deployment Workflow**
+1. **Local Testing**: Run `npm run build && npm run preview`
+2. **Git Commit**: Commit changes with descriptive messages
+3. **Push to Repository**: `git push origin main`
+4. **Monitor Deployment**: Check Cloudflare Pages build logs
+5. **Post-Deployment Testing**: Verify live site functionality
+
+**Monitoring and Maintenance**
+* **Build Logs**: Regularly review Cloudflare Pages build logs for warnings
+* **Performance Monitoring**: Use Lighthouse for performance audits
+* **Error Tracking**: Monitor 404 errors and broken links
+* **Security Updates**: Keep dependencies updated with `npm audit`
+
+**Rollback Strategy**
+* Cloudflare Pages maintains deployment history
+* Quick rollback available through Cloudflare dashboard
+* Git-based rollback: `git revert <commit-hash>` and push
+
+### 10.7 Continuous Integration Recommendations
+
+**Automated Testing**
+```bash
+# Add to package.json scripts
+"scripts": {
+  "test": "npm run build && npm run preview",
+  "lint": "eslint src --ext .ts,.astro",
+  "type-check": "astro check"
+}
+```
+
+**GitHub Actions Workflow** (Optional)
+```yaml
+name: Deploy to Cloudflare Pages
+on:
+  push:
+    branches: [main]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '22.14.0'
+      - run: npm ci
+      - run: npm run build
+      - run: npm run lint
+```
+

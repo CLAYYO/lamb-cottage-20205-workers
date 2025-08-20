@@ -91,3 +91,19 @@ export const POST: APIRoute = async (context) => {
   const response = await loginHandler(context);
   return addSecurityHeaders(response);
 };
+
+// Handle GET requests with a proper error message instead of 405
+export const GET: APIRoute = async () => {
+  const response = new Response(JSON.stringify({
+    success: false,
+    message: 'Login endpoint only accepts POST requests. Please use the login form.',
+    error: 'Method Not Allowed'
+  }), {
+    status: 405,
+    headers: {
+      'Content-Type': 'application/json',
+      'Allow': 'POST'
+    }
+  });
+  return addSecurityHeaders(response);
+};
