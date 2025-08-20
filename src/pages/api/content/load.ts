@@ -122,7 +122,7 @@ const DEFAULT_CONTENT = {
     social: {
       facebook: "https://facebook.com/lambcottagepark",
       instagram: "https://instagram.com/lambcottagepark",
-      tripadvisor: "https://tripadvisor.com/lambcottagepark"
+      tripadvisor: "https://www.tripadvisor.com/Hotel_Review-g499515-d8592952-Reviews-Lamb_Cottage_Caravan_Park-Northwich_Cheshire_England.html"
     }
   },
   _metadata: {

@@ -1,12 +1,4 @@
 ---
-import { getUserFromRequest } from '../lib/auth';
-
-// Check authentication
-const user = getUserFromRequest(Astro);
-if (!user) {
-  return Astro.redirect('/admin/login');
-}
-
 export interface Props {
   title: string;
   description?: string;

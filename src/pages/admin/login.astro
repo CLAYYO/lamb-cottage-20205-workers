@@ -152,14 +152,27 @@ if (Astro.cookies.get('auth-token')) {
       </form>
     </div>
 
-    <script type="module" is:inline>
-      import { secureRequest, handleResponse, sanitizeInput } from '../../lib/client-security.js';
-      
+    <script is:inline>
       const form = document.getElementById('login-form');
       const errorMessage = document.getElementById('error-message');
       const loginBtn = document.getElementById('login-btn');
       const btnText = document.getElementById('btn-text');
       const btnLoading = document.getElementById('btn-loading');
+
+      function sanitizeInput(input) {
+        return input
+          .replace(/[<>"'&]/g, function(char) {
+            const entities = {
+              '<': '&lt;',
+              '>': '&gt;',
+              '"': '&quot;',
+              "'": '&#x27;',
+              '&': '&amp;'
+            };
+            return entities[char] || char;
+          })
+          .trim();
+      }
 
       function showError(message) {
         errorMessage.textContent = message;
@@ -181,22 +194,31 @@ if (Astro.cookies.get('auth-token')) {
         }
       }
 
-      form.addEventListener('submit', async (e) => {
+      form.addEventListener('submit', async function(e) {
         e.preventDefault();
         hideError();
         setLoading(true);
 
         const formData = new FormData(form);
-        const username = sanitizeInput(formData.get('username'), 'text');
+        const username = sanitizeInput(formData.get('username'));
         const password = formData.get('password'); // Don't sanitize passwords
 
         try {
-          const response = await secureRequest('/api/auth/login', {
+          // Use regular fetch for login (no auth token needed)
+          const response = await fetch('/api/auth/login', {
             method: 'POST',
-            body: JSON.stringify({ username, password })
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username: username, password: password })
           });
 
-          const data = await handleResponse(response);
+          if (!response.ok) {
+            const errorData = await response.json().catch(function() { return { error: 'Login failed' }; });
+            throw new Error(errorData.error || 'Login failed: ' + response.status);
+          }
+
+          const data = await response.json();
           
           // Store the token
           localStorage.setItem('auth_token', data.token);

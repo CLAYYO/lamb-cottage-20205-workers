@@ -136,7 +136,7 @@ export const DEFAULT_CONTENT = {
       },
       {
         platform: "TripAdvisor",
-        url: "https://tripadvisor.com/lambcottage",
+        url: "https://www.tripadvisor.com/Hotel_Review-g499515-d8592952-Reviews-Lamb_Cottage_Caravan_Park-Northwich_Cheshire_England.html",
         icon: "tripadvisor"
       }
     ]
@@ -322,7 +322,7 @@ export const DEFAULT_CONTENT = {
       },
       {
         platform: "TripAdvisor",
-        url: "https://tripadvisor.com/lambcottage",
+        url: "https://www.tripadvisor.com/Hotel_Review-g499515-d8592952-Reviews-Lamb_Cottage_Caravan_Park-Northwich_Cheshire_England.html",
         icon: "tripadvisor"
       }
     ],

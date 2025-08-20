@@ -1,5 +1,8 @@
 import crypto from 'crypto';
 import type { APIRoute } from 'astro';
+import jwt from 'jsonwebtoken';
+
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
 // Rate limiting store (in production, use Redis or similar)
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
@@ -257,21 +260,23 @@ export function secureAPIRoute(
 
       // Apply rate limiting if configured
       if (rateLimit) {
-        const rateLimitResult = await rateLimitMiddleware(
-          request,
-          rateLimit.requests,
-          rateLimit.window
-        );
+        const rateLimiter = rateLimit({
+          windowMs: rateLimit.window,
+          maxRequests: rateLimit.requests
+        });
+        
+        const rateLimitResult = rateLimiter(request);
         
         if (!rateLimitResult.allowed) {
+          const retryAfter = rateLimitResult.resetTime ? Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000) : 60;
           return new Response(JSON.stringify({ 
             error: 'Too many requests',
-            retryAfter: rateLimitResult.retryAfter 
+            retryAfter 
           }), {
             status: 429,
             headers: {
               'Content-Type': 'application/json',
-              'Retry-After': rateLimitResult.retryAfter?.toString() || '60'
+              'Retry-After': retryAfter.toString()
             }
           });
         }
