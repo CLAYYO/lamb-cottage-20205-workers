@@ -121,7 +121,15 @@ export async function verifyToken(token: string): Promise<AuthToken | null> {
 // Verify password (simplified for demo purposes)
 export async function verifyPassword(password: string, storedHash: string): Promise<boolean> {
   // For demo purposes, simplified password verification
+  // The default ADMIN_PASSWORD_HASH corresponds to 'password'
   // In production, use proper bcrypt verification
+  
+  // Check if it's the default bcrypt hash for 'password'
+  if (storedHash === '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi') {
+    return password === 'password';
+  }
+  
+  // Fallback for other common passwords (for demo)
   return password === 'admin123' || password === 'password';
 }
 
