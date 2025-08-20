@@ -5,7 +5,6 @@ export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TopBar from '../components/layout/TopBar.astro';
 import Header from '../components/layout/Header.astro';
-import Navigation from '../components/layout/Navigation.astro';
 import Hero from '../components/sections/Hero.astro';
 import Welcome from '../components/sections/Welcome.astro';
 import Tagline from '../components/sections/Tagline.astro';
@@ -23,9 +22,6 @@ const pageDescription = 'Experience tranquil countryside living at Lamb Cottage 
 <BaseLayout title="Lamb Cottage Caravan Park - Peaceful Adult-Only Holiday Park in Cheshire" description="Discover tranquil holidays at Lamb Cottage Caravan Park. Adult-only park in beautiful Cheshire countryside with luxury facilities, touring pitches, and static caravan options.">
   <!-- Top Bar -->
   <TopBar />
-  
-  <!-- Navigation -->
-  <Navigation />
   
   <!-- Main Content -->
   <main transition:name="main-content">
