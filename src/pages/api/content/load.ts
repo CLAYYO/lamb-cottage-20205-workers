@@ -25,12 +25,21 @@ const DEFAULT_CONTENT = {
   hero: {
     title: "Welcome to Lamb Cottage Caravan Park",
     subtitle: "Experience the perfect blend of comfort and nature in our premium caravan park nestled in the heart of the countryside.",
-    cta: "Book Your Stay",
-    image: "/images/lamb-cottage-hero.jpg"
+    ctaButton: {
+      text: "Book Your Stay"
+    },
+    backgroundImage: {
+      src: "/images/lamb-cottage-hero.jpg",
+      alt: "Lamb Cottage Caravan Park"
+    }
   },
   welcome: {
     title: "Welcome to Lamb Cottage",
-    content: "<p>Nestled in the picturesque countryside, Lamb Cottage Caravan Park offers the perfect escape from the hustle and bustle of everyday life. Our family-run park has been welcoming guests for over 20 years, providing a peaceful retreat where you can reconnect with nature and create lasting memories.</p><p>Whether you're looking for a weekend getaway or an extended holiday, our well-maintained facilities and friendly atmosphere ensure a comfortable and enjoyable stay for all our guests.</p>"
+    content: "<p>Nestled in the picturesque countryside, Lamb Cottage Caravan Park offers the perfect escape from the hustle and bustle of everyday life. Our family-run park has been welcoming guests for over 20 years, providing a peaceful retreat where you can reconnect with nature and create lasting memories.</p><p>Whether you're looking for a weekend getaway or an extended holiday, our well-maintained facilities and friendly atmosphere ensure a comfortable and enjoyable stay for all our guests.</p>",
+    image: {
+      src: "/images/welcome-cottage.jpg",
+      alt: "Welcome to Lamb Cottage"
+    }
   },
   tagline: {
     text: "Your Home Away From Home",
@@ -38,6 +47,7 @@ const DEFAULT_CONTENT = {
   },
   facilities: {
     title: "Our Facilities",
+    subtitle: "Everything you need for a comfortable stay",
     items: [
       {
         name: "Electric Hook-ups",
@@ -73,8 +83,18 @@ const DEFAULT_CONTENT = {
   },
   propertySales: {
     title: "Static Caravans for Sale",
-    description: "Own your own piece of paradise with our selection of quality static caravans. Perfect for holidays, weekend retreats, or permanent residence.",
+    subtitle: "Own your own piece of paradise with our selection of quality static caravans. Perfect for holidays, weekend retreats, or permanent residence.",
     cta: "View Available Properties",
+    properties: [
+      {
+        title: "Luxury 3-Bedroom Static Caravan",
+        price: "£45,000",
+        description: "Spacious and modern static caravan with stunning countryside views",
+        bedrooms: 3,
+        bathrooms: 2,
+        features: ["Central heating", "Double glazing", "Private decking", "Garden area"]
+      }
+    ],
     features: [
       "Prime locations within the park",
       "Modern amenities and furnishings",
@@ -91,6 +111,7 @@ const DEFAULT_CONTENT = {
         name: "Sarah Johnson",
         rating: 5,
         comment: "Absolutely wonderful stay! The facilities were spotless and the staff incredibly friendly. We'll definitely be back next year.",
+        text: "Absolutely wonderful stay! The facilities were spotless and the staff incredibly friendly. We'll definitely be back next year.",
         date: "2024-08-15",
         location: "Manchester"
       },
@@ -99,6 +120,7 @@ const DEFAULT_CONTENT = {
         name: "Mike Thompson",
         rating: 5,
         comment: "Perfect location for exploring the countryside. Our kids loved the play area and we appreciated the peaceful atmosphere.",
+        text: "Perfect location for exploring the countryside. Our kids loved the play area and we appreciated the peaceful atmosphere.",
         date: "2024-07-22",
         location: "Birmingham"
       },
@@ -107,6 +129,7 @@ const DEFAULT_CONTENT = {
         name: "Emma Wilson",
         rating: 4,
         comment: "Great value for money. Clean facilities and beautiful surroundings. The on-site shop was very convenient.",
+        text: "Great value for money. Clean facilities and beautiful surroundings. The on-site shop was very convenient.",
         date: "2024-06-10",
         location: "Leeds"
       }
@@ -114,15 +137,22 @@ const DEFAULT_CONTENT = {
   },
   contact: {
     title: "Get in Touch",
-    description: "Have questions or ready to book? We'd love to hear from you!",
+    subtitle: "Have questions or ready to book? We'd love to hear from you!",
     email: "info@lambcottage.co.uk",
     phone: "01234 567890",
     address: "Lamb Cottage Caravan Park\nCountryside Lane\nVillage Name\nCounty AB12 3CD"
   },
-  booking: {
+  bookingBanner: {
     title: "Ready to Book Your Stay?",
     description: "Don't wait - secure your perfect countryside getaway today!",
-    cta: "Book Now",
+    primaryButton: {
+      text: "Book Now",
+      url: "/booking"
+    },
+    secondaryButton: {
+      text: "View Availability",
+      url: "/availability"
+    },
     features: [
       "Instant confirmation",
       "Best price guarantee",

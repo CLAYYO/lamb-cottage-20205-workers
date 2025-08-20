@@ -12,7 +12,11 @@
   },
   "welcome": {
     "title": "Welcome to Lamb Cottage",
-    "content": "<p>Nestled in the picturesque countryside, Lamb Cottage Caravan Park offers the perfect escape from the hustle and bustle of everyday life. Our family-run park has been welcoming guests for over 20 years, providing a peaceful retreat where you can reconnect with nature and create lasting memories.</p><p>Whether you're looking for a weekend getaway or an extended holiday, our well-maintained facilities and friendly atmosphere ensure a comfortable and enjoyable stay for all our guests.</p>"
+    "content": "<p>Nestled in the picturesque countryside, Lamb Cottage Caravan Park offers the perfect escape from the hustle and bustle of everyday life. Our family-run park has been welcoming guests for over 20 years, providing a peaceful retreat where you can reconnect with nature and create lasting memories.</p><p>Whether you're looking for a weekend getaway or an extended holiday, our well-maintained facilities and friendly atmosphere ensure a comfortable and enjoyable stay for all our guests.</p>",
+    "image": {
+      "src": "/images/welcome-cottage.jpg",
+      "alt": "Welcome to Lamb Cottage"
+    }
   },
   "tagline": {
     "text": "Your Home Away From Home",
@@ -20,6 +24,7 @@
   },
   "facilities": {
     "title": "Our Facilities",
+    "subtitle": "Everything you need for a comfortable stay",
     "items": [
       {
         "name": "Electric Hook-ups",
@@ -110,15 +115,22 @@
   },
   "contact": {
     "title": "Get in Touch",
-    "description": "Have questions or ready to book? We'd love to hear from you!",
+    "subtitle": "Have questions or ready to book? We'd love to hear from you!",
     "email": "info@lambcottage.co.uk",
     "phone": "01234 567890",
     "address": "Lamb Cottage Caravan Park\nCountryside Lane\nVillage Name\nCounty AB12 3CD"
   },
-  "booking": {
+  "bookingBanner": {
     "title": "Ready to Book Your Stay?",
     "description": "Don't wait - secure your perfect countryside getaway today!",
-    "cta": "Book Now",
+    "primaryButton": {
+      "text": "Book Now",
+      "url": "/booking"
+    },
+    "secondaryButton": {
+      "text": "View Availability",
+      "url": "/availability"
+    },
     "features": [
       "Instant confirmation",
       "Best price guarantee",
