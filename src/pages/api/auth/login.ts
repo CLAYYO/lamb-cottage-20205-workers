@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { authenticateUser, setAuthCookie } from '../../../lib/auth';
-import { secureAPIRoute, sanitize } from '../../../lib/security';
+import { sanitize, addSecurityHeaders, rateLimit } from '../../../lib/security';
 
 const loginHandler: APIRoute = async ({ request, cookies }) => {
   try {
@@ -60,7 +60,34 @@ const loginHandler: APIRoute = async ({ request, cookies }) => {
   }
 };
 
-export const POST = secureAPIRoute(loginHandler, {
-  requireCSRF: false, // Disable CSRF for login endpoint
-  rateLimit: { window: 15 * 60 * 1000, requests: 10 } // 10 attempts per 15 minutes
+// Rate limiter for login attempts
+const loginRateLimit = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  maxRequests: 10 // 10 attempts per 15 minutes
 });
+
+export const POST: APIRoute = async (context) => {
+  const { request } = context;
+  
+  // Apply rate limiting
+  const rateLimitResult = loginRateLimit(request);
+  if (!rateLimitResult.allowed) {
+    const retryAfter = rateLimitResult.resetTime ? Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000) : 60;
+    const response = new Response(JSON.stringify({ 
+      success: false,
+      message: 'Too many login attempts. Please try again later.',
+      retryAfter 
+    }), {
+      status: 429,
+      headers: {
+        'Content-Type': 'application/json',
+        'Retry-After': retryAfter.toString()
+      }
+    });
+    return addSecurityHeaders(response);
+  }
+  
+  // Call the login handler
+  const response = await loginHandler(context);
+  return addSecurityHeaders(response);
+};
