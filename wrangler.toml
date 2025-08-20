@@ -22,6 +22,7 @@ NODE_ENV = "production"
 # Pages configuration
 [pages]
 build_output_dir = "dist"
+pages_build_output_dir = "dist"
 compatibility_date = "2024-01-01"
 node_compat = true
 
