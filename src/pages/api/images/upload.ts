@@ -46,19 +46,17 @@ async function getFileInfo(filePath: string) {
   }
 }
 
-const uploadHandler: APIRoute = async ({ request }) => {
+const uploadHandler: APIRoute = async (context) => {
   try {
-    // Check authentication
-    const authResult = await requireAuth(request);
-    if (!authResult.success) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-        status: 401,
-        headers: { 'Content-Type': 'application/json' }
-      });
+    // Check authentication - requireAuth returns Response on failure, null on success
+    const authResult = await requireAuth(context);
+    if (authResult) {
+      // Authentication failed, return the error response
+      return authResult;
     }
     
     // Check content type
-    const contentType = request.headers.get('content-type');
+    const contentType = context.request.headers.get('content-type');
     if (!contentType || !contentType.includes('multipart/form-data')) {
       return new Response(JSON.stringify({ error: 'Content type must be multipart/form-data' }), {
         status: 400,
@@ -69,7 +67,7 @@ const uploadHandler: APIRoute = async ({ request }) => {
     // Parse form data
     let formData;
     try {
-      formData = await request.formData();
+      formData = await context.request.formData();
     } catch {
       return new Response(JSON.stringify({ error: 'Invalid form data' }), {
         status: 400,
@@ -176,15 +174,13 @@ export const POST = secureAPIRoute(uploadHandler, {
 });
 
 // Get list of uploaded images
-const getImagesHandler: APIRoute = async ({ request }) => {
+const getImagesHandler: APIRoute = async (context) => {
   try {
-    // Check authentication
-    const authResult = await requireAuth(request);
-    if (!authResult.success) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-        status: 401,
-        headers: { 'Content-Type': 'application/json' }
-      });
+    // Check authentication - requireAuth returns Response on failure, null on success
+    const authResult = await requireAuth(context);
+    if (authResult) {
+      // Authentication failed, return the error response
+      return authResult;
     }
     
     // Ensure upload directory exists
@@ -240,21 +236,19 @@ export const GET = secureAPIRoute(getImagesHandler, {
 });
 
 // Delete uploaded image
-const deleteImageHandler: APIRoute = async ({ request }) => {
+const deleteImageHandler: APIRoute = async (context) => {
   try {
-    // Check authentication
-    const authResult = await requireAuth(request);
-    if (!authResult.success) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-        status: 401,
-        headers: { 'Content-Type': 'application/json' }
-      });
+    // Check authentication - requireAuth returns Response on failure, null on success
+    const authResult = await requireAuth(context);
+    if (authResult) {
+      // Authentication failed, return the error response
+      return authResult;
     }
     
     // Parse request body
     let requestData;
     try {
-      requestData = await request.json();
+      requestData = await context.request.json();
     } catch {
       return new Response(JSON.stringify({ error: 'Invalid JSON data' }), {
         status: 400,
