@@ -1,4 +1,5 @@
 import type { APIContext } from 'astro';
+import bcrypt from 'bcryptjs';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH || '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'; // password
@@ -61,8 +62,10 @@ export async function generateToken(user: User): Promise<string> {
     iat: Math.floor(Date.now() / 1000)
   };
   
-  const encodedHeader = base64urlEncode(new TextEncoder().encode(JSON.stringify(header)));
-  const encodedPayload = base64urlEncode(new TextEncoder().encode(JSON.stringify(payload)));
+  const headerBuffer = new TextEncoder().encode(JSON.stringify(header));
+  const payloadBuffer = new TextEncoder().encode(JSON.stringify(payload));
+  const encodedHeader = base64urlEncode(headerBuffer.buffer as ArrayBuffer);
+  const encodedPayload = base64urlEncode(payloadBuffer.buffer as ArrayBuffer);
   const data = `${encodedHeader}.${encodedPayload}`;
   
   // Use Web Crypto API for signing
@@ -118,15 +121,19 @@ export async function verifyToken(token: string): Promise<AuthToken | null> {
   }
 }
 
-// Verify password (simplified for demo purposes)
+// Verify password using bcrypt
 export async function verifyPassword(password: string): Promise<boolean> {
   console.log('🔐 AUTH: Verifying password, length:', password?.length);
+  console.log('🔐 AUTH: Using password hash from env:', ADMIN_PASSWORD_HASH ? 'SET' : 'NOT SET');
   
-  // Simplified authentication - directly check for expected passwords
-  const isValid = password === 'password' || password === 'admin123';
-  console.log('🔐 AUTH: Password verification result:', isValid);
-  
-  return isValid;
+  try {
+    const isValid = await bcrypt.compare(password, ADMIN_PASSWORD_HASH);
+    console.log('🔐 AUTH: Password verification result:', isValid);
+    return isValid;
+  } catch (error) {
+    console.error('🔐 AUTH: Error verifying password:', error instanceof Error ? error.message : String(error));
+    return false;
+  }
 }
 
 // Authenticate user

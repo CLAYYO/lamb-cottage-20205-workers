@@ -1,0 +1,48 @@
+login:46 🔐 FRONTEND: Form submission started
+login:54 🔐 FRONTEND: Form data collected: Object
+login:57 🔐 FRONTEND: Making API request to /api/auth/login
+/api/auth/login:1  Failed to load resource: the server responded with a status of 500 ()
+login:68 🔐 FRONTEND: API response received: Object
+login:100 🔐 FRONTEND: Login error occurred: Error: Login failed
+    at HTMLFormElement.<anonymous> (login:77:19)
+(anonymous) @ login:100
+login:101 🔐 FRONTEND: Error details: Object
+(anonymous) @ login:101
+login:107 🔐 FRONTEND: Error displayed to user
+login:110 🔐 FRONTEND: UI reset to normal state
+login:46 🔐 FRONTEND: Form submission started
+login:54 🔐 FRONTEND: Form data collected: Object
+login:57 🔐 FRONTEND: Making API request to /api/auth/login
+/api/auth/login:1  Failed to load resource: the server responded with a status of 500 ()
+login:68 🔐 FRONTEND: API response received: Object
+login:100 🔐 FRONTEND: Login error occurred: Error: Login failed
+    at HTMLFormElement.<anonymous> (login:77:19)
+(anonymous) @ login:100
+login:101 🔐 FRONTEND: Error details: Object
+(anonymous) @ login:101
+login:107 🔐 FRONTEND: Error displayed to user
+login:110 🔐 FRONTEND: UI reset to normal state
+login:46 🔐 FRONTEND: Form submission started
+login:54 🔐 FRONTEND: Form data collected: Object
+login:57 🔐 FRONTEND: Making API request to /api/auth/login
+/api/auth/login:1  Failed to load resource: the server responded with a status of 500 ()
+login:68 🔐 FRONTEND: API response received: Object
+login:100 🔐 FRONTEND: Login error occurred: Error: Login failed
+    at HTMLFormElement.<anonymous> (login:77:19)
+(anonymous) @ login:100
+login:101 🔐 FRONTEND: Error details: Object
+(anonymous) @ login:101
+login:107 🔐 FRONTEND: Error displayed to user
+login:110 🔐 FRONTEND: UI reset to normal state
+login:46 🔐 FRONTEND: Form submission started
+login:54 🔐 FRONTEND: Form data collected: Object
+login:57 🔐 FRONTEND: Making API request to /api/auth/login
+/api/auth/login:1  Failed to load resource: the server responded with a status of 500 ()
+login:68 🔐 FRONTEND: API response received: Object
+login:100 🔐 FRONTEND: Login error occurred: Error: Login failed
+    at HTMLFormElement.<anonymous> (login:77:19)
+(anonymous) @ login:100
+login:101 🔐 FRONTEND: Error details: Object
+(anonymous) @ login:101
+login:107 🔐 FRONTEND: Error displayed to user
+login:110 🔐 FRONTEND: UI reset to normal state
