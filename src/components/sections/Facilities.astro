@@ -1,20 +1,57 @@
 ---
-// Facilities section with icon grid and dark background
+// Facilities section with icon grid and dynamic background
+export interface Props {
+  content?: {
+    title?: string;
+    subtitle?: string;
+    backgroundImage?: {
+      src?: string;
+      alt?: string;
+      opacity?: number;
+    };
+    items?: Array<{
+      name: string;
+      description: string;
+      icon: string;
+    }>;
+  };
+}
+
+const { content } = Astro.props;
 ---
 
-<section id="facilities" class="py-16 lg:py-24 bg-lamb-green-dark text-white">
-  <div class="max-w-7xl mx-auto px-4">
+<section id="facilities" class="py-16 lg:py-24 relative text-white">
+  <!-- Background Image -->
+  {content?.backgroundImage?.src && (
+    <div class="absolute inset-0 z-0">
+      <img 
+        src={content.backgroundImage.src} 
+        alt={content.backgroundImage.alt || 'Facilities background'} 
+        class="w-full h-full object-cover"
+      />
+      <div 
+        class="absolute inset-0 bg-lamb-green-dark" 
+        style={`opacity: ${content.backgroundImage.opacity || 0.8}`}
+      ></div>
+    </div>
+  )}
+  
+  <!-- Fallback background if no image -->
+  {!content?.backgroundImage?.src && (
+    <div class="absolute inset-0 bg-lamb-green-dark z-0"></div>
+  )}
+  <div class="max-w-7xl mx-auto px-4 relative z-10">
     <!-- Section Header -->
     <div class="text-center space-y-6 mb-16">
       <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
-        Modern Facilities &
+        {content?.title || 'Modern Facilities &'}
         <span class="block text-lamb-green-light">
-          Premium Amenities
+          {content?.title ? '' : 'Premium Amenities'}
         </span>
       </h2>
       <div class="w-24 h-1 bg-lamb-green-light rounded-full mx-auto"></div>
       <p class="text-lg sm:text-xl text-gray-200 max-w-3xl mx-auto leading-relaxed">
-        Discover our comprehensive range of facilities designed to make your stay comfortable, convenient, and memorable.
+        {content?.subtitle || 'Discover our comprehensive range of facilities designed to make your stay comfortable, convenient, and memorable.'}
       </p>
     </div>
     

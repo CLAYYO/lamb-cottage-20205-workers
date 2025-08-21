@@ -2,13 +2,16 @@
 export interface Props {
   sectionId: string;
   fieldPath: string;
-  content: string;
-  type?: 'text' | 'textarea' | 'rich' | 'image';
+  content: string | number;
+  type?: 'text' | 'textarea' | 'rich' | 'image' | 'range';
   placeholder?: string;
   className?: string;
+  min?: string;
+  max?: string;
+  step?: string;
 }
 
-const { sectionId, fieldPath, content, type = 'text', placeholder, className = '' } = Astro.props;
+const { sectionId, fieldPath, content, type = 'text', placeholder, className = '', min, max, step } = Astro.props;
 const editorId = `editor-${sectionId}-${fieldPath.replace(/\./g, '-')}`;
 ---
 
@@ -18,9 +21,9 @@ const editorId = `editor-${sectionId}-${fieldPath.replace(/\./g, '-')}`;
       type="text"
       id={editorId}
       class="visual-editor-input"
-      value={content}
+      value={String(content)}
       placeholder={placeholder}
-      data-original={content}
+      data-original={String(content)}
     />
   )}
   
@@ -29,8 +32,8 @@ const editorId = `editor-${sectionId}-${fieldPath.replace(/\./g, '-')}`;
       id={editorId}
       class="visual-editor-textarea"
       placeholder={placeholder}
-      data-original={content}
-    >{content}</textarea>
+      data-original={String(content)}
+    >{String(content)}</textarea>
   )}
   
   {type === 'rich' && (
@@ -39,8 +42,8 @@ const editorId = `editor-${sectionId}-${fieldPath.replace(/\./g, '-')}`;
       class="visual-editor-rich"
       contenteditable="true"
       data-placeholder={placeholder}
-      data-original={content}
-      set:html={content}
+      data-original={String(content)}
+      set:html={String(content)}
     ></div>
   )}
   
@@ -48,10 +51,10 @@ const editorId = `editor-${sectionId}-${fieldPath.replace(/\./g, '-')}`;
     <div class="visual-editor-image-wrapper">
       <img
         id={editorId}
-        src={content}
+        src={String(content)}
         alt="Editable image"
         class="visual-editor-image"
-        data-original={content}
+        data-original={String(content)}
       />
       <div class="image-editor-overlay">
         <button type="button" class="btn-change-image" data-target={editorId}>
@@ -62,6 +65,19 @@ const editorId = `editor-${sectionId}-${fieldPath.replace(/\./g, '-')}`;
         </button>
       </div>
     </div>
+  )}
+  
+  {type === 'range' && (
+    <input
+      type="range"
+      id={editorId}
+      class="visual-editor-range"
+      value={Number(content)}
+      min={min}
+      max={max}
+      step={step}
+      data-original={String(content)}
+    />
   )}
   
   <div class="editor-controls">
@@ -83,6 +99,34 @@ const editorId = `editor-${sectionId}-${fieldPath.replace(/\./g, '-')}`;
     position: relative;
     display: inline-block;
     min-width: 100px;
+  }
+  
+  .visual-editor-range {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: #e2e8f0;
+    outline: none;
+    -webkit-appearance: none;
+  }
+  
+  .visual-editor-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #3b82f6;
+    cursor: pointer;
+  }
+  
+  .visual-editor-range::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #3b82f6;
+    cursor: pointer;
+    border: none;
   }
   
   .visual-editor-wrapper:hover .editor-controls {

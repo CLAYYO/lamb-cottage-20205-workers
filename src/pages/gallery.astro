@@ -1,35 +1,28 @@
 ---
-export const prerender = true;
-
-// Gallery - Lamb Cottage Caravan Park
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { contentStorage } from '../lib/content-storage';
+import siteContent from '../../content/site-content.json';
 
-// Load content
-const content = await contentStorage.load();
+// Placeholder images - these can be replaced with actual images when available
+const heroImage = 'https://via.placeholder.com/800x600/22c55e/ffffff?text=Lamb+Cottage+Main+View';
+const springImage = 'https://via.placeholder.com/400x300/22c55e/ffffff?text=Spring+at+Lamb+Cottage';
+const dogWalkingImage = 'https://via.placeholder.com/400x300/22c55e/ffffff?text=Dog+Walking+Area';
+const dogTrackImage = 'https://via.placeholder.com/400x300/22c55e/ffffff?text=Dog+Walking+Track';
 
-// Page metadata
-const title = 'Gallery - Lamb Cottage Caravan Park';
-const description = 'View photos of our beautiful caravan park, facilities, and the stunning Cheshire countryside at Lamb Cottage.';
-const images = content?.images || [];
-
-// Define image sources
-const heroImage = "https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=beautiful%20caravan%20park%20main%20view%20with%20landscaped%20grounds%20luxury%20pitches%20and%20mature%20trees%20in%20Cheshire%20countryside&image_size=landscape_4_3";
-const springImage = "https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=caravan%20park%20in%20spring%20with%20blooming%20flowers%20green%20grass%20and%20beautiful%20landscaping&image_size=portrait_4_3";
-const dogWalkingImage = "https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=dedicated%20dog%20walking%20area%20at%20caravan%20park%20with%20open%20grass%20space%20and%20trees&image_size=square";
-const dogTrackImage = "https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=scenic%20dog%20walking%20track%20path%20through%20countryside%20with%20trees%20and%20grass&image_size=square";
+const pageContent = siteContent.pages.gallery;
 ---
 
-<BaseLayout title="Gallery - Lamb Cottage Caravan Park">
+<BaseLayout 
+  title={pageContent.meta.title}
+  description={pageContent.meta.description}
+>
   <main class="min-h-screen bg-gradient-to-b from-green-50 to-white">
     <!-- Hero Section -->
-    <section class="bg-gradient-to-r from-green-600 to-green-700 text-white py-16">
-      <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto text-center">
-          <h1 class="text-4xl md:text-5xl font-bold mb-6">Photo Gallery</h1>
-          <p class="text-xl md:text-2xl text-green-100 leading-relaxed">
-            Discover the beauty of Lamb Cottage Caravan Park through our collection of images
-          </p>
+    <section class="relative h-96 bg-cover bg-center bg-no-repeat" style={`background-image: url(${pageContent.hero.backgroundImage})`}>
+      <div class="absolute inset-0 bg-black" style={`opacity: ${pageContent.hero.opacity}`}></div>
+      <div class="relative container mx-auto px-4 h-full flex items-center justify-center">
+        <div class="text-center text-white">
+          <h1 class="text-4xl md:text-5xl font-bold mb-4">{pageContent.hero.title}</h1>
+          <p class="text-xl md:text-2xl text-green-100">{pageContent.hero.subtitle}</p>
         </div>
       </div>
     </section>
@@ -40,10 +33,9 @@ const dogTrackImage = "https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?
         <div class="max-w-6xl mx-auto">
           <!-- Introduction -->
           <div class="text-center mb-12">
-            <h2 class="text-3xl font-bold text-gray-800 mb-4">Experience Our Beautiful Park</h2>
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">{pageContent.content.introduction.title}</h2>
             <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-              Take a visual tour of our meticulously maintained 7½ acre park, featuring landscaped grounds, 
-              luxury facilities, and the peaceful Cheshire countryside setting.
+              {pageContent.content.introduction.content}
             </p>
           </div>
 
@@ -115,7 +107,7 @@ const dogTrackImage = "https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?
 
           <!-- Park Features Section -->
           <div class="bg-white rounded-lg shadow-lg p-8 mb-12">
-            <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">What You'll Find at Lamb Cottage</h3>
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">{pageContent.content.features.title}</h3>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               <div class="text-center">
                 <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -178,10 +170,9 @@ const dogTrackImage = "https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?
           <!-- Additional Information -->
           <div class="bg-green-50 rounded-lg p-8">
             <div class="text-center mb-6">
-              <h3 class="text-2xl font-bold text-gray-800 mb-4">Visit Us Today</h3>
+              <h3 class="text-2xl font-bold text-gray-800 mb-4">{pageContent.content.additionalInfo.title}</h3>
               <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-                Experience the tranquility and beauty of Lamb Cottage Caravan Park for yourself. 
-                Our meticulously maintained grounds and luxury facilities await your visit.
+                {pageContent.content.additionalInfo.content}
               </p>
             </div>
             <div class="grid md:grid-cols-2 gap-8">

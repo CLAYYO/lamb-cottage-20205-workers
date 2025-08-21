@@ -9,7 +9,7 @@ const content = await contentStorage.load();
 const isPreview = Astro.url.searchParams.has('preview');
 ---
 
-<BaseLayout title={content.header.title}>
+<BaseLayout title="Lamb Cottage Caravan Park">
   <!-- Top Bar -->
   <div class="bg-green-800 text-white py-2">
     <div class="container mx-auto px-4">
@@ -19,25 +19,29 @@ const isPreview = Astro.url.searchParams.has('preview');
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
             </svg>
-            {content.topBar?.phone || 'Phone not available'}
+            {content.contact?.phone || '01234 567890'}
           </span>
           <span class="flex items-center gap-1">
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
               <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
             </svg>
-            {content.topBar?.email || 'Email not available'}
+            {content.contact?.email || 'info@lambcottage.co.uk'}
           </span>
         </div>
         <div class="flex items-center gap-4">
-          {(content.topBar?.socialLinks || []).map(link => (
-            <a href={link.url || '#'} class="hover:text-green-200 transition-colors" target="_blank" rel="noopener noreferrer">
-              <span class="sr-only">{link.name}</span>
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
-              </svg>
-            </a>
-          ))}
+          <a href={content.footer?.social?.facebook || '#'} class="hover:text-green-200 transition-colors" target="_blank" rel="noopener noreferrer">
+            <span class="sr-only">Facebook</span>
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+          </a>
+          <a href={content.footer?.social?.instagram || '#'} class="hover:text-green-200 transition-colors" target="_blank" rel="noopener noreferrer">
+            <span class="sr-only">Instagram</span>
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987 6.62 0 11.987-5.367 11.987-11.987C24.014 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.49-3.323-1.297C4.198 14.895 3.708 13.744 3.708 12.447s.49-2.448 1.297-3.323C5.902 8.198 7.053 7.708 8.35 7.708s2.448.49 3.323 1.297c.897.875 1.387 2.026 1.387 3.323s-.49 2.448-1.297 3.323c-.875.897-2.026 1.387-3.323 1.387z"/>
+            </svg>
+          </a>
         </div>
       </div>
     </div>
@@ -48,24 +52,18 @@ const isPreview = Astro.url.searchParams.has('preview');
     <div class="container mx-auto px-4">
       <div class="flex items-center justify-between py-4">
         <div class="flex items-center">
-          {content.header.logo.src && (
-            <img src={content.header.logo.src} alt={content.header.logo.alt} class="h-12 w-auto mr-3" />
-          )}
           <div>
-            <h1 class="text-2xl font-bold text-gray-900">{content.header.title}</h1>
-            {content.header.subtitle && (
-              <p class="text-gray-600 text-sm">{content.header.subtitle}</p>
-            )}
+            <h1 class="text-2xl font-bold text-gray-900">Lamb Cottage Caravan Park</h1>
           </div>
         </div>
         
         <!-- Navigation -->
         <nav class="hidden md:flex items-center space-x-8">
-          {(content.navigation?.items || []).map(item => (
-            <a href={item.url || '#'} class="text-gray-700 hover:text-green-600 transition-colors">
-              {item.label}
-            </a>
-          ))}
+          <a href="/" class="text-gray-700 hover:text-green-600 transition-colors">Home</a>
+          <a href="/facilities" class="text-gray-700 hover:text-green-600 transition-colors">Facilities</a>
+          <a href="/static-caravans" class="text-gray-700 hover:text-green-600 transition-colors">Property Sales</a>
+          <a href="/reviews" class="text-gray-700 hover:text-green-600 transition-colors">Reviews</a>
+          <a href="/contact" class="text-gray-700 hover:text-green-600 transition-colors">Contact</a>
         </nav>
         
         <!-- Mobile menu button -->
@@ -79,24 +77,23 @@ const isPreview = Astro.url.searchParams.has('preview');
       <!-- Mobile Navigation -->
       <nav class="md:hidden hidden" id="mobile-menu">
         <div class="py-4 space-y-2">
-          {(content.navigation?.items || []).map(item => (
-            <a href={item.url || '#'} class="block py-2 text-gray-700 hover:text-green-600 transition-colors">
-              {item.label}
-            </a>
-          ))}
+          <a href="/" class="block py-2 text-gray-700 hover:text-green-600 transition-colors">Home</a>
+          <a href="/facilities" class="block py-2 text-gray-700 hover:text-green-600 transition-colors">Facilities</a>
+          <a href="/static-caravans" class="block py-2 text-gray-700 hover:text-green-600 transition-colors">Property Sales</a>
+          <a href="/reviews" class="block py-2 text-gray-700 hover:text-green-600 transition-colors">Reviews</a>
+          <a href="/contact" class="block py-2 text-gray-700 hover:text-green-600 transition-colors">Contact</a>
         </div>
       </nav>
     </div>
   </header>
 
   <!-- Hero Section -->
-  <section class="relative h-screen flex items-center justify-center text-white" style={`background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('${content.hero.backgroundImage.src}'); background-size: cover; background-position: center;`}>
+  <section class="relative h-screen flex items-center justify-center text-white" style={`background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('${content.hero?.backgroundImage?.src || '/lamb-cottage-hero.jpg'}'); background-size: cover; background-position: center;`}>
     <div class="text-center max-w-4xl mx-auto px-4">
-      <h1 class="text-5xl md:text-7xl font-bold mb-6">{content.hero.title}</h1>
-      <p class="text-xl md:text-2xl mb-8 opacity-90">{content.hero.subtitle}</p>
-      <p class="text-lg mb-8 max-w-2xl mx-auto">{content.hero.description}</p>
+      <h1 class="text-5xl md:text-7xl font-bold mb-6">{content.hero?.title || 'Welcome to Lamb Cottage Caravan Park'}</h1>
+      <p class="text-xl md:text-2xl mb-8 opacity-90">{content.hero?.subtitle || 'Experience the perfect blend of comfort and nature'}</p>
       <a href={content.hero?.ctaButton?.url || '#'} class="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-8 rounded-lg text-lg transition-colors">
-        {content.hero?.ctaButton?.text || 'Learn More'}
+        {content.hero?.ctaButton?.text || 'Book Your Stay'}
       </a>
     </div>
   </section>
@@ -106,11 +103,11 @@ const isPreview = Astro.url.searchParams.has('preview');
     <div class="container mx-auto px-4">
       <div class="grid md:grid-cols-2 gap-12 items-center">
         <div>
-          <h2 class="text-4xl font-bold text-gray-900 mb-6">{content.welcome.title}</h2>
-          <div class="prose prose-lg text-gray-700" set:html={content.welcome.content}></div>
+          <h2 class="text-4xl font-bold text-gray-900 mb-6">{content.welcome?.title || 'Welcome to Lamb Cottage'}</h2>
+          <div class="prose prose-lg text-gray-700" set:html={content.welcome?.content || 'Experience the perfect countryside retreat'}></div>
         </div>
         <div>
-          <img src={content.welcome.image.src} alt={content.welcome.image.alt} class="w-full h-auto rounded-lg shadow-lg" />
+          <img src={content.welcome?.image?.src || '/images/welcome-cottage.jpg'} alt={content.welcome?.image?.alt || 'Welcome to Lamb Cottage'} class="w-full h-auto rounded-lg shadow-lg" />
         </div>
       </div>
     </div>
@@ -119,7 +116,7 @@ const isPreview = Astro.url.searchParams.has('preview');
   <!-- Tagline Section -->
   <section class="py-16 bg-green-600 text-white text-center">
     <div class="container mx-auto px-4">
-      <h2 class="text-3xl md:text-4xl font-bold">{content.tagline?.text || 'Welcome'}</h2>
+      <h2 class="text-3xl md:text-4xl font-bold">{content.tagline?.text || 'Your Home Away From Home'}</h2>
     </div>
   </section>
 
@@ -127,17 +124,15 @@ const isPreview = Astro.url.searchParams.has('preview');
   <section class="py-20">
     <div class="container mx-auto px-4">
       <div class="text-center mb-16">
-        <h2 class="text-4xl font-bold text-gray-900 mb-4">{content.facilities.title}</h2>
-        <p class="text-xl text-gray-600 max-w-2xl mx-auto">{content.facilities.subtitle}</p>
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">{content.facilities?.title || 'Our Facilities'}</h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">{content.facilities?.subtitle || 'Everything you need for a comfortable stay'}</p>
       </div>
       
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {(content.facilities?.items || []).map(facility => (
           <div class="bg-white rounded-lg shadow-md p-6 text-center">
             <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg class="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-              </svg>
+              <span class="text-2xl">{facility.icon || '✓'}</span>
             </div>
             <h3 class="text-xl font-semibold text-gray-900 mb-2">{facility.name}</h3>
             <p class="text-gray-600">{facility.description}</p>
@@ -151,14 +146,14 @@ const isPreview = Astro.url.searchParams.has('preview');
   <section class="py-20 bg-gray-50">
     <div class="container mx-auto px-4">
       <div class="text-center mb-16">
-        <h2 class="text-4xl font-bold text-gray-900 mb-4">{content.propertySales.title}</h2>
-        <p class="text-xl text-gray-600 max-w-2xl mx-auto">{content.propertySales.subtitle}</p>
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">{content.propertySales?.title || 'Static Caravans for Sale'}</h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">{content.propertySales?.subtitle || 'Find your perfect holiday home'}</p>
       </div>
       
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {(content.propertySales?.properties || []).map(property => (
           <div class="bg-white rounded-lg shadow-md overflow-hidden">
-            <img src={property.image.src} alt={property.image.alt} class="w-full h-48 object-cover" />
+            <img src={property.image?.src || '/images/property-placeholder.jpg'} alt={property.image?.alt || property.title || 'Property'} class="w-full h-48 object-cover" />
             <div class="p-6">
               <h3 class="text-xl font-semibold text-gray-900 mb-2">{property.title}</h3>
               <p class="text-gray-600 mb-4">{property.description}</p>
@@ -179,8 +174,8 @@ const isPreview = Astro.url.searchParams.has('preview');
   <section class="py-20">
     <div class="container mx-auto px-4">
       <div class="text-center mb-16">
-        <h2 class="text-4xl font-bold text-gray-900 mb-4">{content.reviews.title}</h2>
-        <p class="text-xl text-gray-600 max-w-2xl mx-auto">{content.reviews.subtitle}</p>
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">{content.reviews?.title || 'What Our Guests Say'}</h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">{content.reviews?.subtitle || 'Read reviews from our happy guests'}</p>
       </div>
       
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -215,8 +210,8 @@ const isPreview = Astro.url.searchParams.has('preview');
   <section class="py-20 bg-gray-50">
     <div class="container mx-auto px-4">
       <div class="text-center mb-16">
-        <h2 class="text-4xl font-bold text-gray-900 mb-4">{content.contact.title}</h2>
-        <p class="text-xl text-gray-600 max-w-2xl mx-auto">{content.contact.subtitle}</p>
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">{content.contact?.title || 'Get in Touch'}</h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">{content.contact?.subtitle || 'Contact us for bookings and enquiries'}</p>
       </div>
       
       <div class="grid md:grid-cols-2 gap-12">
@@ -293,8 +288,8 @@ const isPreview = Astro.url.searchParams.has('preview');
   <!-- Booking Banner -->
   <section class="py-16 bg-green-600 text-white text-center">
     <div class="container mx-auto px-4">
-      <h2 class="text-3xl md:text-4xl font-bold mb-4">{content.bookingBanner.title}</h2>
-      <p class="text-xl mb-8 opacity-90">{content.bookingBanner.subtitle}</p>
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">{content.bookingBanner?.title || 'Ready to Book Your Stay?'}</h2>
+      <p class="text-xl mb-8 opacity-90">{content.bookingBanner?.subtitle || 'Contact us today to reserve your perfect getaway'}</p>
       <a href={content.bookingBanner?.ctaButton?.url || '#'} class="inline-block bg-white text-green-600 hover:bg-gray-100 font-semibold py-4 px-8 rounded-lg text-lg transition-colors">
         {content.bookingBanner?.ctaButton?.text || 'Book Now'}
       </a>
@@ -306,8 +301,8 @@ const isPreview = Astro.url.searchParams.has('preview');
     <div class="container mx-auto px-4">
       <div class="grid md:grid-cols-4 gap-8">
         <div>
-          <h3 class="text-lg font-semibold mb-4">{content.footer.companyName}</h3>
-          <p class="text-gray-400 mb-4">{content.footer.description}</p>
+          <h3 class="text-lg font-semibold mb-4">{content.footer?.companyName || 'Lamb Cottage Caravan Park'}</h3>
+          <p class="text-gray-400 mb-4">{content.footer?.description || 'Your perfect countryside retreat'}</p>
           <div class="flex space-x-4">
             {(content.footer?.socialLinks || []).map(link => (
               <a href={link.url || '#'} class="text-gray-400 hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">
@@ -355,7 +350,7 @@ const isPreview = Astro.url.searchParams.has('preview');
       </div>
       
       <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-        <p>{content.footer.copyright}</p>
+        <p>{content.footer?.copyright || '© 2024 Lamb Cottage Caravan Park. All rights reserved.'}</p>
       </div>
     </div>
   </footer>

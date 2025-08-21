@@ -1,42 +1,53 @@
 ---
-// Hero section with aerial photo and overlay text
+// Hero section with dynamic background image and overlay text
+export interface Props {
+  content: {
+    title: string;
+    subtitle: string;
+    ctaButton: {
+      text: string;
+      url: string;
+    };
+    backgroundImage?: {
+      src: string;
+      alt: string;
+      opacity: number;
+    };
+  };
+}
+
+const { content } = Astro.props;
+const backgroundImage = content.backgroundImage?.src || '/lamb-cottage-hero.jpg';
+const backgroundOpacity = content.backgroundImage?.opacity || 0.4;
 ---
 
 <section id="home" class="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
   <!-- Background Image -->
   <div class="absolute inset-0 z-0">
     <img 
-      src="/lamb-cottage-hero.jpg" 
-      alt="Aerial view of Lamb Cottage Caravan Park showing beautiful countryside setting" 
+      src={backgroundImage}
+      alt={content.backgroundImage?.alt || "Aerial view of Lamb Cottage Caravan Park showing beautiful countryside setting"}
       class="w-full h-full object-cover"
       loading="eager"
     />
-    <!-- Gradient Overlay -->
-    <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60"></div>
+    <!-- Dynamic Opacity Overlay -->
+    <div class="absolute inset-0" style={`background: linear-gradient(to bottom, rgba(0,0,0,${backgroundOpacity}), rgba(0,0,0,${backgroundOpacity * 0.5}), rgba(0,0,0,${backgroundOpacity * 1.5}))`}></div>
   </div>
   
   <!-- Hero Content -->
   <div class="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
     <!-- Main Heading -->
-    <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight animate-fade-in-up">
-      Welcome to
-      <span class="block text-lamb-green-light drop-shadow-lg">
-        Lamb Cottage
-      </span>
-      <span class="block text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-medium mt-2">
-        Caravan Park
-      </span>
+    <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight animate-fade-in-up" set:html={content.title}>
     </h1>
     
     <!-- Subtitle -->
-    <p class="text-lg sm:text-xl lg:text-2xl mb-8 text-gray-100 max-w-2xl mx-auto leading-relaxed animate-fade-in-up animation-delay-300">
-      Experience the perfect blend of countryside tranquility and modern comfort in the heart of beautiful countryside
+    <p class="text-lg sm:text-xl lg:text-2xl mb-8 text-gray-100 max-w-2xl mx-auto leading-relaxed animate-fade-in-up animation-delay-300" set:html={content.subtitle}>
     </p>
     
     <!-- Call-to-Action Buttons -->
     <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 animate-fade-in-up animation-delay-600">
       <a 
-        href="https://lambcottage.campmanager.com/19567/Check-Availability/" 
+        href={content.ctaButton.url}
         target="_blank"
         rel="noopener noreferrer"
         class="bg-lamb-green-dark text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-lamb-green-medium transform hover:scale-105 transition-all duration-300 shadow-large hover:shadow-xl flex items-center space-x-2"
@@ -45,7 +56,7 @@
         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
           <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
         </svg>
-        <span>Book Your Stay</span>
+        <span>{content.ctaButton.text}</span>
       </a>
       
       <a 

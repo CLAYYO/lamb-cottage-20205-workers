@@ -85,13 +85,34 @@ const content = await getContent();
           </div>
           <div class="form-group">
             <label for="hero-image">Background Image</label>
-            <VisualEditor 
-              sectionId="hero" 
-              fieldPath="backgroundImage.src" 
-              content={content.hero.backgroundImage?.src || ''} 
-              type="image" 
-              className="image-preview"
-            />
+            <div class="image-upload-container">
+              <VisualEditor 
+                sectionId="hero" 
+                fieldPath="backgroundImage.src" 
+                content={content.hero.backgroundImage?.src || ''} 
+                type="image" 
+                className="image-preview"
+              />
+              <div class="image-specs">
+                <small class="text-gray-600">Recommended size: 1920x600px</small>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="hero-opacity">Background Opacity</label>
+            <div class="opacity-control">
+              <VisualEditor 
+                sectionId="hero" 
+                fieldPath="backgroundImage.opacity" 
+                content={content.hero.backgroundImage?.opacity || 0.4} 
+                type="range" 
+                className="opacity-slider"
+                min="0" 
+                max="1" 
+                step="0.1"
+              />
+              <span class="opacity-value">{Math.round((content.hero.backgroundImage?.opacity || 0.4) * 100)}%</span>
+            </div>
           </div>
         </div>
         
@@ -176,6 +197,38 @@ const content = await getContent();
               fieldPath="subtitle" 
               content={content.facilities.subtitle} 
             />
+          </div>
+          
+          <div class="form-group">
+            <label for="facilities-image">Background Image</label>
+            <div class="image-upload-container">
+              <VisualEditor 
+                sectionId="facilities" 
+                fieldPath="backgroundImage.src" 
+                content={content.facilities.backgroundImage?.src || ''} 
+                type="image" 
+                className="image-preview"
+              />
+              <div class="image-specs">
+                <small class="text-gray-600">Recommended size: 1920x600px</small>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="facilities-opacity">Background Opacity</label>
+            <div class="opacity-control">
+              <VisualEditor 
+                sectionId="facilities" 
+                fieldPath="backgroundImage.opacity" 
+                content={content.facilities.backgroundImage?.opacity || 0.4} 
+                type="range" 
+                className="opacity-slider"
+                min="0" 
+                max="1" 
+                step="0.1"
+              />
+              <span class="opacity-value">{Math.round((content.facilities.backgroundImage?.opacity || 0.4) * 100)}%</span>
+            </div>
           </div>
           
           <div class="form-group">
@@ -397,6 +450,38 @@ const content = await getContent();
               fieldPath="subtitle" 
               content={content.bookingBanner.subtitle} 
             />
+          </div>
+          
+          <div class="form-group">
+            <label for="booking-image">Background Image</label>
+            <div class="image-upload-container">
+              <VisualEditor 
+                sectionId="bookingBanner" 
+                fieldPath="backgroundImage.src" 
+                content={content.bookingBanner.backgroundImage?.src || ''} 
+                type="image" 
+                className="image-preview"
+              />
+              <div class="image-specs">
+                <small class="text-gray-600">Recommended size: 1920x600px</small>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="booking-opacity">Background Opacity</label>
+            <div class="opacity-control">
+              <VisualEditor 
+                sectionId="bookingBanner" 
+                fieldPath="backgroundImage.opacity" 
+                content={content.bookingBanner.backgroundImage?.opacity || 0.4} 
+                type="range" 
+                className="opacity-slider"
+                min="0" 
+                max="1" 
+                step="0.1"
+              />
+              <span class="opacity-value">{Math.round((content.bookingBanner.backgroundImage?.opacity || 0.4) * 100)}%</span>
+            </div>
           </div>
           
           <div class="grid grid-cols-2 gap-6">
@@ -742,6 +827,29 @@ const content = await getContent();
       margin-bottom: 0.75rem;
       color: #374151;
       font-size: 0.95rem;
+    }
+    
+    .image-upload-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .image-specs {
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+    
+    .opacity-control {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .opacity-value {
+      min-width: 40px;
+      font-weight: 600;
+      color: #374151;
     }
     
     .form-input,

@@ -6,25 +6,26 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { contentStorage } from '../lib/content-storage';
 
 // Load content
-const content = await contentStorage.load();
+const siteContent = await contentStorage.load();
+const pageContent = siteContent.pages.contact;
 
 // Page metadata
-const title = 'Contact Us - Lamb Cottage Caravan Park';
-const description = 'Get in touch with Lamb Cottage Caravan Park for bookings, inquiries, or questions about our facilities in Vale Royal, Cheshire.';
+const title = pageContent.title;
+const description = pageContent.description;
 ---
 
 <BaseLayout title={title} description={description}>
   
   <main class="min-h-screen bg-gradient-to-b from-green-50 to-white" transition:name="main-content">
     <!-- Hero Section -->
-    <section class="relative py-16 bg-gradient-to-r from-green-600 to-green-700">
-      <div class="absolute inset-0 bg-black opacity-20"></div>
+    <section class="relative py-16 bg-gradient-to-r from-green-600 to-green-700" style={pageContent.hero.backgroundImage.src ? `background-image: url('${pageContent.hero.backgroundImage.src}'); background-size: cover; background-position: center;` : ''}>
+      <div class="absolute inset-0 bg-black" style={`opacity: ${pageContent.hero.backgroundImage.opacity / 100}`}></div>
       <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">
-          Contact Us
+          {pageContent.hero.title}
         </h1>
         <p class="text-xl text-green-100 max-w-3xl mx-auto">
-          We'd love to hear from you. Get in touch for bookings, inquiries, or any questions about our caravan park
+          {pageContent.hero.subtitle}
         </p>
       </div>
     </section>
@@ -37,11 +38,8 @@ const description = 'Get in touch with Lamb Cottage Caravan Park for bookings, i
           <!-- Contact Information -->
           <div class="space-y-8">
             <div>
-              <h2 class="text-3xl font-bold text-gray-800 mb-6">Get In Touch</h2>
-              <p class="text-gray-600 text-lg mb-8">
-                Whether you're planning a visit, have questions about our facilities, or need assistance with your booking, 
-                we're here to help. Contact us using any of the methods below.
-              </p>
+              <h2 class="text-3xl font-bold text-gray-800 mb-6">Get in Touch</h2>
+              <div class="text-gray-600 text-lg mb-8">{pageContent.content.introduction}</div>
             </div>
 
             <!-- Contact Details -->
@@ -114,12 +112,9 @@ const description = 'Get in touch with Lamb Cottage Caravan Park for bookings, i
                   </div>
                 </div>
                 <div class="ml-4">
-                  <h3 class="text-lg font-semibold text-gray-800">Reception Hours</h3>
+                  <h3 class="text-lg font-semibold text-gray-800">Office Hours</h3>
                   <p class="text-gray-600">When you can reach us</p>
-                  <div class="text-gray-700">
-                    <p>Monday - Sunday: 9:00 AM - 6:00 PM</p>
-                    <p class="text-sm text-gray-500 mt-1">Late arrivals by arrangement</p>
-                  </div>
+                  <div class="text-gray-700">{pageContent.content.office_hours}</div>
                 </div>
               </div>
             </div>
@@ -233,13 +228,11 @@ const description = 'Get in touch with Lamb Cottage Caravan Park for bookings, i
       </div>
     </section>
 
-    <!-- Quick Contact Banner -->
+    <!-- Emergency Contact Banner -->
     <section class="py-12 bg-gradient-to-r from-green-600 to-green-700">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-2xl font-bold text-white mb-4">Need Immediate Assistance?</h2>
-        <p class="text-green-100 text-lg mb-6">
-          For urgent inquiries or immediate booking assistance, give us a call
-        </p>
+        <h2 class="text-2xl font-bold text-white mb-4">Emergency Contact</h2>
+        <div class="text-green-100 text-lg mb-6">{pageContent.content.emergency_info}</div>
         <a 
           href="tel:01606889455" 
           class="inline-flex items-center bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-green-50 transition-colors"

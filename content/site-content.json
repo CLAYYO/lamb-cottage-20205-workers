@@ -3,11 +3,18 @@
     "title": "Welcome to Lamb Cottage Caravan Park",
     "subtitle": "Experience the perfect blend of comfort and nature in our premium caravan park nestled in the heart of the countryside.",
     "ctaButton": {
-      "text": "Book Your Stay"
+      "text": "Book Your Stay",
+      "url": "https://lambcottage.campmanager.com/19567/Check-Availability/"
     },
     "backgroundImage": {
-      "src": "/images/lamb-cottage-hero.jpg",
-      "alt": "Lamb Cottage Caravan Park"
+      "src": "/lamb-cottage-hero.jpg",
+      "alt": "Lamb Cottage Caravan Park",
+      "opacity": 0.4,
+      "dimensions": {
+        "width": 1920,
+        "height": 600,
+        "recommended": "1920x600px for optimal display"
+      }
     }
   },
   "welcome": {
@@ -25,6 +32,16 @@
   "facilities": {
     "title": "Our Facilities",
     "subtitle": "Everything you need for a comfortable stay",
+    "backgroundImage": {
+      "src": "",
+      "alt": "Facilities background",
+      "opacity": 0.3,
+      "dimensions": {
+        "width": 1920,
+        "height": 600,
+        "recommended": "1920x600px for optimal display"
+      }
+    },
     "items": [
       {
         "name": "Electric Hook-ups",
@@ -123,6 +140,16 @@
   "bookingBanner": {
     "title": "Ready to Book Your Stay?",
     "description": "Don't wait - secure your perfect countryside getaway today!",
+    "backgroundImage": {
+      "src": "",
+      "alt": "Booking banner background",
+      "opacity": 0.5,
+      "dimensions": {
+        "width": 1920,
+        "height": 600,
+        "recommended": "1920x600px for optimal display"
+      }
+    },
     "primaryButton": {
       "text": "Book Now",
       "url": "/booking"
@@ -145,6 +172,179 @@
       "facebook": "https://facebook.com/lambcottagepark",
       "instagram": "https://instagram.com/lambcottagepark",
       "tripadvisor": "https://www.tripadvisor.com/Hotel_Review-g499515-d8592952-Reviews-Lamb_Cottage_Caravan_Park-Northwich_Cheshire_England.html"
+    }
+  },
+  "pages": {
+    "about": {
+      "title": "About Lamb Cottage Caravan Park",
+      "description": "Learn about our family-run caravan park and our commitment to providing exceptional countryside holidays.",
+      "hero": {
+        "title": "About Us",
+        "subtitle": "Discover the story behind Lamb Cottage Caravan Park",
+        "backgroundImage": {
+          "src": "",
+          "alt": "About us background",
+          "opacity": 0.4
+        }
+      },
+      "content": {
+        "introduction": {
+          "title": "Welcome to Lamb Cottage",
+          "content": "<p>Welcome to Lamb Cottage Caravan Park, where tradition meets comfort in the heart of the countryside. Our family-run park has been welcoming guests for over 20 years, providing a peaceful retreat where you can reconnect with nature and create lasting memories.</p><p>Whether you're looking for a weekend getaway or an extended holiday, our well-maintained facilities and friendly atmosphere ensure a comfortable and enjoyable stay for all our guests.</p>"
+        },
+        "story": {
+          "title": "Our Story",
+          "content": "<p>Our family has been welcoming guests for over 20 years, creating a peaceful retreat where memories are made. What started as a small family business has grown into one of the region's most respected caravan parks, while maintaining our personal touch and commitment to excellence.</p><p>We take pride in our beautiful 7½ acre site, carefully maintained to provide the perfect balance of comfort and natural beauty.</p>"
+        },
+        "mission": {
+          "title": "Our Mission",
+          "content": "<p>We are committed to providing exceptional service and maintaining the highest standards for all our guests. Our mission is to create a welcoming environment where families and couples can enjoy the tranquility of the countryside while having access to modern amenities and facilities.</p><p>Every aspect of our park is designed with our guests' comfort and enjoyment in mind.</p>"
+        }
+      }
+    },
+    "contact": {
+      "title": "Contact Lamb Cottage Caravan Park",
+      "description": "Get in touch with us for bookings, enquiries, or any questions about your stay.",
+      "hero": {
+        "title": "Contact Us",
+        "subtitle": "We're here to help with all your enquiries",
+        "backgroundImage": {
+          "src": "",
+          "alt": "Contact us background",
+          "opacity": 0.4
+        }
+      },
+      "content": {
+        "introduction": "Have questions about your stay or need assistance with booking? Our friendly team is here to help.",
+        "office_hours": "Our reception is open Monday to Friday 9:00 AM - 5:00 PM, weekends 10:00 AM - 4:00 PM.",
+        "emergency_info": "Emergency contact is available 24/7 for existing guests."
+      }
+    },
+    "facilities": {
+      "title": "Facilities at Lamb Cottage Caravan Park",
+      "description": "Discover all the amenities and facilities available during your stay with us.",
+      "hero": {
+        "title": "Our Facilities",
+        "subtitle": "Everything you need for a comfortable stay",
+        "backgroundImage": {
+          "src": "",
+          "alt": "Facilities background",
+          "opacity": 0.4
+        }
+      },
+      "content": {
+        "introduction": "We pride ourselves on maintaining excellent facilities to ensure your stay is comfortable and enjoyable.",
+        "amenities_info": "All our facilities are regularly maintained and cleaned to the highest standards.",
+        "accessibility": "We strive to make our facilities accessible to all guests."
+      }
+    },
+    "attractions": {
+      "title": "Local Attractions Near Lamb Cottage",
+      "description": "Explore the wonderful attractions and activities available in our local area.",
+      "hero": {
+        "title": "Local Attractions",
+        "subtitle": "Discover the beauty of our surrounding area",
+        "backgroundImage": {
+          "src": "",
+          "alt": "Local attractions background",
+          "opacity": 0.4
+        }
+      },
+      "content": {
+        "introduction": "Our location provides easy access to numerous attractions and activities for all ages.",
+        "nearby_info": "From historic sites to natural beauty spots, there's something for everyone to enjoy.",
+        "activities": "Whether you prefer outdoor adventures or cultural experiences, you'll find plenty to explore."
+      }
+    },
+    "reviews": {
+      "title": "Guest Reviews - Lamb Cottage Caravan Park",
+      "description": "Read what our guests have to say about their experiences at Lamb Cottage Caravan Park.",
+      "hero": {
+        "title": "Guest Reviews",
+        "subtitle": "Hear from our happy guests",
+        "backgroundImage": {
+          "src": "",
+          "alt": "Guest reviews background",
+          "opacity": 0.4
+        }
+      },
+      "content": {
+        "introduction": "Don't just take our word for it - see what our guests have to say about their stays with us.",
+        "testimonials_info": "We're proud of the positive feedback we receive and continuously strive to exceed expectations.",
+        "review_policy": "All reviews are from verified guests who have stayed at our park."
+      }
+    },
+    "staticCaravans": {
+      "title": "Static Caravans for Sale at Lamb Cottage",
+      "description": "Own your own piece of paradise with our selection of quality static caravans for sale.",
+      "hero": {
+        "title": "Static Caravans for Sale",
+        "subtitle": "Your own countryside retreat awaits",
+        "backgroundImage": {
+          "src": "",
+          "alt": "Static caravans background",
+          "opacity": 0.4
+        }
+      },
+      "content": {
+        "introduction": "Invest in your own static caravan and enjoy unlimited access to our beautiful park.",
+        "ownership_benefits": "Owners enjoy exclusive benefits and priority access to park facilities.",
+        "financing_info": "Flexible financing options are available to help make your dream a reality."
+      }
+    },
+    "tariff": {
+      "title": "Prices and Tariffs - Lamb Cottage Caravan Park",
+      "description": "View our competitive prices and seasonal tariffs for stays at Lamb Cottage Caravan Park.",
+      "hero": {
+        "title": "Prices & Tariffs",
+        "subtitle": "Transparent pricing for your perfect getaway",
+        "backgroundImage": {
+          "src": "",
+          "alt": "Pricing background",
+          "opacity": 0.4
+        }
+      },
+      "content": {
+        "introduction": "We offer competitive rates with no hidden fees, ensuring great value for your countryside holiday.",
+        "seasonal_info": "Our pricing varies by season to offer the best value throughout the year.",
+        "booking_terms": "All prices include access to our facilities and amenities."
+      }
+    },
+    "directions": {
+      "title": "Directions to Lamb Cottage Caravan Park",
+      "description": "Find us easily with detailed directions and travel information to Lamb Cottage Caravan Park.",
+      "hero": {
+        "title": "Find Us",
+        "subtitle": "Easy directions to your countryside retreat",
+        "backgroundImage": {
+          "src": "",
+          "alt": "Directions background",
+          "opacity": 0.4
+        }
+      },
+      "content": {
+        "introduction": "Located in the heart of the countryside, we're easily accessible by car with ample parking available.",
+        "transport_info": "Detailed directions and public transport information to help you reach us.",
+        "arrival_tips": "Tips for a smooth arrival and check-in process."
+      }
+    },
+    "gallery": {
+      "title": "Photo Gallery - Lamb Cottage Caravan Park",
+      "description": "Browse our photo gallery to see the beautiful facilities and surroundings at Lamb Cottage.",
+      "hero": {
+        "title": "Photo Gallery",
+        "subtitle": "See the beauty of Lamb Cottage Caravan Park",
+        "backgroundImage": {
+          "src": "",
+          "alt": "Gallery background",
+          "opacity": 0.4
+        }
+      },
+      "content": {
+        "introduction": "Take a visual tour of our park and see what makes Lamb Cottage special.",
+        "photo_info": "Our gallery showcases the facilities, accommodation, and beautiful surroundings.",
+        "update_info": "We regularly update our gallery with new photos throughout the seasons."
+      }
     }
   },
   "_metadata": {

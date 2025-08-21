@@ -2,17 +2,22 @@
 export const prerender = true;
 
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { contentStorage } from '../lib/content-storage';
+
+const siteContent = await contentStorage.load();
+const pageContent = siteContent.pages.reviews;
 ---
 
-<BaseLayout title="Reviews - Lamb Cottage Caravan Park">
+<BaseLayout title={pageContent.title} description={pageContent.description}>
   <main class="min-h-screen bg-gradient-to-b from-green-50 to-white">
     <!-- Hero Section -->
-    <section class="bg-gradient-to-r from-green-600 to-green-700 text-white py-16">
-      <div class="container mx-auto px-4">
+    <section class="relative bg-gradient-to-r from-green-600 to-green-700 text-white py-16" style={`background-image: url('${pageContent.hero.backgroundImage.src}'); background-size: cover; background-position: center;`}>
+      <div class="absolute inset-0 bg-black" style={`opacity: ${pageContent.hero.backgroundImage.opacity}`}></div>
+      <div class="container mx-auto px-4 relative z-10">
         <div class="max-w-4xl mx-auto text-center">
-          <h1 class="text-4xl md:text-5xl font-bold mb-6">Customer Reviews</h1>
+          <h1 class="text-4xl md:text-5xl font-bold mb-6">{pageContent.hero.title}</h1>
           <p class="text-xl md:text-2xl text-green-100 leading-relaxed">
-            Discover what our guests say about their experience at Lamb Cottage Caravan Park
+            {pageContent.hero.subtitle}
           </p>
         </div>
       </div>
@@ -24,10 +29,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <div class="max-w-6xl mx-auto">
           <!-- Introduction -->
           <div class="text-center mb-12">
-            <h2 class="text-3xl font-bold text-gray-800 mb-4">What Our Guests Say</h2>
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">{pageContent.content.introduction.title}</h2>
             <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-              Our award-winning park has been welcoming discerning guests for years. 
-              Read their experiences and discover why they return to Lamb Cottage year after year.
+              {pageContent.content.introduction.content}
             </p>
           </div>
 

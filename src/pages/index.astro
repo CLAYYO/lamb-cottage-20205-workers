@@ -15,6 +15,9 @@ import ContactForm from '../components/sections/ContactForm.astro';
 import BookingBanner from '../components/sections/BookingBanner.astro';
 import Footer from '../components/sections/Footer.astro';
 
+// Import site content
+import siteContent from '../../content/site-content.json';
+
 const pageTitle = 'Lamb Cottage Caravan Park - Your Perfect Countryside Getaway';
 const pageDescription = 'Experience tranquil countryside living at Lamb Cottage Caravan Park. Modern facilities, family-friendly atmosphere, and beautiful rural setting. Book your stay today!';
 ---
@@ -26,7 +29,7 @@ const pageDescription = 'Experience tranquil countryside living at Lamb Cottage 
   <!-- Main Content -->
   <main transition:name="main-content">
     <!-- Hero Section -->
-    <Hero />
+    <Hero content={siteContent.hero} />
     
     <!-- Welcome Section -->
     <Welcome />
@@ -35,7 +38,7 @@ const pageDescription = 'Experience tranquil countryside living at Lamb Cottage 
     <Tagline />
     
     <!-- Facilities Section -->
-    <Facilities />
+    <Facilities content={siteContent.facilities} />
     
     <!-- Property Sales Section -->
     <PropertySales />
@@ -47,7 +50,7 @@ const pageDescription = 'Experience tranquil countryside living at Lamb Cottage 
     <ContactForm />
     
     <!-- Booking Banner Section -->
-    <BookingBanner />
+    <BookingBanner content={siteContent.bookingBanner} />
   </main>
   
   <!-- Scroll to Top Button -->

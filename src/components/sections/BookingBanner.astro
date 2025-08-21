@@ -1,11 +1,47 @@
 ---
-// Booking Banner section with call-to-action
+// Booking Banner section with call-to-action and dynamic background
+export interface Props {
+  content?: {
+    title?: string;
+    subtitle?: string;
+    backgroundImage?: {
+      src?: string;
+      alt?: string;
+      opacity?: number;
+    };
+    primaryButton?: {
+      text?: string;
+      url?: string;
+    };
+  };
+}
+
+const { content } = Astro.props;
 ---
 
-<section class="py-16 lg:py-20 bg-gradient-to-r from-lamb-green-dark to-lamb-green-medium relative overflow-hidden">
+<section class="py-16 lg:py-20 relative overflow-hidden">
+  <!-- Background Image -->
+  {content?.backgroundImage?.src && (
+    <div class="absolute inset-0 z-0">
+      <img 
+        src={content.backgroundImage.src} 
+        alt={content.backgroundImage.alt || 'Booking banner background'} 
+        class="w-full h-full object-cover"
+      />
+      <div 
+        class="absolute inset-0 bg-gradient-to-r from-lamb-green-dark to-lamb-green-medium" 
+        style={`opacity: ${content.backgroundImage.opacity || 0.8}`}
+      ></div>
+    </div>
+  )}
+  
+  <!-- Fallback background if no image -->
+  {!content?.backgroundImage?.src && (
+    <div class="absolute inset-0 bg-gradient-to-r from-lamb-green-dark to-lamb-green-medium z-0"></div>
+  )}
   <!-- Background Pattern -->
-  <div class="absolute inset-0 opacity-10">
-    <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+  <div class="absolute inset-0 opacity-10 z-5">
+    <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=&quot;60&quot; height=&quot;60&quot; viewBox=&quot;0 0 60 60&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;%3E%3Cg fill=&quot;none&quot; fill-rule=&quot;evenodd&quot;%3E%3Cg fill=&quot;%23ffffff&quot; fill-opacity=&quot;0.1&quot;%3E%3Ccircle cx=&quot;30&quot; cy=&quot;30&quot; r=&quot;2&quot;/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
   </div>
   
   <div class="max-w-7xl mx-auto px-4 relative z-10">
@@ -13,9 +49,9 @@
       <!-- Main Heading -->
       <div class="space-y-4">
         <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
-          Ready for Your
+          {content?.title || 'Ready for Your'}
           <span class="block text-lamb-green-light">
-            Perfect Getaway?
+            {content?.title ? '' : 'Perfect Getaway?'}
           </span>
         </h2>
         <div class="w-24 h-1 bg-white rounded-full mx-auto"></div>
@@ -23,7 +59,7 @@
       
       <!-- Supporting Text -->
       <p class="text-lg sm:text-xl text-lamb-green-light max-w-3xl mx-auto leading-relaxed">
-        Book your stay at Lamb Cottage Caravan Park today and experience the perfect blend of countryside tranquility and modern comfort. Limited availability - secure your dates now!
+        {content?.subtitle || 'Book your stay at Lamb Cottage Caravan Park today and experience the perfect blend of countryside tranquility and modern comfort. Limited availability - secure your dates now!'}
       </p>
       
       <!-- Features Grid -->
@@ -62,13 +98,13 @@
       <!-- Call-to-Action Buttons -->
       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mt-12">
         <a 
-          href="#booking" 
+          href={content?.primaryButton?.url || "#booking"} 
           class="bg-white text-lamb-green-dark px-8 py-4 rounded-lg font-semibold hover:bg-lamb-green-light hover:text-lamb-green-dark transform hover:scale-105 transition-all duration-200 shadow-large hover:shadow-xl flex items-center space-x-2 min-w-[200px] justify-center"
         >
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
           </svg>
-          <span>Book Online Now</span>
+          <span>{content?.primaryButton?.text || "Book Online Now"}</span>
         </a>
         
         <a 

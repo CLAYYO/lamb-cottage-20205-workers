@@ -6,24 +6,25 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { contentStorage } from '../lib/content-storage';
 
 // Load content
-const content = await contentStorage.load();
+const siteContent = await contentStorage.load();
+const pageContent = siteContent.pages.about;
 
 // Page metadata
-const title = 'About Us - Lamb Cottage Caravan Park';
-const description = 'Learn about our award-winning 7.5 acre caravan park in Vale Royal, Cheshire. Discover our facilities, awards, and what makes us special.';
+const title = pageContent.title;
+const description = pageContent.description;
 ---
 
 <BaseLayout title={title} description={description}>
   <main class="min-h-screen bg-gradient-to-b from-green-50 to-white" transition:name="main-content">
     <!-- Hero Section -->
-    <section class="relative py-16 bg-gradient-to-r from-green-600 to-green-700">
-      <div class="absolute inset-0 bg-black opacity-20"></div>
+    <section class="relative py-16 bg-gradient-to-r from-green-600 to-green-700" style={pageContent.hero.backgroundImage.src ? `background-image: url('${pageContent.hero.backgroundImage.src}'); background-size: cover; background-position: center;` : ''}>
+      <div class="absolute inset-0 bg-black" style={`opacity: ${pageContent.hero.backgroundImage.opacity / 100}`}></div>
       <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">
-          About Lamb Cottage Caravan Park
+          {pageContent.hero.title}
         </h1>
         <p class="text-xl text-green-100 max-w-3xl mx-auto">
-          Discover our award-winning 7.5 acre caravan park nestled in the heart of Vale Royal, Cheshire
+          {pageContent.hero.subtitle}
         </p>
       </div>
     </section>
@@ -34,62 +35,21 @@ const description = 'Learn about our award-winning 7.5 acre caravan park in Vale
         <!-- Introduction -->
         <div class="prose prose-lg max-w-none mb-12">
           <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
-            <h2 class="text-3xl font-bold text-green-800 mb-6">Welcome to Lamb Cottage</h2>
-            <p class="text-gray-700 leading-relaxed mb-6">
-              Lamb Cottage Caravan Park is a beautiful 7.5 acre site situated in Vale Royal in the heart of Cheshire. 
-              We pride ourselves on providing a peaceful, family-friendly environment for our guests to enjoy.
-            </p>
-            <p class="text-gray-700 leading-relaxed">
-              Our park operates a child-free policy, ensuring a tranquil atmosphere perfect for couples and adults 
-              seeking a relaxing getaway in the Cheshire countryside.
-            </p>
+            <h2 class="text-3xl font-bold text-green-800 mb-6">{pageContent.content.introduction.title}</h2>
+            <div class="text-gray-700 leading-relaxed" set:html={pageContent.content.introduction.content}></div>
           </div>
         </div>
 
-        <!-- Pitch Information -->
+        <!-- Story Section -->
         <div class="grid md:grid-cols-2 gap-8 mb-12">
           <div class="bg-green-50 rounded-lg p-6">
-            <h3 class="text-2xl font-bold text-green-800 mb-4">Our Pitches</h3>
-            <div class="space-y-4">
-              <div class="flex items-center">
-                <div class="w-3 h-3 bg-green-600 rounded-full mr-3"></div>
-                <span class="text-gray-700"><strong>41 Super Pitches</strong> - Premium locations with excellent facilities</span>
-              </div>
-              <div class="flex items-center">
-                <div class="w-3 h-3 bg-green-600 rounded-full mr-3"></div>
-                <span class="text-gray-700"><strong>30 Seasonal Pitches</strong> - Perfect for extended stays</span>
-              </div>
-              <div class="flex items-center">
-                <div class="w-3 h-3 bg-green-600 rounded-full mr-3"></div>
-                <span class="text-gray-700">All pitches include electric hook-up</span>
-              </div>
-              <div class="flex items-center">
-                <div class="w-3 h-3 bg-green-600 rounded-full mr-3"></div>
-                <span class="text-gray-700">Spacious plots with beautiful countryside views</span>
-              </div>
-            </div>
+            <h3 class="text-2xl font-bold text-green-800 mb-4">{pageContent.content.story.title}</h3>
+            <div class="text-gray-700" set:html={pageContent.content.story.content}></div>
           </div>
 
           <div class="bg-blue-50 rounded-lg p-6">
-            <h3 class="text-2xl font-bold text-blue-800 mb-4">Location Benefits</h3>
-            <div class="space-y-4">
-              <div class="flex items-center">
-                <div class="w-3 h-3 bg-blue-600 rounded-full mr-3"></div>
-                <span class="text-gray-700">Heart of Cheshire countryside</span>
-              </div>
-              <div class="flex items-center">
-                <div class="w-3 h-3 bg-blue-600 rounded-full mr-3"></div>
-                <span class="text-gray-700">Easy access to Chester and surrounding areas</span>
-              </div>
-              <div class="flex items-center">
-                <div class="w-3 h-3 bg-blue-600 rounded-full mr-3"></div>
-                <span class="text-gray-700">Peaceful Vale Royal setting</span>
-              </div>
-              <div class="flex items-center">
-                <div class="w-3 h-3 bg-blue-600 rounded-full mr-3"></div>
-                <span class="text-gray-700">Close to local attractions and amenities</span>
-              </div>
-            </div>
+            <h3 class="text-2xl font-bold text-blue-800 mb-4">{pageContent.content.mission.title}</h3>
+            <div class="text-gray-700" set:html={pageContent.content.mission.content}></div>
           </div>
         </div>
 

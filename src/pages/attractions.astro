@@ -6,22 +6,24 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { contentStorage } from '../lib/content-storage';
 
 // Load content
-const content = await contentStorage.load();
+const siteContent = await contentStorage.load();
+const pageContent = siteContent.pages.attractions;
 
 // Page metadata
-const title = 'Local Attractions - Lamb Cottage Caravan Park';
-const description = 'Discover the best of Cheshire with attractions ranging from historic Chester to beautiful countryside walks and seasonal events.';
+const title = pageContent.title;
+const description = pageContent.description;
 ---
 
 <BaseLayout title={title} description={description}>
   <main class="min-h-screen bg-gradient-to-b from-green-50 to-white">
     <!-- Hero Section -->
-    <section class="bg-gradient-to-r from-green-600 to-green-700 text-white py-16">
-      <div class="container mx-auto px-4">
+    <section class="relative bg-gradient-to-r from-green-600 to-green-700 text-white py-16" style={pageContent.hero.backgroundImage?.src ? `background-image: url('${pageContent.hero.backgroundImage.src}'); background-size: cover; background-position: center;` : ''}>
+      <div class="absolute inset-0 bg-black" style={`opacity: ${pageContent.hero.backgroundImage?.opacity || 0.2}`}></div>
+      <div class="container mx-auto px-4 relative">
         <div class="max-w-4xl mx-auto text-center">
-          <h1 class="text-4xl md:text-5xl font-bold mb-6">Local Attractions</h1>
+          <h1 class="text-4xl md:text-5xl font-bold mb-6">{pageContent.hero.title}</h1>
           <p class="text-xl md:text-2xl text-green-100 leading-relaxed">
-            Discover the best of Cheshire - "The Garden County" - with attractions ranging from historic Chester to beautiful countryside walks
+            {pageContent.hero.subtitle}
           </p>
         </div>
       </div>

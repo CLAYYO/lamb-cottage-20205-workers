@@ -6,25 +6,26 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { contentStorage } from '../lib/content-storage';
 
 // Load content
-const content = await contentStorage.load();
+const siteContent = await contentStorage.load();
+const pageContent = siteContent.pages.facilities;
 
 // Page metadata
-const title = 'Facilities - Lamb Cottage Caravan Park';
-const description = 'Discover our excellent facilities including modern amenities, recreational areas, and services at Lamb Cottage Caravan Park.';
+const title = pageContent.title;
+const description = pageContent.description;
 ---
 
 <BaseLayout title={title} description={description}>
   
   <main class="min-h-screen bg-gradient-to-b from-blue-50 to-white" transition:name="main-content">
     <!-- Hero Section -->
-    <section class="relative py-16 bg-gradient-to-r from-blue-600 to-blue-700">
-      <div class="absolute inset-0 bg-black opacity-20"></div>
+    <section class="relative py-16 bg-gradient-to-r from-blue-600 to-blue-700" style={pageContent.hero.backgroundImage?.src ? `background-image: url('${pageContent.hero.backgroundImage.src}'); background-size: cover; background-position: center;` : ''}>
+      <div class="absolute inset-0 bg-black" style={`opacity: ${pageContent.hero.backgroundImage?.opacity || 0.2}`}></div>
       <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">
-          Onsite Facilities
+          {pageContent.hero.title}
         </h1>
         <p class="text-xl text-blue-100 max-w-3xl mx-auto">
-          Enjoy our comprehensive range of luxury facilities designed for your comfort and convenience
+          {pageContent.hero.subtitle}
         </p>
       </div>
     </section>

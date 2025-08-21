@@ -1,0 +1,603 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import VisualEditor from '../../components/VisualEditor.astro';
+import { contentStorage } from '../../lib/content-storage';
+
+const content = await contentStorage.load();
+const pages = content.pages || {};
+
+const pageList = [
+  { key: 'about', name: 'About Us' },
+  { key: 'contact', name: 'Contact' },
+  { key: 'facilities', name: 'Facilities' },
+  { key: 'attractions', name: 'Local Attractions' },
+  { key: 'reviews', name: 'Guest Reviews' },
+  { key: 'staticCaravans', name: 'Static Caravans' },
+  { key: 'tariff', name: 'Prices & Tariffs' },
+  { key: 'directions', name: 'Directions' },
+  { key: 'gallery', name: 'Photo Gallery' }
+];
+---
+
+<BaseLayout title="Pages Editor - Admin">
+  <div class="admin-container">
+    <div class="admin-header">
+      <h1>Pages Editor</h1>
+      <p>Edit individual page content, titles, descriptions, and hero sections</p>
+    </div>
+
+    <div class="admin-nav">
+      <a href="/admin" class="nav-link">← Back to Admin</a>
+      <a href="/admin/content" class="nav-link">Content Editor</a>
+      <a href="/admin/images" class="nav-link">Images</a>
+      <a href="/admin/reviews" class="nav-link">Reviews</a>
+    </div>
+
+    <div class="editor-container">
+      <!-- Page Navigation -->
+      <div class="page-nav">
+        <h3>Select Page to Edit</h3>
+        <div class="page-buttons">
+          {pageList.map((page, index) => (
+            <button 
+              class={`page-btn ${index === 0 ? 'active' : ''}`}
+              data-page={page.key}
+              onclick={`showPageEditor('${page.key}')`}
+            >
+              {page.name}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <!-- Page Editors -->
+      {pageList.map((page, index) => {
+        const pageData = pages[page.key] || {};
+        return (
+          <div 
+            class={`page-editor ${index === 0 ? 'active' : ''}`} 
+            id={`${page.key}-editor`}
+          >
+            <div class="page-editor-header">
+              <h2>{page.name} Page</h2>
+              <p>Edit the content for the {page.name.toLowerCase()} page</p>
+            </div>
+
+            <!-- SEO Settings -->
+            <div class="editor-section">
+              <h3>SEO & Meta Information</h3>
+              
+              <div class="form-group">
+                <label class="form-label">Page Title</label>
+                <VisualEditor 
+                  type="text" 
+                  sectionId="pages" 
+                  fieldPath={`${page.key}.title`} 
+                  content={pageData.title || ''}
+                  placeholder={`Enter ${page.name} page title`}
+                />
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Meta Description</label>
+                <VisualEditor 
+                  type="textarea" 
+                  sectionId="pages" 
+                  fieldPath={`${page.key}.description`} 
+                  content={pageData.description || ''}
+                  placeholder={`Enter ${page.name} page description for search engines`}
+                />
+              </div>
+            </div>
+
+            <!-- Hero Section -->
+            <div class="editor-section">
+              <h3>Hero Section</h3>
+              
+              <div class="form-group">
+                <label class="form-label">Hero Title</label>
+                <VisualEditor 
+                  type="text" 
+                  sectionId="pages" 
+                  fieldPath={`${page.key}.hero.title`} 
+                  content={pageData.hero?.title || ''}
+                  placeholder={`Enter ${page.name} hero title`}
+                />
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Hero Subtitle</label>
+                <VisualEditor 
+                  type="textarea" 
+                  sectionId="pages" 
+                  fieldPath={`${page.key}.hero.subtitle`} 
+                  content={pageData.hero?.subtitle || ''}
+                  placeholder={`Enter ${page.name} hero subtitle`}
+                />
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Hero Background Image</label>
+                <div class="image-upload-container">
+                  <VisualEditor 
+                    type="image" 
+                    sectionId="pages" 
+                    fieldPath={`${page.key}.hero.backgroundImage.src`} 
+                    content={pageData.hero?.backgroundImage?.src || ''}
+                    className="image-preview"
+                  />
+                  <div class="image-specs">
+                    <small class="text-gray-600">Recommended size: 1920x600px</small>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Background Opacity</label>
+                <div class="opacity-control">
+                  <VisualEditor 
+                    type="range" 
+                    sectionId="pages" 
+                    fieldPath={`${page.key}.hero.backgroundImage.opacity`} 
+                    content={pageData.hero?.backgroundImage?.opacity || 0.4}
+                    className="opacity-slider"
+                    min="0" 
+                    max="1" 
+                    step="0.1"
+                  />
+                  <span class="opacity-value">{Math.round((pageData.hero?.backgroundImage?.opacity || 0.4) * 100)}%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Page Content -->
+            <div class="editor-section">
+              <h3>Page Content</h3>
+              
+              <div class="form-group">
+                <label class="form-label">Introduction</label>
+                <VisualEditor 
+                  type="rich" 
+                  sectionId="pages" 
+                  fieldPath={`${page.key}.content.introduction`} 
+                  content={pageData.content?.introduction || ''}
+                  placeholder={`Enter ${page.name} introduction content`}
+                />
+              </div>
+              
+              {/* Dynamic content fields based on page type */}
+              {page.key === 'about' && (
+                <>
+                  <div class="form-group">
+                    <label class="form-label">Our Story</label>
+                    <VisualEditor 
+                      type="rich" 
+                      sectionId="pages" 
+                      fieldPath="about.content.story" 
+                      content={pageData.content?.story || ''}
+                      placeholder="Tell your story"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Our Mission</label>
+                    <VisualEditor 
+                      type="rich" 
+                      sectionId="pages" 
+                      fieldPath="about.content.mission" 
+                      content={pageData.content?.mission || ''}
+                      placeholder="Describe your mission"
+                    />
+                  </div>
+                </>
+              )}
+              
+              {page.key === 'contact' && (
+                <>
+                  <div class="form-group">
+                    <label class="form-label">Office Hours</label>
+                    <VisualEditor 
+                      type="textarea" 
+                      sectionId="pages" 
+                      fieldPath="contact.content.office_hours" 
+                      content={pageData.content?.office_hours || ''}
+                      placeholder="Enter office hours information"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Emergency Information</label>
+                    <VisualEditor 
+                      type="textarea" 
+                      sectionId="pages" 
+                      fieldPath="contact.content.emergency_info" 
+                      content={pageData.content?.emergency_info || ''}
+                      placeholder="Enter emergency contact information"
+                    />
+                  </div>
+                </>
+              )}
+              
+              {page.key === 'facilities' && (
+                <>
+                  <div class="form-group">
+                    <label class="form-label">Amenities Information</label>
+                    <VisualEditor 
+                      type="rich" 
+                      sectionId="pages" 
+                      fieldPath="facilities.content.amenities_info" 
+                      content={pageData.content?.amenities_info || ''}
+                      placeholder="Describe your amenities"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Accessibility Information</label>
+                    <VisualEditor 
+                      type="rich" 
+                      sectionId="pages" 
+                      fieldPath="facilities.content.accessibility" 
+                      content={pageData.content?.accessibility || ''}
+                      placeholder="Describe accessibility features"
+                    />
+                  </div>
+                </>
+              )}
+              
+              {page.key === 'attractions' && (
+                <>
+                  <div class="form-group">
+                    <label class="form-label">Nearby Information</label>
+                    <VisualEditor 
+                      type="rich" 
+                      sectionId="pages" 
+                      fieldPath="attractions.content.nearby_info" 
+                      content={pageData.content?.nearby_info || ''}
+                      placeholder="Describe nearby attractions"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Activities</label>
+                    <VisualEditor 
+                      type="rich" 
+                      sectionId="pages" 
+                      fieldPath="attractions.content.activities" 
+                      content={pageData.content?.activities || ''}
+                      placeholder="List available activities"
+                    />
+                  </div>
+                </>
+              )}
+              
+              {page.key === 'reviews' && (
+                <>
+                  <div class="form-group">
+                    <label class="form-label">Testimonials Information</label>
+                    <VisualEditor 
+                      type="rich" 
+                      sectionId="pages" 
+                      fieldPath="reviews.content.testimonials_info" 
+                      content={pageData.content?.testimonials_info || ''}
+                      placeholder="Information about testimonials"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Review Policy</label>
+                    <VisualEditor 
+                      type="textarea" 
+                      sectionId="pages" 
+                      fieldPath="reviews.content.review_policy" 
+                      content={pageData.content?.review_policy || ''}
+                      placeholder="Describe your review policy"
+                    />
+                  </div>
+                </>
+              )}
+              
+              {page.key === 'staticCaravans' && (
+                <>
+                  <div class="form-group">
+                    <label class="form-label">Ownership Benefits</label>
+                    <VisualEditor 
+                      type="rich" 
+                      sectionId="pages" 
+                      fieldPath="staticCaravans.content.ownership_benefits" 
+                      content={pageData.content?.ownership_benefits || ''}
+                      placeholder="Describe ownership benefits"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Financing Information</label>
+                    <VisualEditor 
+                      type="rich" 
+                      sectionId="pages" 
+                      fieldPath="staticCaravans.content.financing_info" 
+                      content={pageData.content?.financing_info || ''}
+                      placeholder="Describe financing options"
+                    />
+                  </div>
+                </>
+              )}
+              
+              {page.key === 'tariff' && (
+                <>
+                  <div class="form-group">
+                    <label class="form-label">Seasonal Information</label>
+                    <VisualEditor 
+                      type="rich" 
+                      sectionId="pages" 
+                      fieldPath="tariff.content.seasonal_info" 
+                      content={pageData.content?.seasonal_info || ''}
+                      placeholder="Describe seasonal pricing"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Booking Terms</label>
+                    <VisualEditor 
+                      type="rich" 
+                      sectionId="pages" 
+                      fieldPath="tariff.content.booking_terms" 
+                      content={pageData.content?.booking_terms || ''}
+                      placeholder="Describe booking terms and conditions"
+                    />
+                  </div>
+                </>
+              )}
+              
+              {page.key === 'directions' && (
+                <>
+                  <div class="form-group">
+                    <label class="form-label">Transport Information</label>
+                    <VisualEditor 
+                      type="rich" 
+                      sectionId="pages" 
+                      fieldPath="directions.content.transport_info" 
+                      content={pageData.content?.transport_info || ''}
+                      placeholder="Provide transport and directions information"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Arrival Tips</label>
+                    <VisualEditor 
+                      type="rich" 
+                      sectionId="pages" 
+                      fieldPath="directions.content.arrival_tips" 
+                      content={pageData.content?.arrival_tips || ''}
+                      placeholder="Provide arrival and check-in tips"
+                    />
+                  </div>
+                </>
+              )}
+              
+              {page.key === 'gallery' && (
+                <>
+                  <div class="form-group">
+                    <label class="form-label">Photo Information</label>
+                    <VisualEditor 
+                      type="rich" 
+                      sectionId="pages" 
+                      fieldPath="gallery.content.photo_info" 
+                      content={pageData.content?.photo_info || ''}
+                      placeholder="Describe your photo gallery"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Update Information</label>
+                    <VisualEditor 
+                      type="textarea" 
+                      sectionId="pages" 
+                      fieldPath="gallery.content.update_info" 
+                      content={pageData.content?.update_info || ''}
+                      placeholder="Information about gallery updates"
+                    />
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+
+  <style>
+    .admin-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .admin-header {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .admin-header h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #1f2937;
+      margin-bottom: 0.5rem;
+    }
+
+    .admin-header p {
+      color: #6b7280;
+      font-size: 1.1rem;
+    }
+
+    .admin-nav {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background: #f9fafb;
+      border-radius: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      color: #4f46e5;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      transition: background-color 0.2s;
+    }
+
+    .nav-link:hover {
+      background-color: #e0e7ff;
+    }
+
+    .editor-container {
+      background: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .page-nav {
+      background: #f8fafc;
+      padding: 1.5rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .page-nav h3 {
+      margin-bottom: 1rem;
+      color: #374151;
+      font-weight: 600;
+    }
+
+    .page-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .page-btn {
+      padding: 0.5rem 1rem;
+      border: 1px solid #d1d5db;
+      background: white;
+      color: #374151;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.875rem;
+    }
+
+    .page-btn:hover {
+      background: #f3f4f6;
+      border-color: #9ca3af;
+    }
+
+    .page-btn.active {
+      background: #4f46e5;
+      color: white;
+      border-color: #4f46e5;
+    }
+
+    .page-editor {
+      display: none;
+      padding: 2rem;
+    }
+
+    .page-editor.active {
+      display: block;
+    }
+
+    .page-editor-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .page-editor-header h2 {
+      font-size: 1.875rem;
+      font-weight: bold;
+      color: #1f2937;
+      margin-bottom: 0.5rem;
+    }
+
+    .page-editor-header p {
+      color: #6b7280;
+    }
+
+    .editor-section {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: #f9fafb;
+      border-radius: 0.5rem;
+      border: 1px solid #e5e7eb;
+    }
+
+    .editor-section h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      font-weight: 500;
+      color: #374151;
+      margin-bottom: 0.5rem;
+    }
+
+    .image-upload-container {
+      border: 2px dashed #d1d5db;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      text-align: center;
+      background: #fafafa;
+    }
+
+    .image-specs {
+      margin-top: 0.5rem;
+    }
+
+    .opacity-control {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .opacity-slider {
+      flex: 1;
+    }
+
+    .opacity-value {
+      font-weight: 500;
+      color: #374151;
+      min-width: 3rem;
+    }
+
+    .text-gray-600 {
+      color: #6b7280;
+    }
+  </style>
+
+  <script>
+    function showPageEditor(pageKey) {
+      // Hide all editors
+      document.querySelectorAll('.page-editor').forEach(editor => {
+        editor.classList.remove('active');
+      });
+      
+      // Remove active class from all buttons
+      document.querySelectorAll('.page-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      // Show selected editor
+      const editor = document.getElementById(`${pageKey}-editor`);
+      if (editor) {
+        editor.classList.add('active');
+      }
+      
+      // Add active class to clicked button
+      const button = document.querySelector(`[data-page="${pageKey}"]`);
+      if (button) {
+        button.classList.add('active');
+      }
+    }
+  </script>
+</BaseLayout>

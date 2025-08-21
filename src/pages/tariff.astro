@@ -4,27 +4,29 @@ export const prerender = true;
 // Tariff & Conditions - Lamb Cottage Caravan Park
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { contentStorage } from '../lib/content-storage';
+import siteContent from '../../content/site-content.json';
 
 // Load content
 const content = await contentStorage.load();
+const pageContent = siteContent.pages.tariff;
 
 // Page metadata
 const title = 'Tariff & Pricing - Lamb Cottage Caravan Park';
 const description = 'View our competitive pricing and tariff information for stays at Lamb Cottage Caravan Park in Cheshire.';
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={pageContent?.title || 'Tariff & Pricing - Lamb Cottage Caravan Park'} description={pageContent?.description || 'View our competitive pricing and tariff information for stays at Lamb Cottage Caravan Park in Cheshire.'}>
   
   <main class="min-h-screen bg-gradient-to-b from-green-50 to-white">
     <!-- Hero Section -->
-    <section class="relative py-16 bg-gradient-to-r from-green-600 to-green-700">
-      <div class="absolute inset-0 bg-black opacity-20"></div>
+    <section class="relative py-16 bg-gradient-to-r from-green-600 to-green-700" style={pageContent?.hero?.backgroundImage?.src ? `background-image: url('${pageContent.hero.backgroundImage.src}');` : ''}>
+      <div class="absolute inset-0 bg-black" style={`opacity: ${pageContent?.hero?.backgroundImage?.opacity || 0.4}`}></div>
       <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">
-          Tariff &amp; Conditions
+          {pageContent?.hero?.title || 'Prices & Tariffs'}
         </h1>
         <p class="text-xl text-green-100 max-w-3xl mx-auto">
-          Competitive rates for your perfect caravan holiday in beautiful Cheshire
+          {pageContent?.hero?.subtitle || 'Transparent pricing for your perfect getaway'}
         </p>
       </div>
     </section>
@@ -33,9 +35,9 @@ const description = 'View our competitive pricing and tariff information for sta
     <section class="py-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-          <h2 class="text-3xl font-bold text-gray-800 mb-4">2022 Pricing</h2>
+          <h2 class="text-3xl font-bold text-gray-800 mb-4">Our Competitive Rates</h2>
           <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-            Our competitive rates include electric hook-up, water, and access to all our luxury facilities
+            {pageContent?.content?.introduction || 'We offer competitive rates with no hidden fees, ensuring great value for your countryside holiday.'}
           </p>
         </div>
 
