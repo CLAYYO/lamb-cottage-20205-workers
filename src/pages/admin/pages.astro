@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdminLayout from '../../layouts/AdminLayout.astro';
 import VisualEditor from '../../components/VisualEditor.astro';
 import { contentStorage } from '../../lib/content-storage';
 import { requireAdminAuth } from '../../middleware/auth';
@@ -26,7 +26,7 @@ const pageList = [
 ];
 ---
 
-<BaseLayout title="Pages Editor - Admin">
+<AdminLayout title="Pages Editor - Admin">
   <div class="admin-container">
     <div class="admin-header">
       <h1>Pages Editor</h1>
@@ -607,4 +607,4 @@ const pageList = [
       }
     }
   </script>
-</BaseLayout>
+</AdminLayout>
