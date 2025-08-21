@@ -2,6 +2,13 @@
 export const prerender = false;
 
 import AdminLayout from '../../layouts/AdminLayout.astro';
+import { requireAdminAuth } from '../../middleware/auth';
+
+// Check authentication before rendering
+const authResult = await requireAdminAuth(Astro);
+if (authResult) {
+  return authResult;
+}
 ---
 
 <AdminLayout title="Email Management">
@@ -769,7 +776,9 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
             break;
           case 'archive':
             if (confirm(`Archive email: ${subject}?`)) {
-              emailItem.style.opacity = '0.5';
+              if (emailItem && emailItem instanceof HTMLElement) {
+                emailItem.style.opacity = '0.5';
+              }
               alert('Email archived.');
             }
             break;

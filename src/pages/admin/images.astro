@@ -1,5 +1,12 @@
 ---
 import AdminLayout from '../../layouts/AdminLayout.astro';
+import { requireAdminAuth } from '../../middleware/auth';
+
+// Check authentication before rendering
+const authResult = await requireAdminAuth(Astro);
+if (authResult) {
+  return authResult;
+}
 ---
 
 <AdminLayout title="Image Manager">

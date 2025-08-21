@@ -2,6 +2,13 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import VisualEditor from '../../components/VisualEditor.astro';
 import { contentStorage } from '../../lib/content-storage';
+import { requireAdminAuth } from '../../middleware/auth';
+
+// Check authentication before rendering
+const authResult = await requireAdminAuth(Astro);
+if (authResult) {
+  return authResult;
+}
 
 const content = await contentStorage.load();
 const pages = content.pages || {};
@@ -576,7 +583,7 @@ const pageList = [
   </style>
 
   <script>
-    function showPageEditor(pageKey) {
+    function showPageEditor(pageKey: string) {
       // Hide all editors
       document.querySelectorAll('.page-editor').forEach(editor => {
         editor.classList.remove('active');

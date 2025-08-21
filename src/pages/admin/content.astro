@@ -5,6 +5,13 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
 import VisualEditor from '../../components/VisualEditor.astro';
 import LivePreview from '../../components/LivePreview.astro';
 import { getContent } from '../api/content/load.ts';
+import { requireAdminAuth } from '../../middleware/auth';
+
+// Check authentication before rendering
+const authResult = await requireAdminAuth(Astro);
+if (authResult) {
+  return authResult;
+}
 
 const content = await getContent();
 ---
