@@ -1,12 +1,17 @@
 {
   "version": 1,
   "include": [
-    "/api/*",
+    "/api/auth/*",
+    "/api/users/*",
+    "/api/content/*",
+    "/api/reviews/*",
+    "/api/debug/*",
     "/admin/*"
   ],
   "exclude": [
     "/assets/*",
     "/images/*",
+    "/public/*",
     "/*.ico",
     "/*.png",
     "/*.jpg",
@@ -18,6 +23,9 @@
     "/*.woff",
     "/*.woff2",
     "/*.ttf",
-    "/*.eot"
+    "/*.eot",
+    "/*.json",
+    "/*.xml",
+    "/*.txt"
   ]
 }
