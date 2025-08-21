@@ -130,7 +130,7 @@ export async function verifyPassword(password: string): Promise<boolean> {
     const isValid = await bcrypt.compare(password, ADMIN_PASSWORD_HASH);
     console.log('🔐 AUTH: Password verification result:', isValid);
     return isValid;
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('🔐 AUTH: Error verifying password:', error instanceof Error ? error.message : String(error));
     return false;
   }
