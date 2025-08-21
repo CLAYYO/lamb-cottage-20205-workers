@@ -1,6 +1,9 @@
 ---
-// Check if user is already logged in
-if (Astro.cookies.get('auth-token')) {
+import { getUserFromRequest } from '../../lib/auth';
+
+// Check if user is already logged in with a valid token
+const user = await getUserFromRequest(Astro);
+if (user) {
   return Astro.redirect('/admin');
 }
 ---
