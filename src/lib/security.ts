@@ -1,6 +1,4 @@
-import crypto from 'crypto';
 import type { APIRoute } from 'astro';
-import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
@@ -14,7 +12,9 @@ const csrfTokens = new Map<string, { token: string; expires: number }>();
  * Generate a secure CSRF token
  */
 export function generateCSRFToken(sessionId: string): string {
-  const token = crypto.randomBytes(32).toString('hex');
+  const array = new Uint8Array(32);
+  crypto.getRandomValues(array);
+  const token = Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
   const expires = Date.now() + (60 * 60 * 1000); // 1 hour
   
   csrfTokens.set(sessionId, { token, expires });
@@ -294,10 +294,19 @@ export function secureAPIRoute(
 
         const token = authHeader.substring(7);
         try {
-          const decoded = jwt.verify(token, JWT_SECRET) as any;
+          // Import verifyToken from auth.ts
+          const { verifyToken } = await import('./auth');
+          const decoded = await verifyToken(token);
+          
+          if (!decoded) {
+            return new Response(JSON.stringify({ error: 'Invalid token' }), {
+              status: 401,
+              headers: { 'Content-Type': 'application/json' }
+            });
+          }
           
           // Check admin role if required
-          if (requireAdmin && decoded.role !== 'admin') {
+          if (requireAdmin && decoded.user.role !== 'admin') {
             return new Response(JSON.stringify({ error: 'Admin access required' }), {
               status: 403,
               headers: { 'Content-Type': 'application/json' }
@@ -305,7 +314,7 @@ export function secureAPIRoute(
           }
           
           // Add user info to context for use in handler
-          (context as any).user = decoded;
+          (context as any).user = decoded.user;
         } catch (error) {
           return new Response(JSON.stringify({ error: 'Invalid token' }), {
             status: 401,
