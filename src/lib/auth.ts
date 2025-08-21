@@ -114,17 +114,14 @@ export async function verifyToken(token: string): Promise<AuthToken | null> {
     }
     
     return payload;
-  } catch (error) {
-    console.error('Token verification error:', error.message || error);
+  } catch (error: unknown) {
+    console.error('Token verification error:', error instanceof Error ? error.message : String(error));
     return null;
   }
 }
 
 // Verify password using Web Crypto API compatible method
 export async function verifyPassword(password: string): Promise<boolean> {
-  console.log('🔐 AUTH: Verifying password, length:', password?.length);
-  console.log('🔐 AUTH: Using password hash from env:', ADMIN_PASSWORD_HASH ? 'SET' : 'NOT SET');
-  
   try {
     // For bcrypt hashes, we need to use a bcrypt-compatible verification
     // Since we can't use bcryptjs in Cloudflare Pages, we'll implement a simple verification
@@ -134,18 +131,14 @@ export async function verifyPassword(password: string): Promise<boolean> {
     if (ADMIN_PASSWORD_HASH && ADMIN_PASSWORD_HASH.startsWith('$2a$') || ADMIN_PASSWORD_HASH.startsWith('$2b$')) {
       // This is a bcrypt hash - for now, we'll use a fallback verification
       // In production, you should pre-generate the hash and store it
-      const isValid = await verifyBcryptHash(password, ADMIN_PASSWORD_HASH);
-      console.log('🔐 AUTH: Password verification result:', isValid);
-      return isValid;
+      return await verifyBcryptHash(password, ADMIN_PASSWORD_HASH);
     } else {
       // Simple hash comparison for non-bcrypt hashes
       const hashedPassword = await hashPassword(password);
-      const isValid = hashedPassword === ADMIN_PASSWORD_HASH;
-      console.log('🔐 AUTH: Password verification result:', isValid);
-      return isValid;
+      return hashedPassword === ADMIN_PASSWORD_HASH;
     }
   } catch (error: unknown) {
-    console.error('🔐 AUTH: Error verifying password:', error instanceof Error ? error.message : String(error));
+    console.error('Password verification error:', error instanceof Error ? error.message : String(error));
     return false;
   }
 }
@@ -180,20 +173,14 @@ async function hashPassword(password: string): Promise<string> {
 
 // Authenticate user
 export async function authenticateUser(username: string, password: string): Promise<User | null> {
-  console.log('🔐 AUTH: Authenticating user:', username);
-  
   if (username === 'admin') {
-    console.log('🔐 AUTH: Username matches admin, checking password');
     const isValid = await verifyPassword(password);
-    console.log('🔐 AUTH: Password check result:', isValid);
     
     if (isValid) {
-      console.log('🔐 AUTH: Authentication successful for admin');
-      return { id: 'admin-1', username: 'admin', role: 'admin' };
+      return ADMIN_USER;
     }
   }
   
-  console.log('🔐 AUTH: Authentication failed');
   return null;
 }
 
@@ -226,7 +213,7 @@ export async function setAuthCookie(context: APIContext, user: User): Promise<vo
   context.cookies.set('auth-token', token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+    sameSite: 'lax',
     maxAge: 60 * 60 * 24, // 24 hours
     path: '/'
   });

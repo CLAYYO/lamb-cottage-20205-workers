@@ -5,14 +5,12 @@ import { sanitize, addSecurityHeaders, rateLimit } from '../../../lib/security';
 const loginHandler: APIRoute = async ({ request, cookies }) => {
   try {
     const body = await request.json();
-    console.log('🔐 LOGIN API: Request body parsed:', { username: body.username, passwordLength: body.password?.length });
     
     const username = sanitize.text(body.username);
     const password = body.password; // Don't sanitize passwords
 
     // Validate input
     if (!username || !password) {
-      console.log('🔐 LOGIN API: Validation failed - missing credentials');
       return new Response(JSON.stringify({
         success: false,
         message: 'Username and password are required'
@@ -22,12 +20,9 @@ const loginHandler: APIRoute = async ({ request, cookies }) => {
       });
     }
 
-    console.log('🔐 LOGIN API: Attempting authentication for username:', username);
     const user = await authenticateUser(username, password);
-    console.log('🔐 LOGIN API: Authentication result:', user ? 'SUCCESS' : 'FAILED');
     
     if (!user) {
-      console.log('🔐 LOGIN API: Authentication failed - invalid credentials');
       return new Response(JSON.stringify({
         success: false,
         message: 'Invalid credentials'
@@ -38,9 +33,7 @@ const loginHandler: APIRoute = async ({ request, cookies }) => {
     }
 
     // Set auth cookie (this will generate the token internally)
-    console.log('🔐 LOGIN API: Setting auth cookie');
     await setAuthCookie({ cookies } as any, user);
-    console.log('🔐 LOGIN API: Auth cookie set successfully');
 
     const responseData = {
       success: true,
@@ -51,9 +44,7 @@ const loginHandler: APIRoute = async ({ request, cookies }) => {
         role: user.role
       }
     };
-    console.log('🔐 LOGIN API: Creating success response:', responseData);
 
-    console.log('🔐 LOGIN API: Login successful - returning response');
     return new Response(JSON.stringify(responseData), {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
@@ -78,17 +69,13 @@ const loginRateLimit = rateLimit({
 });
 
 export const POST: APIRoute = async (context) => {
-  console.log('🔐 LOGIN API: Request received');
-  
   const { request } = context;
   
   // Apply rate limiting
   const rateLimitResult = loginRateLimit(request);
-  console.log('🔐 LOGIN API: Rate limit check - allowed:', rateLimitResult.allowed);
   
   if (!rateLimitResult.allowed) {
     const retryAfter = rateLimitResult.resetTime ? Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000) : 60;
-    console.log('🔐 LOGIN API: Rate limit exceeded');
     const response = new Response(JSON.stringify({ 
       success: false,
       message: 'Too many login attempts. Please try again later.',
@@ -104,9 +91,7 @@ export const POST: APIRoute = async (context) => {
   }
   
   // Call the login handler
-  console.log('🔐 LOGIN API: Calling login handler');
   const response = await loginHandler(context);
-  console.log('🔐 LOGIN API: Login handler completed');
   return addSecurityHeaders(response);
 };
 
