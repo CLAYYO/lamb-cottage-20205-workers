@@ -1,35 +1,9 @@
 name = "lamb-cottage-caravan-park"
 compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
 
-[build]
-command = "npm run build"
-cwd = "."
-watch_dir = "src"
-
-[build.upload]
-format = "service-worker"
-
-[[build.upload.rules]]
-type = "ESModule"
-globs = ["**/*.js"]
-
-[env.production]
-name = "lamb-cottage-caravan-park"
-
-[env.production.vars]
-NODE_ENV = "production"
-
-# Pages configuration
-[pages]
-build_output_dir = "dist"
-pages_build_output_dir = "dist"
-compatibility_date = "2024-01-01"
-node_compat = true
-
-# Environment variables for Pages
-# Note: Environment variables are configured via Cloudflare Pages dashboard
-# to avoid conflicts with wrangler.toml configuration
-# [pages.env_vars]
+# Environment variables for production
+# Note: These should be configured in Cloudflare Pages dashboard
+# JWT_SECRET = "your-production-jwt-secret"
+# ADMIN_PASSWORD_HASH = "your-production-password-hash"
 # NODE_ENV = "production"
-# JWT_SECRET = "configured-in-dashboard"
-# ADMIN_PASSWORD_HASH = "configured-in-dashboard"

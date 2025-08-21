@@ -1,14 +1,10 @@
 ---
+export const prerender = false;
+
 import AdminLayout from '../../layouts/AdminLayout.astro';
 import VisualEditor from '../../components/VisualEditor.astro';
 import LivePreview from '../../components/LivePreview.astro';
 import { getContent } from '../api/content/load.ts';
-
-// Check authentication
-const authToken = Astro.cookies.get('auth_token')?.value;
-if (!authToken) {
-  return Astro.redirect('/admin/login');
-}
 
 const content = await getContent();
 ---

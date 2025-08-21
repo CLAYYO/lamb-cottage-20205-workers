@@ -1,9 +1,7 @@
 ---
-// Check authentication
-const authToken = Astro.cookies.get('auth_token')?.value;
-if (!authToken) {
-  return Astro.redirect('/admin/login');
-}
+export const prerender = false;
+
+import AdminLayout from '../../layouts/AdminLayout.astro';
 ---
 
 <!DOCTYPE html>

@@ -1,7 +1,15 @@
 ---
+import { requireAdminAuth } from '../middleware/auth';
+
 export interface Props {
   title: string;
   description?: string;
+}
+
+// Check authentication before rendering
+const authResult = await requireAdminAuth(Astro);
+if (authResult) {
+  return authResult;
 }
 
 const { title, description = 'Lamb Cottage CMS Admin Panel' } = Astro.props;
