@@ -122,7 +122,7 @@ export const DEFAULT_CONTENT = {
   topBar: {
     phone: "+44 1234 567890",
     email: "info@lambcottage.co.uk",
-    address: "Lamb Cottage Caravan Park, Devon, UK",
+    address: "Lamb Cottage, Rural Cheshire, England",
     socialLinks: [
       {
         platform: "Facebook",
@@ -162,11 +162,11 @@ export const DEFAULT_CONTENT = {
   },
   hero: {
     backgroundImage: {
-      src: "https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Beautiful%20caravan%20park%20in%20Devon%20countryside%20with%20rolling%20green%20hills%20and%20peaceful%20atmosphere&image_size=landscape_16_9",
-      alt: "Beautiful Devon countryside caravan park"
+      src: "https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Beautiful%20cottage%20in%20Cheshire%20countryside%20with%20rolling%20green%20hills%20and%20peaceful%20atmosphere&image_size=landscape_16_9",
+      alt: "Beautiful Cheshire countryside cottage"
     },
-    title: "Welcome to Lamb Cottage Caravan Park",
-    subtitle: "Experience the tranquil beauty of Devon in our peaceful caravan park",
+    title: "Welcome to Lamb Cottage, Cheshire",
+    subtitle: "Discover Your Perfect Cheshire Retreat",
     ctaButton: {
       text: "Book Your Stay",
       url: "/#booking",
@@ -174,10 +174,10 @@ export const DEFAULT_CONTENT = {
     }
   },
   welcome: {
-    title: "A Peaceful Retreat in Devon",
-    content: "Nestled in the heart of Devon's stunning countryside, Lamb Cottage Caravan Park offers the perfect escape from the hustle and bustle of everyday life. Our family-run park provides a warm welcome to all visitors, whether you're looking for a weekend getaway or a longer holiday.",
+    title: "Welcome to Lamb Cottage, Cheshire",
+    content: "Our guests consistently praise the peaceful atmosphere and stunning Cheshire countryside views. From romantic getaways to family adventures, Lamb Cottage provides the perfect setting for creating lasting memories in one of England's most beautiful regions.",
     image: {
-      src: "https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Cozy%20caravan%20park%20reception%20building%20with%20traditional%20Devon%20architecture&image_size=landscape_4_3",
+      src: "https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Cozy%20cottage%20with%20traditional%20Cheshire%20architecture&image_size=landscape_4_3",
       alt: "Lamb Cottage reception building"
     }
   },
@@ -223,7 +223,7 @@ export const DEFAULT_CONTENT = {
   },
   propertySales: {
     title: "Static Caravans for Sale",
-    subtitle: "Own your perfect holiday home in Devon",
+    subtitle: "Browse our collection of handpicked Cheshire properties, each offering unique charm and modern amenities for an unforgettable countryside experience.",
     properties: [
       {
         title: "Luxury 2-Bedroom Caravan",
@@ -241,7 +241,7 @@ export const DEFAULT_CONTENT = {
         price: "£65,000",
         features: ["3 Bedrooms", "2 Bathrooms", "Large Lounge", "Private Garden"],
         image: {
-          src: "https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Large%20family%20static%20caravan%20home%20with%20garden%20in%20Devon%20countryside&image_size=landscape_4_3",
+          src: "https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Large%20family%20cottage%20home%20with%20garden%20in%20Cheshire%20countryside&image_size=landscape_4_3",
           alt: "Family 3-bedroom static caravan"
         }
       }
@@ -261,7 +261,7 @@ export const DEFAULT_CONTENT = {
       {
         name: "Mike Thompson",
         rating: 5,
-        comment: "Perfect location for exploring Devon. Clean facilities and peaceful atmosphere. Highly recommended!",
+        comment: "Perfect location for exploring Cheshire. Clean facilities and peaceful atmosphere. Highly recommended!",
         date: "2024-07-22",
         location: "Birmingham"
       },
@@ -279,29 +279,29 @@ export const DEFAULT_CONTENT = {
     subtitle: "We'd love to hear from you",
     phone: "+44 1234 567890",
     email: "info@lambcottage.co.uk",
-    address: "Lamb Cottage Caravan Park, Devon, UK",
+    address: "Lamb Cottage, Rural Cheshire, England",
     hours: "Open daily 8:00 AM - 6:00 PM"
   },
   bookingBanner: {
     title: "Ready to Book Your Stay?",
-    subtitle: "Contact us today to reserve your perfect Devon getaway",
+    subtitle: "Book Your Cheshire Escape Today",
     ctaButton: {
       text: "Book Now",
       url: "tel:+441234567890",
       external: true
     },
     backgroundImage: {
-      src: "https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Sunset%20over%20Devon%20countryside%20caravan%20park%20with%20caravans%20and%20rolling%20hills&image_size=landscape_16_9",
+      src: "https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Sunset%20over%20Cheshire%20countryside%20cottage%20with%20rolling%20hills&image_size=landscape_16_9",
       alt: "Sunset over Lamb Cottage Caravan Park"
     }
   },
   footer: {
     siteName: "Lamb Cottage Caravan Park",
-    description: "Your perfect Devon countryside retreat. Family-run caravan park offering peaceful holidays and static caravan sales.",
+    description: "Experience the magic of Cheshire countryside at Lamb Cottage. Book your stay today and discover why our guests return year after year to this enchanting retreat.",
     contact: {
       phone: "+44 1234 567890",
       email: "info@lambcottage.co.uk",
-      address: "Lamb Cottage Caravan Park, Devon, UK"
+      address: "Lamb Cottage, Rural Cheshire, England"
     },
     quickLinks: [
       { text: "Facilities", url: "/#facilities", external: false },

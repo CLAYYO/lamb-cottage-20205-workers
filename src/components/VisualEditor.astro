@@ -377,15 +377,10 @@ const editorId = `editor-${sectionId}-${fieldPath.replace(/\./g, '-')}`;
           const formData = new FormData();
           formData.append('image', file);
           
-          // For file uploads, we need to handle CSRF manually since we can't use JSON
-          const authToken = localStorage.getItem('auth_token');
-          if (!authToken) {
-            throw new Error('Authentication required');
-          }
-          
-          // Get CSRF tokens
+          // Get CSRF tokens (using cookie-based authentication)
           const csrfResponse = await fetch('/api/auth/csrf', {
-            headers: { 'Authorization': `Bearer ${authToken}` }
+            credentials: 'include', // Include cookies for authentication
+            headers: { 'Content-Type': 'application/json' }
           });
           
           if (!csrfResponse.ok) {
@@ -396,8 +391,8 @@ const editorId = `editor-${sectionId}-${fieldPath.replace(/\./g, '-')}`;
           
           const response = await fetch('/api/images/upload', {
             method: 'POST',
+            credentials: 'include', // Include cookies for authentication
             headers: {
-              'Authorization': `Bearer ${authToken}`,
               'X-CSRF-Token': csrfToken,
               'X-Session-ID': sessionId
             },
