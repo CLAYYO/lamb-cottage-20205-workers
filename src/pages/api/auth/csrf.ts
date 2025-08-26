@@ -23,7 +23,7 @@ const csrfHandler: APIRoute = async (context) => {
     }
     
     // Generate CSRF token
-    const csrfToken = generateCSRFToken(sessionId);
+    const csrfToken = await generateCSRFToken(sessionId);
     
     return new Response(JSON.stringify({ 
       csrfToken,

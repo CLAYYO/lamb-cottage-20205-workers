@@ -1,34 +1,81 @@
 import type { APIRoute } from 'astro';
+import { promises as fs } from 'fs';
+import path from 'path';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
 // Rate limiting store (in production, use Redis or similar)
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
 
-// CSRF token store (in production, use secure session storage)
-const csrfTokens = new Map<string, { token: string; expires: number }>();
+// CSRF token storage - persistent file-based storage
+const CSRF_STORAGE_PATH = path.join(process.cwd(), 'content', 'csrf-tokens.json');
+
+// Load CSRF tokens from file
+async function loadCSRFTokens(): Promise<Map<string, { token: string; expires: number }>> {
+  try {
+    const data = await fs.readFile(CSRF_STORAGE_PATH, 'utf-8');
+    const tokens = JSON.parse(data);
+    return new Map(Object.entries(tokens));
+  } catch {
+    return new Map();
+  }
+}
+
+// Save CSRF tokens to file
+async function saveCSRFTokens(tokens: Map<string, { token: string; expires: number }>): Promise<void> {
+  try {
+    const tokensObj = Object.fromEntries(tokens);
+    await fs.writeFile(CSRF_STORAGE_PATH, JSON.stringify(tokensObj, null, 2));
+  } catch (error) {
+    console.error('Failed to save CSRF tokens:', error);
+  }
+}
+
+// Clean expired tokens
+async function cleanExpiredTokens(tokens: Map<string, { token: string; expires: number }>): Promise<void> {
+  const now = Date.now();
+  let hasChanges = false;
+  
+  for (const [sessionId, tokenData] of tokens.entries()) {
+    if (tokenData.expires < now) {
+      tokens.delete(sessionId);
+      hasChanges = true;
+    }
+  }
+  
+  if (hasChanges) {
+    await saveCSRFTokens(tokens);
+  }
+}
 
 /**
  * Generate a secure CSRF token
  */
-export function generateCSRFToken(sessionId: string): string {
+export async function generateCSRFToken(sessionId: string): Promise<string> {
   const array = new Uint8Array(32);
   crypto.getRandomValues(array);
   const token = Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
   const expires = Date.now() + (60 * 60 * 1000); // 1 hour
   
-  csrfTokens.set(sessionId, { token, expires });
+  const tokens = await loadCSRFTokens();
+  await cleanExpiredTokens(tokens);
+  tokens.set(sessionId, { token, expires });
+  await saveCSRFTokens(tokens);
   return token;
 }
 
 /**
  * Validate CSRF token
  */
-export function validateCSRFToken(sessionId: string, token: string): boolean {
-  const stored = csrfTokens.get(sessionId);
+export async function validateCSRFToken(sessionId: string, token: string): Promise<boolean> {
+  const tokens = await loadCSRFTokens();
+  await cleanExpiredTokens(tokens);
+  
+  const stored = tokens.get(sessionId);
   
   if (!stored || stored.expires < Date.now()) {
-    csrfTokens.delete(sessionId);
+    tokens.delete(sessionId);
+    await saveCSRFTokens(tokens);
     return false;
   }
   
@@ -352,7 +399,7 @@ export function secureAPIRoute(
           });
         }
 
-        if (!validateCSRFToken(sessionId, csrfToken)) {
+        if (!(await validateCSRFToken(sessionId, csrfToken))) {
           return new Response(JSON.stringify({ error: 'Invalid CSRF token' }), {
             status: 403,
             headers: { 'Content-Type': 'application/json' }
