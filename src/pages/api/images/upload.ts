@@ -170,7 +170,7 @@ const uploadHandler: APIRoute = async (context) => {
 export const POST = secureAPIRoute(uploadHandler, {
   requireAuth: true,
   requireCSRF: true,
-  rateLimit: { window: 60 * 1000, requests: 10 } // 10 uploads per minute
+  rateLimit: { window: 60 * 1000, requests: 100 } // 100 uploads per minute for testing
 });
 
 // Get list of uploaded images

@@ -7,17 +7,19 @@ const csrfHandler: APIRoute = async (context) => {
     // CSRF tokens should be available without authentication
     // They are used to prevent CSRF attacks, not for authentication
     
-    // Generate session ID from user info if available, or create a temporary one
-    let sessionId = `temp_${Date.now()}`;
+    // Generate consistent session ID from user info if available, or create a temporary one
+    let sessionId = 'anonymous_session';
     
     // Try to get user info if authenticated (optional)
     try {
       const user = await getUserFromRequest(context);
       if (user) {
-        sessionId = `user_${user.id}_${Date.now()}`;
+        sessionId = `user_${user.id}`;
       }
     } catch {
-      // User not authenticated, use temporary session ID
+      // User not authenticated, use anonymous session ID
+      // For anonymous users, we'll use a consistent session ID
+      // In production, this could be based on IP or other factors
     }
     
     // Generate CSRF token
