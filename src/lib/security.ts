@@ -284,15 +284,32 @@ export function secureAPIRoute(
 
       // Check authentication if required
       if (requireAuth || requireAdmin) {
+        // Try to get token from Authorization header or cookie
         const authHeader = request.headers.get('Authorization');
-        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        let token = null;
+        
+        if (authHeader && authHeader.startsWith('Bearer ')) {
+          token = authHeader.substring(7);
+        } else {
+          // Check for cookie-based authentication
+          const cookieHeader = request.headers.get('Cookie');
+          if (cookieHeader) {
+            const cookies = cookieHeader.split(';').reduce((acc, cookie) => {
+              const [key, value] = cookie.trim().split('=');
+              acc[key] = value;
+              return acc;
+            }, {} as Record<string, string>);
+            token = cookies['auth-token'];
+          }
+        }
+        
+        if (!token) {
           return new Response(JSON.stringify({ error: 'Authentication required' }), {
             status: 401,
             headers: { 'Content-Type': 'application/json' }
           });
         }
 
-        const token = authHeader.substring(7);
         try {
           // Import verifyToken from auth.ts
           const { verifyToken } = await import('./auth');

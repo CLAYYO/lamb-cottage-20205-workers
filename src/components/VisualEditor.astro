@@ -1,426 +1,399 @@
 ---
-export interface Props {
-  sectionId: string;
-  fieldPath: string;
-  content: string | number;
-  type?: 'text' | 'textarea' | 'rich' | 'image' | 'range';
-  placeholder?: string;
-  className?: string;
-  min?: string;
-  max?: string;
-  step?: string;
-}
+// Visual Editor Component for Admin Interface
+const { type, sectionId, fieldPath, content, placeholder, className, min, max, step } = Astro.props;
 
-const { sectionId, fieldPath, content, type = 'text', placeholder, className = '', min, max, step } = Astro.props;
-const editorId = `editor-${sectionId}-${fieldPath.replace(/\./g, '-')}`;
+// Generate unique ID for this editor instance
+const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.random().toString(36).substr(2, 9)}`;
 ---
 
-<div class={`visual-editor-wrapper ${className}`} data-section={sectionId} data-field={fieldPath}>
-  {type === 'text' && (
-    <input
-      type="text"
-      id={editorId}
-      class="visual-editor-input"
-      value={String(content)}
-      placeholder={placeholder}
-      data-original={String(content)}
-    />
-  )}
-  
-  {type === 'textarea' && (
-    <textarea
-      id={editorId}
-      class="visual-editor-textarea"
-      placeholder={placeholder}
-      data-original={String(content)}
-    >{String(content)}</textarea>
-  )}
-  
-  {type === 'rich' && (
-    <div
-      id={editorId}
-      class="visual-editor-rich"
-      contenteditable="true"
-      data-placeholder={placeholder}
-      data-original={String(content)}
-      set:html={String(content)}
-    ></div>
-  )}
-  
-  {type === 'image' && (
-    <div class="visual-editor-image-wrapper">
-      <img
+{type === 'image' && (
+  <div class="image-editor-container">
+    {content ? (
+      <img 
         id={editorId}
-        src={String(content)}
+        src={content} 
         alt="Editable image"
-        class="visual-editor-image"
-        data-original={String(content)}
+        class={`editable-image ${className || ''}`}
+        data-editable="true"
+        data-section={sectionId}
+        data-field={fieldPath}
+        style="max-width: 100%; height: auto; min-height: 200px; border: 2px dashed #d1d5db; border-radius: 8px; cursor: pointer;"
       />
-      <div class="image-editor-overlay">
-        <button type="button" class="btn-change-image" data-target={editorId}>
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-          </svg>
-          Change Image
-        </button>
+    ) : (
+      <div 
+        id={editorId}
+        class={`image-placeholder ${className || ''}`}
+        data-editable="true"
+        data-section={sectionId}
+        data-field={fieldPath}
+        style="min-height: 200px; border: 2px dashed #d1d5db; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: #f9fafb; cursor: pointer; color: #6b7280;"
+      >
+        <div style="text-align: center;">
+          <div style="font-size: 48px; margin-bottom: 8px;">📷</div>
+          <div>Click to upload image</div>
+          <div style="font-size: 12px; margin-top: 4px;">Recommended size: 1920x600px</div>
+        </div>
       </div>
-    </div>
-  )}
-  
-  {type === 'range' && (
-    <input
-      type="range"
-      id={editorId}
-      class="visual-editor-range"
-      value={Number(content)}
-      min={min}
-      max={max}
-      step={step}
-      data-original={String(content)}
-    />
-  )}
-  
-  <div class="editor-controls">
-    <button type="button" class="btn-save" data-target={editorId}>
-      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-      </svg>
-    </button>
-    <button type="button" class="btn-cancel" data-target={editorId}>
-      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-      </svg>
-    </button>
+    )}
   </div>
-</div>
+)}
 
-<style>
-  .visual-editor-wrapper {
-    position: relative;
-    display: inline-block;
-    min-width: 100px;
-  }
-  
-  .visual-editor-range {
-    width: 100%;
-    height: 6px;
-    border-radius: 3px;
-    background: #e2e8f0;
-    outline: none;
-    -webkit-appearance: none;
-  }
-  
-  .visual-editor-range::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: #3b82f6;
-    cursor: pointer;
-  }
-  
-  .visual-editor-range::-moz-range-thumb {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: #3b82f6;
-    cursor: pointer;
-    border: none;
-  }
-  
-  .visual-editor-wrapper:hover .editor-controls {
-    opacity: 1;
-  }
-  
-  .visual-editor-input,
-  .visual-editor-textarea {
-    @apply w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
-  }
-  
-  .visual-editor-rich {
-    @apply min-h-[100px] p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
-  }
-  
-  .visual-editor-rich:empty:before {
-    content: attr(data-placeholder);
-    @apply text-gray-400;
-  }
-  
-  .visual-editor-image-wrapper {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .visual-editor-image {
-    @apply max-w-full h-auto rounded;
-  }
-  
-  .image-editor-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.2s;
-    border-radius: 0.375rem;
-  }
-  
-  .visual-editor-image-wrapper:hover .image-editor-overlay {
-    opacity: 1;
-  }
-  
-  .btn-change-image {
-    @apply bg-white text-gray-800 px-3 py-2 rounded-md text-sm font-medium flex items-center gap-2 hover:bg-gray-100 transition-colors;
-  }
-  
-  .editor-controls {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    display: flex;
-    gap: 4px;
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-  
-  .btn-save,
-  .btn-cancel {
-    @apply w-6 h-6 rounded-full flex items-center justify-center text-white text-xs transition-colors;
-  }
-  
-  .btn-save {
-    @apply bg-green-500 hover:bg-green-600;
-  }
-  
-  .btn-cancel {
-    @apply bg-red-500 hover:bg-red-600;
-  }
-</style>
+{type === 'text' && (
+  <input 
+    id={editorId}
+    type="text" 
+    value={content || ''}
+    placeholder={placeholder || ''}
+    class={`editable-text ${className || ''}`}
+    data-editable="true"
+    data-section={sectionId}
+    data-field={fieldPath}
+    style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;"
+    readonly
+  />
+)}
+
+{type === 'textarea' && (
+  <textarea 
+    id={editorId}
+    placeholder={placeholder || ''}
+    class={`editable-textarea ${className || ''}`}
+    data-editable="true"
+    data-section={sectionId}
+    data-field={fieldPath}
+    style="width: 100%; min-height: 100px; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; resize: vertical;"
+    readonly
+  >{content || ''}</textarea>
+)}
+
+{type === 'rich' && (
+  <div 
+    id={editorId}
+    class={`editable-rich ${className || ''}`}
+    data-editable="true"
+    data-section={sectionId}
+    data-field={fieldPath}
+    style="min-height: 120px; padding: 12px; border: 1px solid #d1d5db; border-radius: 6px; background: white;"
+  >
+    {content || placeholder || 'Click to edit content...'}
+  </div>
+)}
+
+{type === 'range' && (
+  <input 
+    id={editorId}
+    type="range" 
+    value={content || 0.4}
+    min={min || 0}
+    max={max || 1}
+    step={step || 0.1}
+    class={`editable-range ${className || ''}`}
+    data-editable="true"
+    data-section={sectionId}
+    data-field={fieldPath}
+    style="width: 100%;"
+  />
+)}
 
 <script>
-  import { secureRequest, handleResponse, sanitizeInput } from '../lib/client-security.js';
+  // Simple CSRF token management
+  class CSRFManager {
+    async getCSRFTokens() {
+      const response = await fetch('/api/auth/csrf', {
+        method: 'GET',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      if (!response.ok) throw new Error('Failed to get CSRF tokens');
+      return await response.json();
+    }
+  }
   
   class VisualEditor {
     constructor() {
-      this.initializeEditors();
-      this.setupEventListeners();
+      this.init();
     }
-    
-    initializeEditors() {
-      // Initialize rich text editors
-      document.querySelectorAll('.visual-editor-rich').forEach(editor => {
-        this.setupRichEditor(editor);
+
+    init() {
+      // Add edit buttons to editable elements
+      document.querySelectorAll('[data-editable]').forEach((element) => {
+        this.addEditButton(element);
       });
     }
-    
-    setupRichEditor(editor) {
-      // Basic rich text editing commands
-      editor.addEventListener('keydown', (e) => {
-        if (e.ctrlKey || e.metaKey) {
-          switch (e.key) {
-            case 'b':
-              e.preventDefault();
-              document.execCommand('bold');
-              break;
-            case 'i':
-              e.preventDefault();
-              document.execCommand('italic');
-              break;
-            case 'u':
-              e.preventDefault();
-              document.execCommand('underline');
-              break;
-          }
-        }
-      });
-    }
-    
-    setupEventListeners() {
-      // Save button handlers
-      document.addEventListener('click', (e) => {
-        if (e.target.closest('.btn-save')) {
-          const button = e.target.closest('.btn-save');
-          const targetId = button.dataset.target;
-          this.saveContent(targetId);
-        }
-        
-        if (e.target.closest('.btn-cancel')) {
-          const button = e.target.closest('.btn-cancel');
-          const targetId = button.dataset.target;
-          this.cancelEdit(targetId);
-        }
-        
-        if (e.target.closest('.btn-change-image')) {
-          const button = e.target.closest('.btn-change-image');
-          const targetId = button.dataset.target;
-          this.changeImage(targetId);
-        }
-      });
+
+    addEditButton(element: HTMLElement) {
+      const editBtn = document.createElement('button');
+      editBtn.className = 'edit-btn';
+      editBtn.innerHTML = '✏️';
+      editBtn.title = 'Edit this content';
       
-      // Auto-save on blur for text inputs
-      document.addEventListener('blur', (e) => {
-        if (e.target.matches('.visual-editor-input, .visual-editor-textarea')) {
-          this.saveContent(e.target.id);
-        }
-      }, true);
+      editBtn.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.startEdit(element.id);
+      };
+
+      // Position the button
+      element.style.position = 'relative';
+      element.appendChild(editBtn);
     }
-    
-    async saveContent(editorId) {
+
+    startEdit(editorId: string) {
       const editor = document.getElementById(editorId);
       if (!editor) return;
+
+      const isImage = editor.tagName === 'IMG' || editor.classList.contains('image-placeholder');
       
-      const wrapper = editor.closest('.visual-editor-wrapper');
-      const sectionId = wrapper.dataset.section;
-      const fieldPath = wrapper.dataset.field;
-      
-      let content;
-      if (editor.matches('.visual-editor-rich')) {
-        content = editor.innerHTML;
-      } else if (editor.matches('.visual-editor-image')) {
-        content = editor.src;
+      if (isImage) {
+        this.editImage(editorId);
       } else {
-        content = editor.value;
+        this.editText(editorId);
       }
+    }
+
+    editText(editorId: string) {
+      const editor = document.getElementById(editorId);
+      if (!editor) return;
+
+      const originalContent = editor.textContent || editor.innerHTML;
+      editor.dataset.original = originalContent;
+
+      // Create textarea for editing
+      const textarea = document.createElement('textarea');
+      textarea.value = originalContent;
+      textarea.className = 'edit-textarea';
       
+      // Replace content with textarea
+      editor.innerHTML = '';
+      editor.appendChild(textarea);
+      
+      // Add save/cancel buttons
+      const buttonContainer = document.createElement('div');
+      buttonContainer.className = 'edit-buttons';
+      
+      const saveBtn = document.createElement('button');
+      saveBtn.textContent = 'Save';
+      saveBtn.className = 'save-btn';
+      saveBtn.onclick = () => this.saveContent(editorId);
+      
+      const cancelBtn = document.createElement('button');
+      cancelBtn.textContent = 'Cancel';
+      cancelBtn.className = 'cancel-btn';
+      cancelBtn.onclick = () => this.cancelEdit(editorId);
+      
+      buttonContainer.appendChild(saveBtn);
+      buttonContainer.appendChild(cancelBtn);
+      editor.appendChild(buttonContainer);
+      
+      textarea.focus();
+    }
+
+    editImage(editorId: string) {
+      const editor = document.getElementById(editorId);
+      if (!editor) return;
+
+      // Create image editor overlay
+      const overlay = document.createElement('div');
+      overlay.className = 'image-edit-overlay';
+      
+      const changeBtn = document.createElement('button');
+      changeBtn.textContent = 'Change Image';
+      changeBtn.className = 'change-image-btn';
+      changeBtn.onclick = () => this.changeImage(editorId);
+      
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = 'Delete';
+      deleteBtn.className = 'delete-image-btn';
+      deleteBtn.onclick = () => this.deleteImage(editorId);
+      
+      const cancelBtn = document.createElement('button');
+      cancelBtn.textContent = 'Cancel';
+      cancelBtn.className = 'cancel-btn';
+      cancelBtn.onclick = () => this.cancelImageEdit(editorId);
+      
+      overlay.appendChild(changeBtn);
+      overlay.appendChild(deleteBtn);
+      overlay.appendChild(cancelBtn);
+      
+      editor.style.position = 'relative';
+      editor.appendChild(overlay);
+    }
+
+    async saveContent(editorId: string) {
+      if (!editorId) return;
+      const editor = document.getElementById(editorId);
+      if (!editor) return;
+
+      const textarea = editor.querySelector('textarea');
+      if (!textarea) return;
+
+      const content = textarea.value;
+      const sectionId = editor.dataset.section;
+      const fieldPath = editor.dataset.field;
+
+      if (!sectionId || !fieldPath) {
+        this.showError('Missing section or field information');
+        return;
+      }
+
       try {
-        // Sanitize content if it's a string
-        if (typeof content === 'string') {
-          content = sanitizeInput(content);
-        }
-        
-        const response = await secureRequest('/api/content/save', {
+        const response = await fetch('/api/content/update-field', {
           method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          },
           body: JSON.stringify({
             section: sectionId,
             field: fieldPath,
             content: content
           })
         });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+          throw new Error(errorData.error || `Request failed: ${response.status}`);
+        }
         
-        const result = await handleResponse(response);
+        const result = await response.json();
+        this.showMessage('Content saved successfully!', 'success');
+        
         // Update original data
         editor.dataset.original = content;
-        this.showSuccess('Content saved successfully');
+        
+        // Restore display
+        editor.innerHTML = content;
+        this.addEditButton(editor);
+        
+        // Update the display if it's an image
+        if (editor.tagName === 'IMG') {
+          (editor as HTMLImageElement).src = content;
+        }
+        
       } catch (error) {
         console.error('Save error:', error);
-        this.showError(error.message || 'Failed to save content');
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        this.showError('Failed to save content: ' + errorMessage);
       }
     }
-    
-    cancelEdit(editorId) {
+
+    cancelEdit(editorId: string) {
+      if (!editorId) return;
       const editor = document.getElementById(editorId);
       if (!editor) return;
-      
+
       const originalContent = editor.dataset.original;
-      
-      if (editor.matches('.visual-editor-rich')) {
+      if (originalContent) {
         editor.innerHTML = originalContent;
-      } else if (editor.matches('.visual-editor-image')) {
-        editor.src = originalContent;
-      } else {
-        editor.value = originalContent;
+        this.addEditButton(editor);
       }
     }
-    
-    validateFile(file) {
-      const maxSize = 5 * 1024 * 1024; // 5MB
-      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-      const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
 
-      // Check file size
-      if (file.size > maxSize) {
-        return { valid: false, error: 'File size exceeds 5MB limit' };
+    cancelImageEdit(editorId: string) {
+      if (!editorId) return;
+      const editor = document.getElementById(editorId);
+      if (!editor) return;
+
+      const overlay = editor.querySelector('.image-edit-overlay');
+      if (overlay) {
+        overlay.remove();
       }
-
-      // Check MIME type
-      if (!allowedTypes.includes(file.type)) {
-        return { valid: false, error: 'Invalid file type. Only images are allowed.' };
-      }
-
-      // Check file extension
-      const extension = file.name.toLowerCase().substring(file.name.lastIndexOf('.'));
-      if (!allowedExtensions.includes(extension)) {
-        return { valid: false, error: 'Invalid file extension' };
-      }
-
-      // Check for potential malicious filenames
-      if (file.name.includes('..') || file.name.includes('/') || file.name.includes('\\')) {
-        return { valid: false, error: 'Invalid filename' };
-      }
-
-      return { valid: true };
     }
-    
-    changeImage(editorId) {
+
+    changeImage(editorId: string) {
+      if (!editorId) return;
       const input = document.createElement('input');
       input.type = 'file';
       input.accept = 'image/*';
       
       input.onchange = async (e) => {
-        const file = e.target.files[0];
+        const target = e.target as HTMLInputElement;
+        if (!target || !target.files) return;
+        const file = target.files[0];
         if (!file) return;
         
         try {
-          // Validate file before upload
-          const validation = this.validateFile(file);
-          if (!validation.valid) {
-            this.showError(validation.error);
-            throw new Error(validation.error);
-          }
+          console.log('Starting image upload for file:', file.name);
+          
+          // Get CSRF tokens for secure file upload
+          const csrfManager = new CSRFManager();
+          console.log('Getting CSRF tokens...');
+          const tokens = await csrfManager.getCSRFTokens();
+          console.log('CSRF tokens received:', tokens);
           
           const formData = new FormData();
-          formData.append('image', file);
+          formData.append('file', file);
+          console.log('FormData prepared with file:', file.name, 'size:', file.size);
           
-          // Get CSRF tokens (using cookie-based authentication)
-          const csrfResponse = await fetch('/api/auth/csrf', {
-            credentials: 'include', // Include cookies for authentication
-            headers: { 'Content-Type': 'application/json' }
-          });
-          
-          if (!csrfResponse.ok) {
-            throw new Error('Failed to get security tokens');
-          }
-          
-          const { csrfToken, sessionId } = await csrfResponse.json();
-          
+          console.log('Sending upload request...');
           const response = await fetch('/api/images/upload', {
             method: 'POST',
-            credentials: 'include', // Include cookies for authentication
+            credentials: 'include',
             headers: {
-              'X-CSRF-Token': csrfToken,
-              'X-Session-ID': sessionId
+              'X-CSRF-Token': tokens.token,
+              'X-Session-ID': tokens.sessionId
             },
             body: formData
           });
           
-          const result = await handleResponse(response);
-          const editor = document.getElementById(editorId);
-          editor.src = result.url;
-          this.saveContent(editorId);
+          console.log('Upload response status:', response.status);
+          
+          if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Upload failed with response:', errorText);
+            throw new Error(`Failed to upload image: ${response.status} ${errorText}`);
+          }
+          
+          const result = await response.json();
+          console.log('Upload successful, result:', result);
+          if (editorId) {
+            const editor = document.getElementById(editorId);
+            if (editor) {
+              if (editor.tagName === 'IMG') {
+                (editor as HTMLImageElement).src = result.url;
+              } else if (editor.classList.contains('image-placeholder')) {
+                // Replace placeholder with actual image
+                const img = document.createElement('img');
+                img.id = editorId;
+                img.src = result.url;
+                img.alt = 'Editable image';
+                img.className = editor.className.replace('image-placeholder', 'editable-image');
+                img.setAttribute('data-editable', 'true');
+                img.setAttribute('data-section', editor.dataset.section || '');
+                img.setAttribute('data-field', editor.dataset.field || '');
+                img.style.cssText = 'max-width: 100%; height: auto; min-height: 200px; border: 2px dashed #d1d5db; border-radius: 8px; cursor: pointer;';
+                editor.parentNode?.replaceChild(img, editor);
+                this.addEditButton(img);
+              }
+              this.saveContent(editorId);
+            }
+          }
+          
+          this.cancelImageEdit(editorId);
+          
         } catch (error) {
           console.error('Upload error:', error);
-          this.showError(error.message || 'Failed to upload image');
+          const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+          this.showError('Failed to upload image: ' + errorMessage);
         }
       };
       
       input.click();
     }
-    
-    showSuccess(message) {
-      this.showNotification(message, 'success');
+
+    deleteImage(editorId: string) {
+      if (!editorId) return;
+      if (confirm('Are you sure you want to delete this image?')) {
+        const editor = document.getElementById(editorId);
+        if (editor && editor.tagName === 'IMG') {
+          (editor as HTMLImageElement).src = '';
+          this.saveContent(editorId);
+          this.cancelImageEdit(editorId);
+        }
+      }
     }
     
-    showError(message) {
-      this.showNotification(message, 'error');
-    }
-    
-    showNotification(message, type) {
+    showMessage(message: string, type: string) {
       const notification = document.createElement('div');
       notification.className = `fixed top-4 right-4 px-4 py-2 rounded-md text-white z-50 ${
         type === 'success' ? 'bg-green-500' : 'bg-red-500'
@@ -433,6 +406,10 @@ const editorId = `editor-${sectionId}-${fieldPath.replace(/\./g, '-')}`;
         notification.remove();
       }, 3000);
     }
+    
+    showError(message: string) {
+      this.showMessage(message, 'error');
+    }
   }
   
   // Initialize when DOM is loaded
@@ -442,3 +419,85 @@ const editorId = `editor-${sectionId}-${fieldPath.replace(/\./g, '-')}`;
     new VisualEditor();
   }
 </script>
+
+<style>
+  .edit-btn {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-size: 12px;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  
+  [data-editable]:hover .edit-btn {
+    opacity: 1;
+  }
+  
+  .edit-textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 8px;
+    border: 2px solid #3b82f6;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: inherit;
+    resize: vertical;
+  }
+  
+  .edit-buttons {
+    margin-top: 8px;
+    display: flex;
+    gap: 8px;
+  }
+  
+  .save-btn, .cancel-btn, .change-image-btn, .delete-image-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .save-btn {
+    background: #10b981;
+    color: white;
+  }
+  
+  .cancel-btn {
+    background: #6b7280;
+    color: white;
+  }
+  
+  .change-image-btn {
+    background: #3b82f6;
+    color: white;
+  }
+  
+  .delete-image-btn {
+    background: #ef4444;
+    color: white;
+  }
+  
+  .image-edit-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    z-index: 20;
+  }
+</style>

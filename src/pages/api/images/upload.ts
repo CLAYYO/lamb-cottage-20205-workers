@@ -135,8 +135,8 @@ const uploadHandler: APIRoute = async (context) => {
     const publicUrl = `/images/uploads/${filename}`;
     
     // Log upload activity
-    console.log(`File uploaded: ${filename} by user`);
-    
+    console.log(`File uploaded: ${filename} by authenticated user`);
+
     return new Response(JSON.stringify({
       success: true,
       message: 'File uploaded successfully',
@@ -147,7 +147,7 @@ const uploadHandler: APIRoute = async (context) => {
         type: file.type,
         url: publicUrl,
         uploadedAt: new Date().toISOString(),
-        uploadedBy: authResult.user?.email || 'unknown',
+        uploadedBy: 'authenticated_user',
         ...fileInfo
       }
     }), {

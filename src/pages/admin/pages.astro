@@ -582,8 +582,8 @@ const pageList = [
     }
   </style>
 
-  <script>
-    function showPageEditor(pageKey: string) {
+  <script is:inline>
+    function showPageEditor(pageKey) {
       // Hide all editors
       document.querySelectorAll('.page-editor').forEach(editor => {
         editor.classList.remove('active');

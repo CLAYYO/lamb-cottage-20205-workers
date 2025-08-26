@@ -7,7 +7,7 @@
       "url": "https://lambcottage.campmanager.com/19567/Check-Availability/"
     },
     "backgroundImage": {
-      "src": "/test-hero.jpg",
+      "src": "/lamb-cottage-hero.jpg",
       "alt": "Lamb Cottage Caravan Park",
       "opacity": 0.4,
       "dimensions": {
@@ -93,11 +93,7 @@
         "description": "Beautiful 2-bedroom static caravan with modern amenities",
         "bedrooms": 2,
         "bathrooms": 1,
-        "features": [
-          "Garden area",
-          "Parking space",
-          "Modern kitchen"
-        ]
+        "features": ["Garden area", "Parking space", "Modern kitchen"]
       }
     ]
   },
@@ -352,8 +348,8 @@
     }
   },
   "_metadata": {
-    "lastUpdated": "2025-08-26T10:00:11.680Z",
+    "lastUpdated": "2024-12-19T10:30:00.000Z",
     "updatedBy": "admin",
-    "version": 1756202411680
+    "version": 1734602200000
   }
 }
