@@ -51,44 +51,44 @@ const ContentSchema = z.object({
     email: z.string().email(),
     address: z.string(),
     socialLinks: z.array(SocialLinkSchema)
-  }),
+  }).optional(),
   header: z.object({
     logo: ImageSchema,
     siteName: z.string()
-  }),
+  }).optional(),
   navigation: z.object({
     links: z.array(LinkSchema)
-  }),
+  }).optional(),
   hero: z.object({
     backgroundImage: ImageSchema,
     title: z.string(),
     subtitle: z.string(),
     ctaButton: LinkSchema
-  }),
+  }).optional(),
   welcome: z.object({
     title: z.string(),
     content: z.string(),
     image: ImageSchema
-  }),
+  }).optional(),
   tagline: z.object({
     text: z.string(),
     highlight: z.string()
-  }),
+  }).optional(),
   facilities: z.object({
     title: z.string(),
     subtitle: z.string(),
     items: z.array(FacilitySchema)
-  }),
+  }).optional(),
   propertySales: z.object({
     title: z.string(),
     subtitle: z.string(),
     properties: z.array(PropertySchema)
-  }),
+  }).optional(),
   reviews: z.object({
     title: z.string(),
     subtitle: z.string(),
     items: z.array(ReviewSchema)
-  }),
+  }).optional(),
   contact: z.object({
     title: z.string(),
     subtitle: z.string(),
@@ -96,25 +96,18 @@ const ContentSchema = z.object({
     email: z.string().email(),
     address: z.string(),
     hours: z.string()
-  }),
+  }).optional(),
   bookingBanner: z.object({
     title: z.string(),
     subtitle: z.string(),
     ctaButton: LinkSchema,
     backgroundImage: ImageSchema
-  }),
+  }).optional(),
   footer: z.object({
-    siteName: z.string(),
+    companyName: z.string(),
     description: z.string(),
-    contact: z.object({
-      phone: z.string(),
-      email: z.string().email(),
-      address: z.string()
-    }),
-    quickLinks: z.array(LinkSchema),
-    socialLinks: z.array(SocialLinkSchema),
     copyright: z.string()
-  })
+  }).optional()
 });
 
 // Default content structure
@@ -296,36 +289,8 @@ export const DEFAULT_CONTENT = {
     }
   },
   footer: {
-    siteName: "Lamb Cottage Caravan Park",
+    companyName: "Lamb Cottage Caravan Park",
     description: "Experience the magic of Cheshire countryside at Lamb Cottage. Book your stay today and discover why our guests return year after year to this enchanting retreat.",
-    contact: {
-      phone: "+44 1234 567890",
-      email: "info@lambcottage.co.uk",
-      address: "Lamb Cottage, Rural Cheshire, England"
-    },
-    quickLinks: [
-      { text: "Facilities", url: "/#facilities", external: false },
-      { text: "Property Sales", url: "/#property-sales", external: false },
-      { text: "Reviews", url: "/#reviews", external: false },
-      { text: "Contact", url: "/#contact", external: false }
-    ],
-    socialLinks: [
-      {
-        platform: "Facebook",
-        url: "https://facebook.com/lambcottage",
-        icon: "facebook"
-      },
-      {
-        platform: "Instagram",
-        url: "https://instagram.com/lambcottage",
-        icon: "instagram"
-      },
-      {
-        platform: "TripAdvisor",
-        url: "https://www.tripadvisor.com/Hotel_Review-g499515-d8592952-Reviews-Lamb_Cottage_Caravan_Park-Northwich_Cheshire_England.html",
-        icon: "tripadvisor"
-      }
-    ],
     copyright: "© 2024 Lamb Cottage Caravan Park. All rights reserved."
   }
 };

@@ -129,7 +129,7 @@ const isPreview = Astro.url.searchParams.has('preview');
       </div>
       
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {(content.facilities?.items || []).map(facility => (
+        {Object.values(content.facilities?.items || {}).map(facility => (
           <div class="bg-white rounded-lg shadow-md p-6 text-center">
             <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <span class="text-2xl">{facility.icon || '✓'}</span>
@@ -151,7 +151,7 @@ const isPreview = Astro.url.searchParams.has('preview');
       </div>
       
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {(content.propertySales?.properties || []).map(property => (
+        {Object.values(content.propertySales?.properties || {}).map(property => (
           <div class="bg-white rounded-lg shadow-md overflow-hidden">
             <img src={property.image?.src || '/images/property-placeholder.jpg'} alt={property.image?.alt || property.title || 'Property'} class="w-full h-48 object-cover" />
             <div class="p-6">
@@ -179,7 +179,7 @@ const isPreview = Astro.url.searchParams.has('preview');
       </div>
       
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {(content.reviews?.items || []).map(review => (
+        {Object.values(content.reviews?.items || {}).map(review => (
           <div class="bg-white rounded-lg shadow-md p-6">
             <div class="flex items-center mb-4">
               <div class="flex text-yellow-400">
@@ -304,7 +304,14 @@ const isPreview = Astro.url.searchParams.has('preview');
           <h3 class="text-lg font-semibold mb-4">{content.footer?.companyName || 'Lamb Cottage Caravan Park'}</h3>
           <p class="text-gray-400 mb-4">{content.footer?.description || 'Your perfect countryside retreat'}</p>
           <div class="flex space-x-4">
-            {(content.footer?.socialLinks || []).map(link => (
+            {Array.isArray(content.footer?.socialLinks) ? content.footer.socialLinks.map(link => (
+              <a href={link.url || '#'} class="text-gray-400 hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">
+                <span class="sr-only">{link.name}</span>
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                </svg>
+              </a>
+            )) : Object.values(content.footer?.socialLinks || {}).map((link: any) => (
               <a href={link.url || '#'} class="text-gray-400 hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">
                 <span class="sr-only">{link.name}</span>
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -318,7 +325,13 @@ const isPreview = Astro.url.searchParams.has('preview');
         <div>
           <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
           <ul class="space-y-2">
-            {(content.footer?.quickLinks || []).map(link => (
+            {Array.isArray(content.footer?.quickLinks) ? content.footer.quickLinks.map(link => (
+              <li>
+                <a href={link.url || '#'} class="text-gray-400 hover:text-white transition-colors">
+                  {link.label}
+                </a>
+              </li>
+            )) : Object.values(content.footer?.quickLinks || {}).map((link: any) => (
               <li>
                 <a href={link.url || '#'} class="text-gray-400 hover:text-white transition-colors">
                   {link.label}

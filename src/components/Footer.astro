@@ -1,0 +1,186 @@
+---
+import { getContent } from '../pages/api/content/load.ts';
+
+const content = await getContent();
+---
+
+<footer id="site-footer" class="footer-hidden bg-gradient-to-b from-green-800 to-green-900 text-white relative overflow-hidden">
+  <!-- Background Pattern -->
+  <div class="absolute inset-0 opacity-10">
+    <div class="absolute inset-0 bg-repeat" style="background-image: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%23ffffff" fill-opacity="0.1"><circle cx="30" cy="30" r="2"/></g></g></svg>');"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Site Summary Section -->
+    <div class="text-center mb-12 footer-content">
+      <h3 class="text-2xl font-bold mb-6 text-green-100">Site Summary</h3>
+      <div class="max-w-4xl mx-auto">
+        <p class="text-lg mb-4 leading-relaxed">
+          Within our touring park we accept Caravans, Motorhomes and trailer tents and offer:
+        </p>
+        <div class="grid md:grid-cols-2 gap-6 text-left">
+          <div class="bg-green-700/30 p-6 rounded-lg backdrop-blur-sm">
+            <h4 class="font-semibold text-green-200 mb-3">41 Super Pitches</h4>
+            <p class="text-green-100">
+              Fully serviced with 16 Amp electric, water and grey waste drain. 
+              Hardstanding for car, caravan &amp; awning with lawned area to each side.
+            </p>
+          </div>
+          <div class="bg-green-700/30 p-6 rounded-lg backdrop-blur-sm">
+            <h4 class="font-semibold text-green-200 mb-3">30 Seasonal Pitches</h4>
+            <p class="text-green-100">
+              All super pitches and including free winter storage if renewing for the next season.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Company Information Section -->
+    <div class="mb-12 footer-content text-center">
+      <h3 class="text-2xl font-bold mb-4 text-green-100">{content.footer.companyName}</h3>
+      <p class="text-lg text-green-200 max-w-2xl mx-auto leading-relaxed">{content.footer.description}</p>
+    </div>
+
+    <!-- Contact Information -->
+    <div class="grid md:grid-cols-3 gap-8 mb-8 footer-content">
+      <div class="text-center md:text-left">
+        <h4 class="font-semibold mb-3 text-green-200">Contact Us</h4>
+        <p class="text-green-100 text-sm leading-relaxed">
+          {content.contact.address}
+        </p>
+        <p class="text-green-100 text-sm mt-2">
+          Phone: <a href={`tel:${content.contact.phone}`} class="hover:text-green-300 transition-colors">{content.contact.phone}</a>
+        </p>
+        <p class="text-green-100 text-sm">
+          Email: <a href={`mailto:${content.contact.email}`} class="hover:text-green-300 transition-colors">{content.contact.email}</a>
+        </p>
+      </div>
+      
+      <div class="text-center">
+        <h4 class="font-semibold mb-3 text-green-200">Follow Us</h4>
+        <div class="flex justify-center space-x-4">
+          <a href="https://www.facebook.com/lambcottagecaravanpark" target="_blank" rel="noopener noreferrer" class="text-green-100 hover:text-green-300 transition-colors">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+          </a>
+          <a href="https://www.instagram.com/lambcottagecaravanpark" target="_blank" rel="noopener noreferrer" class="text-green-100 hover:text-green-300 transition-colors">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987 6.62 0 11.987-5.367 11.987-11.987C24.014 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.49-3.323-1.297C4.198 14.895 3.708 13.744 3.708 12.447s.49-2.448 1.297-3.323c.875-.807 2.026-1.297 3.323-1.297s2.448.49 3.323 1.297c.807.875 1.297 2.026 1.297 3.323s-.49 2.448-1.297 3.323c-.875.807-2.026 1.297-3.323 1.297zm7.718-1.297c-.875.807-2.026 1.297-3.323 1.297s-2.448-.49-3.323-1.297c-.807-.875-1.297-2.026-1.297-3.323s.49-2.448 1.297-3.323c.875-.807 2.026-1.297 3.323-1.297s2.448.49 3.323 1.297c.807.875 1.297 2.026 1.297 3.323s-.49 2.448-1.297 3.323z"/>
+            </svg>
+          </a>
+          <a href="https://www.tripadvisor.com/lambcottagecaravanpark" target="_blank" rel="noopener noreferrer" class="text-green-100 hover:text-green-300 transition-colors">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12.006 4.295c-2.67 0-5.338.784-7.645 2.353H0l1.963 1.963c-1.177 1.177-1.963 2.785-1.963 4.612 0 3.923 3.185 7.108 7.108 7.108 1.827 0 3.435-.786 4.612-1.963l1.963 1.963v-4.361c1.569-2.307 2.353-4.975 2.353-7.645C16.036 6.48 14.676 4.295 12.006 4.295z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+      
+      <div class="text-center md:text-right">
+        <h4 class="font-semibold mb-3 text-green-200">Reception Hours</h4>
+        <p class="text-green-100 text-sm leading-relaxed">
+          Mon-Fri: 9:00 AM - 5:00 PM<br>
+          Sat-Sun: 10:00 AM - 4:00 PM
+        </p>
+      </div>
+    </div>
+
+    <!-- Site Builder Credits -->
+    <div class="border-t border-green-700 pt-6 footer-content">
+      <div class="flex flex-col md:flex-row justify-between items-center text-sm text-green-200">
+        <p>{content.footer.copyright}</p>
+        <p class="mt-2 md:mt-0">
+          Website crafted with ❤️ by 
+          <span class="font-semibold text-green-100">Nick Roberts</span> 
+          &amp; 
+          <span class="font-semibold text-green-100">SOLO Coding AI</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer-hidden {
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease;
+  }
+  
+  .footer-visible {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  
+  .footer-content {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  
+  .footer-visible .footer-content {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .footer-visible .footer-content:nth-child(1) { transition-delay: 0.1s; }
+  .footer-visible .footer-content:nth-child(2) { transition-delay: 0.2s; }
+  .footer-visible .footer-content:nth-child(3) { transition-delay: 0.3s; }
+  .footer-visible .footer-content:nth-child(4) { transition-delay: 0.4s; }
+  
+  .logo-item {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  
+  .footer-visible .logo-item {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  
+  .footer-visible .logo-item:nth-child(1) { transition-delay: 0.3s; }
+  .footer-visible .logo-item:nth-child(2) { transition-delay: 0.4s; }
+  .footer-visible .logo-item:nth-child(3) { transition-delay: 0.5s; }
+  .footer-visible .logo-item:nth-child(4) { transition-delay: 0.6s; }
+  .footer-visible .logo-item:nth-child(5) { transition-delay: 0.7s; }
+  .footer-visible .logo-item:nth-child(6) { transition-delay: 0.8s; }
+  .footer-visible .logo-item:nth-child(7) { transition-delay: 0.9s; }
+  .footer-visible .logo-item:nth-child(8) { transition-delay: 1.0s; }
+  
+  .logo-image {
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .logo-image:hover {
+    transform: scale(1.1);
+    filter: brightness(1.1) drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+  }
+</style>
+
+<script>
+  // Intersection Observer for footer reveal animation
+  const footer = document.getElementById('site-footer');
+  
+  if (footer) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.remove('footer-hidden');
+            entry.target.classList.add('footer-visible');
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      }
+    );
+    
+    observer.observe(footer);
+  }
+</script>

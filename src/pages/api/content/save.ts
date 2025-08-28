@@ -96,43 +96,135 @@ const saveHandler: APIRoute = async (context) => {
     // Parse request body
     let contentData;
     try {
-      const body = await context.request.json();
-      const section = sanitize.text(body.section);
-      const field = sanitize.text(body.field);
-      let content = body.content;
+      contentData = await context.request.json();
       
-      // Sanitize content based on field type
-      if (typeof content === 'string') {
-        // For rich text fields, allow HTML but sanitize it
-        if (field.includes('description') || field.includes('content')) {
-          content = sanitize.html(content);
-        } else {
-          content = sanitize.text(content);
-        }
+      // Validate that we received an object
+      if (!contentData || typeof contentData !== 'object') {
+        throw new Error('Content data must be an object');
       }
       
-      contentData = body;
-    } catch {
+      console.log('Received content data:', JSON.stringify(contentData, null, 2));
+      
+    } catch (error) {
+      console.error('JSON parsing error:', error);
       return new Response(JSON.stringify({ error: 'Invalid JSON data' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' }
       });
     }
     
-    // Validate content
-    const validationResult = validateContent(contentData);
+    // Load existing content and merge with incoming data
+    let existingContent = {};
+    try {
+      const existingContentStr = await fs.readFile(CONTENT_FILE, 'utf-8');
+      existingContent = JSON.parse(existingContentStr);
+      // Remove metadata from existing content for merging
+      delete existingContent._metadata;
+    } catch (error) {
+      console.log('No existing content file found, starting with empty content');
+    }
+    
+    // Deep merge existing content with incoming partial data
+    function deepMerge(target: any, source: any): any {
+      const result = { ...target };
+      
+      for (const key in source) {
+        if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+          result[key] = deepMerge(result[key] || {}, source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      
+      return result;
+    }
+    
+    const mergedContent = deepMerge(existingContent, contentData);
+    
+    console.log('\n=== COMPREHENSIVE VALIDATION DEBUG ===');
+    console.log('Incoming content data:', JSON.stringify(contentData, null, 2));
+    console.log('Existing content keys:', Object.keys(existingContent));
+    console.log('Merged content structure:', JSON.stringify(Object.keys(mergedContent).reduce((acc, key) => {
+      acc[key] = typeof mergedContent[key] === 'object' ? Object.keys(mergedContent[key] || {}) : typeof mergedContent[key];
+      return acc;
+    }, {}), null, 2));
+    
+    // Log detailed content structure
+    console.log('\n=== DETAILED MERGED CONTENT ANALYSIS ===');
+    for (const [key, value] of Object.entries(mergedContent)) {
+      if (value && typeof value === 'object') {
+        console.log(`${key}:`, {
+          type: Array.isArray(value) ? 'array' : 'object',
+          keys: Array.isArray(value) ? `length: ${value.length}` : Object.keys(value),
+          sample: Array.isArray(value) ? value[0] : Object.keys(value).slice(0, 3)
+        });
+      } else {
+        console.log(`${key}:`, { type: typeof value, value: String(value).substring(0, 50) });
+      }
+    }
+    
+    console.log('\n=== STARTING VALIDATION ===');
+    const validationResult = validateContent(mergedContent);
+    
+    console.log('Raw validation result:', JSON.stringify(validationResult, null, 2));
+    console.log('Validation valid:', validationResult.valid);
+    console.log('Validation has errors:', !!(validationResult.errors && validationResult.errors.length > 0));
+    
     if (!validationResult.valid && validationResult.errors && validationResult.errors.length > 0) {
+      console.error('\n=== COMPREHENSIVE VALIDATION ERRORS ===');
+      console.error('Total validation errors:', validationResult.errors.length);
+      
+      validationResult.errors.forEach((errorString, index) => {
+        console.error(`\nValidation Error ${index + 1}: ${errorString}`);
+        
+        // Parse the error string to extract path and message
+        const colonIndex = errorString.indexOf(':');
+        if (colonIndex > 0) {
+          const errorPath = errorString.substring(0, colonIndex).trim();
+          const errorMessage = errorString.substring(colonIndex + 1).trim();
+          
+          console.error('  Path:', errorPath);
+          console.error('  Message:', errorMessage);
+          
+          // Try to get the actual data at the error path
+          try {
+            const pathParts = errorPath.split('.');
+            let currentData = mergedContent;
+            for (const part of pathParts) {
+              if (currentData && typeof currentData === 'object') {
+                currentData = currentData[part];
+              } else {
+                currentData = undefined;
+                break;
+              }
+            }
+            console.error('  Actual data at path:', JSON.stringify(currentData, null, 2));
+          } catch (e) {
+            console.error('  Could not retrieve data at path:', errorPath);
+          }
+        }
+      });
+      
+      console.error('\n=== FULL MERGED CONTENT FOR DEBUG ===');
+      console.error(JSON.stringify(mergedContent, null, 2));
+      console.error('=== END VALIDATION ERRORS ===\n');
+      
       return new Response(JSON.stringify({ 
         error: 'Validation failed', 
-        details: validationResult.errors 
+        details: validationResult.errors,
+        debugInfo: {
+          incomingData: contentData,
+          mergedContentKeys: Object.keys(mergedContent),
+          validationErrors: validationResult.errors
+        }
       }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' }
       });
     }
     
-    // Sanitize content
-    const sanitizedContent = sanitizeContent(contentData);
+    // Sanitize the merged content
+    const sanitizedContent = sanitizeContent(mergedContent);
     
     // Ensure content directory exists
     await ensureContentDir();

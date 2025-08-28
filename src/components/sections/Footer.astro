@@ -1,5 +1,8 @@
 ---
 // Footer component with four-column layout
+import { getContent } from '../../pages/api/content/load.ts';
+
+const content = await getContent();
 ---
 
 <footer class="bg-lamb-green-dark text-white" transition:name="footer">
@@ -275,7 +278,7 @@
         <!-- Copyright -->
         <div class="text-center md:text-left">
           <p class="text-lamb-green-light text-sm">
-            &copy; 2024 Lamb Cottage Caravan Park. All rights reserved.
+            {content.footer.copyright}
           </p>
         </div>
         

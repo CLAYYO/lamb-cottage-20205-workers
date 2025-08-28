@@ -1,0 +1,355 @@
+---
+export const prerender = false;
+
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { requireAdminAuth } from '../../middleware/auth';
+
+// Check authentication before rendering
+const authResult = await requireAdminAuth(Astro);
+if (authResult) {
+  return authResult;
+}
+---
+
+<AdminLayout title="Dashboard">
+  <div class="dashboard-grid">
+    <!-- Quick Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">📝</div>
+        <div class="stat-content">
+          <h3>Content Sections</h3>
+          <p class="stat-number">12</p>
+          <p class="stat-label">Active sections</p>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">🖼️</div>
+        <div class="stat-content">
+          <h3>Images</h3>
+          <p class="stat-number">24</p>
+          <p class="stat-label">Total images</p>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">📧</div>
+        <div class="stat-content">
+          <h3>Contact Forms</h3>
+          <p class="stat-number">8</p>
+          <p class="stat-label">This month</p>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">⭐</div>
+        <div class="stat-content">
+          <h3>Reviews</h3>
+          <p class="stat-number">4.8</p>
+          <p class="stat-label">Average rating</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <h2>Quick Actions</h2>
+      <div class="action-grid">
+        <a href="/admin/content" class="action-card">
+          <div class="action-icon">✏️</div>
+          <h3>Edit Homepage</h3>
+          <p>Update content sections, text, and images</p>
+        </a>
+        
+        <a href="/admin/pages" class="action-card">
+          <div class="action-icon">📄</div>
+          <h3>Edit Pages</h3>
+          <p>Update individual page content and settings</p>
+        </a>
+        
+        <a href="/admin/images" class="action-card">
+          <div class="action-icon">📤</div>
+          <h3>Upload Images</h3>
+          <p>Add new images to the media library</p>
+        </a>
+        
+        <a href="/admin/users" class="action-card">
+          <div class="action-icon">👥</div>
+          <h3>User Management</h3>
+          <p>Manage user accounts and permissions</p>
+        </a>
+        
+        <a href="/admin/emails" class="action-card">
+          <div class="action-icon">📬</div>
+          <h3>View Messages</h3>
+          <p>Check recent contact form submissions</p>
+        </a>
+        
+        <a href="/admin/reviews" class="action-card">
+          <div class="action-icon">🔄</div>
+          <h3>Sync Reviews</h3>
+          <p>Update TripAdvisor reviews</p>
+        </a>
+      </div>
+    </div>
+    
+    <!-- Recent Activity -->
+    <div class="recent-activity">
+      <h2>Recent Activity</h2>
+      <div class="activity-list">
+        <div class="activity-item">
+          <div class="activity-icon">📝</div>
+          <div class="activity-content">
+            <p><strong>Homepage content updated</strong></p>
+            <p class="activity-time">2 hours ago</p>
+          </div>
+        </div>
+        
+        <div class="activity-item">
+          <div class="activity-icon">📧</div>
+          <div class="activity-content">
+            <p><strong>New contact form submission</strong></p>
+            <p class="activity-time">5 hours ago</p>
+          </div>
+        </div>
+        
+        <div class="activity-item">
+          <div class="activity-icon">🖼️</div>
+          <div class="activity-content">
+            <p><strong>Image uploaded: hero-background.jpg</strong></p>
+            <p class="activity-time">1 day ago</p>
+          </div>
+        </div>
+        
+        <div class="activity-item">
+          <div class="activity-icon">⭐</div>
+          <div class="activity-content">
+            <p><strong>Reviews synchronized</strong></p>
+            <p class="activity-time">2 days ago</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Site Preview -->
+    <div class="site-preview">
+      <h2>Site Preview</h2>
+      <div class="preview-container">
+        <iframe src="/" class="preview-frame" title="Site Preview"></iframe>
+        <div class="preview-overlay">
+          <a href="/" target="_blank" class="preview-link">
+            <span>🔗</span>
+            View Live Site
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .stats-grid {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+      background: linear-gradient(135deg, #4CAF50 0%, #006837 100%);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .stat-icon {
+      font-size: 2rem;
+      opacity: 0.9;
+    }
+    
+    .stat-content h3 {
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      opacity: 0.9;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    
+    .stat-label {
+      font-size: 0.75rem;
+      opacity: 0.8;
+    }
+    
+    .quick-actions,
+    .recent-activity,
+    .site-preview {
+      background: white;
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .quick-actions h2,
+    .recent-activity h2,
+    .site-preview h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 1rem;
+    }
+    
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    
+    .action-card {
+      display: block;
+      padding: 1rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s;
+    }
+    
+    .action-card:hover {
+      border-color: #4CAF50;
+      box-shadow: 0 4px 6px rgba(76, 175, 80, 0.1);
+      transform: translateY(-1px);
+    }
+    
+    .action-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .action-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 0.25rem;
+    }
+    
+    .action-card p {
+      font-size: 0.875rem;
+      color: #6b7280;
+      margin: 0;
+    }
+    
+    .activity-list {
+      space-y: 1rem;
+    }
+    
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+    
+    .activity-icon {
+      font-size: 1.25rem;
+      opacity: 0.7;
+    }
+    
+    .activity-content p {
+      margin: 0;
+    }
+    
+    .activity-content strong {
+      color: #1f2937;
+    }
+    
+    .activity-time {
+      font-size: 0.75rem;
+      color: #9ca3af;
+    }
+    
+    .preview-container {
+      position: relative;
+      height: 300px;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+    
+    .preview-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      transform: scale(0.5);
+      transform-origin: top left;
+      width: 200%;
+      height: 200%;
+    }
+    
+    .preview-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    
+    .preview-container:hover .preview-overlay {
+      opacity: 1;
+    }
+    
+    .preview-link {
+      background: white;
+      color: #4CAF50;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      font-weight: 500;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    @media (max-width: 768px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      
+      .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      }
+      
+      .action-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</AdminLayout>

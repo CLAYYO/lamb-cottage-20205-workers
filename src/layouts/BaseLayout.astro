@@ -2,6 +2,7 @@
 import { ViewTransitions } from 'astro:transitions';
 import '../styles/transitions.css';
 import Navigation from '../components/layout/Navigation.astro';
+import Footer from '../components/Footer.astro';
 
 export interface Props {
   title: string;
@@ -46,6 +47,7 @@ const { title, description = 'Lamb Cottage Caravan Park - A Dog Walkers Paradise
   <body class="font-sans antialiased">
     <Navigation />
     <slot />
+    <Footer />
     
     <!-- Global styles -->
     <style>

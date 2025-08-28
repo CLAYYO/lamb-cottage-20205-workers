@@ -1,22 +1,16 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
-import cloudflare from '@astrojs/cloudflare';
+import node from '@astrojs/node';
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [tailwind()],
   output: 'server',
-  adapter: cloudflare({
-    platformProxy: {
-      enabled: true
-    }
+  adapter: node({
+    mode: 'standalone'
   }),
-  build: {
-    format: 'directory'
-  },
   server: {
-    port: 4321,
-    host: true
+    port: 4321
   }
 });

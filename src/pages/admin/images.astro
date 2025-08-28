@@ -197,24 +197,11 @@ if (authResult) {
       return { valid: true };
     }
     
-    // Helper function to get cookie value
-    function getCookie(name) {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(';').shift();
-      return null;
-    }
-    
     async function secureRequest(url, options = {}) {
-      const authToken = getCookie('auth-token');
-      if (!authToken) {
-        throw new Error('Authentication required');
-      }
-      
       return fetch(url, {
         ...options,
+        credentials: 'include',
         headers: {
-          'Authorization': `Bearer ${authToken}`,
           'Content-Type': 'application/json',
           ...options.headers
         }
@@ -351,14 +338,8 @@ if (authResult) {
       const formData = new FormData();
       formData.append('file', file);
       
-      // Get auth token from cookies
-      const authToken = getCookie('auth-token');
-      if (!authToken) {
-        throw new Error('Authentication required');
-      }
-      
       const csrfResponse = await fetch('/api/auth/csrf', {
-        headers: { 'Authorization': `Bearer ${authToken}` }
+        credentials: 'include'
       });
       
       if (!csrfResponse.ok) {
@@ -369,8 +350,8 @@ if (authResult) {
 
       const response = await fetch('/api/images/upload', {
         method: 'POST',
+        credentials: 'include',
         headers: {
-          'Authorization': `Bearer ${authToken}`,
           'X-CSRF-Token': csrfToken,
           'X-Session-ID': sessionId
         },

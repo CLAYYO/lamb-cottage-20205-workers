@@ -49,7 +49,6 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
     data-section={sectionId}
     data-field={fieldPath}
     style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;"
-    readonly
   />
 )}
 
@@ -62,7 +61,6 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
     data-section={sectionId}
     data-field={fieldPath}
     style="width: 100%; min-height: 100px; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; resize: vertical;"
-    readonly
   >{content || ''}</textarea>
 )}
 
@@ -96,18 +94,11 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
 )}
 
 <script>
-  // Simple CSRF token management
-  class CSRFManager {
-    async getCSRFTokens() {
-      const response = await fetch('/api/auth/csrf', {
-        method: 'GET',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' }
-      });
-      if (!response.ok) throw new Error('Failed to get CSRF tokens');
-      return await response.json();
-    }
-  }
+  // Import SecurityManager for proper CSRF handling
+  import '../lib/client-security.js';
+  
+  // Use the global SecurityManager instance
+  const securityManager = window.securityManager;
   
   class VisualEditor {
     constructor() {
@@ -192,7 +183,13 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
       const editor = document.getElementById(editorId);
       if (!editor) return;
 
-      // Create image editor overlay
+      // For image placeholders, directly trigger file upload
+      if (editor.classList.contains('image-placeholder')) {
+        this.changeImage(editorId);
+        return;
+      }
+
+      // Create image editor overlay for existing images
       const overlay = document.createElement('div');
       overlay.className = 'image-edit-overlay';
       
@@ -224,16 +221,27 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
       const editor = document.getElementById(editorId);
       if (!editor) return;
 
-      const textarea = editor.querySelector('textarea');
-      if (!textarea) return;
-
-      const content = textarea.value;
+      let content = '';
       const sectionId = editor.dataset.section;
       const fieldPath = editor.dataset.field;
 
       if (!sectionId || !fieldPath) {
         this.showError('Missing section or field information');
         return;
+      }
+
+      // Handle different editor types
+      if (editor.tagName === 'IMG') {
+        // For images, save the src attribute
+        content = (editor as HTMLImageElement).src || '';
+      } else if (editor.classList.contains('image-placeholder')) {
+        // For image placeholders, save empty string (no image uploaded yet)
+        content = '';
+      } else {
+        // For text editors, get content from textarea
+        const textarea = editor.querySelector('textarea');
+        if (!textarea) return;
+        content = textarea.value;
       }
 
       try {
@@ -316,9 +324,8 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
           console.log('Starting image upload for file:', file.name);
           
           // Get CSRF tokens for secure file upload
-          const csrfManager = new CSRFManager();
           console.log('Getting CSRF tokens...');
-          const tokens = await csrfManager.getCSRFTokens();
+          const tokens = await securityManager.getCSRFTokens();
           console.log('CSRF tokens received:', tokens);
           
           const formData = new FormData();
@@ -349,6 +356,7 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
           if (editorId) {
             const editor = document.getElementById(editorId);
             if (editor) {
+              let newEditor = editor;
               if (editor.tagName === 'IMG') {
                 (editor as HTMLImageElement).src = result.url;
               } else if (editor.classList.contains('image-placeholder')) {
@@ -364,8 +372,11 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
                 img.style.cssText = 'max-width: 100%; height: auto; min-height: 200px; border: 2px dashed #d1d5db; border-radius: 8px; cursor: pointer;';
                 editor.parentNode?.replaceChild(img, editor);
                 this.addEditButton(img);
+                newEditor = img;
               }
-              this.saveContent(editorId);
+              
+              // Save the image URL to the content
+              await this.saveImageContent(newEditor.id, result.url);
             }
           }
           
@@ -381,13 +392,55 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
       input.click();
     }
 
+    async saveImageContent(editorId: string, imageUrl: string) {
+      if (!editorId) return;
+      const editor = document.getElementById(editorId);
+      if (!editor) return;
+
+      const sectionId = editor.dataset.section;
+      const fieldPath = editor.dataset.field;
+
+      if (!sectionId || !fieldPath) {
+        this.showError('Missing section or field information');
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/content/update-field', {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            section: sectionId,
+            field: fieldPath,
+            content: imageUrl
+          })
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+          throw new Error(errorData.error || `Request failed: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        this.showMessage('Image saved successfully!', 'success');
+        
+      } catch (error) {
+        console.error('Save error:', error);
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        this.showError('Failed to save image: ' + errorMessage);
+      }
+    }
+
     deleteImage(editorId: string) {
       if (!editorId) return;
       if (confirm('Are you sure you want to delete this image?')) {
         const editor = document.getElementById(editorId);
         if (editor && editor.tagName === 'IMG') {
           (editor as HTMLImageElement).src = '';
-          this.saveContent(editorId);
+          this.saveImageContent(editorId, '');
           this.cancelImageEdit(editorId);
         }
       }
@@ -434,12 +487,16 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
     cursor: pointer;
     font-size: 12px;
     z-index: 10;
-    opacity: 0;
+    opacity: 0.7;
     transition: opacity 0.2s;
   }
   
   [data-editable]:hover .edit-btn {
     opacity: 1;
+  }
+  
+  [data-editable] {
+    position: relative;
   }
   
   .edit-textarea {

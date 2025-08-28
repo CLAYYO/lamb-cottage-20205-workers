@@ -1,0 +1,456 @@
+---
+export const prerender = false;
+
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { getContent } from '../api/content/load.ts';
+import { requireAdminAuth } from '../../middleware/auth';
+
+// Check authentication before rendering
+const authResult = await requireAdminAuth(Astro);
+if (authResult) {
+  return authResult;
+}
+
+const content = await getContent();
+const footerLogos = content.footer?.logos || [];
+---
+
+<AdminLayout title="Footer Logos Manager">
+  <div class="footer-logos-manager">
+    <div class="editor-header">
+      <h1>Footer Logos Manager</h1>
+      <div class="editor-actions">
+        <button id="save-logos-btn" class="btn btn-primary">Save Changes</button>
+        <button id="add-logo-btn" class="btn btn-secondary">Add New Logo</button>
+        <button id="reset-logos-btn" class="btn btn-outline">Reset</button>
+      </div>
+    </div>
+    
+    <div class="logos-content">
+      <div class="logos-grid" id="logos-grid">
+        {footerLogos.map((logo, index) => (
+          <div class="logo-card" data-logo-id={logo.id}>
+            <div class="logo-preview">
+              <img src={logo.image} alt={logo.name} class="logo-img" />
+            </div>
+            <div class="logo-details">
+              <div class="form-group">
+                <label>Logo Name</label>
+                <input 
+                  type="text" 
+                  class="form-input logo-name" 
+                  value={logo.name} 
+                  data-field="name"
+                />
+              </div>
+              
+              <div class="form-group">
+                <label>Image Path</label>
+                <input 
+                  type="text" 
+                  class="form-input logo-image" 
+                  value={logo.image} 
+                  data-field="image"
+                  placeholder="/Footer-images/logo.jpg"
+                />
+              </div>
+              
+              <div class="form-group">
+                <label>Link URL (optional)</label>
+                <input 
+                  type="url" 
+                  class="form-input logo-link" 
+                  value={logo.link || ''} 
+                  data-field="link"
+                  placeholder="https://example.com"
+                />
+              </div>
+              
+              <div class="form-group">
+                <label>Display Order</label>
+                <input 
+                  type="number" 
+                  class="form-input logo-order" 
+                  value={logo.order} 
+                  data-field="order"
+                  min="1"
+                />
+              </div>
+              
+              <div class="form-group checkbox-group">
+                <label class="checkbox-label">
+                  <input 
+                    type="checkbox" 
+                    class="logo-enabled" 
+                    checked={logo.enabled}
+                    data-field="enabled"
+                  />
+                  <span class="checkmark"></span>
+                  Enable this logo
+                </label>
+              </div>
+              
+              <div class="logo-actions">
+                <button class="btn btn-danger btn-sm delete-logo-btn" data-logo-id={logo.id}>
+                  Delete Logo
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      <!-- Add New Logo Template (hidden) -->
+      <div class="logo-card template" id="logo-template" style="display: none;">
+        <div class="logo-preview">
+          <img src="/Footer-images/placeholder.jpg" alt="New Logo" class="logo-img" />
+        </div>
+        <div class="logo-details">
+          <div class="form-group">
+            <label>Logo Name</label>
+            <input 
+              type="text" 
+              class="form-input logo-name" 
+              data-field="name"
+              placeholder="Enter logo name"
+            />
+          </div>
+          
+          <div class="form-group">
+            <label>Image Path</label>
+            <input 
+              type="text" 
+              class="form-input logo-image" 
+              data-field="image"
+              placeholder="/Footer-images/logo.jpg"
+            />
+          </div>
+          
+          <div class="form-group">
+            <label>Link URL (optional)</label>
+            <input 
+              type="url" 
+              class="form-input logo-link" 
+              data-field="link"
+              placeholder="https://example.com"
+            />
+          </div>
+          
+          <div class="form-group">
+            <label>Display Order</label>
+            <input 
+              type="number" 
+              class="form-input logo-order" 
+              data-field="order"
+              min="1"
+              value="1"
+            />
+          </div>
+          
+          <div class="form-group checkbox-group">
+            <label class="checkbox-label">
+              <input 
+                type="checkbox" 
+                class="logo-enabled" 
+                data-field="enabled"
+                checked
+              />
+              <span class="checkmark"></span>
+              Enable this logo
+            </label>
+          </div>
+          
+          <div class="logo-actions">
+            <button class="btn btn-danger btn-sm delete-logo-btn">
+              Delete Logo
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .footer-logos-manager {
+      padding: 2rem;
+    }
+    
+    .editor-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .editor-header h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #1f2937;
+    }
+    
+    .editor-actions {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .logos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 2rem;
+    }
+    
+    .logo-card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .logo-preview {
+      text-align: center;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      background: #f9fafb;
+      border-radius: 6px;
+    }
+    
+    .logo-img {
+      max-height: 60px;
+      max-width: 150px;
+      object-fit: contain;
+    }
+    
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #374151;
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      font-size: 0.875rem;
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+    }
+    
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      font-weight: normal;
+    }
+    
+    .checkbox-label input[type="checkbox"] {
+      margin-right: 0.5rem;
+    }
+    
+    .logo-actions {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e5e7eb;
+    }
+    
+    .btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .btn-primary {
+      background: #3b82f6;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: #2563eb;
+    }
+    
+    .btn-secondary {
+      background: #6b7280;
+      color: white;
+    }
+    
+    .btn-secondary:hover {
+      background: #4b5563;
+    }
+    
+    .btn-outline {
+      background: transparent;
+      color: #6b7280;
+      border: 1px solid #d1d5db;
+    }
+    
+    .btn-outline:hover {
+      background: #f9fafb;
+    }
+    
+    .btn-danger {
+      background: #ef4444;
+      color: white;
+    }
+    
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+    
+    .btn-sm {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.75rem;
+    }
+  </style>
+
+  <script>
+    class FooterLogosManager {
+      constructor() {
+        this.logos = [];
+        this.init();
+      }
+      
+      init() {
+        this.loadLogos();
+        this.bindEvents();
+      }
+      
+      loadLogos() {
+        // Load existing logos from the page
+        const logoCards = document.querySelectorAll('.logo-card:not(.template)');
+        this.logos = Array.from(logoCards).map((card, index) => {
+          return this.extractLogoData(card);
+        });
+      }
+      
+      extractLogoData(card) {
+        const id = card.dataset.logoId || this.generateId();
+        return {
+          id,
+          name: card.querySelector('[data-field="name"]').value,
+          image: card.querySelector('[data-field="image"]').value,
+          link: card.querySelector('[data-field="link"]').value,
+          order: parseInt(card.querySelector('[data-field="order"]').value),
+          enabled: card.querySelector('[data-field="enabled"]').checked
+        };
+      }
+      
+      generateId() {
+        return 'logo_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+      }
+      
+      bindEvents() {
+        // Save button
+        document.getElementById('save-logos-btn').addEventListener('click', () => {
+          this.saveLogos();
+        });
+        
+        // Add logo button
+        document.getElementById('add-logo-btn').addEventListener('click', () => {
+          this.addNewLogo();
+        });
+        
+        // Reset button
+        document.getElementById('reset-logos-btn').addEventListener('click', () => {
+          this.resetLogos();
+        });
+        
+        // Delete buttons
+        document.addEventListener('click', (e) => {
+          if (e.target.classList.contains('delete-logo-btn')) {
+            this.deleteLogo(e.target.closest('.logo-card'));
+          }
+        });
+        
+        // Update preview on image path change
+        document.addEventListener('input', (e) => {
+          if (e.target.classList.contains('logo-image')) {
+            const card = e.target.closest('.logo-card');
+            const img = card.querySelector('.logo-img');
+            img.src = e.target.value;
+          }
+        });
+      }
+      
+      addNewLogo() {
+        const template = document.getElementById('logo-template');
+        const newCard = template.cloneNode(true);
+        newCard.id = '';
+        newCard.style.display = 'block';
+        newCard.classList.remove('template');
+        newCard.dataset.logoId = this.generateId();
+        
+        // Set default order
+        const orderInput = newCard.querySelector('[data-field="order"]');
+        orderInput.value = this.logos.length + 1;
+        
+        document.getElementById('logos-grid').appendChild(newCard);
+      }
+      
+      deleteLogo(card) {
+        if (confirm('Are you sure you want to delete this logo?')) {
+          card.remove();
+        }
+      }
+      
+      async saveLogos() {
+        try {
+          // Collect all logo data
+          const logoCards = document.querySelectorAll('.logo-card:not(.template)');
+          const logos = Array.from(logoCards).map(card => this.extractLogoData(card));
+          
+          const response = await fetch('/api/content/update', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              section: 'footer',
+              field: 'logos',
+              value: logos
+            })
+          });
+          
+          if (response.ok) {
+            alert('Footer logos saved successfully!');
+          } else {
+            throw new Error('Failed to save logos');
+          }
+        } catch (error) {
+          console.error('Error saving logos:', error);
+          alert('Error saving logos. Please try again.');
+        }
+      }
+      
+      resetLogos() {
+        if (confirm('Are you sure you want to reset all changes?')) {
+          location.reload();
+        }
+      }
+    }
+    
+    // Initialize the manager when the page loads
+    document.addEventListener('DOMContentLoaded', () => {
+      new FooterLogosManager();
+    });
+  </script>
+</AdminLayout>

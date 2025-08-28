@@ -237,7 +237,7 @@ const content = await getContent();
           <div class="form-group">
             <label class="form-label">Facilities List</label>
             <div class="facilities-list">
-              {content.facilities.items.map((facility: any, index: number) => (
+              {Object.values(content.facilities.items || {}).map((facility: any, index: number) => (
                 <div class="facility-item border border-gray-200 rounded-lg p-4 mb-4">
                   <div class="grid grid-cols-2 gap-4">
                     <div>
@@ -295,7 +295,7 @@ const content = await getContent();
           <div class="form-group">
             <label class="form-label">Properties</label>
             <div class="properties-list">
-              {content.propertySales.properties.map((property: any, index: number) => (
+              {Object.values(content.propertySales.properties || {}).map((property: any, index: number) => (
                 <div class="property-item border border-gray-200 rounded-lg p-4 mb-4">
                   <div class="grid grid-cols-2 gap-4 mb-4">
                     <div>
@@ -382,7 +382,7 @@ const content = await getContent();
           <div class="form-group">
             <label class="form-label">Customer Reviews</label>
             <div class="reviews-list">
-              {content.reviews.items.map((review: any, index: number) => (
+              {Object.values(content.reviews.items || {}).map((review: any, index: number) => (
                 <div class="review-item border border-gray-200 rounded-lg p-4 mb-4">
                   <div class="grid grid-cols-2 gap-4 mb-4">
                     <div>
@@ -1097,76 +1097,7 @@ const content = await getContent();
       });
     });
     
-    // Save functionality
-    const saveBtn = document.getElementById('save-btn');
-    if (saveBtn) {
-      saveBtn.addEventListener('click', async () => {
-        const saveBtn = document.getElementById('save-btn');
-        saveBtn.textContent = 'Saving...';
-        saveBtn.disabled = true;
-        
-        // Collect all form data
-        const contentData = {
-          hero: {
-            title: document.getElementById('hero-title').value,
-            subtitle: document.getElementById('hero-subtitle').value,
-            cta: document.getElementById('hero-cta').value
-          },
-          welcome: {
-            title: document.getElementById('welcome-title').value,
-            content: document.getElementById('welcome-content').innerHTML
-          },
-          tagline: {
-            text: document.getElementById('tagline-text').value,
-            description: document.getElementById('tagline-description').value
-          },
-          facilities: {
-            title: document.getElementById('facilities-title').value,
-            items: Array.from(document.querySelectorAll('.facility-item')).map(item => ({
-              name: item.querySelector('input').value,
-              description: item.querySelector('textarea').value
-            }))
-          },
-          propertySales: {
-            title: document.getElementById('property-title').value,
-            description: document.getElementById('property-description').value,
-            cta: document.getElementById('property-cta').value
-          },
-          contact: {
-            title: document.getElementById('contact-title').value,
-            description: document.getElementById('contact-description').value,
-            email: document.getElementById('contact-email').value,
-            phone: document.getElementById('contact-phone').value
-          },
-          footer: {
-            description: document.getElementById('footer-description').value,
-            address: document.getElementById('footer-address').value,
-            hours: document.getElementById('footer-hours').value
-          }
-        };
-        
-        try {
-          const response = await fetch('/api/content/save', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(contentData)
-          });
-          
-          if (response.ok) {
-            alert('Content saved successfully!');
-          } else {
-            alert('Error saving content. Please try again.');
-          }
-        } catch (error) {
-          alert('Error saving content. Please try again.');
-        }
-        
-        saveBtn.textContent = 'Save Changes';
-        saveBtn.disabled = false;
-      });
-    }
+
     
     // Preview functionality
     const togglePreviewBtn = document.getElementById('toggle-preview-btn');
@@ -1194,6 +1125,147 @@ const content = await getContent();
       resetBtn.addEventListener('click', () => {
         if (confirm('Are you sure you want to reset all changes? This cannot be undone.')) {
           location.reload();
+        }
+      });
+    }
+    
+    // Save functionality
+    const saveBtn = document.getElementById('save-btn');
+    
+    if (saveBtn) {
+      saveBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        
+        saveBtn.textContent = 'Saving...';
+        saveBtn.disabled = true;
+        
+        try {
+          // First, get CSRF token and session ID
+          const csrfResponse = await fetch('/api/auth/csrf');
+            if (!csrfResponse.ok) {
+              throw new Error('Failed to fetch CSRF token');
+            }
+            const { csrfToken, sessionId } = await csrfResponse.json();
+            
+            // Collect all form data from VisualEditor components
+            const contentData = {};
+            
+            // Get all VisualEditor inputs and textareas
+            const editors = document.querySelectorAll('[data-section]');
+            console.log('Found editors:', editors.length);
+            
+            editors.forEach(editor => {
+              const sectionId = editor.getAttribute('data-section');
+              const fieldPath = editor.getAttribute('data-field');
+              
+              // Get value based on element type
+              let value;
+              if (editor.tagName === 'INPUT') {
+                value = editor.value;
+              } else if (editor.tagName === 'TEXTAREA') {
+                value = editor.value;
+              } else if (editor.tagName === 'IMG') {
+                value = editor.src;
+              } else {
+                // For div elements or other types, get text content
+                value = editor.textContent || editor.innerHTML;
+              }
+              
+              // Clean up the value - remove HTML tags if present and ensure it's serializable
+              if (typeof value === 'string') {
+                value = value.trim();
+                // Remove any HTML tags for text fields
+                if (editor.tagName !== 'IMG' && value.includes('<')) {
+                  const tempDiv = document.createElement('div');
+                  tempDiv.innerHTML = value;
+                  value = tempDiv.textContent || tempDiv.innerText || '';
+                }
+              }
+              
+              console.log(`Editor ${sectionId}.${fieldPath}:`, {
+                element: editor.tagName,
+                value: value,
+                originalValue: editor.value || editor.textContent || editor.innerHTML
+              });
+              
+              // Build nested object structure
+              if (sectionId && fieldPath && value !== undefined && value !== null) {
+                if (!contentData[sectionId]) {
+                  contentData[sectionId] = {};
+                }
+                
+                // Handle nested field paths like 'backgroundImage.src'
+                const pathParts = fieldPath.split('.');
+                let current = contentData[sectionId];
+                
+                for (let i = 0; i < pathParts.length - 1; i++) {
+                  if (!current[pathParts[i]]) {
+                    current[pathParts[i]] = {};
+                  }
+                  current = current[pathParts[i]];
+                }
+                
+                current[pathParts[pathParts.length - 1]] = value;
+              }
+            });
+            
+            console.log('Collected content data:', contentData);
+            
+            // Test JSON serialization before sending
+            try {
+              const testJson = JSON.stringify(contentData);
+              console.log('JSON serialization test passed, size:', testJson.length);
+            } catch (jsonError) {
+              console.error('JSON serialization failed:', jsonError);
+              throw new Error('Data contains non-serializable values: ' + jsonError.message);
+            }
+            
+            // Make the save request with CSRF token and session ID
+            const response = await fetch('/api/content/save', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken,
+                'X-Session-ID': sessionId
+              },
+              body: JSON.stringify(contentData)
+            });
+            
+            const result = await response.json();
+            
+            if (response.ok) {
+              // Show success message
+              const successMsg = document.createElement('div');
+              successMsg.className = 'alert alert-success';
+              successMsg.textContent = 'Content saved successfully!';
+              successMsg.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #10b981; color: white; padding: 1rem; border-radius: 0.5rem; z-index: 1000;';
+              document.body.appendChild(successMsg);
+              
+              // Remove success message after 3 seconds
+              setTimeout(() => {
+                successMsg.remove();
+              }, 3000);
+            } else {
+              throw new Error(result.error || 'Failed to save content');
+            }
+          } catch (error) {
+            console.error('Save error:', error);
+            
+            // Show error message
+            const errorMsg = document.createElement('div');
+            errorMsg.className = 'alert alert-error';
+            errorMsg.textContent = `Error saving content: ${error.message}`;
+            errorMsg.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #ef4444; color: white; padding: 1rem; border-radius: 0.5rem; z-index: 1000;';
+            document.body.appendChild(errorMsg);
+            
+            // Remove error message after 5 seconds
+            setTimeout(() => {
+              errorMsg.remove();
+            }, 5000);
+        } finally {
+          // Always reset button state
+          saveBtn.textContent = 'Save Changes';
+          saveBtn.disabled = false;
         }
       });
     }

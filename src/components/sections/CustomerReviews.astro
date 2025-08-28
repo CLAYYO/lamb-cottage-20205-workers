@@ -24,12 +24,13 @@
         <!-- TripAdvisor Logo and Rating -->
         <div class="flex items-center space-x-6">
           <div class="flex items-center space-x-3">
-            <img 
-              src="/tripadvisor-logo.png" 
-              alt="TripAdvisor" 
-              class="h-12 w-auto"
-              loading="lazy"
-            />
+            <!-- TripAdvisor Logo as SVG -->
+            <div class="h-12 flex items-center">
+              <svg class="h-8 w-auto" viewBox="0 0 200 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="200" height="40" rx="4" fill="#00AA6C"/>
+                <text x="100" y="25" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">TripAdvisor</text>
+              </svg>
+            </div>
             <div class="text-left">
               <div class="flex items-center space-x-2 mb-1">
                 <div class="flex space-x-1" id="tripadvisor-stars">
