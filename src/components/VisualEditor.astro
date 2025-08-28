@@ -94,11 +94,25 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
 )}
 
 <script>
-  // Import SecurityManager for proper CSRF handling
-  import '../lib/client-security.js';
+  // Extend window interface for TypeScript
+  declare global {
+    interface Window {
+      securityManager: any;
+      VisualEditor: typeof VisualEditor;
+      visualEditor: VisualEditor;
+    }
+  }
   
-  // Use the global SecurityManager instance
-  const securityManager = window.securityManager;
+  // Function to get SecurityManager instance (should be available globally)
+  function getSecurityManager() {
+    if (window.securityManager) {
+      return window.securityManager;
+    }
+    
+    // SecurityManager should be available via global script
+    console.error('SecurityManager not available on window object');
+    return null;
+  }
   
   class VisualEditor {
     constructor() {
@@ -106,13 +120,31 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
     }
 
     init() {
+      console.log('VisualEditor initializing...');
       // Add edit buttons to editable elements
-      document.querySelectorAll('[data-editable]').forEach((element) => {
-        this.addEditButton(element);
+      const editableElements = document.querySelectorAll('[data-editable]');
+      console.log(`Found ${editableElements.length} editable elements:`, editableElements);
+      
+      editableElements.forEach((element, index) => {
+        console.log(`Adding edit button to element ${index + 1}:`, {
+          id: element.id,
+          tagName: element.tagName,
+          dataSection: element.getAttribute('data-section'),
+          dataField: element.getAttribute('data-field')
+        });
+        this.addEditButton(element as HTMLElement);
       });
+      
+      console.log('VisualEditor initialization complete');
     }
 
     addEditButton(element: HTMLElement) {
+      // Check if button already exists
+      if (element.querySelector('.edit-btn')) {
+        console.log('Edit button already exists for element:', element.id);
+        return;
+      }
+      
       const editBtn = document.createElement('button');
       editBtn.className = 'edit-btn';
       editBtn.innerHTML = '✏️';
@@ -127,6 +159,8 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
       // Position the button
       element.style.position = 'relative';
       element.appendChild(editBtn);
+      
+      console.log('Edit button added to element:', element.id, 'Button visible:', editBtn.offsetWidth > 0);
     }
 
     startEdit(editorId: string) {
@@ -325,6 +359,10 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
           
           // Get CSRF tokens for secure file upload
           console.log('Getting CSRF tokens...');
+          const securityManager = getSecurityManager();
+          if (!securityManager) {
+            throw new Error('SecurityManager not available');
+          }
           const tokens = await securityManager.getCSRFTokens();
           console.log('CSRF tokens received:', tokens);
           
@@ -465,11 +503,16 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
     }
   }
   
-  // Initialize when DOM is loaded
+  // Expose VisualEditor class globally for testing and external access
+  window.VisualEditor = VisualEditor;
+  
+  // Initialize when DOM is loaded and store instance globally
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => new VisualEditor());
+    document.addEventListener('DOMContentLoaded', () => {
+      window.visualEditor = new VisualEditor();
+    });
   } else {
-    new VisualEditor();
+    window.visualEditor = new VisualEditor();
   }
 </script>
 
@@ -486,9 +529,11 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
     height: 30px;
     cursor: pointer;
     font-size: 12px;
-    z-index: 10;
-    opacity: 0.7;
+    z-index: 1000;
+    opacity: 1;
     transition: opacity 0.2s;
+    display: block !important;
+    visibility: visible !important;
   }
   
   [data-editable]:hover .edit-btn {

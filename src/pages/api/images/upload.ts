@@ -1,5 +1,4 @@
 import type { APIRoute } from 'astro';
-import { requireAuth } from '../../../lib/auth';
 import { secureAPIRoute, sanitize, validateFileUpload } from '../../../lib/security';
 import fs from 'fs/promises';
 import path from 'path';
@@ -48,12 +47,7 @@ async function getFileInfo(filePath: string) {
 
 const uploadHandler: APIRoute = async (context) => {
   try {
-    // Check authentication - requireAuth returns Response on failure, null on success
-    const authResult = await requireAuth(context);
-    if (authResult) {
-      // Authentication failed, return the error response
-      return authResult;
-    }
+    // Authentication is handled by secureAPIRoute wrapper
     
     // Check content type
     const contentType = context.request.headers.get('content-type');
@@ -176,12 +170,7 @@ export const POST = secureAPIRoute(uploadHandler, {
 // Get list of uploaded images
 const getImagesHandler: APIRoute = async (context) => {
   try {
-    // Check authentication - requireAuth returns Response on failure, null on success
-    const authResult = await requireAuth(context);
-    if (authResult) {
-      // Authentication failed, return the error response
-      return authResult;
-    }
+    // Authentication is handled by secureAPIRoute wrapper
     
     // Ensure upload directory exists
     await ensureUploadDir();
@@ -238,12 +227,7 @@ export const GET = secureAPIRoute(getImagesHandler, {
 // Delete uploaded image
 const deleteImageHandler: APIRoute = async (context) => {
   try {
-    // Check authentication - requireAuth returns Response on failure, null on success
-    const authResult = await requireAuth(context);
-    if (authResult) {
-      // Authentication failed, return the error response
-      return authResult;
-    }
+    // Authentication is handled by secureAPIRoute wrapper
     
     // Parse request body
     let requestData;

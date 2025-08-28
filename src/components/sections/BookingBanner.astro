@@ -24,9 +24,13 @@ const { content } = Astro.props;
   {content?.backgroundImage?.src && (
     <div class="absolute inset-0 z-0">
       <img 
+        id="booking-banner-bg-image"
         src={content.backgroundImage.src} 
         alt={content.backgroundImage.alt || 'Booking banner background'} 
         class="w-full h-full object-cover"
+        data-editable="true"
+        data-section="bookingBanner"
+        data-field="backgroundImage.src"
       />
       <div 
         class="absolute inset-0 bg-gradient-to-r from-lamb-green-dark to-lamb-green-medium" 
@@ -37,7 +41,19 @@ const { content } = Astro.props;
   
   <!-- Fallback background if no image -->
   {!content?.backgroundImage?.src && (
-    <div class="absolute inset-0 bg-gradient-to-r from-lamb-green-dark to-lamb-green-medium z-0"></div>
+    <div 
+      id="booking-banner-bg-placeholder"
+      class="absolute inset-0 bg-gradient-to-r from-lamb-green-dark to-lamb-green-medium z-0"
+      data-editable="true"
+      data-section="bookingBanner"
+      data-field="backgroundImage.src"
+      style="cursor: pointer; display: flex; align-items: center; justify-content: center;"
+    >
+      <div class="text-white text-center opacity-50">
+        <div style="font-size: 48px; margin-bottom: 8px;">📷</div>
+        <div>Click to add background image</div>
+      </div>
+    </div>
   )}
   <!-- Background Pattern -->
   <div class="absolute inset-0 opacity-10 z-5">

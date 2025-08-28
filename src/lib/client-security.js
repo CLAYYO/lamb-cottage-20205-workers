@@ -214,6 +214,11 @@ class SecurityManager {
 // Create singleton instance
 const securityManager = new SecurityManager();
 
+// Make securityManager available globally for VisualEditor
+if (typeof window !== 'undefined') {
+  window.securityManager = securityManager;
+}
+
 // Export functions for use in VisualEditor
 export const secureRequest = (url, options) => securityManager.secureRequest(url, options);
 export const handleResponse = (response) => securityManager.handleResponse(response);

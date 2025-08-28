@@ -29,7 +29,7 @@ const pageDescription = 'Experience tranquil countryside living at Lamb Cottage 
   <!-- Main Content -->
   <main transition:name="main-content">
     <!-- Hero Section -->
-    <Hero content={siteContent.hero} />
+    <Hero content={{...siteContent.hero, backgroundImage: {...siteContent.hero.backgroundImage, opacity: parseFloat(siteContent.hero.backgroundImage?.opacity || '0.6')}}} />
     
     <!-- Welcome Section -->
     <Welcome />
@@ -38,7 +38,13 @@ const pageDescription = 'Experience tranquil countryside living at Lamb Cottage 
     <Tagline />
     
     <!-- Facilities Section -->
-    <Facilities content={siteContent.facilities} />
+    <Facilities content={{
+      ...siteContent.facilities,
+      backgroundImage: {
+        ...siteContent.facilities.backgroundImage,
+        opacity: parseFloat(siteContent.facilities.backgroundImage?.opacity || '0.6')
+      }
+    }} />
     
     <!-- Property Sales Section -->
     <PropertySales />
@@ -73,17 +79,18 @@ const pageDescription = 'Experience tranquil countryside living at Lamb Cottage 
     
     // Show/hide scroll to top button
     window.addEventListener('scroll', function() {
-      if (window.pageYOffset > 300) {
+      if (scrollToTopBtn && window.pageYOffset > 300) {
         scrollToTopBtn.classList.remove('opacity-0', 'pointer-events-none');
         scrollToTopBtn.classList.add('opacity-100');
-      } else {
+      } else if (scrollToTopBtn) {
         scrollToTopBtn.classList.add('opacity-0', 'pointer-events-none');
         scrollToTopBtn.classList.remove('opacity-100');
       }
     });
     
     // Scroll to top functionality
-    scrollToTopBtn.addEventListener('click', function() {
+    scrollToTopBtn?.addEventListener('click', function(e) {
+      e.preventDefault();
       window.scrollTo({
         top: 0,
         behavior: 'smooth'
@@ -94,10 +101,11 @@ const pageDescription = 'Experience tranquil countryside living at Lamb Cottage 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
+        const href = anchor.getAttribute('href');
+        const target = href ? document.querySelector(href) : null;
         if (target) {
           const headerHeight = 80; // Account for fixed header
-          const targetPosition = target.offsetTop - headerHeight;
+          const targetPosition = (target as HTMLElement).offsetTop - headerHeight;
           
           window.scrollTo({
             top: targetPosition,
@@ -131,7 +139,7 @@ const pageDescription = 'Experience tranquil countryside living at Lamb Cottage 
     const imageObserver = new IntersectionObserver(function(entries) {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          const img = entry.target;
+          const img = entry.target as HTMLImageElement;
           if (img.dataset.src) {
             img.src = img.dataset.src;
             img.classList.remove('opacity-0');
@@ -148,24 +156,16 @@ const pageDescription = 'Experience tranquil countryside living at Lamb Cottage 
     });
     
     // Performance optimization: Preload critical images
-    const criticalImages = [
-      '/lamb-cottage-hero.jpg',
-      '/images/welcome-cottage.jpg'
-    ];
-    
-    criticalImages.forEach(src => {
-      const link = document.createElement('link');
-      link.rel = 'preload';
-      link.as = 'image';
-      link.href = src;
-      document.head.appendChild(link);
-    });
+    // Note: Preloading images dynamically after page load can cause console warnings
+    // Images should be preloaded in the HTML head for optimal performance
+    // Removed dynamic preloading to prevent "not used within a few seconds" warnings
     
     // Add loading states for interactive elements
     document.querySelectorAll('button[type="submit"]').forEach(button => {
       button.addEventListener('click', function() {
-        if (this.form && this.form.checkValidity()) {
-          this.classList.add('loading');
+        const btn = this as HTMLButtonElement;
+        if (btn.form && btn.form.checkValidity()) {
+          btn.classList.add('loading');
         }
       });
     });
@@ -209,12 +209,12 @@ const pageDescription = 'Experience tranquil countryside living at Lamb Cottage 
       document.body.appendChild(cookieBanner);
       
       // Cookie consent handlers
-      document.getElementById('accept-cookies').addEventListener('click', function() {
+      document.getElementById('accept-cookies')?.addEventListener('click', function() {
         localStorage.setItem('cookieConsent', 'accepted');
         cookieBanner.remove();
       });
       
-      document.getElementById('decline-cookies').addEventListener('click', function() {
+      document.getElementById('decline-cookies')?.addEventListener('click', function() {
         localStorage.setItem('cookieConsent', 'declined');
         cookieBanner.remove();
       });

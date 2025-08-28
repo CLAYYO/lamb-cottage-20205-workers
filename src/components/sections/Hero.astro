@@ -25,10 +25,14 @@ const backgroundOpacity = content.backgroundImage?.opacity || 0.4;
   <!-- Background Image -->
   <div class="absolute inset-0 z-0">
     <img 
+      id="hero-bg-image"
       src={backgroundImage}
       alt={content.backgroundImage?.alt || "Aerial view of Lamb Cottage Caravan Park showing beautiful countryside setting"}
       class="w-full h-full object-cover"
       loading="eager"
+      data-editable="true"
+      data-section="hero"
+      data-field="backgroundImage.src"
     />
     <!-- Dynamic Opacity Overlay -->
     <div class="absolute inset-0" style={`background: linear-gradient(to bottom, rgba(0,0,0,${backgroundOpacity}), rgba(0,0,0,${backgroundOpacity * 0.5}), rgba(0,0,0,${backgroundOpacity * 1.5}))`}></div>

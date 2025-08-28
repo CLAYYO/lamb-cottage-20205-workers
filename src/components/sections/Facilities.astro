@@ -25,9 +25,13 @@ const { content } = Astro.props;
   {content?.backgroundImage?.src && (
     <div class="absolute inset-0 z-0">
       <img 
+        id="facilities-bg-image"
         src={content.backgroundImage.src} 
         alt={content.backgroundImage.alt || 'Facilities background'} 
         class="w-full h-full object-cover"
+        data-editable="true"
+        data-section="facilities"
+        data-field="backgroundImage.src"
       />
       <div 
         class="absolute inset-0 bg-lamb-green-dark" 
@@ -38,7 +42,17 @@ const { content } = Astro.props;
   
   <!-- Fallback background if no image -->
   {!content?.backgroundImage?.src && (
-    <div class="absolute inset-0 bg-lamb-green-dark z-0"></div>
+    <div 
+      id="facilities-bg-placeholder"
+      class="absolute inset-0 bg-lamb-green-dark z-0 flex items-center justify-center"
+      data-editable="true"
+      data-section="facilities"
+      data-field="backgroundImage.src"
+    >
+      <div class="text-white/50 text-center">
+        <p class="text-lg font-medium">Click to add background image</p>
+      </div>
+    </div>
   )}
   <div class="max-w-7xl mx-auto px-4 relative z-10">
     <!-- Section Header -->

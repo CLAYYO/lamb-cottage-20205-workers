@@ -34,7 +34,6 @@
     "title": "Our Facilities",
     "subtitle": "Everything you need for a comfortable stay",
     "backgroundImage": {
-      "src": "",
       "alt": "Facilities background",
       "opacity": "0.3",
       "dimensions": {
@@ -826,8 +825,13 @@
     }
   },
   "_metadata": {
-    "lastUpdated": "2025-08-27T17:36:29.524Z",
+    "lastUpdated": "2025-08-28T16:25:28.516Z",
     "updatedBy": "admin",
-    "version": 1756316189524
+    "version": 1756398328516
+  },
+  "about": {
+    "hero": {
+      "backgroundImage": {}
+    }
   }
 }

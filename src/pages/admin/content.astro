@@ -1270,4 +1270,28 @@ const content = await getContent();
       });
     }
   </script>
+  
+  <!-- Ensure VisualEditor is initialized -->
+  <script>
+    // Force VisualEditor initialization after page load
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('Admin content page loaded, checking VisualEditor...');
+      
+      // Wait a bit for all components to render
+      setTimeout(() => {
+        if (typeof window.VisualEditor !== 'undefined') {
+          console.log('VisualEditor class found, creating instance...');
+          if (!window.visualEditor) {
+            window.visualEditor = new window.VisualEditor();
+            console.log('VisualEditor instance created');
+          } else {
+            console.log('VisualEditor instance already exists, reinitializing...');
+            window.visualEditor.init();
+          }
+        } else {
+          console.error('VisualEditor class not found!');
+        }
+      }, 500);
+    });
+  </script>
 </AdminLayout>
