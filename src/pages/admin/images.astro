@@ -160,12 +160,20 @@ if (authResult) {
           </div>
         </div>
         <div class="flex justify-between items-center mt-6">
-          <button 
-            id="copy-url-btn" 
-            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
-          >
-            Copy URL
-          </button>
+          <div class="flex gap-2">
+            <button 
+              id="select-image-btn" 
+              class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
+            >
+              Select Image
+            </button>
+            <button 
+              id="copy-url-btn" 
+              class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+            >
+              Copy URL
+            </button>
+          </div>
           <button 
             id="delete-image-btn" 
             class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors"
@@ -177,9 +185,35 @@ if (authResult) {
     </div>
   </div>
 
+  <script type="module">
+    import { SecurityManager } from '/src/lib/client-security.js';
+    window.securityManager = new SecurityManager();
+  </script>
   <script is:inline>
     let currentImages = [];
     let currentImageData = null;
+    let securityManager = null;
+    
+    // Wait for security manager to be available
+    function waitForSecurityManager() {
+      return new Promise((resolve) => {
+        if (window.securityManager) {
+          resolve(window.securityManager);
+        } else {
+          const checkInterval = setInterval(() => {
+            if (window.securityManager) {
+              clearInterval(checkInterval);
+              resolve(window.securityManager);
+            }
+          }, 100);
+        }
+      });
+    }
+    
+    // Initialize security manager
+    async function initSecurity() {
+      securityManager = await waitForSecurityManager();
+    }
     
     // Basic security functions
     function validateFile(file) {
@@ -198,41 +232,20 @@ if (authResult) {
     }
     
     async function secureRequest(url, options = {}) {
-      const headers = {
-        'Content-Type': 'application/json',
-        ...options.headers
-      };
-      
-      // For DELETE requests, fetch CSRF tokens
-      if (options.method === 'DELETE') {
-        try {
-          const csrfResponse = await fetch('/api/auth/csrf', {
-            credentials: 'include'
-          });
-          
-          if (csrfResponse.ok) {
-            const { csrfToken, sessionId } = await csrfResponse.json();
-            headers['X-CSRF-Token'] = csrfToken;
-            headers['X-Session-ID'] = sessionId;
-          }
-        } catch (error) {
-          console.error('Failed to get CSRF tokens:', error);
-        }
+      if (!securityManager) {
+        throw new Error('Security manager not initialized');
       }
       
-      return fetch(url, {
-        ...options,
-        credentials: 'include',
-        headers
-      });
+      const response = await securityManager.secureRequest(url, options);
+      return response;
     }
     
     async function handleResponse(response) {
-      if (!response.ok) {
-        const error = await response.text();
-        throw new Error(error || 'Request failed');
+      if (!securityManager) {
+        throw new Error('Security manager not initialized');
       }
-      return response.json();
+      
+      return await securityManager.handleResponse(response);
     }
 
     // DOM elements
@@ -258,6 +271,7 @@ if (authResult) {
     const modalSize = document.getElementById('modal-size');
     const modalUrl = document.getElementById('modal-url');
     const modalDate = document.getElementById('modal-date');
+    const selectImageBtn = document.getElementById('select-image-btn');
     const copyUrlBtn = document.getElementById('copy-url-btn');
     const deleteImageBtn = document.getElementById('delete-image-btn');
 
@@ -354,30 +368,19 @@ if (authResult) {
 
     // Upload single file
     async function uploadFile(file) {
+      if (!securityManager) {
+        throw new Error('Security manager not initialized');
+      }
+      
       const formData = new FormData();
       formData.append('file', file);
       
-      const csrfResponse = await fetch('/api/auth/csrf', {
-        credentials: 'include'
-      });
-      
-      if (!csrfResponse.ok) {
-        throw new Error('Failed to get security tokens');
-      }
-      
-      const { csrfToken, sessionId } = await csrfResponse.json();
-
-      const response = await fetch('/api/images/upload', {
+      const response = await securityManager.secureRequest('/api/images/upload', {
         method: 'POST',
-        credentials: 'include',
-        headers: {
-          'X-CSRF-Token': csrfToken,
-          'X-Session-ID': sessionId
-        },
         body: formData
       });
       
-      return await handleResponse(response);
+      return await securityManager.handleResponse(response);
     }
 
     // Load images
@@ -501,6 +504,35 @@ if (authResult) {
       }
     });
 
+    // Select image (for image picker mode)
+    selectImageBtn.addEventListener('click', () => {
+      if (currentImageData) {
+        // Check if we're in a popup window (opened by VisualEditor)
+        if (window.opener) {
+          // Get editor ID from URL parameters
+          const urlParams = new URLSearchParams(window.location.search);
+          const editorId = urlParams.get('editorId') || window.opener.currentEditingImageId;
+          
+          // Send message to parent window
+          window.opener.postMessage({
+            type: 'imageSelected',
+            imageUrl: currentImageData.url,
+            editorId: editorId
+          }, window.location.origin);
+          
+          // Close this window
+          window.close();
+        } else {
+          // Not in popup mode, just copy URL
+          navigator.clipboard.writeText(window.location.origin + currentImageData.url);
+          selectImageBtn.textContent = 'Copied!';
+          setTimeout(() => {
+            selectImageBtn.textContent = 'Select Image';
+          }, 2000);
+        }
+      }
+    });
+
     // Copy URL
     copyUrlBtn.addEventListener('click', async () => {
       if (currentImageData) {
@@ -544,7 +576,12 @@ if (authResult) {
     // Refresh
     refreshBtn.addEventListener('click', loadImages);
 
-    // Load images on page load
-    loadImages();
+    // Initialize security and load images on page load
+    initSecurity().then(() => {
+      loadImages();
+    }).catch(error => {
+      console.error('Failed to initialize security:', error);
+      alert('Failed to initialize security. Please refresh the page.');
+    });
   </script>
 </AdminLayout>

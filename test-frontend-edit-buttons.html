@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Frontend Edit Buttons</title>
+</head>
+<body>
+    <h1>Frontend Edit Buttons Test</h1>
+    <p>Open browser console and run this test on localhost:4321</p>
+    
+    <script>
+        // Test script to run in browser console on localhost:4321
+        function testFrontendEditButtons() {
+            console.log('=== Frontend Edit Buttons Test ===');
+            
+            // Check if VisualEditor is available
+            console.log('1. Checking VisualEditor availability...');
+            if (typeof window.VisualEditor !== 'undefined') {
+                console.log('✅ VisualEditor class found');
+            } else {
+                console.log('❌ VisualEditor class NOT found');
+                return;
+            }
+            
+            if (window.visualEditor) {
+                console.log('✅ VisualEditor instance found');
+            } else {
+                console.log('❌ VisualEditor instance NOT found');
+                return;
+            }
+            
+            // Check for data-editable elements
+            console.log('\n2. Checking for data-editable elements...');
+            const editableElements = document.querySelectorAll('[data-editable]');
+            console.log(`Found ${editableElements.length} editable elements:`);
+            
+            editableElements.forEach((element, index) => {
+                console.log(`Element ${index + 1}:`, {
+                    id: element.id,
+                    tagName: element.tagName,
+                    dataSection: element.getAttribute('data-section'),
+                    dataField: element.getAttribute('data-field'),
+                    hasEditButton: !!element.querySelector('.edit-btn')
+                });
+            });
+            
+            // Check for edit buttons
+            console.log('\n3. Checking for edit buttons...');
+            const editButtons = document.querySelectorAll('.edit-btn');
+            console.log(`Found ${editButtons.length} edit buttons`);
+            
+            editButtons.forEach((button, index) => {
+                const parent = button.parentElement;
+                console.log(`Edit button ${index + 1}:`, {
+                    parentId: parent?.id,
+                    parentTagName: parent?.tagName,
+                    visible: button.offsetWidth > 0 && button.offsetHeight > 0,
+                    styles: {
+                        display: getComputedStyle(button).display,
+                        visibility: getComputedStyle(button).visibility,
+                        opacity: getComputedStyle(button).opacity
+                    }
+                });
+            });
+            
+            // Test specific background image elements
+            console.log('\n4. Checking specific background image elements...');
+            const heroImage = document.getElementById('hero-bg-image');
+            const facilitiesImage = document.getElementById('facilities-bg-image');
+            const bookingBannerImage = document.getElementById('booking-banner-bg');
+            
+            [heroImage, facilitiesImage, bookingBannerImage].forEach((img, index) => {
+                const names = ['Hero', 'Facilities', 'Booking Banner'];
+                if (img) {
+                    console.log(`${names[index]} image:`, {
+                        found: true,
+                        hasDataEditable: img.hasAttribute('data-editable'),
+                        hasEditButton: !!img.querySelector('.edit-btn')
+                    });
+                } else {
+                    console.log(`${names[index]} image: NOT FOUND`);
+                }
+            });
+            
+            console.log('\n=== Test Complete ===');
+        }
+        
+        // Auto-run test when page loads
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(testFrontendEditButtons, 1000);
+            });
+        } else {
+            setTimeout(testFrontendEditButtons, 1000);
+        }
+        
+        // Also make function available globally
+        window.testFrontendEditButtons = testFrontendEditButtons;
+    </script>
+    
+    <div style="margin-top: 20px; padding: 20px; background: #f0f0f0; border-radius: 8px;">
+        <h3>Instructions:</h3>
+        <ol>
+            <li>Navigate to <a href="http://localhost:4321/" target="_blank">http://localhost:4321/</a></li>
+            <li>Open browser developer console (F12)</li>
+            <li>Run: <code>testFrontendEditButtons()</code></li>
+            <li>Check the console output for edit button status</li>
+        </ol>
+    </div>
+</body>
+</html>

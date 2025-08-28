@@ -1,0 +1,670 @@
+:4321/static-caravans/premium-2-exterior.jpg:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+:4321/static-caravans/luxury-1-exterior.jpg:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+:4321/images/booking-banner-bg.jpg:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+client:1476 [vite] connecting...
+VisualEditor.astro:118 VisualEditor initializing...
+VisualEditor.astro:121 Found 71 editable elements: NodeList(71)
+VisualEditor.astro:124 Adding edit button to element 1: Object
+VisualEditor.astro:158 Edit button added to element: editor-hero-title-5uhdfctlr Button visible: false
+VisualEditor.astro:124 Adding edit button to element 2: Object
+VisualEditor.astro:158 Edit button added to element: editor-hero-subtitle-tkbgy1eea Button visible: false
+VisualEditor.astro:124 Adding edit button to element 3: Object
+VisualEditor.astro:158 Edit button added to element: editor-hero-ctaButton-text-j10ztlbnz Button visible: false
+VisualEditor.astro:124 Adding edit button to element 4: Object
+VisualEditor.astro:158 Edit button added to element: editor-hero-backgroundImage-src-37ivingiy Button visible: false
+VisualEditor.astro:124 Adding edit button to element 5: Object
+VisualEditor.astro:158 Edit button added to element: editor-hero-backgroundImage-opacity-okgx3r507 Button visible: false
+VisualEditor.astro:124 Adding edit button to element 6: Object
+VisualEditor.astro:158 Edit button added to element: editor-welcome-title-f0w8en4v9 Button visible: false
+VisualEditor.astro:124 Adding edit button to element 7: Object
+VisualEditor.astro:158 Edit button added to element: editor-welcome-content-ye4n8vmsx Button visible: false
+VisualEditor.astro:124 Adding edit button to element 8: Object
+VisualEditor.astro:158 Edit button added to element: editor-welcome-image-src-ntcqntfu3 Button visible: false
+VisualEditor.astro:124 Adding edit button to element 9: Object
+VisualEditor.astro:158 Edit button added to element: editor-tagline-text-sfw1yv1l9 Button visible: false
+VisualEditor.astro:124 Adding edit button to element 10: Object
+VisualEditor.astro:158 Edit button added to element: editor-facilities-title-9d39k7t2a Button visible: false
+VisualEditor.astro:124 Adding edit button to element 11: Object
+VisualEditor.astro:158 Edit button added to element: editor-facilities-subtitle-4cyh5bsat Button visible: false
+VisualEditor.astro:124 Adding edit button to element 12: Object
+VisualEditor.astro:158 Edit button added to element: editor-facilities-backgroundImage-src-qr64gyjuq Button visible: false
+VisualEditor.astro:124 Adding edit button to element 13: Object
+VisualEditor.astro:158 Edit button added to element: editor-facilities-backgroundImage-opacity-kgpsimmgj Button visible: false
+VisualEditor.astro:124 Adding edit button to element 14: Object
+VisualEditor.astro:158 Edit button added to element: editor-facilities-items-0-name-bu7bafz37 Button visible: false
+VisualEditor.astro:124 Adding edit button to element 15: Object
+VisualEditor.astro:158 Edit button added to element: editor-facilities-items-0-description-ipglo1j4x Button visible: false
+VisualEditor.astro:124 Adding edit button to element 16: Object
+VisualEditor.astro:158 Edit button added to element: editor-facilities-items-1-name-d26c6i0nr Button visible: false
+VisualEditor.astro:124 Adding edit button to element 17: Object
+VisualEditor.astro:158 Edit button added to element: editor-facilities-items-1-description-st3xzlmmu Button visible: false
+VisualEditor.astro:124 Adding edit button to element 18: Object
+VisualEditor.astro:158 Edit button added to element: editor-facilities-items-2-name-hr30r46vm Button visible: false
+VisualEditor.astro:124 Adding edit button to element 19: Object
+VisualEditor.astro:158 Edit button added to element: editor-facilities-items-2-description-0wbhkzbc3 Button visible: false
+VisualEditor.astro:124 Adding edit button to element 20: Object
+VisualEditor.astro:158 Edit button added to element: editor-facilities-items-3-name-8ok4bwqcc Button visible: false
+VisualEditor.astro:124 Adding edit button to element 21: Object
+VisualEditor.astro:158 Edit button added to element: editor-facilities-items-3-description-naw1ybyut Button visible: false
+VisualEditor.astro:124 Adding edit button to element 22: Object
+VisualEditor.astro:158 Edit button added to element: editor-facilities-items-4-name-9gxy4y3a5 Button visible: false
+VisualEditor.astro:124 Adding edit button to element 23: Object
+VisualEditor.astro:158 Edit button added to element: editor-facilities-items-4-description-bq3q54p5v Button visible: false
+VisualEditor.astro:124 Adding edit button to element 24: Object
+VisualEditor.astro:158 Edit button added to element: editor-facilities-items-5-name-pseisyg2n Button visible: false
+VisualEditor.astro:124 Adding edit button to element 25: Object
+VisualEditor.astro:158 Edit button added to element: editor-facilities-items-5-description-slnviwcxw Button visible: false
+VisualEditor.astro:124 Adding edit button to element 26: Object
+VisualEditor.astro:158 Edit button added to element: editor-facilities-items-6-name-tdl8ueny4 Button visible: false
+VisualEditor.astro:124 Adding edit button to element 27: Object
+VisualEditor.astro:158 Edit button added to element: editor-facilities-items-6-description-h3yhn1hr8 Button visible: false
+VisualEditor.astro:124 Adding edit button to element 28: Object
+VisualEditor.astro:158 Edit button added to element: editor-facilities-items-7-name-2b3y10oks Button visible: false
+VisualEditor.astro:124 Adding edit button to element 29: Object
+VisualEditor.astro:158 Edit button added to element: editor-facilities-items-7-description-ggjxdhrnu Button visible: false
+VisualEditor.astro:124 Adding edit button to element 30: Object
+VisualEditor.astro:158 Edit button added to element: editor-propertySales-title-p25loaep1 Button visible: false
+VisualEditor.astro:124 Adding edit button to element 31: Object
+VisualEditor.astro:158 Edit button added to element: editor-propertySales-subtitle-f9l3oh3vb Button visible: false
+VisualEditor.astro:124 Adding edit button to element 32: Object
+VisualEditor.astro:158 Edit button added to element: editor-propertySales-properties-0-title-rqhn551vs Button visible: false
+VisualEditor.astro:124 Adding edit button to element 33: Object
+VisualEditor.astro:158 Edit button added to element: editor-propertySales-properties-0-price-qh02nahgh Button visible: false
+VisualEditor.astro:124 Adding edit button to element 34: Object
+VisualEditor.astro:158 Edit button added to element: editor-propertySales-properties-0-description-3of78qqg4 Button visible: false
+VisualEditor.astro:124 Adding edit button to element 35: Object
+VisualEditor.astro:158 Edit button added to element: editor-propertySales-properties-0-image-src-vv2osvlpz Button visible: false
+VisualEditor.astro:124 Adding edit button to element 36: Object
+VisualEditor.astro:158 Edit button added to element: editor-propertySales-properties-0-link-url-19xokf2qe Button visible: false
+VisualEditor.astro:124 Adding edit button to element 37: Object
+VisualEditor.astro:158 Edit button added to element: editor-propertySales-properties-1-title-k6g2qvems Button visible: false
+VisualEditor.astro:124 Adding edit button to element 38: Object
+VisualEditor.astro:158 Edit button added to element: editor-propertySales-properties-1-price-m1qonkson Button visible: false
+VisualEditor.astro:124 Adding edit button to element 39: Object
+VisualEditor.astro:158 Edit button added to element: editor-propertySales-properties-1-description-te988h7uu Button visible: false
+VisualEditor.astro:124 Adding edit button to element 40: Object
+VisualEditor.astro:158 Edit button added to element: editor-propertySales-properties-1-image-src-10i7mbu5h Button visible: false
+VisualEditor.astro:124 Adding edit button to element 41: Object
+VisualEditor.astro:158 Edit button added to element: editor-propertySales-properties-1-link-url-tscda2ha0 Button visible: false
+VisualEditor.astro:124 Adding edit button to element 42: Object
+VisualEditor.astro:158 Edit button added to element: editor-reviews-title-zrhje1d4b Button visible: false
+VisualEditor.astro:124 Adding edit button to element 43: Object
+VisualEditor.astro:158 Edit button added to element: editor-reviews-subtitle-9k01blr5c Button visible: false
+VisualEditor.astro:124 Adding edit button to element 44: Object
+VisualEditor.astro:158 Edit button added to element: editor-reviews-items-0-name-etn3065pt Button visible: false
+VisualEditor.astro:124 Adding edit button to element 45: Object
+VisualEditor.astro:158 Edit button added to element: editor-reviews-items-0-rating-f86rcumpb Button visible: false
+VisualEditor.astro:124 Adding edit button to element 46: Object
+VisualEditor.astro:158 Edit button added to element: editor-reviews-items-0-text-ricsdvjn9 Button visible: false
+VisualEditor.astro:124 Adding edit button to element 47: Object
+VisualEditor.astro:158 Edit button added to element: editor-reviews-items-0-date-yo9jw7ogg Button visible: false
+VisualEditor.astro:124 Adding edit button to element 48: Object
+VisualEditor.astro:158 Edit button added to element: editor-reviews-items-1-name-7277dkn5i Button visible: false
+VisualEditor.astro:124 Adding edit button to element 49: Object
+VisualEditor.astro:158 Edit button added to element: editor-reviews-items-1-rating-x6a3cm7iz Button visible: false
+VisualEditor.astro:124 Adding edit button to element 50: Object
+VisualEditor.astro:158 Edit button added to element: editor-reviews-items-1-text-miugxkhx7 Button visible: false
+VisualEditor.astro:124 Adding edit button to element 51: Object
+VisualEditor.astro:158 Edit button added to element: editor-reviews-items-1-date-u4l43e851 Button visible: false
+VisualEditor.astro:124 Adding edit button to element 52: Object
+VisualEditor.astro:158 Edit button added to element: editor-reviews-items-2-name-vtnac98j4 Button visible: false
+VisualEditor.astro:124 Adding edit button to element 53: Object
+VisualEditor.astro:158 Edit button added to element: editor-reviews-items-2-rating-t0tcmqiel Button visible: false
+VisualEditor.astro:124 Adding edit button to element 54: Object
+VisualEditor.astro:158 Edit button added to element: editor-reviews-items-2-text-m59hpz1wk Button visible: false
+VisualEditor.astro:124 Adding edit button to element 55: Object
+VisualEditor.astro:158 Edit button added to element: editor-reviews-items-2-date-dyu81w4q1 Button visible: false
+VisualEditor.astro:124 Adding edit button to element 56: Object
+VisualEditor.astro:158 Edit button added to element: editor-bookingBanner-title-vqyn4ihfi Button visible: false
+VisualEditor.astro:124 Adding edit button to element 57: Object
+VisualEditor.astro:158 Edit button added to element: editor-bookingBanner-subtitle-ern83rvjs Button visible: false
+VisualEditor.astro:124 Adding edit button to element 58: Object
+VisualEditor.astro:158 Edit button added to element: editor-bookingBanner-backgroundImage-src-qdjcelwxu Button visible: false
+VisualEditor.astro:124 Adding edit button to element 59: Object
+VisualEditor.astro:158 Edit button added to element: editor-bookingBanner-backgroundImage-opacity-basyc8294 Button visible: false
+VisualEditor.astro:124 Adding edit button to element 60: Object
+VisualEditor.astro:158 Edit button added to element: editor-bookingBanner-primaryButton-text-6vyh7unpk Button visible: false
+VisualEditor.astro:124 Adding edit button to element 61: Object
+VisualEditor.astro:158 Edit button added to element: editor-bookingBanner-primaryButton-url-pkbzudq29 Button visible: false
+VisualEditor.astro:124 Adding edit button to element 62: Object
+VisualEditor.astro:158 Edit button added to element: editor-bookingBanner-secondaryButton-text-uiwtkytuq Button visible: false
+VisualEditor.astro:124 Adding edit button to element 63: Object
+VisualEditor.astro:158 Edit button added to element: editor-bookingBanner-secondaryButton-url-vd5mgkepx Button visible: false
+VisualEditor.astro:124 Adding edit button to element 64: Object
+VisualEditor.astro:158 Edit button added to element: editor-contact-title-76rwaswk3 Button visible: false
+VisualEditor.astro:124 Adding edit button to element 65: Object
+VisualEditor.astro:158 Edit button added to element: editor-contact-subtitle-8so692wv9 Button visible: false
+VisualEditor.astro:124 Adding edit button to element 66: Object
+VisualEditor.astro:158 Edit button added to element: editor-contact-address-44z7dmkci Button visible: false
+VisualEditor.astro:124 Adding edit button to element 67: Object
+VisualEditor.astro:158 Edit button added to element: editor-contact-phone-ndr9xbf96 Button visible: false
+VisualEditor.astro:124 Adding edit button to element 68: Object
+VisualEditor.astro:158 Edit button added to element: editor-contact-email-k6j48cxnx Button visible: false
+VisualEditor.astro:124 Adding edit button to element 69: Object
+VisualEditor.astro:158 Edit button added to element: editor-footer-companyName-26fovrb4t Button visible: false
+VisualEditor.astro:124 Adding edit button to element 70: Object
+VisualEditor.astro:158 Edit button added to element: editor-footer-description-f89fe7r5g Button visible: false
+VisualEditor.astro:124 Adding edit button to element 71: Object
+VisualEditor.astro:158 Edit button added to element: editor-footer-copyright-mx7ikxbgb Button visible: false
+VisualEditor.astro:133 VisualEditor initialization complete
+content.astro:1278 Admin content page loaded, checking VisualEditor...
+:4321/static-caravans/premium-2-exterior.jpg:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+:4321/static-caravans/luxury-1-exterior.jpg:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+client:1599 [vite] connected.
+index.js:13 [astro] Initializing prefetch script
+client:1476 [vite] connecting...
+client:1599 [vite] connected.
+:4321/static-caravans/luxury-1-exterior.jpg:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+:4321/static-caravans/luxury-1-exterior.jpg:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+:4321/static-caravans/premium-2-exterior.jpg:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+:4321/static-caravans/premium-2-exterior.jpg:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+:4321/images/booking-banner-bg.jpg:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+content.astro:1283 VisualEditor class found, creating instance...
+content.astro:1288 VisualEditor instance already exists, reinitializing...
+VisualEditor.astro:118 VisualEditor initializing...
+VisualEditor.astro:121 Found 71 editable elements: NodeList(71)
+VisualEditor.astro:124 Adding edit button to element 1: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-hero-title-5uhdfctlr
+VisualEditor.astro:124 Adding edit button to element 2: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-hero-subtitle-tkbgy1eea
+VisualEditor.astro:124 Adding edit button to element 3: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-hero-ctaButton-text-j10ztlbnz
+VisualEditor.astro:124 Adding edit button to element 4: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-hero-backgroundImage-src-37ivingiy
+VisualEditor.astro:124 Adding edit button to element 5: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-hero-backgroundImage-opacity-okgx3r507
+VisualEditor.astro:124 Adding edit button to element 6: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-welcome-title-f0w8en4v9
+VisualEditor.astro:124 Adding edit button to element 7: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-welcome-content-ye4n8vmsx
+VisualEditor.astro:124 Adding edit button to element 8: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-welcome-image-src-ntcqntfu3
+VisualEditor.astro:124 Adding edit button to element 9: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-tagline-text-sfw1yv1l9
+VisualEditor.astro:124 Adding edit button to element 10: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-title-9d39k7t2a
+VisualEditor.astro:124 Adding edit button to element 11: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-subtitle-4cyh5bsat
+VisualEditor.astro:124 Adding edit button to element 12: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-backgroundImage-src-qr64gyjuq
+VisualEditor.astro:124 Adding edit button to element 13: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-backgroundImage-opacity-kgpsimmgj
+VisualEditor.astro:124 Adding edit button to element 14: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-0-name-bu7bafz37
+VisualEditor.astro:124 Adding edit button to element 15: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-0-description-ipglo1j4x
+VisualEditor.astro:124 Adding edit button to element 16: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-1-name-d26c6i0nr
+VisualEditor.astro:124 Adding edit button to element 17: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-1-description-st3xzlmmu
+VisualEditor.astro:124 Adding edit button to element 18: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-2-name-hr30r46vm
+VisualEditor.astro:124 Adding edit button to element 19: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-2-description-0wbhkzbc3
+VisualEditor.astro:124 Adding edit button to element 20: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-3-name-8ok4bwqcc
+VisualEditor.astro:124 Adding edit button to element 21: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-3-description-naw1ybyut
+VisualEditor.astro:124 Adding edit button to element 22: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-4-name-9gxy4y3a5
+VisualEditor.astro:124 Adding edit button to element 23: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-4-description-bq3q54p5v
+VisualEditor.astro:124 Adding edit button to element 24: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-5-name-pseisyg2n
+VisualEditor.astro:124 Adding edit button to element 25: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-5-description-slnviwcxw
+VisualEditor.astro:124 Adding edit button to element 26: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-6-name-tdl8ueny4
+VisualEditor.astro:124 Adding edit button to element 27: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-6-description-h3yhn1hr8
+VisualEditor.astro:124 Adding edit button to element 28: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-7-name-2b3y10oks
+VisualEditor.astro:124 Adding edit button to element 29: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-7-description-ggjxdhrnu
+VisualEditor.astro:124 Adding edit button to element 30: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-propertySales-title-p25loaep1
+VisualEditor.astro:124 Adding edit button to element 31: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-propertySales-subtitle-f9l3oh3vb
+VisualEditor.astro:124 Adding edit button to element 32: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-propertySales-properties-0-title-rqhn551vs
+VisualEditor.astro:124 Adding edit button to element 33: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-propertySales-properties-0-price-qh02nahgh
+VisualEditor.astro:124 Adding edit button to element 34: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-propertySales-properties-0-description-3of78qqg4
+VisualEditor.astro:124 Adding edit button to element 35: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-propertySales-properties-0-image-src-vv2osvlpz
+VisualEditor.astro:124 Adding edit button to element 36: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-propertySales-properties-0-link-url-19xokf2qe
+VisualEditor.astro:124 Adding edit button to element 37: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-propertySales-properties-1-title-k6g2qvems
+VisualEditor.astro:124 Adding edit button to element 38: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-propertySales-properties-1-price-m1qonkson
+VisualEditor.astro:124 Adding edit button to element 39: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-propertySales-properties-1-description-te988h7uu
+VisualEditor.astro:124 Adding edit button to element 40: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-propertySales-properties-1-image-src-10i7mbu5h
+VisualEditor.astro:124 Adding edit button to element 41: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-propertySales-properties-1-link-url-tscda2ha0
+VisualEditor.astro:124 Adding edit button to element 42: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-title-zrhje1d4b
+VisualEditor.astro:124 Adding edit button to element 43: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-subtitle-9k01blr5c
+VisualEditor.astro:124 Adding edit button to element 44: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-items-0-name-etn3065pt
+VisualEditor.astro:124 Adding edit button to element 45: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-items-0-rating-f86rcumpb
+VisualEditor.astro:124 Adding edit button to element 46: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-items-0-text-ricsdvjn9
+VisualEditor.astro:124 Adding edit button to element 47: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-items-0-date-yo9jw7ogg
+VisualEditor.astro:124 Adding edit button to element 48: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-items-1-name-7277dkn5i
+VisualEditor.astro:124 Adding edit button to element 49: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-items-1-rating-x6a3cm7iz
+VisualEditor.astro:124 Adding edit button to element 50: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-items-1-text-miugxkhx7
+VisualEditor.astro:124 Adding edit button to element 51: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-items-1-date-u4l43e851
+VisualEditor.astro:124 Adding edit button to element 52: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-items-2-name-vtnac98j4
+VisualEditor.astro:124 Adding edit button to element 53: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-items-2-rating-t0tcmqiel
+VisualEditor.astro:124 Adding edit button to element 54: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-items-2-text-m59hpz1wk
+VisualEditor.astro:124 Adding edit button to element 55: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-items-2-date-dyu81w4q1
+VisualEditor.astro:124 Adding edit button to element 56: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-bookingBanner-title-vqyn4ihfi
+VisualEditor.astro:124 Adding edit button to element 57: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-bookingBanner-subtitle-ern83rvjs
+VisualEditor.astro:124 Adding edit button to element 58: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-bookingBanner-backgroundImage-src-qdjcelwxu
+VisualEditor.astro:124 Adding edit button to element 59: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-bookingBanner-backgroundImage-opacity-basyc8294
+VisualEditor.astro:124 Adding edit button to element 60: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-bookingBanner-primaryButton-text-6vyh7unpk
+VisualEditor.astro:124 Adding edit button to element 61: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-bookingBanner-primaryButton-url-pkbzudq29
+VisualEditor.astro:124 Adding edit button to element 62: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-bookingBanner-secondaryButton-text-uiwtkytuq
+VisualEditor.astro:124 Adding edit button to element 63: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-bookingBanner-secondaryButton-url-vd5mgkepx
+VisualEditor.astro:124 Adding edit button to element 64: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-contact-title-76rwaswk3
+VisualEditor.astro:124 Adding edit button to element 65: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-contact-subtitle-8so692wv9
+VisualEditor.astro:124 Adding edit button to element 66: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-contact-address-44z7dmkci
+VisualEditor.astro:124 Adding edit button to element 67: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-contact-phone-ndr9xbf96
+VisualEditor.astro:124 Adding edit button to element 68: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-contact-email-k6j48cxnx
+VisualEditor.astro:124 Adding edit button to element 69: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-footer-companyName-26fovrb4t
+VisualEditor.astro:124 Adding edit button to element 70: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-footer-description-f89fe7r5g
+VisualEditor.astro:124 Adding edit button to element 71: Object
+VisualEditor.astro:139 Edit button already exists for element: editor-footer-copyright-mx7ikxbgb
+VisualEditor.astro:133 VisualEditor initialization complete
+preview?preview=true:1 The resource http://localhost:4321/lamb-cottage-hero.jpg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+preview?preview=true:1 The resource http://localhost:4321/lamb-cottage-hero.jpg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+// Comprehensive VisualEditor Diagnostic Script
+// Copy and paste this into browser console on /admin/content
+
+console.log('=== VisualEditor Comprehensive Diagnostic ===');
+
+// 1. Check if VisualEditor class and instance exist
+console.log('\n1. Checking VisualEditor availability:');
+console.log('window.VisualEditor exists:', typeof window.VisualEditor !== 'undefined');
+console.log('window.visualEditor exists:', typeof window.visualEditor !== 'undefined');
+
+if (typeof window.VisualEditor !== 'undefined') {
+  console.log('VisualEditor class:', window.VisualEditor);
+}
+
+if (typeof window.visualEditor !== 'undefined') {
+  console.log('VisualEditor instance:', window.visualEditor);
+}
+
+// 2. Check all editable elements
+console.log('\n2. Checking editable elements:');
+const editableElements = document.querySelectorAll('[data-editable="true"]');
+console.log('Total editable elements found:', editableElements.length);
+
+editableElements.forEach((element, index) => {
+  const section = element.getAttribute('data-section');
+  const field = element.getAttribute('data-field');
+  const type = element.getAttribute('data-type');
+  const hasEditButton = element.querySelector('.edit-button') !== null;
+  
+  console.log(`Element ${index + 1}:`, {
+    section,
+    field,
+    type,
+    tagName: element.tagName,
+    hasEditButton,
+    element
+  });
+});
+
+// 3. Specifically check booking banner background image
+console.log('\n3. Checking booking banner background image:');
+const bookingBannerBg = document.querySelector('[data-section="bookingBanner"][data-field="backgroundImage.src"]');
+if (bookingBannerBg) {
+  console.log('Booking banner background element found:', bookingBannerBg);
+  console.log('Has edit button:', bookingBannerBg.querySelector('.edit-button') !== null);
+  console.log('Element styles:', window.getComputedStyle(bookingBannerBg));
+} else {
+  console.log('Booking banner background element NOT found');
+  
+  // Try alternative selectors
+  const alternatives = [
+    '[data-section="bookingBanner"]',
+    '[data-field="backgroundImage.src"]',
+    '[data-field*="backgroundImage"]'
+  ];
+  
+  alternatives.forEach(selector => {
+    const elements = document.querySelectorAll(selector);
+    console.log(`Elements matching "${selector}":`, elements.length);
+    elements.forEach(el => console.log('  -', el));
+  });
+}
+
+// 4. Check for existing edit buttons
+console.log('\n4. Checking existing edit buttons:');
+const editButtons = document.querySelectorAll('.edit-button');
+console.log('Total edit buttons found:', editButtons.length);
+
+editButtons.forEach((button, index) => {
+  console.log(`Edit button ${index + 1}:`, {
+    visible: window.getComputedStyle(button).display !== 'none',
+    parent: button.parentElement,
+    button
+  });
+});
+
+// 5. Try to manually initialize VisualEditor
+console.log('\n5. Manual VisualEditor initialization:');
+if (typeof window.VisualEditor !== 'undefined') {
+  try {
+    if (!window.visualEditor) {
+      console.log('Creating new VisualEditor instance...');
+      window.visualEditor = new window.VisualEditor();
+    } else {
+      console.log('Reinitializing existing VisualEditor...');
+      window.visualEditor.init();
+    }
+    console.log('VisualEditor initialization completed');
+  } catch (error) {
+    console.error('VisualEditor initialization failed:', error);
+  }
+} else {
+  console.error('VisualEditor class not available for manual initialization');
+}
+
+// 6. Final check after manual initialization
+console.log('\n6. Final check after manual initialization:');
+setTimeout(() => {
+  const finalEditButtons = document.querySelectorAll('.edit-button');
+  console.log('Edit buttons after manual init:', finalEditButtons.length);
+  
+  const finalBookingBg = document.querySelector('[data-section="bookingBanner"][data-field="backgroundImage.src"]');
+  if (finalBookingBg) {
+    console.log('Booking banner bg has edit button now:', finalBookingBg.querySelector('.edit-button') !== null);
+  }
+}, 1000);
+
+console.log('\n=== Diagnostic Complete ===');
+VM110:4 === VisualEditor Comprehensive Diagnostic ===
+VM110:7 
+1. Checking VisualEditor availability:
+VM110:8 window.VisualEditor exists: true
+VM110:9 window.visualEditor exists: true
+VM110:12 VisualEditor class: class VisualEditor {
+  constructor() {
+    this.init();
+  }
+  init() {
+    console.log("VisualEditor initializing...");
+    const editableElements = document.querySelectorAll("[data-editable]");
+    consol…
+VM110:16 VisualEditor instance: VisualEditor {}
+VM110:20 
+2. Checking editable elements:
+VM110:22 Total editable elements found: 71
+VM110:30 Element 1: {section: 'hero', field: 'title', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 2: {section: 'hero', field: 'subtitle', type: null, tagName: 'TEXTAREA', hasEditButton: false, …}
+VM110:30 Element 3: {section: 'hero', field: 'ctaButton.text', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 4: {section: 'hero', field: 'backgroundImage.src', type: null, tagName: 'IMG', hasEditButton: false, …}
+VM110:30 Element 5: {section: 'hero', field: 'backgroundImage.opacity', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 6: {section: 'welcome', field: 'title', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 7: {section: 'welcome', field: 'content', type: null, tagName: 'DIV', hasEditButton: false, …}
+VM110:30 Element 8: {section: 'welcome', field: 'image.src', type: null, tagName: 'IMG', hasEditButton: false, …}
+VM110:30 Element 9: {section: 'tagline', field: 'text', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 10: {section: 'facilities', field: 'title', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 11: {section: 'facilities', field: 'subtitle', type: null, tagName: 'TEXTAREA', hasEditButton: false, …}
+VM110:30 Element 12: {section: 'facilities', field: 'backgroundImage.src', type: null, tagName: 'DIV', hasEditButton: false, …}
+VM110:30 Element 13: {section: 'facilities', field: 'backgroundImage.opacity', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 14: {section: 'facilities', field: 'items.0.name', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 15: {section: 'facilities', field: 'items.0.description', type: null, tagName: 'TEXTAREA', hasEditButton: false, …}
+VM110:30 Element 16: {section: 'facilities', field: 'items.1.name', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 17: {section: 'facilities', field: 'items.1.description', type: null, tagName: 'TEXTAREA', hasEditButton: false, …}
+VM110:30 Element 18: {section: 'facilities', field: 'items.2.name', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 19: {section: 'facilities', field: 'items.2.description', type: null, tagName: 'TEXTAREA', hasEditButton: false, …}
+VM110:30 Element 20: {section: 'facilities', field: 'items.3.name', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 21: {section: 'facilities', field: 'items.3.description', type: null, tagName: 'TEXTAREA', hasEditButton: false, …}
+VM110:30 Element 22: {section: 'facilities', field: 'items.4.name', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 23: {section: 'facilities', field: 'items.4.description', type: null, tagName: 'TEXTAREA', hasEditButton: false, …}
+VM110:30 Element 24: {section: 'facilities', field: 'items.5.name', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 25: {section: 'facilities', field: 'items.5.description', type: null, tagName: 'TEXTAREA', hasEditButton: false, …}
+VM110:30 Element 26: {section: 'facilities', field: 'items.6.name', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 27: {section: 'facilities', field: 'items.6.description', type: null, tagName: 'TEXTAREA', hasEditButton: false, …}
+VM110:30 Element 28: {section: 'facilities', field: 'items.7.name', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 29: {section: 'facilities', field: 'items.7.description', type: null, tagName: 'TEXTAREA', hasEditButton: false, …}
+VM110:30 Element 30: {section: 'propertySales', field: 'title', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 31: {section: 'propertySales', field: 'subtitle', type: null, tagName: 'TEXTAREA', hasEditButton: false, …}
+VM110:30 Element 32: {section: 'propertySales', field: 'properties.0.title', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 33: {section: 'propertySales', field: 'properties.0.price', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 34: {section: 'propertySales', field: 'properties.0.description', type: null, tagName: 'TEXTAREA', hasEditButton: false, …}
+VM110:30 Element 35: {section: 'propertySales', field: 'properties.0.image.src', type: null, tagName: 'IMG', hasEditButton: false, …}
+VM110:30 Element 36: {section: 'propertySales', field: 'properties.0.link.url', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 37: {section: 'propertySales', field: 'properties.1.title', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 38: {section: 'propertySales', field: 'properties.1.price', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 39: {section: 'propertySales', field: 'properties.1.description', type: null, tagName: 'TEXTAREA', hasEditButton: false, …}
+VM110:30 Element 40: {section: 'propertySales', field: 'properties.1.image.src', type: null, tagName: 'IMG', hasEditButton: false, …}
+VM110:30 Element 41: {section: 'propertySales', field: 'properties.1.link.url', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 42: {section: 'reviews', field: 'title', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 43: {section: 'reviews', field: 'subtitle', type: null, tagName: 'TEXTAREA', hasEditButton: false, …}
+VM110:30 Element 44: {section: 'reviews', field: 'items.0.name', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 45: {section: 'reviews', field: 'items.0.rating', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 46: {section: 'reviews', field: 'items.0.text', type: null, tagName: 'TEXTAREA', hasEditButton: false, …}
+VM110:30 Element 47: {section: 'reviews', field: 'items.0.date', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 48: {section: 'reviews', field: 'items.1.name', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 49: {section: 'reviews', field: 'items.1.rating', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 50: {section: 'reviews', field: 'items.1.text', type: null, tagName: 'TEXTAREA', hasEditButton: false, …}
+VM110:30 Element 51: {section: 'reviews', field: 'items.1.date', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 52: {section: 'reviews', field: 'items.2.name', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 53: {section: 'reviews', field: 'items.2.rating', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 54: {section: 'reviews', field: 'items.2.text', type: null, tagName: 'TEXTAREA', hasEditButton: false, …}
+VM110:30 Element 55: {section: 'reviews', field: 'items.2.date', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 56: {section: 'bookingBanner', field: 'title', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 57: {section: 'bookingBanner', field: 'subtitle', type: null, tagName: 'TEXTAREA', hasEditButton: false, …}
+VM110:30 Element 58: {section: 'bookingBanner', field: 'backgroundImage.src', type: null, tagName: 'IMG', hasEditButton: false, …}
+VM110:30 Element 59: {section: 'bookingBanner', field: 'backgroundImage.opacity', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 60: {section: 'bookingBanner', field: 'primaryButton.text', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 61: {section: 'bookingBanner', field: 'primaryButton.url', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 62: {section: 'bookingBanner', field: 'secondaryButton.text', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 63: {section: 'bookingBanner', field: 'secondaryButton.url', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 64: {section: 'contact', field: 'title', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 65: {section: 'contact', field: 'subtitle', type: null, tagName: 'TEXTAREA', hasEditButton: false, …}
+VM110:30 Element 66: {section: 'contact', field: 'address', type: null, tagName: 'TEXTAREA', hasEditButton: false, …}
+VM110:30 Element 67: {section: 'contact', field: 'phone', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 68: {section: 'contact', field: 'email', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 69: {section: 'footer', field: 'companyName', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:30 Element 70: {section: 'footer', field: 'description', type: null, tagName: 'TEXTAREA', hasEditButton: false, …}
+VM110:30 Element 71: {section: 'footer', field: 'copyright', type: null, tagName: 'INPUT', hasEditButton: false, …}
+VM110:41 
+3. Checking booking banner background image:
+VM110:44 Booking banner background element found: <img id=​"editor-bookingBanner-backgroundImage-src-qdjcelwxu" src=​"/​images/​booking-banner-bg.jpg" alt=​"Editable image" class=​"editable-image image-preview" data-editable=​"true" data-section=​"bookingBanner" data-field=​"backgroundImage.src" style=​"max-width:​ 100%;​ height:​ auto;​ min-height:​ 200px;​ border:​ 2px dashed rgb(209, 213, 219)​;​ border-radius:​ 8px;​ cursor:​ pointer;​ position:​ relative;​" data-astro-cid-qxhu2r54>​…​</img>​
+VM110:45 Has edit button: false
+VM110:46 Element styles: CSSStyleDeclaration {0: 'accent-color', 1: 'align-content', 2: 'align-items', 3: 'align-self', 4: 'alignment-baseline', 5: 'anchor-name', 6: 'anchor-scope', 7: 'animation-composition', 8: 'animation-delay', 9: 'animation-direction', 10: 'animation-duration', 11: 'animation-fill-mode', 12: 'animation-iteration-count', 13: 'animation-name', 14: 'animation-play-state', 15: 'animation-range-end', 16: 'animation-range-start', 17: 'animation-timeline', 18: 'animation-timing-function', 19: 'app-region', 20: 'appearance', 21: 'backdrop-filter', 22: 'backface-visibility', 23: 'background-attachment', 24: 'background-blend-mode', 25: 'background-clip', 26: 'background-color', 27: 'background-image', 28: 'background-origin', 29: 'background-position', 30: 'background-repeat', 31: 'background-size', 32: 'baseline-shift', 33: 'baseline-source', 34: 'block-size', 35: 'border-block-end-color', 36: 'border-block-end-style', 37: 'border-block-end-width', 38: 'border-block-start-color', 39: 'border-block-start-style', 40: 'border-block-start-width', 41: 'border-bottom-color', 42: 'border-bottom-left-radius', 43: 'border-bottom-right-radius', 44: 'border-bottom-style', 45: 'border-bottom-width', 46: 'border-collapse', 47: 'border-end-end-radius', 48: 'border-end-start-radius', 49: 'border-image-outset', 50: 'border-image-repeat', 51: 'border-image-slice', 52: 'border-image-source', 53: 'border-image-width', 54: 'border-inline-end-color', 55: 'border-inline-end-style', 56: 'border-inline-end-width', 57: 'border-inline-start-color', 58: 'border-inline-start-style', 59: 'border-inline-start-width', 60: 'border-left-color', 61: 'border-left-style', 62: 'border-left-width', 63: 'border-right-color', 64: 'border-right-style', 65: 'border-right-width', 66: 'border-start-end-radius', 67: 'border-start-start-radius', 68: 'border-top-color', 69: 'border-top-left-radius', 70: 'border-top-right-radius', 71: 'border-top-style', 72: 'border-top-width', 73: 'bottom', 74: 'box-decoration-break', 75: 'box-shadow', 76: 'box-sizing', 77: 'break-after', 78: 'break-before', 79: 'break-inside', 80: 'buffered-rendering', 81: 'caption-side', 82: 'caret-color', 83: 'clear', 84: 'clip', 85: 'clip-path', 86: 'clip-rule', 87: 'color', 88: 'color-interpolation', 89: 'color-interpolation-filters', 90: 'color-rendering', 91: 'column-count', 92: 'column-gap', 93: 'column-rule-color', 94: 'column-rule-style', 95: 'column-rule-width', 96: 'column-span', 97: 'column-width', 98: 'contain-intrinsic-block-size', 99: 'contain-intrinsic-height', …}
+VM110:65 
+4. Checking existing edit buttons:
+VM110:67 Total edit buttons found: 0
+VM110:78 
+5. Manual VisualEditor initialization:
+VM110:85 Reinitializing existing VisualEditor...
+VisualEditor.astro:118 VisualEditor initializing...
+VisualEditor.astro:121 Found 71 editable elements: NodeList(71) [input#editor-hero-title-5uhdfctlr.editable-text.form-input, textarea#editor-hero-subtitle-tkbgy1eea.editable-textarea.form-textarea, input#editor-hero-ctaButton-text-j10ztlbnz.editable-text.form-input, img#editor-hero-backgroundImage-src-37ivingiy.editable-image.image-preview, input#editor-hero-backgroundImage-opacity-okgx3r507.editable-range.opacity-slider, input#editor-welcome-title-f0w8en4v9.editable-text, div#editor-welcome-content-ye4n8vmsx.editable-rich, img#editor-welcome-image-src-ntcqntfu3.editable-image, input#editor-tagline-text-sfw1yv1l9.editable-text, input#editor-facilities-title-9d39k7t2a.editable-text, textarea#editor-facilities-subtitle-4cyh5bsat.editable-textarea, div#editor-facilities-backgroundImage-src-qr64gyjuq.image-placeholder.image-preview, input#editor-facilities-backgroundImage-opacity-kgpsimmgj.editable-range.opacity-slider, input#editor-facilities-items-0-name-bu7bafz37.editable-text, textarea#editor-facilities-items-0-description-ipglo1j4x.editable-textarea, input#editor-facilities-items-1-name-d26c6i0nr.editable-text, textarea#editor-facilities-items-1-description-st3xzlmmu.editable-textarea, input#editor-facilities-items-2-name-hr30r46vm.editable-text, textarea#editor-facilities-items-2-description-0wbhkzbc3.editable-textarea, input#editor-facilities-items-3-name-8ok4bwqcc.editable-text, textarea#editor-facilities-items-3-description-naw1ybyut.editable-textarea, input#editor-facilities-items-4-name-9gxy4y3a5.editable-text, textarea#editor-facilities-items-4-description-bq3q54p5v.editable-textarea, input#editor-facilities-items-5-name-pseisyg2n.editable-text, textarea#editor-facilities-items-5-description-slnviwcxw.editable-textarea, input#editor-facilities-items-6-name-tdl8ueny4.editable-text, textarea#editor-facilities-items-6-description-h3yhn1hr8.editable-textarea, input#editor-facilities-items-7-name-2b3y10oks.editable-text, textarea#editor-facilities-items-7-description-ggjxdhrnu.editable-textarea, input#editor-propertySales-title-p25loaep1.editable-text, textarea#editor-propertySales-subtitle-f9l3oh3vb.editable-textarea, input#editor-propertySales-properties-0-title-rqhn551vs.editable-text, input#editor-propertySales-properties-0-price-qh02nahgh.editable-text, textarea#editor-propertySales-properties-0-description-3of78qqg4.editable-textarea, img#editor-propertySales-properties-0-image-src-vv2osvlpz.editable-image, input#editor-propertySales-properties-0-link-url-19xokf2qe.editable-text, input#editor-propertySales-properties-1-title-k6g2qvems.editable-text, input#editor-propertySales-properties-1-price-m1qonkson.editable-text, textarea#editor-propertySales-properties-1-description-te988h7uu.editable-textarea, img#editor-propertySales-properties-1-image-src-10i7mbu5h.editable-image, input#editor-propertySales-properties-1-link-url-tscda2ha0.editable-text, input#editor-reviews-title-zrhje1d4b.editable-text, textarea#editor-reviews-subtitle-9k01blr5c.editable-textarea, input#editor-reviews-items-0-name-etn3065pt.editable-text, input#editor-reviews-items-0-rating-f86rcumpb.editable-text, textarea#editor-reviews-items-0-text-ricsdvjn9.editable-textarea, input#editor-reviews-items-0-date-yo9jw7ogg.editable-text, input#editor-reviews-items-1-name-7277dkn5i.editable-text, input#editor-reviews-items-1-rating-x6a3cm7iz.editable-text, textarea#editor-reviews-items-1-text-miugxkhx7.editable-textarea, input#editor-reviews-items-1-date-u4l43e851.editable-text, input#editor-reviews-items-2-name-vtnac98j4.editable-text, input#editor-reviews-items-2-rating-t0tcmqiel.editable-text, textarea#editor-reviews-items-2-text-m59hpz1wk.editable-textarea, input#editor-reviews-items-2-date-dyu81w4q1.editable-text, input#editor-bookingBanner-title-vqyn4ihfi.editable-text, textarea#editor-bookingBanner-subtitle-ern83rvjs.editable-textarea, img#editor-bookingBanner-backgroundImage-src-qdjcelwxu.editable-image.image-preview, input#editor-bookingBanner-backgroundImage-opacity-basyc8294.editable-range.opacity-slider, input#editor-bookingBanner-primaryButton-text-6vyh7unpk.editable-text, input#editor-bookingBanner-primaryButton-url-pkbzudq29.editable-text, input#editor-bookingBanner-secondaryButton-text-uiwtkytuq.editable-text, input#editor-bookingBanner-secondaryButton-url-vd5mgkepx.editable-text, input#editor-contact-title-76rwaswk3.editable-text, textarea#editor-contact-subtitle-8so692wv9.editable-textarea, textarea#editor-contact-address-44z7dmkci.editable-textarea, input#editor-contact-phone-ndr9xbf96.editable-text, input#editor-contact-email-k6j48cxnx.editable-text, input#editor-footer-companyName-26fovrb4t.editable-text, textarea#editor-footer-description-f89fe7r5g.editable-textarea, input#editor-footer-copyright-mx7ikxbgb.editable-text]
+VisualEditor.astro:124 Adding edit button to element 1: {id: 'editor-hero-title-5uhdfctlr', tagName: 'INPUT', dataSection: 'hero', dataField: 'title'}
+VisualEditor.astro:139 Edit button already exists for element: editor-hero-title-5uhdfctlr
+VisualEditor.astro:124 Adding edit button to element 2: {id: 'editor-hero-subtitle-tkbgy1eea', tagName: 'TEXTAREA', dataSection: 'hero', dataField: 'subtitle'}
+VisualEditor.astro:139 Edit button already exists for element: editor-hero-subtitle-tkbgy1eea
+VisualEditor.astro:124 Adding edit button to element 3: {id: 'editor-hero-ctaButton-text-j10ztlbnz', tagName: 'INPUT', dataSection: 'hero', dataField: 'ctaButton.text'}
+VisualEditor.astro:139 Edit button already exists for element: editor-hero-ctaButton-text-j10ztlbnz
+VisualEditor.astro:124 Adding edit button to element 4: {id: 'editor-hero-backgroundImage-src-37ivingiy', tagName: 'IMG', dataSection: 'hero', dataField: 'backgroundImage.src'}
+VisualEditor.astro:139 Edit button already exists for element: editor-hero-backgroundImage-src-37ivingiy
+VisualEditor.astro:124 Adding edit button to element 5: {id: 'editor-hero-backgroundImage-opacity-okgx3r507', tagName: 'INPUT', dataSection: 'hero', dataField: 'backgroundImage.opacity'}
+VisualEditor.astro:139 Edit button already exists for element: editor-hero-backgroundImage-opacity-okgx3r507
+VisualEditor.astro:124 Adding edit button to element 6: {id: 'editor-welcome-title-f0w8en4v9', tagName: 'INPUT', dataSection: 'welcome', dataField: 'title'}
+VisualEditor.astro:139 Edit button already exists for element: editor-welcome-title-f0w8en4v9
+VisualEditor.astro:124 Adding edit button to element 7: {id: 'editor-welcome-content-ye4n8vmsx', tagName: 'DIV', dataSection: 'welcome', dataField: 'content'}
+VisualEditor.astro:139 Edit button already exists for element: editor-welcome-content-ye4n8vmsx
+VisualEditor.astro:124 Adding edit button to element 8: {id: 'editor-welcome-image-src-ntcqntfu3', tagName: 'IMG', dataSection: 'welcome', dataField: 'image.src'}
+VisualEditor.astro:139 Edit button already exists for element: editor-welcome-image-src-ntcqntfu3
+VisualEditor.astro:124 Adding edit button to element 9: {id: 'editor-tagline-text-sfw1yv1l9', tagName: 'INPUT', dataSection: 'tagline', dataField: 'text'}
+VisualEditor.astro:139 Edit button already exists for element: editor-tagline-text-sfw1yv1l9
+VisualEditor.astro:124 Adding edit button to element 10: {id: 'editor-facilities-title-9d39k7t2a', tagName: 'INPUT', dataSection: 'facilities', dataField: 'title'}
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-title-9d39k7t2a
+VisualEditor.astro:124 Adding edit button to element 11: {id: 'editor-facilities-subtitle-4cyh5bsat', tagName: 'TEXTAREA', dataSection: 'facilities', dataField: 'subtitle'}
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-subtitle-4cyh5bsat
+VisualEditor.astro:124 Adding edit button to element 12: {id: 'editor-facilities-backgroundImage-src-qr64gyjuq', tagName: 'DIV', dataSection: 'facilities', dataField: 'backgroundImage.src'}
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-backgroundImage-src-qr64gyjuq
+VisualEditor.astro:124 Adding edit button to element 13: {id: 'editor-facilities-backgroundImage-opacity-kgpsimmgj', tagName: 'INPUT', dataSection: 'facilities', dataField: 'backgroundImage.opacity'}
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-backgroundImage-opacity-kgpsimmgj
+VisualEditor.astro:124 Adding edit button to element 14: {id: 'editor-facilities-items-0-name-bu7bafz37', tagName: 'INPUT', dataSection: 'facilities', dataField: 'items.0.name'}
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-0-name-bu7bafz37
+VisualEditor.astro:124 Adding edit button to element 15: {id: 'editor-facilities-items-0-description-ipglo1j4x', tagName: 'TEXTAREA', dataSection: 'facilities', dataField: 'items.0.description'}
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-0-description-ipglo1j4x
+VisualEditor.astro:124 Adding edit button to element 16: {id: 'editor-facilities-items-1-name-d26c6i0nr', tagName: 'INPUT', dataSection: 'facilities', dataField: 'items.1.name'}
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-1-name-d26c6i0nr
+VisualEditor.astro:124 Adding edit button to element 17: {id: 'editor-facilities-items-1-description-st3xzlmmu', tagName: 'TEXTAREA', dataSection: 'facilities', dataField: 'items.1.description'}
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-1-description-st3xzlmmu
+VisualEditor.astro:124 Adding edit button to element 18: {id: 'editor-facilities-items-2-name-hr30r46vm', tagName: 'INPUT', dataSection: 'facilities', dataField: 'items.2.name'}
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-2-name-hr30r46vm
+VisualEditor.astro:124 Adding edit button to element 19: {id: 'editor-facilities-items-2-description-0wbhkzbc3', tagName: 'TEXTAREA', dataSection: 'facilities', dataField: 'items.2.description'}
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-2-description-0wbhkzbc3
+VisualEditor.astro:124 Adding edit button to element 20: {id: 'editor-facilities-items-3-name-8ok4bwqcc', tagName: 'INPUT', dataSection: 'facilities', dataField: 'items.3.name'}
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-3-name-8ok4bwqcc
+VisualEditor.astro:124 Adding edit button to element 21: {id: 'editor-facilities-items-3-description-naw1ybyut', tagName: 'TEXTAREA', dataSection: 'facilities', dataField: 'items.3.description'}
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-3-description-naw1ybyut
+VisualEditor.astro:124 Adding edit button to element 22: {id: 'editor-facilities-items-4-name-9gxy4y3a5', tagName: 'INPUT', dataSection: 'facilities', dataField: 'items.4.name'}
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-4-name-9gxy4y3a5
+VisualEditor.astro:124 Adding edit button to element 23: {id: 'editor-facilities-items-4-description-bq3q54p5v', tagName: 'TEXTAREA', dataSection: 'facilities', dataField: 'items.4.description'}
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-4-description-bq3q54p5v
+VisualEditor.astro:124 Adding edit button to element 24: {id: 'editor-facilities-items-5-name-pseisyg2n', tagName: 'INPUT', dataSection: 'facilities', dataField: 'items.5.name'}
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-5-name-pseisyg2n
+VisualEditor.astro:124 Adding edit button to element 25: {id: 'editor-facilities-items-5-description-slnviwcxw', tagName: 'TEXTAREA', dataSection: 'facilities', dataField: 'items.5.description'}
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-5-description-slnviwcxw
+VisualEditor.astro:124 Adding edit button to element 26: {id: 'editor-facilities-items-6-name-tdl8ueny4', tagName: 'INPUT', dataSection: 'facilities', dataField: 'items.6.name'}
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-6-name-tdl8ueny4
+VisualEditor.astro:124 Adding edit button to element 27: {id: 'editor-facilities-items-6-description-h3yhn1hr8', tagName: 'TEXTAREA', dataSection: 'facilities', dataField: 'items.6.description'}
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-6-description-h3yhn1hr8
+VisualEditor.astro:124 Adding edit button to element 28: {id: 'editor-facilities-items-7-name-2b3y10oks', tagName: 'INPUT', dataSection: 'facilities', dataField: 'items.7.name'}
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-7-name-2b3y10oks
+VisualEditor.astro:124 Adding edit button to element 29: {id: 'editor-facilities-items-7-description-ggjxdhrnu', tagName: 'TEXTAREA', dataSection: 'facilities', dataField: 'items.7.description'}
+VisualEditor.astro:139 Edit button already exists for element: editor-facilities-items-7-description-ggjxdhrnu
+VisualEditor.astro:124 Adding edit button to element 30: {id: 'editor-propertySales-title-p25loaep1', tagName: 'INPUT', dataSection: 'propertySales', dataField: 'title'}
+VisualEditor.astro:139 Edit button already exists for element: editor-propertySales-title-p25loaep1
+VisualEditor.astro:124 Adding edit button to element 31: {id: 'editor-propertySales-subtitle-f9l3oh3vb', tagName: 'TEXTAREA', dataSection: 'propertySales', dataField: 'subtitle'}
+VisualEditor.astro:139 Edit button already exists for element: editor-propertySales-subtitle-f9l3oh3vb
+VisualEditor.astro:124 Adding edit button to element 32: {id: 'editor-propertySales-properties-0-title-rqhn551vs', tagName: 'INPUT', dataSection: 'propertySales', dataField: 'properties.0.title'}
+VisualEditor.astro:139 Edit button already exists for element: editor-propertySales-properties-0-title-rqhn551vs
+VisualEditor.astro:124 Adding edit button to element 33: {id: 'editor-propertySales-properties-0-price-qh02nahgh', tagName: 'INPUT', dataSection: 'propertySales', dataField: 'properties.0.price'}
+VisualEditor.astro:139 Edit button already exists for element: editor-propertySales-properties-0-price-qh02nahgh
+VisualEditor.astro:124 Adding edit button to element 34: {id: 'editor-propertySales-properties-0-description-3of78qqg4', tagName: 'TEXTAREA', dataSection: 'propertySales', dataField: 'properties.0.description'}
+VisualEditor.astro:139 Edit button already exists for element: editor-propertySales-properties-0-description-3of78qqg4
+VisualEditor.astro:124 Adding edit button to element 35: {id: 'editor-propertySales-properties-0-image-src-vv2osvlpz', tagName: 'IMG', dataSection: 'propertySales', dataField: 'properties.0.image.src'}
+VisualEditor.astro:139 Edit button already exists for element: editor-propertySales-properties-0-image-src-vv2osvlpz
+VisualEditor.astro:124 Adding edit button to element 36: {id: 'editor-propertySales-properties-0-link-url-19xokf2qe', tagName: 'INPUT', dataSection: 'propertySales', dataField: 'properties.0.link.url'}
+VisualEditor.astro:139 Edit button already exists for element: editor-propertySales-properties-0-link-url-19xokf2qe
+VisualEditor.astro:124 Adding edit button to element 37: {id: 'editor-propertySales-properties-1-title-k6g2qvems', tagName: 'INPUT', dataSection: 'propertySales', dataField: 'properties.1.title'}
+VisualEditor.astro:139 Edit button already exists for element: editor-propertySales-properties-1-title-k6g2qvems
+VisualEditor.astro:124 Adding edit button to element 38: {id: 'editor-propertySales-properties-1-price-m1qonkson', tagName: 'INPUT', dataSection: 'propertySales', dataField: 'properties.1.price'}
+VisualEditor.astro:139 Edit button already exists for element: editor-propertySales-properties-1-price-m1qonkson
+VisualEditor.astro:124 Adding edit button to element 39: {id: 'editor-propertySales-properties-1-description-te988h7uu', tagName: 'TEXTAREA', dataSection: 'propertySales', dataField: 'properties.1.description'}
+VisualEditor.astro:139 Edit button already exists for element: editor-propertySales-properties-1-description-te988h7uu
+VisualEditor.astro:124 Adding edit button to element 40: {id: 'editor-propertySales-properties-1-image-src-10i7mbu5h', tagName: 'IMG', dataSection: 'propertySales', dataField: 'properties.1.image.src'}
+VisualEditor.astro:139 Edit button already exists for element: editor-propertySales-properties-1-image-src-10i7mbu5h
+VisualEditor.astro:124 Adding edit button to element 41: {id: 'editor-propertySales-properties-1-link-url-tscda2ha0', tagName: 'INPUT', dataSection: 'propertySales', dataField: 'properties.1.link.url'}
+VisualEditor.astro:139 Edit button already exists for element: editor-propertySales-properties-1-link-url-tscda2ha0
+VisualEditor.astro:124 Adding edit button to element 42: {id: 'editor-reviews-title-zrhje1d4b', tagName: 'INPUT', dataSection: 'reviews', dataField: 'title'}
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-title-zrhje1d4b
+VisualEditor.astro:124 Adding edit button to element 43: {id: 'editor-reviews-subtitle-9k01blr5c', tagName: 'TEXTAREA', dataSection: 'reviews', dataField: 'subtitle'}
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-subtitle-9k01blr5c
+VisualEditor.astro:124 Adding edit button to element 44: {id: 'editor-reviews-items-0-name-etn3065pt', tagName: 'INPUT', dataSection: 'reviews', dataField: 'items.0.name'}
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-items-0-name-etn3065pt
+VisualEditor.astro:124 Adding edit button to element 45: {id: 'editor-reviews-items-0-rating-f86rcumpb', tagName: 'INPUT', dataSection: 'reviews', dataField: 'items.0.rating'}
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-items-0-rating-f86rcumpb
+VisualEditor.astro:124 Adding edit button to element 46: {id: 'editor-reviews-items-0-text-ricsdvjn9', tagName: 'TEXTAREA', dataSection: 'reviews', dataField: 'items.0.text'}
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-items-0-text-ricsdvjn9
+VisualEditor.astro:124 Adding edit button to element 47: {id: 'editor-reviews-items-0-date-yo9jw7ogg', tagName: 'INPUT', dataSection: 'reviews', dataField: 'items.0.date'}
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-items-0-date-yo9jw7ogg
+VisualEditor.astro:124 Adding edit button to element 48: {id: 'editor-reviews-items-1-name-7277dkn5i', tagName: 'INPUT', dataSection: 'reviews', dataField: 'items.1.name'}
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-items-1-name-7277dkn5i
+VisualEditor.astro:124 Adding edit button to element 49: {id: 'editor-reviews-items-1-rating-x6a3cm7iz', tagName: 'INPUT', dataSection: 'reviews', dataField: 'items.1.rating'}
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-items-1-rating-x6a3cm7iz
+VisualEditor.astro:124 Adding edit button to element 50: {id: 'editor-reviews-items-1-text-miugxkhx7', tagName: 'TEXTAREA', dataSection: 'reviews', dataField: 'items.1.text'}
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-items-1-text-miugxkhx7
+VisualEditor.astro:124 Adding edit button to element 51: {id: 'editor-reviews-items-1-date-u4l43e851', tagName: 'INPUT', dataSection: 'reviews', dataField: 'items.1.date'}
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-items-1-date-u4l43e851
+VisualEditor.astro:124 Adding edit button to element 52: {id: 'editor-reviews-items-2-name-vtnac98j4', tagName: 'INPUT', dataSection: 'reviews', dataField: 'items.2.name'}
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-items-2-name-vtnac98j4
+VisualEditor.astro:124 Adding edit button to element 53: {id: 'editor-reviews-items-2-rating-t0tcmqiel', tagName: 'INPUT', dataSection: 'reviews', dataField: 'items.2.rating'}
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-items-2-rating-t0tcmqiel
+VisualEditor.astro:124 Adding edit button to element 54: {id: 'editor-reviews-items-2-text-m59hpz1wk', tagName: 'TEXTAREA', dataSection: 'reviews', dataField: 'items.2.text'}
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-items-2-text-m59hpz1wk
+VisualEditor.astro:124 Adding edit button to element 55: {id: 'editor-reviews-items-2-date-dyu81w4q1', tagName: 'INPUT', dataSection: 'reviews', dataField: 'items.2.date'}
+VisualEditor.astro:139 Edit button already exists for element: editor-reviews-items-2-date-dyu81w4q1
+VisualEditor.astro:124 Adding edit button to element 56: {id: 'editor-bookingBanner-title-vqyn4ihfi', tagName: 'INPUT', dataSection: 'bookingBanner', dataField: 'title'}
+VisualEditor.astro:139 Edit button already exists for element: editor-bookingBanner-title-vqyn4ihfi
+VisualEditor.astro:124 Adding edit button to element 57: {id: 'editor-bookingBanner-subtitle-ern83rvjs', tagName: 'TEXTAREA', dataSection: 'bookingBanner', dataField: 'subtitle'}
+VisualEditor.astro:139 Edit button already exists for element: editor-bookingBanner-subtitle-ern83rvjs
+VisualEditor.astro:124 Adding edit button to element 58: {id: 'editor-bookingBanner-backgroundImage-src-qdjcelwxu', tagName: 'IMG', dataSection: 'bookingBanner', dataField: 'backgroundImage.src'}
+VisualEditor.astro:139 Edit button already exists for element: editor-bookingBanner-backgroundImage-src-qdjcelwxu
+VisualEditor.astro:124 Adding edit button to element 59: {id: 'editor-bookingBanner-backgroundImage-opacity-basyc8294', tagName: 'INPUT', dataSection: 'bookingBanner', dataField: 'backgroundImage.opacity'}
+VisualEditor.astro:139 Edit button already exists for element: editor-bookingBanner-backgroundImage-opacity-basyc8294
+VisualEditor.astro:124 Adding edit button to element 60: {id: 'editor-bookingBanner-primaryButton-text-6vyh7unpk', tagName: 'INPUT', dataSection: 'bookingBanner', dataField: 'primaryButton.text'}
+VisualEditor.astro:139 Edit button already exists for element: editor-bookingBanner-primaryButton-text-6vyh7unpk
+VisualEditor.astro:124 Adding edit button to element 61: {id: 'editor-bookingBanner-primaryButton-url-pkbzudq29', tagName: 'INPUT', dataSection: 'bookingBanner', dataField: 'primaryButton.url'}
+VisualEditor.astro:139 Edit button already exists for element: editor-bookingBanner-primaryButton-url-pkbzudq29
+VisualEditor.astro:124 Adding edit button to element 62: {id: 'editor-bookingBanner-secondaryButton-text-uiwtkytuq', tagName: 'INPUT', dataSection: 'bookingBanner', dataField: 'secondaryButton.text'}
+VisualEditor.astro:139 Edit button already exists for element: editor-bookingBanner-secondaryButton-text-uiwtkytuq
+VisualEditor.astro:124 Adding edit button to element 63: {id: 'editor-bookingBanner-secondaryButton-url-vd5mgkepx', tagName: 'INPUT', dataSection: 'bookingBanner', dataField: 'secondaryButton.url'}
+VisualEditor.astro:139 Edit button already exists for element: editor-bookingBanner-secondaryButton-url-vd5mgkepx
+VisualEditor.astro:124 Adding edit button to element 64: {id: 'editor-contact-title-76rwaswk3', tagName: 'INPUT', dataSection: 'contact', dataField: 'title'}
+VisualEditor.astro:139 Edit button already exists for element: editor-contact-title-76rwaswk3
+VisualEditor.astro:124 Adding edit button to element 65: {id: 'editor-contact-subtitle-8so692wv9', tagName: 'TEXTAREA', dataSection: 'contact', dataField: 'subtitle'}
+VisualEditor.astro:139 Edit button already exists for element: editor-contact-subtitle-8so692wv9
+VisualEditor.astro:124 Adding edit button to element 66: {id: 'editor-contact-address-44z7dmkci', tagName: 'TEXTAREA', dataSection: 'contact', dataField: 'address'}
+VisualEditor.astro:139 Edit button already exists for element: editor-contact-address-44z7dmkci
+VisualEditor.astro:124 Adding edit button to element 67: {id: 'editor-contact-phone-ndr9xbf96', tagName: 'INPUT', dataSection: 'contact', dataField: 'phone'}
+VisualEditor.astro:139 Edit button already exists for element: editor-contact-phone-ndr9xbf96
+VisualEditor.astro:124 Adding edit button to element 68: {id: 'editor-contact-email-k6j48cxnx', tagName: 'INPUT', dataSection: 'contact', dataField: 'email'}
+VisualEditor.astro:139 Edit button already exists for element: editor-contact-email-k6j48cxnx
+VisualEditor.astro:124 Adding edit button to element 69: {id: 'editor-footer-companyName-26fovrb4t', tagName: 'INPUT', dataSection: 'footer', dataField: 'companyName'}
+VisualEditor.astro:139 Edit button already exists for element: editor-footer-companyName-26fovrb4t
+VisualEditor.astro:124 Adding edit button to element 70: {id: 'editor-footer-description-f89fe7r5g', tagName: 'TEXTAREA', dataSection: 'footer', dataField: 'description'}
+VisualEditor.astro:139 Edit button already exists for element: editor-footer-description-f89fe7r5g
+VisualEditor.astro:124 Adding edit button to element 71: {id: 'editor-footer-copyright-mx7ikxbgb', tagName: 'INPUT', dataSection: 'footer', dataField: 'copyright'}
+VisualEditor.astro:139 Edit button already exists for element: editor-footer-copyright-mx7ikxbgb
+VisualEditor.astro:133 VisualEditor initialization complete
+VM110:88 VisualEditor initialization completed
+VM110:97 
+6. Final check after manual initialization:
+VM110:108 
+=== Diagnostic Complete ===
+undefined
+VM110:100 Edit buttons after manual init: 0
+VM110:104 Booking banner bg has edit button now: false

@@ -344,90 +344,72 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
 
     changeImage(editorId: string) {
       if (!editorId) return;
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = 'image/*';
       
-      input.onchange = async (e) => {
-        const target = e.target as HTMLInputElement;
-        if (!target || !target.files) return;
-        const file = target.files[0];
-        if (!file) return;
+      // Store the editor ID for later use
+      (window as any).currentEditingImageId = editorId;
+      
+      // Open image manager in a new window/tab
+        const imageManagerUrl = `/admin/images?editorId=${editorId}`;
+        const imageManagerWindow = window.open(imageManagerUrl, 'imageManager', 'width=1200,height=800,scrollbars=yes,resizable=yes');
         
-        try {
-          console.log('Starting image upload for file:', file.name);
+        // Store the editor ID globally for fallback
+        (window as any).currentEditingImageId = editorId;
+      
+      if (!imageManagerWindow) {
+        // Fallback: redirect to image manager
+        window.location.href = imageManagerUrl + '?returnTo=' + encodeURIComponent(window.location.pathname) + '&editorId=' + encodeURIComponent(editorId);
+        return;
+      }
+      
+      // Store reference to this for use in message handler
+      const self = this;
+      
+      // Listen for image selection from the image manager
+      const messageHandler = (event: MessageEvent) => {
+        if (event.origin !== window.location.origin) return;
+        
+        if (event.data && event.data.type === 'imageSelected' && event.data.editorId === editorId) {
+          const imageUrl = event.data.imageUrl;
           
-          // Get CSRF tokens for secure file upload
-          console.log('Getting CSRF tokens...');
-          const securityManager = getSecurityManager();
-          if (!securityManager) {
-            throw new Error('SecurityManager not available');
-          }
-          const tokens = await securityManager.getCSRFTokens();
-          console.log('CSRF tokens received:', tokens);
-          
-          const formData = new FormData();
-          formData.append('file', file);
-          console.log('FormData prepared with file:', file.name, 'size:', file.size);
-          
-          console.log('Sending upload request...');
-          const response = await fetch('/api/images/upload', {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-              'X-CSRF-Token': tokens.token,
-              'X-Session-ID': tokens.sessionId
-            },
-            body: formData
-          });
-          
-          console.log('Upload response status:', response.status);
-          
-          if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Upload failed with response:', errorText);
-            throw new Error(`Failed to upload image: ${response.status} ${errorText}`);
-          }
-          
-          const result = await response.json();
-          console.log('Upload successful, result:', result);
-          if (editorId) {
-            const editor = document.getElementById(editorId);
-            if (editor) {
-              let newEditor = editor;
-              if (editor.tagName === 'IMG') {
-                (editor as HTMLImageElement).src = result.url;
-              } else if (editor.classList.contains('image-placeholder')) {
-                // Replace placeholder with actual image
-                const img = document.createElement('img');
-                img.id = editorId;
-                img.src = result.url;
-                img.alt = 'Editable image';
-                img.className = editor.className.replace('image-placeholder', 'editable-image');
-                img.setAttribute('data-editable', 'true');
-                img.setAttribute('data-section', editor.dataset.section || '');
-                img.setAttribute('data-field', editor.dataset.field || '');
-                img.style.cssText = 'max-width: 100%; height: auto; min-height: 200px; border: 2px dashed #d1d5db; border-radius: 8px; cursor: pointer;';
-                editor.parentNode?.replaceChild(img, editor);
-                this.addEditButton(img);
-                newEditor = img;
-              }
-              
-              // Save the image URL to the content
-              await this.saveImageContent(newEditor.id, result.url);
+          // Update the editor with the selected image
+          const editor = document.getElementById(editorId);
+          if (editor) {
+            let newEditor = editor;
+            if (editor.tagName === 'IMG') {
+              (editor as HTMLImageElement).src = imageUrl;
+            } else if (editor.classList.contains('image-placeholder')) {
+              // Replace placeholder with actual image
+              const img = document.createElement('img');
+              img.id = editorId;
+              img.src = imageUrl;
+              img.alt = 'Editable image';
+              img.className = editor.className.replace('image-placeholder', 'editable-image');
+              img.setAttribute('data-editable', 'true');
+              img.setAttribute('data-section', editor.dataset.section || '');
+              img.setAttribute('data-field', editor.dataset.field || '');
+              img.style.cssText = 'max-width: 100%; height: auto; min-height: 200px; border: 2px dashed #d1d5db; border-radius: 8px; cursor: pointer;';
+              editor.parentNode?.replaceChild(img, editor);
+              self.addEditButton(img);
+              newEditor = img;
             }
+            
+            // Save the image URL to the content
+            self.saveImageContent(newEditor.id, imageUrl);
           }
           
-          this.cancelImageEdit(editorId);
+          // Close the image manager window
+          imageManagerWindow.close();
           
-        } catch (error) {
-          console.error('Upload error:', error);
-          const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-          this.showError('Failed to upload image: ' + errorMessage);
+          // Remove the event listener
+          window.removeEventListener('message', messageHandler);
+          
+          self.cancelImageEdit(editorId);
         }
       };
-      
-      input.click();
+        
+        // Add the event listener
+        window.addEventListener('message', messageHandler);
+      }
     }
 
     async saveImageContent(editorId: string, imageUrl: string) {
@@ -504,15 +486,15 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
   }
   
   // Expose VisualEditor class globally for testing and external access
-  window.VisualEditor = VisualEditor;
+  (window as any).VisualEditor = VisualEditor;
   
   // Initialize when DOM is loaded and store instance globally
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-      window.visualEditor = new VisualEditor();
+      (window as any).visualEditor = new VisualEditor();
     });
   } else {
-    window.visualEditor = new VisualEditor();
+    (window as any).visualEditor = new VisualEditor();
   }
 </script>
 

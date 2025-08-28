@@ -1,0 +1,838 @@
+{
+  "hero": {
+    "title": "Welcome to Lamb Cottage Caravan Park",
+    "subtitle": "Award-winning adults-only caravan park set in 7½ acres of meticulously maintained lawns and landscaped grounds in the heart of Cheshire.",
+    "ctaButton": {
+      "text": "Book Your Stay",
+      "url": "https://lambcottage.campmanager.com/19567/Check-Availability/"
+    },
+    "backgroundImage": {
+      "src": "http://localhost:4321/lamb-cottage-hero.jpg",
+      "alt": "Lamb Cottage Caravan Park",
+      "opacity": "0.4",
+      "dimensions": {
+        "width": 1920,
+        "height": 600,
+        "recommended": "1920x600px for optimal display"
+      }
+    }
+  },
+  "welcome": {
+    "title": "Welcome to Lamb Cottage",
+    "content": "Welcome to our award-winning adults-only caravan park, set in 7½ acres of meticulously maintained lawns and landscaped grounds in Cheshire's Vale Royal region. Surrounded by farmland and away from main roads, our tranquil location provides the perfect escape for a relaxing break.Our touring park is open from March until 2 January each year, offering 41 super pitches and 30 seasonal pitches. We accommodate caravans, motorhomes and privately owned holiday homes, with excellent facilities and easy access to Chester.✏️",
+    "image": {
+      "src": "http://localhost:4321/images/welcome-cottage.jpg",
+      "alt": "Welcome to Lamb Cottage"
+    }
+  },
+  "tagline": {
+    "text": "Your Home Away From Home",
+    "description": "Experience comfort, tranquility, and adventure in our beautiful countryside setting.",
+    "highlight": "Adults-only peaceful retreat in beautiful Cheshire countryside"
+  },
+  "facilities": {
+    "title": "Our Facilities",
+    "subtitle": "Everything you need for a comfortable stay",
+    "backgroundImage": {
+      "src": "",
+      "alt": "Facilities background",
+      "opacity": "0.3",
+      "dimensions": {
+        "width": 1920,
+        "height": 600,
+        "recommended": "1920x600px for optimal display"
+      }
+    },
+    "items": [
+      {
+        "title": "Luxury Shower Facilities",
+        "description": "Five-star luxury en-suite style shower rooms with free hot water and hairdryers",
+        "icon": "🚿"
+      },
+      {
+        "title": "Electric Hook-ups",
+        "description": "16-amp electric hook-ups available for all super pitches",
+        "icon": "⚡"
+      },
+      {
+        "title": "Fully Fitted Laundry",
+        "description": "Modern laundry facilities with dishwashing and vegetable prep area",
+        "icon": "👕"
+      },
+      {
+        "title": "Motor-home Services",
+        "description": "Drive-over waste disposal and chemical toilet disposal point",
+        "icon": "🚐"
+      },
+      {
+        "title": "Disabled Suite",
+        "description": "Full disabled access facilities available",
+        "icon": "♿"
+      },
+      {
+        "title": "Dog Walking Area",
+        "description": "On-site woodland dog walk and designated exercise areas",
+        "icon": "🐕"
+      },
+      {
+        "title": "Information Centre",
+        "description": "Library, payphone and local information available",
+        "icon": "📚"
+      },
+      {
+        "title": "Free Wi-Fi",
+        "description": "Complimentary wireless internet throughout the park",
+        "icon": "📶"
+      }
+    ]
+  },
+  "propertySales": {
+    "title": "Static Caravans for Sale",
+    "subtitle": "Own your own piece of paradise",
+    "description": "Discover our exclusive selection of luxury static caravans available for purchase.",
+    "properties": [
+      {
+        "id": "luxury-caravan-1",
+        "title": "Luxury Static Caravan - Plot 15",
+        "price": "£48,000",
+        "description": "Brand new luxury static caravan with premium fittings and appliances",
+        "features": [
+          "2 bedrooms",
+          "Open plan living",
+          "Fully fitted kitchen",
+          "Central heating",
+          "Double glazing",
+          "Private parking"
+        ],
+        "image": {
+          "src": "/static-caravans/luxury-1-exterior.jpg",
+          "alt": "Luxury Static Caravan - Plot 15 exterior view"
+        },
+        "available": true
+      },
+      {
+        "id": "luxury-caravan-2",
+        "title": "Premium Static Caravan - Plot 22",
+        "price": "£52,000",
+        "description": "Premium static caravan with upgraded interior and garden area",
+        "features": [
+          "2 bedrooms",
+          "Spacious lounge",
+          "Modern kitchen",
+          "Gas central heating",
+          "uPVC windows",
+          "Garden area",
+          "Parking space"
+        ],
+        "image": {
+          "src": "/static-caravans/premium-2-exterior.jpg",
+          "alt": "Premium Static Caravan - Plot 22 exterior view"
+        },
+        "available": true
+      }
+    ]
+  },
+  "reviews": {
+    "title": "What Our Guests Say",
+    "subtitle": "Read reviews from our satisfied guests",
+    "items": [
+      {
+        "id": "review-1",
+        "name": "Sarah & John M.",
+        "location": "Manchester",
+        "rating": 5,
+        "date": "August 2024",
+        "title": "Perfect peaceful getaway",
+        "comment": "Absolutely loved our stay at Lamb Cottage. The facilities were spotless, the staff were friendly, and the location is perfect for exploring Cheshire. We'll definitely be back!",
+        "verified": true
+      },
+      {
+        "id": "review-2",
+        "name": "David & Margaret T.",
+        "location": "Birmingham",
+        "rating": 5,
+        "date": "July 2024",
+        "title": "Excellent facilities",
+        "comment": "The shower facilities are like a luxury hotel! Everything is so clean and well-maintained. The adults-only policy makes it so peaceful and relaxing.",
+        "verified": true
+      },
+      {
+        "id": "review-3",
+        "name": "Robert & Linda K.",
+        "location": "Liverpool",
+        "rating": 5,
+        "date": "June 2024",
+        "title": "Beautiful countryside location",
+        "comment": "What a gem! Beautiful countryside setting, excellent facilities, and so convenient for visiting Chester and the surrounding area. Highly recommended.",
+        "verified": true
+      }
+    ]
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Get in touch for bookings and enquiries",
+    "phone": "01606 882302",
+    "email": "info@lambcottage.co.uk",
+    "address": "Lamb Cottage Caravan Park, Dalefords Lane, Whitegate, Nr. Northwich, Cheshire CW8 2BN",
+    "hours": "Monday - Friday: 9:00 AM - 5:00 PM, Saturday - Sunday: 10:00 AM - 4:00 PM. Please call during these hours for the quickest response."
+  },
+  "bookingBanner": {
+    "title": "Ready to Book Your Stay?",
+    "subtitle": "Experience the tranquility of our adults-only caravan park",
+    "description": "Book now for the perfect countryside getaway in beautiful Cheshire",
+    "backgroundImage": {
+      "src": "/images/booking-banner-bg.jpg",
+      "alt": "Booking banner background",
+      "opacity": 0.6
+    },
+    "ctaButton": {
+      "text": "Book Now",
+      "url": "/contact",
+      "style": "primary"
+    }
+  },
+  "footer": {
+    "companyName": "Lamb Cottage Caravan Park",
+    "description": "Lamb Cottage Caravan Park - Your peaceful retreat in the heart of the countryside. Family-run since 2003.",
+    "copyright": "© 2024 Lamb Cottage Caravan Park. All rights reserved.ss"
+  },
+  "_backup_footer_data": {
+    "address": "Lamb Cottage Caravan Park\nDalefords Lane\nWhitegate, Nr. Northwich\nCheshire CW8 2BN",
+    "hours": "Reception Hours:\nMonday - Friday: 9:00 AM - 5:00 PM\nSaturday - Sunday: 10:00 AM - 4:00 PM\nEmergency contact available 24/7",
+    "social": {
+      "facebook": "https://facebook.com/lambcottagepark",
+      "instagram": "https://instagram.com/lambcottagepark",
+      "tripadvisor": "https://www.tripadvisor.com/Hotel_Review-g499515-d8592952-Reviews-Lamb_Cottage_Caravan_Park-Northwich_Cheshire_England.html"
+    },
+    "logos": [
+      {
+        "id": "aa-2020",
+        "name": "AA 2020 Award",
+        "image": "/Footer-images/AA-2020.jpg",
+        "link": "https://www.theaa.com/",
+        "enabled": true,
+        "order": 1
+      },
+      {
+        "id": "visit-england-gold",
+        "name": "Visit England Gold Award",
+        "image": "/Footer-images/vist-england-gold.png",
+        "link": "https://www.visitengland.com/",
+        "enabled": true,
+        "order": 2
+      },
+      {
+        "id": "top-100-sites",
+        "name": "Top 100 Sites 2021",
+        "image": "/Footer-images/Top-100-sites-2021.jpg",
+        "link": "https://www.practicalcaravan.com/",
+        "enabled": true,
+        "order": 3
+      },
+      {
+        "id": "best-of-british",
+        "name": "Best of British",
+        "image": "/Footer-images/best-of-british-logo-e1592929774654.jpg",
+        "link": "https://www.bestofbritish.com/",
+        "enabled": true,
+        "order": 4
+      },
+      {
+        "id": "tripadvisor-excellence",
+        "name": "TripAdvisor Certificate of Excellence",
+        "image": "/Footer-images/trip-advisor-2019-certificate-of-excellence.png",
+        "link": "https://www.tripadvisor.com/Hotel_Review-g499515-d8592952-Reviews-Lamb_Cottage_Caravan_Park-Northwich_Cheshire_England.html",
+        "enabled": true,
+        "order": 5
+      },
+      {
+        "id": "good-to-go",
+        "name": "Good To Go",
+        "image": "/Footer-images/gtg-grey.jpg",
+        "link": "https://www.visitbritain.org/",
+        "enabled": true,
+        "order": 6
+      },
+      {
+        "id": "we-accept-pets",
+        "name": "We Accept Pets",
+        "image": "/Footer-images/we-accept-pets.png",
+        "link": "",
+        "enabled": true,
+        "order": 7
+      },
+      {
+        "id": "tsp-logo",
+        "name": "TSP Logo",
+        "image": "/Footer-images/logos-tsp2.png",
+        "link": "",
+        "enabled": true,
+        "order": 8
+      }
+    ]
+  },
+  "pages": {
+    "about": {
+      "title": "About Lamb Cottage Caravan Park",
+      "description": "Learn about our family-run caravan park and our commitment to providing exceptional countryside holidays.",
+      "hero": {
+        "title": "About Us",
+        "subtitle": "Discover the story behind Lamb Cottage Caravan Park",
+        "backgroundImage": {
+          "src": "",
+          "alt": "About us background",
+          "opacity": 0.4
+        }
+      },
+      "content": {
+        "introduction": {
+          "title": "Welcome to Lamb Cottage",
+          "content": "<p>Welcome to Lamb Cottage Caravan Park, a peaceful adults-only retreat set in 7½ acres of beautiful countryside in Cheshire. Our family-run park has been welcoming guests since 2003, providing a tranquil escape where you can reconnect with nature and create lasting memories.</p><p>Whether you're looking for a weekend getaway or an extended holiday, our well-maintained facilities and friendly atmosphere ensure a comfortable and enjoyable stay for all our guests.</p>"
+        },
+        "awards": {
+          "title": "Awards & Recognition",
+          "content": "<p>We are proud to have received recognition for our commitment to excellence:</p><ul><li><strong>AA 5 Pennant Award</strong> - Recognizing our outstanding facilities and service standards</li><li><strong>Visit England 5 Star Rating</strong> - Awarded for exceptional quality and guest experience</li><li><strong>David Bellamy Conservation Award</strong> - Gold level recognition for our environmental conservation efforts</li></ul><p>These awards reflect our dedication to maintaining the highest standards while caring for our natural environment.</p>"
+        },
+        "facilities": {
+          "title": "Our Facilities",
+          "content": "<p>Our park features 40 generously sized pitches, each with electric hook-up and many with hardstanding. We offer:</p><ul><li><strong>Spacious Pitches:</strong> Large, well-maintained pitches suitable for caravans, motorhomes, and tents</li><li><strong>Modern Amenities:</strong> Clean, heated shower blocks with hot water and hairdryers</li><li><strong>Laundry Facilities:</strong> Washing machines, tumble dryers, and ironing facilities</li><li><strong>Wi-Fi Access:</strong> Complimentary wireless internet throughout the park</li><li><strong>Chemical Disposal:</strong> Convenient waste disposal points</li></ul>"
+        },
+        "management": {
+          "title": "Personal Service",
+          "content": "<p>Lamb Cottage Caravan Park is personally managed by the owners, ensuring that every guest receives individual attention and care. We believe in the personal touch that makes your stay special - from your arrival to departure, we're here to ensure you have everything you need for a perfect countryside holiday.</p><p>Our hands-on approach means we can quickly respond to any needs and continuously improve our facilities based on guest feedback.</p>"
+        }
+      }
+    },
+    "contact": {
+      "title": "Contact Lamb Cottage Caravan Park",
+      "description": "Get in touch with us for bookings, enquiries, or any questions about your stay.",
+      "hero": {
+        "title": "Contact Us",
+        "subtitle": "We're here to help with all your enquiries",
+        "backgroundImage": {
+          "src": "",
+          "alt": "Contact us background",
+          "opacity": 0.4
+        }
+      },
+      "content": {
+        "introduction": "Have questions about your stay or need assistance with booking? Our friendly team is here to help. We pride ourselves on providing personal service and are always happy to assist with any enquiries.",
+        "contact_details": {
+          "title": "Contact Information",
+          "phone": {
+            "number": "01606 882302",
+            "description": "Call us for bookings, enquiries, or assistance"
+          },
+          "email": {
+            "address": "info@lambcottage.co.uk",
+            "description": "Email us for detailed enquiries or information"
+          },
+          "address": {
+            "full_address": "Lamb Cottage Caravan Park\nDalefords Lane\nWhitegate, Nr. Northwich\nCheshire CW8 2BN",
+            "description": "Visit us at our beautiful countryside location"
+          }
+        },
+        "office_hours": {
+          "title": "Reception Hours",
+          "weekdays": "Monday - Friday: 9:00 AM - 5:00 PM",
+          "weekends": "Saturday - Sunday: 10:00 AM - 4:00 PM",
+          "note": "Please call during these hours for the quickest response"
+        },
+        "emergency_contact": {
+          "title": "Emergency Contact",
+          "availability": "24/7 emergency contact available for existing guests",
+          "description": "For urgent matters outside office hours, emergency contact details are provided upon check-in"
+        },
+        "booking_info": {
+          "title": "Making a Booking",
+          "description": "We recommend calling to discuss your requirements and check availability. Our personal service ensures we can accommodate your specific needs and answer any questions about your stay.",
+          "deposit_info": "Deposits are required to secure bookings, with full payment due on arrival"
+        }
+      }
+    },
+    "facilities": {
+      "title": "Facilities at Lamb Cottage Caravan Park",
+      "description": "Discover all the amenities and facilities available during your stay with us.",
+      "hero": {
+        "title": "Our Facilities",
+        "subtitle": "Everything you need for a comfortable stay",
+        "backgroundImage": {
+          "src": "",
+          "alt": "Facilities background",
+          "opacity": 0.4
+        }
+      },
+      "content": {
+        "introduction": "We pride ourselves on maintaining excellent five-star facilities to ensure your stay is comfortable and enjoyable. All our facilities are regularly maintained and cleaned to the highest standards.",
+        "shower_facilities": {
+          "title": "Shower & Toilet Facilities",
+          "description": "Our modern, heated shower blocks feature:",
+          "features": [
+            "Hot water available 24/7",
+            "Individual shower cubicles with privacy locks",
+            "Hairdryers in each facility",
+            "Baby changing facilities",
+            "Disabled access facilities",
+            "Regular cleaning throughout the day"
+          ]
+        },
+        "laundry_facilities": {
+          "title": "Laundry Services",
+          "description": "Complete laundry facilities including:",
+          "features": [
+            "Washing machines (various load sizes)",
+            "Tumble dryers",
+            "Ironing boards and irons",
+            "Washing powder available for purchase",
+            "Drying area for outdoor drying",
+            "Open 24 hours for your convenience"
+          ]
+        },
+        "connectivity": {
+          "title": "Wi-Fi & Connectivity",
+          "description": "Stay connected during your stay:",
+          "features": [
+            "Free Wi-Fi throughout the park",
+            "Strong signal coverage across all pitches",
+            "No time limits or data restrictions",
+            "Technical support available if needed"
+          ]
+        },
+        "additional_amenities": {
+          "title": "Additional Amenities",
+          "description": "Extra facilities for your comfort:",
+          "features": [
+            "Chemical toilet disposal points",
+            "Fresh water taps throughout the site",
+            "Waste disposal and recycling points",
+            "Electric hook-up on every pitch (16 amp)",
+            "Ample car parking",
+            "Information boards with local area details"
+          ]
+        }
+      }
+    },
+    "attractions": {
+      "title": "Local Attractions Near Lamb Cottage",
+      "description": "Explore the wonderful attractions and activities available in our local area.",
+      "hero": {
+        "title": "Local Attractions",
+        "subtitle": "Discover the beauty of our surrounding area",
+        "backgroundImage": {
+          "src": "",
+          "alt": "Local attractions background",
+          "opacity": 0.4
+        }
+      },
+      "content": {
+        "introduction": "Our location in Cheshire provides easy access to numerous attractions and activities. From historic sites to natural beauty spots, there's something for everyone to enjoy.",
+        "attractions_list": {
+          "historic_sites": {
+            "title": "Historic Sites & Castles",
+            "items": [
+              {
+                "name": "Beeston Castle",
+                "distance": "8 miles",
+                "description": "Spectacular 13th-century castle ruins with panoramic views across the Cheshire Plain"
+              },
+              {
+                "name": "Chester Cathedral",
+                "distance": "15 miles",
+                "description": "Beautiful medieval cathedral with stunning architecture and peaceful gardens"
+              },
+              {
+                "name": "Chester Roman Walls",
+                "distance": "15 miles",
+                "description": "Walk the most complete city walls in Britain, dating back to Roman times"
+              }
+            ]
+          },
+          "family_attractions": {
+            "title": "Family Attractions",
+            "items": [
+              {
+                "name": "Chester Zoo",
+                "distance": "12 miles",
+                "description": "One of the UK's most popular zoos with over 35,000 animals and beautiful gardens"
+              },
+              {
+                "name": "Delamere Forest",
+                "distance": "5 miles",
+                "description": "Perfect for walking, cycling, and outdoor activities with marked trails and visitor center"
+              },
+              {
+                "name": "Tatton Park",
+                "distance": "20 miles",
+                "description": "Historic mansion, gardens, and deer park with events throughout the year"
+              }
+            ]
+          },
+          "shopping_dining": {
+            "title": "Shopping & Dining",
+            "items": [
+              {
+                "name": "Chester Rows",
+                "distance": "15 miles",
+                "description": "Unique covered galleries with shops, restaurants, and cafes in medieval buildings"
+              },
+              {
+                "name": "Northwich Town Center",
+                "distance": "8 miles",
+                "description": "Local shops, supermarkets, restaurants, and essential services"
+              },
+              {
+                "name": "Cheshire Oaks Designer Outlet",
+                "distance": "18 miles",
+                "description": "Premium outlet shopping with over 145 stores and restaurants"
+              }
+            ]
+          },
+          "outdoor_activities": {
+            "title": "Outdoor Activities",
+            "items": [
+              {
+                "name": "River Weaver Navigation",
+                "distance": "6 miles",
+                "description": "Scenic waterway perfect for walking, cycling, and boat trips"
+              },
+              {
+                "name": "Sandstone Trail",
+                "distance": "3 miles",
+                "description": "Long-distance footpath offering beautiful countryside walks and stunning views"
+              },
+              {
+                "name": "Vale Royal Golf Club",
+                "distance": "4 miles",
+                "description": "18-hole championship golf course set in beautiful Cheshire countryside"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "reviews": {
+      "title": "Guest Reviews - Lamb Cottage Caravan Park",
+      "description": "Read what our guests have to say about their experiences at Lamb Cottage Caravan Park.",
+      "hero": {
+        "title": "Guest Reviews",
+        "subtitle": "Hear from our happy guests",
+        "backgroundImage": {
+          "src": "",
+          "alt": "Guest reviews background",
+          "opacity": 0.4
+        }
+      },
+      "content": {
+        "introduction": "Don't just take our word for it - see what our guests have to say about their stays with us.",
+        "testimonials_info": "We're proud of the positive feedback we receive and continuously strive to exceed expectations.",
+        "review_policy": "All reviews are from verified guests who have stayed at our park."
+      }
+    },
+    "staticCaravans": {
+      "title": "Static Caravans for Sale at Lamb Cottage",
+      "description": "Own your own piece of paradise with our selection of quality static caravans for sale.",
+      "hero": {
+        "title": "Static Caravans for Sale",
+        "subtitle": "Your own countryside retreat awaits",
+        "backgroundImage": {
+          "src": "",
+          "alt": "Static caravans background",
+          "opacity": 0.4
+        }
+      },
+      "content": {
+        "introduction": "Perfect for visitors considering retirement from touring or seeking a more permanent leisure retreat, Lamb Cottage offers a small, exclusive development of luxury static caravans for private ownership.",
+        "licensing_info": {
+          "title": "Licensing & Usage",
+          "usage_period": "Licensed for use 10 months of the year (1 March – 2 January)",
+          "policy": "Adults-only development to ensure a tranquil environment",
+          "setting": "Spacious pitches with private parking and meticulously maintained lawns"
+        },
+        "features_amenities": {
+          "title": "Premium Features",
+          "infrastructure": "Underground piped gas eliminates the need for visible gas bottles",
+          "construction": "Galvanised chassis with 10-year warranty, robust wall construction, steel roof",
+          "interior": "LED lighting, uPVC windows, thick insulation, central heating, high ceilings",
+          "luxury_features": "Luxury furnishings and integrated kitchen appliances"
+        },
+        "costs_fees": {
+          "title": "Costs & Fees",
+          "pitch_fees": "Annual pitch fees include VAT, rates, water and grounds maintenance",
+          "utilities": "Gas and electricity are metered and invoiced annually",
+          "payment_terms": "Fees payable over ten monthly instalments",
+          "current_fee": "2020 pitch fees: £2,900 per year"
+        },
+        "current_availability": {
+          "title": "Current Sales",
+          "description": "Three new static holiday homes currently available for sale",
+          "starting_price": "Prices starting at £48,000",
+          "contact_info": "Contact us for detailed specifications, viewing appointments, and financing options"
+        },
+        "why_choose_us": {
+          "title": "Why Choose Lamb Cottage?",
+          "exclusive": "Small, exclusive development maintaining our high standards",
+          "peaceful": "Adults-only policy ensures peace and tranquility",
+          "quality": "Premium construction and luxury fittings throughout",
+          "maintenance": "Professional grounds maintenance included in fees"
+        }
+      }
+    },
+    "tariff": {
+      "title": "Prices and Tariffs - Lamb Cottage Caravan Park",
+      "description": "View our competitive prices and seasonal tariffs for stays at Lamb Cottage Caravan Park.",
+      "hero": {
+        "title": "Prices & Tariffs",
+        "subtitle": "Transparent pricing for your perfect getaway",
+        "backgroundImage": {
+          "src": "",
+          "alt": "Pricing background",
+          "opacity": 0.4
+        }
+      },
+      "content": {
+        "introduction": "We offer competitive rates with no hidden fees, ensuring great value for your countryside holiday. All prices include electric hook-up and access to all our facilities.",
+        "pricing_table": {
+          "title": "2025 Tariff",
+          "seasons": {
+            "low_season": {
+              "period": "1st January - 31st March & 1st November - 31st December",
+              "rates": {
+                "caravan_motorhome": "£18.00 per night",
+                "tent": "£16.00 per night"
+              }
+            },
+            "mid_season": {
+              "period": "1st April - 31st May & 1st September - 31st October",
+              "rates": {
+                "caravan_motorhome": "£22.00 per night",
+                "tent": "£20.00 per night"
+              }
+            },
+            "high_season": {
+              "period": "1st June - 31st August",
+              "rates": {
+                "caravan_motorhome": "£26.00 per night",
+                "tent": "£24.00 per night"
+              }
+            }
+          }
+        },
+        "additional_charges": {
+          "title": "Additional Information",
+          "details": [
+            "Electric hook-up included in all prices",
+            "Dogs welcome - £2.00 per dog per night",
+            "Awnings included at no extra charge",
+            "Weekly discounts available for stays of 7 nights or more"
+          ]
+        },
+        "booking_terms": {
+          "title": "Booking Terms",
+          "details": [
+            "Minimum stay of 2 nights during peak periods",
+            "Deposit required at time of booking",
+            "Balance due on arrival",
+            "Cancellation policy applies - please see terms and conditions",
+            "Check-in: 1:00 PM onwards",
+            "Check-out: 11:00 AM"
+          ]
+        }
+      }
+    },
+    "directions": {
+      "title": "Directions to Lamb Cottage Caravan Park",
+      "description": "Find us easily with detailed directions and travel information to Lamb Cottage Caravan Park.",
+      "hero": {
+        "title": "Find Us",
+        "subtitle": "Easy directions to your countryside retreat",
+        "backgroundImage": {
+          "src": "",
+          "alt": "Directions background",
+          "opacity": 0.4
+        }
+      },
+      "content": {
+        "introduction": "Lamb Cottage Caravan Park is conveniently located just over one mile off the A556 dual carriageway at Sandiway, making us easily accessible from major motorways while maintaining our peaceful countryside setting.",
+        "location_details": {
+          "main_access": "Just over 1 mile off the A556 dual carriageway at Sandiway",
+          "entrance_description": "Look for our entrance on the right between a white house and a white bungalow",
+          "gps_coordinates": "West 2° 34.834', North 53° 13.074'"
+        },
+        "driving_directions": {
+          "title": "Detailed Driving Directions",
+          "from_m6_j19": {
+            "title": "From M6 Junction 19",
+            "instructions": "Take the A556 towards Northwich and turn left at traffic lights into Dalefords Lane. Proceed for just over a mile - the entrance is on the right between a white house and a white bungalow."
+          },
+          "from_m56_j10": {
+            "title": "From M56 Junction 10 and A49 Northbound",
+            "instructions": "Follow the A49 south and turn left onto the A556, then turn right at traffic lights into Dalefords Lane. Continue just over a mile - the entrance is on the right."
+          },
+          "from_a49_south": {
+            "title": "From A49 Southbound",
+            "instructions": "Turn right onto the A556 and then right again at traffic lights into Dalefords Lane. The entrance is just over a mile along on the right."
+          }
+        },
+        "arrival_info": {
+          "title": "Arrival Information",
+          "parking": "Ample parking available on-site",
+          "check_in": "Please report to reception upon arrival during office hours",
+          "late_arrival": "Latest arrival time is 8:00 PM - please contact us if arriving later"
+        },
+        "helpful_tips": {
+          "title": "Helpful Tips",
+          "landmarks": "Look for the white house and white bungalow - we're between them",
+          "road_name": "Our address is on Dalefords Lane - watch for the road sign",
+          "distance": "It's just over a mile from the A556 traffic lights to our entrance"
+        }
+      }
+    },
+    "gallery": {
+      "title": "Photo Gallery - Lamb Cottage Caravan Park",
+      "description": "Browse our photo gallery to see the beautiful facilities and surroundings at Lamb Cottage.",
+      "hero": {
+        "title": "Photo Gallery",
+        "subtitle": "See the beauty of Lamb Cottage Caravan Park",
+        "backgroundImage": {
+          "src": "",
+          "alt": "Gallery background",
+          "opacity": 0.4
+        }
+      },
+      "content": {
+        "introduction": "Take a visual tour of our park and see what makes Lamb Cottage special.",
+        "photo_info": "Our gallery showcases the facilities, accommodation, and beautiful surroundings.",
+        "update_info": "We regularly update our gallery with new photos throughout the seasons."
+      }
+    },
+    "terms": {
+      "title": "Terms and Conditions - Lamb Cottage Caravan Park",
+      "description": "Read our park rules and booking conditions for a safe and enjoyable stay.",
+      "hero": {
+        "title": "Terms & Conditions",
+        "subtitle": "Park rules and booking conditions",
+        "backgroundImage": {
+          "src": "",
+          "alt": "Terms and conditions background",
+          "opacity": 0.4
+        }
+      },
+      "content": {
+        "introduction": "To ensure all guests have a safe and enjoyable stay, we have established the following park rules and booking conditions. Please read these carefully before making your booking.",
+        "park_policy": {
+          "title": "Park Policy",
+          "adults_only": "Lamb Cottage Caravan Park operates an adults-only policy. The park is restricted to guests over 18 years of age."
+        },
+        "booking_conditions": {
+          "title": "Booking & Payment Terms",
+          "deposits": {
+            "standard": "A £30 non-refundable deposit is required for all bookings",
+            "bank_holidays": "£60 deposit required for bank holiday bookings",
+            "single_nights": "Single-night stays must be paid in full at time of booking"
+          },
+          "minimum_stays": {
+            "easter_christmas": "Minimum stay of 4 nights for Easter and Christmas/New Year periods",
+            "bank_holidays": "Minimum stay of 3 nights for other bank holidays"
+          },
+          "cancellation": {
+            "policy": "Deposits are non-refundable but may be transferred to a new booking within six months",
+            "notice_period": "At least 28 days' notice must be given for booking transfers",
+            "covid_policy": "During health crises, bookings can be moved free of charge if cancellations are due to restrictions or symptoms. Full refunds offered if the park must close."
+          }
+        },
+        "arrival_departure": {
+          "title": "Arrival & Departure",
+          "arrival_times": "Arrivals permitted from 1:00 PM onwards (not before)",
+          "latest_arrival": "Latest arrival time is 8:00 PM",
+          "departure_time": "Pitches must be vacated by 12:00 noon on departure day"
+        },
+        "park_rules": {
+          "title": "Park Rules",
+          "dogs": {
+            "policy": "Only quiet, non-aggressive dogs are accepted",
+            "requirements": "Dogs must be kept on a lead at all times and cleaned up after",
+            "restrictions": "Dogs are not allowed on the veranda around the toilet block"
+          },
+          "visitors": {
+            "limit": "Up to two day visitors per pitch (all over 18)",
+            "parking": "Visitors must park in the designated visitors' car park",
+            "departure": "All visitors must leave by 9:30 PM"
+          },
+          "smoking": {
+            "policy": "No smoking on the veranda or in any park buildings",
+            "enforcement": "Violators may be asked to leave without refund"
+          },
+          "general_rules": {
+            "vehicles": "No commercial or lettered vehicles permitted",
+            "washing": "No washing of cars or caravans (except seasonal pitches) - no hosepipes allowed",
+            "laundry": "No washing lines or rotary airers - only hook-on window airers permitted",
+            "bbq": "BBQs must not be placed directly on grass areas"
+          }
+        },
+        "management_rights": {
+          "title": "Management Rights",
+          "policy": "Management reserves the right to refuse admission or terminate stays due to unacceptable conduct, without refund."
+        }
+      }
+    },
+    "accessibility": {
+      "title": "Access Statement",
+      "description": "Information to help visitors determine if Lamb Cottage suits their accessibility needs.",
+      "hero": {
+        "title": "Accessibility Information",
+        "subtitle": "We're committed to providing clear information about our facilities to help you plan your visit."
+      },
+      "content": {
+        "introduction": "This access statement provides detailed information about our facilities and terrain to help visitors determine if Lamb Cottage Caravan Park suits their accessibility needs.",
+        "terrain_layout": {
+          "title": "Park Layout & Terrain",
+          "roads_paths": "Roads, paths and pitch hardstanding areas are gravel",
+          "grass_areas": "Other areas are grass, and the park is mostly level",
+          "general_access": "The park terrain is generally level throughout"
+        },
+        "utilities_connectivity": {
+          "title": "Utilities & Connectivity",
+          "electric_hookup": "Electric hook-ups provide 16 amps",
+          "mobile_reception": "Mobile reception is very good on Vodafone but can be patchy on other networks",
+          "wifi_tv": "Wi-Fi and TV reception are generally good",
+          "lighting": "Low-level lighting between dusk and dawn"
+        },
+        "reception_office": {
+          "title": "Reception Office",
+          "access": "Approached via five paved steps with handrails",
+          "assistance": "Bell available for attention",
+          "information": "Large-print information sheets available on request"
+        },
+        "pitch_facilities": {
+          "title": "Pitch Facilities",
+          "caravan_pitches": "Each caravan pitch has an electric point, water tap and grey-waste drain on gravel hardstanding with a lawn",
+          "motorhome_pitches": "Motorhome pitches are level gravel with shared water point"
+        },
+        "amenity_building": {
+          "title": "Amenity Building Access",
+          "building_access": "The amenity building is raised and reachable by steps or a 1-in-12 ramp",
+          "disabled_suite": "The disabled suite is a wet room equipped with grab handles, non-slip wash stool and an emergency alarm",
+          "facilities_height": "Dishwashing and laundry facilities are at standard height",
+          "coin_machines": "Coin machines for appliances are above the worktops - assistance is available",
+          "information_shed": "An information shed provides maps and tourist leaflets"
+        },
+        "assistance_available": {
+          "title": "Assistance Available",
+          "staff_help": "Our staff are happy to provide assistance with coin machines and other facilities",
+          "information_formats": "Large-print information sheets available on request",
+          "contact": "Please contact us in advance if you have specific accessibility requirements"
+        }
+      }
+    }
+  },
+  "_metadata": {
+    "lastUpdated": "2025-08-28T16:19:32.813Z",
+    "updatedBy": "admin",
+    "version": 1756397972813
+  },
+  "about": {
+    "hero": {
+      "backgroundImage": {}
+    }
+  }
+}
