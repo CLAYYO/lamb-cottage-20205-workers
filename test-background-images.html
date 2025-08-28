@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background Image Upload Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            background: #f5f5f5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .test-results {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .log-entry {
+            margin: 5px 0;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        .log-info { background: #e3f2fd; }
+        .log-success { background: #e8f5e8; color: #2e7d32; }
+        .log-warning { background: #fff3e0; color: #f57c00; }
+        .log-error { background: #ffebee; color: #c62828; }
+        button {
+            background: #007cba;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #005a87;
+        }
+        .iframe-container {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Background Image Upload Test</h1>
+    
+    <div class="test-section">
+        <h2>Test Controls</h2>
+        <button onclick="loadAdminPage()">Load Admin Content Page</button>
+        <button onclick="runTests()">Run Background Image Tests</button>
+        <button onclick="clearResults()">Clear Results</button>
+        <button onclick="checkConsoleErrors()">Check Console Errors</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Admin Content Page</h2>
+        <div class="iframe-container">
+            <iframe id="adminFrame" src="about:blank"></iframe>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test Results</h2>
+        <div id="testResults" class="test-results">
+            <p>Click "Load Admin Content Page" and then "Run Background Image Tests" to start testing.</p>
+        </div>
+    </div>
+
+    <script>
+        let testFrame = null;
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const resultsDiv = document.getElementById('testResults');
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry log-${type}`;
+            logEntry.innerHTML = `<strong>[${timestamp}]</strong> ${message}`;
+            resultsDiv.appendChild(logEntry);
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+        }
+        
+        function clearResults() {
+            document.getElementById('testResults').innerHTML = '';
+        }
+        
+        function loadAdminPage() {
+            log('Loading admin content page...', 'info');
+            const iframe = document.getElementById('adminFrame');
+            iframe.src = 'http://localhost:4321/admin/content';
+            testFrame = iframe;
+            
+            iframe.onload = function() {
+                log('Admin page loaded successfully', 'success');
+                // Wait a moment for the page to fully initialize
+                setTimeout(() => {
+                    injectTestScript();
+                }, 2000);
+            };
+            
+            iframe.onerror = function() {
+                log('Failed to load admin page', 'error');
+            };
+        }
+        
+        function injectTestScript() {
+            if (!testFrame || !testFrame.contentWindow) {
+                log('No admin frame available for script injection', 'error');
+                return;
+            }
+            
+            try {
+                const frameDoc = testFrame.contentDocument || testFrame.contentWindow.document;
+                
+                // Check if the page loaded correctly
+                if (!frameDoc.querySelector('.content-editor')) {
+                    log('Admin content editor not found in frame', 'error');
+                    return;
+                }
+                
+                log('Injecting test script into admin page...', 'info');
+                
+                // Inject our test script
+                const script = frameDoc.createElement('script');
+                script.textContent = `
+                    // Background Image Upload Test Script (Injected)
+                    class BackgroundImageTester {
+                        constructor() {
+                            this.results = [];
+                        }
+                        
+                        log(message, type = 'info') {
+                            console.log('[TEST]', type.toUpperCase(), message);
+                            this.results.push({ type, message, timestamp: new Date().toISOString() });
+                            // Send results to parent window
+                            if (window.parent && window.parent !== window) {
+                                window.parent.postMessage({ type: 'test-log', data: { message, type } }, '*');
+                            }
+                        }
+                        
+                        async testBackgroundImageClick(sectionName) {
+                            this.log('Testing ' + sectionName + ' section background image');
+                            
+                            try {
+                                // Navigate to section
+                                const sectionBtn = document.querySelector('[data-section="' + sectionName + '"]');
+                                if (!sectionBtn) {
+                                    throw new Error('Section button not found for ' + sectionName);
+                                }
+                                
+                                sectionBtn.click();
+                                await new Promise(resolve => setTimeout(resolve, 500));
+                                
+                                // Find background image element
+                                const imageElements = document.querySelectorAll('#' + sectionName + '-editor [data-type="image"]');
+                                this.log('Found ' + imageElements.length + ' image elements in ' + sectionName + ' section');
+                                
+                                let backgroundImageElement = null;
+                                for (let elem of imageElements) {
+                                    const fieldPath = elem.getAttribute('data-field-path');
+                                    if (fieldPath && fieldPath.includes('backgroundImage')) {
+                                        backgroundImageElement = elem;
+                                        break;
+                                    }
+                                }
+                                
+                                if (!backgroundImageElement) {
+                                    throw new Error('Background image element not found in ' + sectionName);
+                                }
+                                
+                                this.log('Found background image element for ' + sectionName, 'success');
+                                
+                                // Check current state
+                                const hasEditButton = backgroundImageElement.querySelector('.edit-btn');
+                                const hasPlaceholder = backgroundImageElement.textContent.includes('Click to upload');
+                                
+                                this.log('Edit button present: ' + !!hasEditButton);
+                                this.log('Has placeholder text: ' + hasPlaceholder);
+                                
+                                // Count existing file inputs
+                                const beforeInputs = document.querySelectorAll('input[type="file"]').length;
+                                
+                                // Try clicking on the element
+                                this.log('Attempting to click background image element...');
+                                backgroundImageElement.click();
+                                
+                                // Wait for potential file dialog
+                                await new Promise(resolve => setTimeout(resolve, 1000));
+                                
+                                // Check if file input was created
+                                const afterInputs = document.querySelectorAll('input[type="file"]').length;
+                                
+                                if (afterInputs > beforeInputs) {
+                                    this.log('File input dialog triggered successfully!', 'success');
+                                    return true;
+                                } else {
+                                    this.log('No file input dialog appeared', 'warning');
+                                    
+                                    // Try clicking on edit button if it exists
+                                    if (hasEditButton) {
+                                        this.log('Trying to click edit button...');
+                                        hasEditButton.click();
+                                        await new Promise(resolve => setTimeout(resolve, 1000));
+                                        
+                                        const finalInputs = document.querySelectorAll('input[type="file"]').length;
+                                        if (finalInputs > beforeInputs) {
+                                            this.log('File dialog triggered via edit button!', 'success');
+                                            return true;
+                                        }
+                                    }
+                                    
+                                    return false;
+                                }
+                                
+                            } catch (error) {
+                                this.log('Error testing ' + sectionName + ': ' + error.message, 'error');
+                                return false;
+                            }
+                        }
+                        
+                        async runAllTests() {
+                            this.log('Starting background image upload tests...', 'info');
+                            
+                            // Test VisualEditor initialization
+                            if (typeof window.VisualEditor !== 'undefined') {
+                                this.log('VisualEditor class found', 'success');
+                            } else {
+                                this.log('VisualEditor class not found', 'error');
+                            }
+                            
+                            if (typeof window.CSRFManager !== 'undefined') {
+                                this.log('CSRFManager class found', 'success');
+                            } else {
+                                this.log('CSRFManager class not found', 'error');
+                            }
+                            
+                            // Test each section
+                            const sections = ['hero', 'facilities', 'booking'];
+                            const results = {};
+                            
+                            for (const section of sections) {
+                                results[section] = await this.testBackgroundImageClick(section);
+                            }
+                            
+                            this.log('All tests completed. Results: ' + JSON.stringify(results));
+                            return results;
+                        }
+                    }
+                    
+                    // Auto-run tests
+                    setTimeout(() => {
+                        const tester = new BackgroundImageTester();
+                        window.backgroundImageTester = tester;
+                        tester.runAllTests();
+                    }, 1000);
+                `;
+                
+                frameDoc.head.appendChild(script);
+                log('Test script injected successfully', 'success');
+                
+            } catch (error) {
+                log('Failed to inject test script: ' + error.message, 'error');
+            }
+        }
+        
+        function runTests() {
+            if (!testFrame || !testFrame.contentWindow) {
+                log('Please load the admin page first', 'warning');
+                return;
+            }
+            
+            try {
+                const frameWindow = testFrame.contentWindow;
+                if (frameWindow.backgroundImageTester) {
+                    log('Running background image tests...', 'info');
+                    frameWindow.backgroundImageTester.runAllTests();
+                } else {
+                    log('Test script not found in frame, re-injecting...', 'warning');
+                    injectTestScript();
+                }
+            } catch (error) {
+                log('Error running tests: ' + error.message, 'error');
+            }
+        }
+        
+        function checkConsoleErrors() {
+            log('Checking for console errors in admin frame...', 'info');
+            
+            if (!testFrame || !testFrame.contentWindow) {
+                log('No admin frame available', 'error');
+                return;
+            }
+            
+            // This is limited due to cross-origin restrictions, but we can try
+            try {
+                const frameConsole = testFrame.contentWindow.console;
+                log('Console access available - check browser dev tools for detailed errors', 'info');
+            } catch (error) {
+                log('Cannot access frame console due to security restrictions', 'warning');
+            }
+        }
+        
+        // Listen for messages from the iframe
+        window.addEventListener('message', function(event) {
+            if (event.data && event.data.type === 'test-log') {
+                const { message, type } = event.data.data;
+                log('[FRAME] ' + message, type);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -222,6 +222,8 @@ const pageDescription = 'Experience tranquil countryside living at Lamb Cottage 
   });
   
   // Service Worker registration for PWA capabilities
+  // Commented out until sw.js file is created to prevent MIME type errors
+  /*
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
       navigator.serviceWorker.register('/sw.js')
@@ -233,6 +235,7 @@ const pageDescription = 'Experience tranquil countryside living at Lamb Cottage 
         });
     });
   }
+  */
 </script>
 
 <style>

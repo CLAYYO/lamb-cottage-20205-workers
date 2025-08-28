@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload Test</title>
+    <script type="module">
+        import { SecurityManager } from '/src/lib/client-security.js';
+        window.SecurityManager = SecurityManager;
+    </script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-container { max-width: 600px; margin: 0 auto; }
+        .upload-section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; }
+        button { padding: 10px 20px; margin: 10px; cursor: pointer; }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        #result { margin-top: 20px; padding: 10px; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Image Upload Test</h1>
+        
+        <div class="upload-section">
+            <h3>Test Image Upload</h3>
+            <input type="file" id="imageFile" accept="image/*">
+            <button onclick="uploadImage()">Upload Image</button>
+            <button onclick="checkAuth()">Check Auth Status</button>
+        </div>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function log(message, type = 'info') {
+            const result = document.getElementById('result');
+            const timestamp = new Date().toLocaleTimeString();
+            result.innerHTML += `<div class="${type}">[${timestamp}] ${message}</div>`;
+        }
+
+        async function checkAuth() {
+            try {
+                const response = await fetch('/api/auth/me');
+                const data = await response.json();
+                log(`Auth Status: ${JSON.stringify(data)}`, response.ok ? 'success' : 'info');
+            } catch (error) {
+                log(`Auth check failed: ${error.message}`, 'error');
+            }
+        }
+
+        // SecurityManager will be available globally after module loads
+        let securityManager;
+        
+        async function loginFirst() {
+            try {
+                log('Attempting to login...', 'info');
+                const loginResponse = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: 'admin',
+                        password: 'password'
+                    })
+                });
+                
+                if (loginResponse.ok) {
+                    const loginResult = await loginResponse.json();
+                    log('Login successful!', 'success');
+                    return true;
+                } else {
+                    const errorText = await loginResponse.text();
+                    log(`Login failed: ${errorText}`, 'error');
+                    return false;
+                }
+            } catch (error) {
+                log(`Login error: ${error.message}`, 'error');
+                return false;
+            }
+        }
+        
+        async function uploadImage() {
+            const fileInput = document.getElementById('imageFile');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                log('Please select a file first', 'error');
+                return;
+            }
+            
+            // Initialize SecurityManager if not already done
+            if (!securityManager) {
+                securityManager = new window.SecurityManager();
+            }
+            
+            // First, ensure we're logged in
+            const loginSuccess = await loginFirst();
+            if (!loginSuccess) {
+                log('Cannot upload without authentication', 'error');
+                return;
+            }
+            
+            log('Starting upload...', 'info');
+            
+            try {
+                // Validate file first
+                const validation = securityManager.validateFile(file);
+                if (!validation.valid) {
+                    log(`File validation failed: ${validation.error}`, 'error');
+                    return;
+                }
+                
+                const formData = new FormData();
+                formData.append('file', file);
+                
+                // For file uploads, we need to handle CSRF manually since secureRequest sets Content-Type
+                const tokens = await securityManager.getCSRFTokens();
+                
+                const response = await fetch('/api/images/upload', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'X-CSRF-Token': tokens.token,
+                        'X-Session-ID': tokens.sessionId
+                    },
+                    body: formData
+                });
+                
+                const result = await securityManager.handleResponse(response);
+                log(`Upload successful! URL: ${result.url}`, 'success');
+                
+            } catch (error) {
+                log(`Upload error: ${error.message}`, 'error');
+            }
+        }
+
+        // Auto-check auth on load
+        window.onload = () => {
+            log('Page loaded, checking authentication...', 'info');
+            checkAuth();
+        };
+    </script>
+</body>
+</html>

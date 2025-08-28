@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Image Upload Fix</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .info { background-color: #d1ecf1; color: #0c5460; }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        input[type="file"] {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Image Upload Fix Test</h1>
+    
+    <div class="test-section">
+        <h2>1. Test Image Upload Endpoint</h2>
+        <input type="file" id="imageFile" accept="image/*">
+        <button onclick="testImageUpload()">Test Upload</button>
+        <div id="uploadResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Test CSRF Token</h2>
+        <button onclick="testCSRFToken()">Get CSRF Token</button>
+        <div id="csrfResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Test Authentication</h2>
+        <button onclick="testAuth()">Check Auth Status</button>
+        <div id="authResult" class="result"></div>
+    </div>
+
+    <script>
+        async function testImageUpload() {
+            const fileInput = document.getElementById('imageFile');
+            const resultDiv = document.getElementById('uploadResult');
+            
+            if (!fileInput.files[0]) {
+                resultDiv.innerHTML = '<div class="error">Please select an image file first</div>';
+                return;
+            }
+
+            try {
+                // First get CSRF token
+                const csrfResponse = await fetch('/api/auth/csrf', {
+                    credentials: 'include'
+                });
+                
+                if (!csrfResponse.ok) {
+                    throw new Error(`CSRF fetch failed: ${csrfResponse.status}`);
+                }
+                
+                const csrfData = await csrfResponse.json();
+                console.log('CSRF Token:', csrfData);
+
+                // Create form data
+                const formData = new FormData();
+                formData.append('image', fileInput.files[0]);
+                formData.append('csrfToken', csrfData.token);
+
+                // Test upload
+                const uploadResponse = await fetch('/api/images/upload', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include'
+                });
+
+                const responseText = await uploadResponse.text();
+                console.log('Upload response:', uploadResponse.status, responseText);
+
+                if (uploadResponse.ok) {
+                    const data = JSON.parse(responseText);
+                    resultDiv.innerHTML = `<div class="success">✅ Upload successful! URL: ${data.url}</div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ Upload failed: ${uploadResponse.status} - ${responseText}</div>`;
+                }
+            } catch (error) {
+                console.error('Upload error:', error);
+                resultDiv.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        async function testCSRFToken() {
+            const resultDiv = document.getElementById('csrfResult');
+            
+            try {
+                const response = await fetch('/api/auth/csrf', {
+                    credentials: 'include'
+                });
+                
+                const responseText = await response.text();
+                console.log('CSRF response:', response.status, responseText);
+                
+                if (response.ok) {
+                    const data = JSON.parse(responseText);
+                    resultDiv.innerHTML = `<div class="success">✅ CSRF Token: ${data.token}</div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ CSRF failed: ${response.status} - ${responseText}</div>`;
+                }
+            } catch (error) {
+                console.error('CSRF error:', error);
+                resultDiv.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        async function testAuth() {
+            const resultDiv = document.getElementById('authResult');
+            
+            try {
+                const response = await fetch('/api/auth/status', {
+                    credentials: 'include'
+                });
+                
+                const responseText = await response.text();
+                console.log('Auth response:', response.status, responseText);
+                
+                if (response.ok) {
+                    const data = JSON.parse(responseText);
+                    resultDiv.innerHTML = `<div class="success">✅ Authenticated: ${data.authenticated}</div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ Auth check failed: ${response.status} - ${responseText}</div>`;
+                }
+            } catch (error) {
+                console.error('Auth error:', error);
+                resultDiv.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        // Auto-test on load
+        window.onload = function() {
+            testCSRFToken();
+            testAuth();
+        };
+    </script>
+</body>
+</html>

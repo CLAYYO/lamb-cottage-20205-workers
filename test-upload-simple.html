@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Upload Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .result { margin: 10px 0; padding: 10px; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Simple Upload Test</h1>
+    <input type="file" id="fileInput" accept="image/*">
+    <button onclick="testUpload()">Test Upload</button>
+    <div id="result"></div>
+
+    <script>
+        async function testUpload() {
+            const fileInput = document.getElementById('fileInput');
+            const result = document.getElementById('result');
+            
+            if (!fileInput.files[0]) {
+                result.innerHTML = '<div class="error">Please select a file</div>';
+                return;
+            }
+
+            try {
+                // Get CSRF token first
+                const csrfResponse = await fetch('/api/auth/csrf', {
+                    credentials: 'include'
+                });
+                
+                if (!csrfResponse.ok) {
+                    throw new Error(`CSRF failed: ${csrfResponse.status}`);
+                }
+                
+                const csrfData = await csrfResponse.json();
+                
+                // Create form data
+                const formData = new FormData();
+                formData.append('file', fileInput.files[0]);
+                
+                // Upload with proper headers
+                const uploadResponse = await fetch('/api/images/upload', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'X-CSRF-Token': csrfData.token,
+                        'X-Session-ID': csrfData.sessionId
+                    },
+                    body: formData
+                });
+                
+                const responseText = await uploadResponse.text();
+                console.log('Response:', uploadResponse.status, responseText);
+                
+                if (uploadResponse.ok) {
+                    const data = JSON.parse(responseText);
+                    result.innerHTML = `<div class="success">✅ Upload successful! URL: ${data.file.url}</div>`;
+                } else {
+                    result.innerHTML = `<div class="error">❌ Upload failed: ${uploadResponse.status} - ${responseText}</div>`;
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                result.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>

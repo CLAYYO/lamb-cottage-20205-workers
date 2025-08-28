@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background Image Debug Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .debug-container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .debug-header {
+            background: #2563eb;
+            color: white;
+            padding: 15px;
+            border-radius: 8px 8px 0 0;
+            margin: -20px -20px 20px -20px;
+        }
+        .debug-results {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover {
+            background: #1d4ed8;
+        }
+        .btn-secondary {
+            background: #6b7280;
+        }
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .status.success {
+            background: #d1fae5;
+            border: 1px solid #10b981;
+            color: #065f46;
+        }
+        .status.error {
+            background: #fee2e2;
+            border: 1px solid #ef4444;
+            color: #991b1b;
+        }
+        .status.warning {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            color: #92400e;
+        }
+    </style>
+</head>
+<body>
+    <div class="debug-container">
+        <div class="debug-header">
+            <h1>🔍 Background Image Debug Tool</h1>
+            <p>This tool helps diagnose authentication and background image upload issues in the admin panel.</p>
+        </div>
+        
+        <div class="status warning">
+            <strong>⚠️ Instructions:</strong>
+            <ol>
+                <li>Make sure you're logged into the admin panel</li>
+                <li>Navigate to the admin content page</li>
+                <li>Run the tests below to diagnose issues</li>
+            </ol>
+        </div>
+        
+        <div class="debug-section">
+            <h2>🔐 Authentication Tests</h2>
+            <p>Test authentication status, cookies, and CSRF tokens.</p>
+            <button class="btn" onclick="runAuthTests()">Run Authentication Tests</button>
+            <button class="btn btn-secondary" onclick="clearResults('auth-results')">Clear Results</button>
+            <div id="auth-results" class="debug-results"></div>
+        </div>
+        
+        <div class="debug-section">
+            <h2>🖼️ Background Image Tests</h2>
+            <p>Test background image areas and editing functionality.</p>
+            <button class="btn" onclick="runBackgroundTests()">Run Background Image Tests</button>
+            <button class="btn btn-secondary" onclick="clearResults('background-results')">Clear Results</button>
+            <div id="background-results" class="debug-results"></div>
+        </div>
+        
+        <div class="debug-section">
+            <h2>🧪 Manual Tests</h2>
+            <p>Manual testing tools for specific scenarios.</p>
+            <button class="btn" onclick="testSpecificUpload()">Test Image Upload</button>
+            <button class="btn" onclick="checkCurrentPage()">Analyze Current Page</button>
+            <button class="btn" onclick="exportResults()">Export All Results</button>
+        </div>
+    </div>
+
+    <script>
+        let authDebugger = null;
+        let backgroundTester = null;
+        
+        // Load the debug scripts
+        function loadScript(src) {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = src;
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        }
+        
+        // Initialize debug tools
+        async function initializeDebugTools() {
+            try {
+                await loadScript('./test-auth-debug.js');
+                await loadScript('./test-background-images-admin.js');
+                
+                if (typeof AuthDebugger !== 'undefined') {
+                    authDebugger = new AuthDebugger();
+                    console.log('✓ AuthDebugger loaded');
+                }
+                
+                if (typeof BackgroundImageTester !== 'undefined') {
+                    backgroundTester = new BackgroundImageTester();
+                    console.log('✓ BackgroundImageTester loaded');
+                }
+            } catch (error) {
+                console.error('Error loading debug scripts:', error);
+                displayResult('auth-results', 'Error loading debug scripts: ' + error.message, 'error');
+            }
+        }
+        
+        // Display results in the UI
+        function displayResult(containerId, message, type = 'info') {
+            const container = document.getElementById(containerId);
+            const timestamp = new Date().toLocaleTimeString();
+            const className = type === 'error' ? 'color: red' : type === 'success' ? 'color: green' : 'color: black';
+            container.innerHTML += `<div style="${className}">[${timestamp}] ${message}</div>`;
+            container.scrollTop = container.scrollHeight;
+        }
+        
+        // Clear results
+        function clearResults(containerId) {
+            document.getElementById(containerId).innerHTML = '';
+        }
+        
+        // Run authentication tests
+        async function runAuthTests() {
+            if (!authDebugger) {
+                displayResult('auth-results', 'AuthDebugger not loaded. Trying to initialize...', 'error');
+                await initializeDebugTools();
+                if (!authDebugger) {
+                    displayResult('auth-results', 'Failed to load AuthDebugger', 'error');
+                    return;
+                }
+            }
+            
+            displayResult('auth-results', '🚀 Starting authentication tests...', 'info');
+            
+            try {
+                const results = await authDebugger.runAllTests();
+                results.forEach(result => {
+                    const type = result.message.includes('✗') ? 'error' : 
+                               result.message.includes('✓') ? 'success' : 'info';
+                    displayResult('auth-results', result.message, type);
+                    if (result.data) {
+                        displayResult('auth-results', '  Data: ' + JSON.stringify(result.data, null, 2), 'info');
+                    }
+                });
+            } catch (error) {
+                displayResult('auth-results', 'Error running auth tests: ' + error.message, 'error');
+            }
+        }
+        
+        // Run background image tests
+        async function runBackgroundTests() {
+            if (!backgroundTester) {
+                displayResult('background-results', 'BackgroundImageTester not loaded. Trying to initialize...', 'error');
+                await initializeDebugTools();
+                if (!backgroundTester) {
+                    displayResult('background-results', 'Failed to load BackgroundImageTester', 'error');
+                    return;
+                }
+            }
+            
+            displayResult('background-results', '🚀 Starting background image tests...', 'info');
+            
+            try {
+                const results = await backgroundTester.runAllTests();
+                results.forEach(result => {
+                    const type = result.message.includes('✗') ? 'error' : 
+                               result.message.includes('✓') ? 'success' : 'info';
+                    displayResult('background-results', result.message, type);
+                    if (result.data) {
+                        displayResult('background-results', '  Data: ' + JSON.stringify(result.data, null, 2), 'info');
+                    }
+                });
+            } catch (error) {
+                displayResult('background-results', 'Error running background tests: ' + error.message, 'error');
+            }
+        }
+        
+        // Test specific upload
+        async function testSpecificUpload() {
+            displayResult('background-results', '🧪 Testing specific image upload...', 'info');
+            
+            if (!authDebugger) {
+                await initializeDebugTools();
+            }
+            
+            if (authDebugger) {
+                try {
+                    await authDebugger.testImageUpload();
+                    displayResult('background-results', '✓ Upload test completed', 'success');
+                } catch (error) {
+                    displayResult('background-results', '✗ Upload test failed: ' + error.message, 'error');
+                }
+            }
+        }
+        
+        // Check current page
+        function checkCurrentPage() {
+            displayResult('background-results', '📄 Analyzing current page...', 'info');
+            displayResult('background-results', 'URL: ' + window.location.href, 'info');
+            displayResult('background-results', 'Title: ' + document.title, 'info');
+            
+            // Check for admin elements
+            const adminElements = document.querySelectorAll('[data-field], .editable, [data-editable]');
+            displayResult('background-results', `Found ${adminElements.length} editable elements`, 'info');
+            
+            // Check for background image elements
+            const bgElements = document.querySelectorAll('[data-field*="background"], img[alt*="background"]');
+            displayResult('background-results', `Found ${bgElements.length} background image elements`, 'info');
+            
+            // Check for VisualEditor
+            if (typeof window.VisualEditor !== 'undefined') {
+                displayResult('background-results', '✓ VisualEditor class found', 'success');
+            } else {
+                displayResult('background-results', '✗ VisualEditor class not found', 'error');
+            }
+        }
+        
+        // Export results
+        function exportResults() {
+            const authResults = document.getElementById('auth-results').innerText;
+            const backgroundResults = document.getElementById('background-results').innerText;
+            
+            const exportData = {
+                timestamp: new Date().toISOString(),
+                url: window.location.href,
+                userAgent: navigator.userAgent,
+                authResults: authResults,
+                backgroundResults: backgroundResults
+            };
+            
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `debug-results-${Date.now()}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            console.log('🔍 Background Image Debug Tool loaded');
+            initializeDebugTools();
+        });
+    </script>
+</body>
+</html>
