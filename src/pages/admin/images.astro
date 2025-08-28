@@ -198,13 +198,32 @@ if (authResult) {
     }
     
     async function secureRequest(url, options = {}) {
+      const headers = {
+        'Content-Type': 'application/json',
+        ...options.headers
+      };
+      
+      // For DELETE requests, fetch CSRF tokens
+      if (options.method === 'DELETE') {
+        try {
+          const csrfResponse = await fetch('/api/auth/csrf', {
+            credentials: 'include'
+          });
+          
+          if (csrfResponse.ok) {
+            const { csrfToken, sessionId } = await csrfResponse.json();
+            headers['X-CSRF-Token'] = csrfToken;
+            headers['X-Session-ID'] = sessionId;
+          }
+        } catch (error) {
+          console.error('Failed to get CSRF tokens:', error);
+        }
+      }
+      
       return fetch(url, {
         ...options,
         credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          ...options.headers
-        }
+        headers
       });
     }
     

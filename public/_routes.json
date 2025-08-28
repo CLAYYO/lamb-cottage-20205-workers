@@ -5,6 +5,7 @@
     "/api/users/*",
     "/api/content/*",
     "/api/reviews/*",
+    "/api/images/*",
     "/api/debug/*",
     "/admin/*"
   ],
