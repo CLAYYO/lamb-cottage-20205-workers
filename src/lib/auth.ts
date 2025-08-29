@@ -10,7 +10,11 @@ function getEnvVar(context: APIContext | undefined, key: string, defaultValue: s
     }
   }
   // Fallback to process.env for local development
-  return process.env[key] || defaultValue;
+  const envValue = process.env[key];
+  if (envValue && envValue.trim() !== '') {
+    return envValue;
+  }
+  return defaultValue;
 }
 
 const DEFAULT_JWT_SECRET = 'your-secret-key-change-in-production';
