@@ -1,12 +1,18 @@
 import type { APIRoute } from 'astro';
-import { validateContent } from '../../../lib/content-storage';
-import fs from 'fs/promises';
-import path from 'path';
+import { cloudflareStorage } from '../../../lib/cloudflare-storage';
 
-const CONTENT_FILE = path.join(process.cwd(), 'content', 'site-content.json');
+// Initialize Cloudflare storage with runtime context
+function initializeStorage(context: any) {
+  if (context.locals?.runtime) {
+    cloudflareStorage.initialize(context.locals.runtime);
+  }
+}
 
 const testHandler: APIRoute = async (context) => {
   try {
+    // Initialize storage with runtime context
+    initializeStorage(context);
+    
     console.log('\n=== TEST SAVE ENDPOINT CALLED ===');
     
     // Parse request body
@@ -16,21 +22,22 @@ const testHandler: APIRoute = async (context) => {
       console.log('Test endpoint received data:', JSON.stringify(contentData, null, 2));
     } catch (error) {
       console.error('Test endpoint JSON parsing error:', error);
-      return new Response(JSON.stringify({ error: 'Invalid JSON data', details: error.message }), {
+      return new Response(JSON.stringify({ error: 'Invalid JSON data', details: error instanceof Error ? error.message : 'Unknown error' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' }
       });
     }
     
     // Load existing content
-    let existingContent = {};
+    let existingContent: any = {};
     try {
-      const existingContentStr = await fs.readFile(CONTENT_FILE, 'utf-8');
-      existingContent = JSON.parse(existingContentStr);
-      delete existingContent._metadata;
+      existingContent = await cloudflareStorage.loadContent();
+      if (existingContent && typeof existingContent === 'object' && '_metadata' in existingContent) {
+        delete existingContent._metadata;
+      }
       console.log('Test endpoint loaded existing content keys:', Object.keys(existingContent));
     } catch (error) {
-      console.log('Test endpoint: No existing content file found');
+      console.log('Test endpoint: No existing content found');
     }
     
     // Deep merge function
@@ -67,14 +74,14 @@ const testHandler: APIRoute = async (context) => {
     
     // Test validation
     console.log('\n=== TESTING VALIDATION ===');
-    const validationResult = validateContent(mergedContent);
+    const validationResult = cloudflareStorage.validateContent(mergedContent);
     console.log('Validation result:', { valid: validationResult.valid, hasErrors: !!(validationResult.errors && validationResult.errors.length > 0), errorCount: validationResult.errors?.length || 0 });
     
     // Log validation errors in detail
     const errorDetails = [];
     if (validationResult.errors && validationResult.errors.length > 0) {
       console.log('\n=== VALIDATION ERRORS DETAILS ===');
-      validationResult.errors.forEach((errorString, index) => {
+      validationResult.errors.forEach((errorString: any, index: number) => {
         console.log(`Error ${index + 1}: ${errorString}`);
         
         // Parse the error string to extract path and message
@@ -113,8 +120,8 @@ const testHandler: APIRoute = async (context) => {
           errors: validationResult.errors || [],
           errorCount: validationResult.errors ? validationResult.errors.length : 0
         },
-        contentStructure: Object.keys(mergedContent).reduce((acc, key) => {
-          const value = mergedContent[key];
+        contentStructure: Object.keys(mergedContent).reduce((acc: any, key: string) => {
+          const value = (mergedContent as any)[key];
           acc[key] = {
             type: Array.isArray(value) ? 'array' : typeof value,
             keys: value && typeof value === 'object' ? Object.keys(value) : null
@@ -131,8 +138,8 @@ const testHandler: APIRoute = async (context) => {
     console.error('Test endpoint error:', error);
     return new Response(JSON.stringify({ 
       error: 'Test endpoint failed', 
-      details: error.message,
-      stack: error.stack 
+      details: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined 
     }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }

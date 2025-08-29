@@ -1,174 +1,165 @@
 import type { APIRoute } from 'astro';
 import { secureAPIRoute, sanitize } from '../../../lib/security';
-import fs from 'fs/promises';
-import path from 'path';
+import { cloudflareUserStorage, hashPassword } from '../../../lib/cloudflare-user-storage';
 import { v4 as uuidv4 } from 'uuid';
 
-// Simple password hashing using Web Crypto API
-async function hashPassword(password: string): Promise<string> {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(password + 'salt_2024');
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+// Initialize storage function
+async function initializeStorage(context: any) {
+  cloudflareUserStorage.initialize(context);
 }
-
-const USERS_FILE = path.join(process.cwd(), 'data', 'users.json');
 
 interface User {
   id: string;
   username: string;
   email: string;
-  role: 'admin' | 'editor';
+  role: 'admin' | 'user';
   createdAt: string;
   lastLogin?: string;
-  active: boolean;
 }
 
 interface UserWithPassword extends User {
-  password: string;
+  passwordHash: string;
 }
 
-// Ensure users file exists
-async function ensureUsersFile() {
+// Ensure default admin user exists
+async function ensureDefaultUser() {
   try {
-    await fs.access(USERS_FILE);
-  } catch {
-    const defaultUsers: UserWithPassword[] = [
-      {
+    const usersData = await cloudflareUserStorage.getUsers();
+    if (usersData.users.length === 0) {
+      const defaultUser = {
         id: uuidv4(),
         username: 'admin',
         email: 'admin@lambcottage.com',
-        password: await hashPassword('admin123'),
-        role: 'admin',
-        createdAt: new Date().toISOString(),
-        active: true
-      }
-    ];
-    
-    await fs.mkdir(path.dirname(USERS_FILE), { recursive: true });
-    await fs.writeFile(USERS_FILE, JSON.stringify(defaultUsers, null, 2));
+        passwordHash: await hashPassword('admin123'),
+        role: 'admin' as const,
+        createdAt: new Date().toISOString()
+      };
+      
+      await cloudflareUserStorage.saveUsers({ users: [defaultUser] });
+    }
+  } catch (error) {
+    console.error('Error ensuring default user:', error);
   }
 }
 
 // Get all users (without passwords)
 async function getUsers(): Promise<User[]> {
-  await ensureUsersFile();
-  const data = await fs.readFile(USERS_FILE, 'utf-8');
-  const users: UserWithPassword[] = JSON.parse(data);
+  await ensureDefaultUser();
+  const usersData = await cloudflareUserStorage.getUsers();
   
   // Remove passwords from response
-  return users.map(({ password, ...user }) => user);
+  return usersData.users.map(({ passwordHash, ...user }) => user);
 }
 
 // Get user by ID
 async function getUserById(id: string): Promise<User | null> {
-  const users = await getUsers();
-  return users.find(user => user.id === id) || null;
+  const user = await cloudflareUserStorage.findUserById(id);
+  if (!user) return null;
+  
+  const { passwordHash, ...userWithoutPassword } = user;
+  return userWithoutPassword;
 }
 
 // Create new user
 async function createUser(userData: Omit<UserWithPassword, 'id' | 'createdAt'>): Promise<User> {
-  await ensureUsersFile();
-  const data = await fs.readFile(USERS_FILE, 'utf-8');
-  const users: UserWithPassword[] = JSON.parse(data);
+  await ensureDefaultUser();
   
   // Check if username or email already exists
-  const existingUser = users.find(u => 
-    u.username === userData.username || u.email === userData.email
-  );
+  const existingByUsername = await cloudflareUserStorage.findUserByUsername(userData.username);
+  const existingByEmail = await cloudflareUserStorage.findUserByEmail(userData.email);
   
-  if (existingUser) {
+  if (existingByUsername || existingByEmail) {
     throw new Error('Username or email already exists');
   }
   
   const newUser: UserWithPassword = {
     id: uuidv4(),
     ...userData,
-    createdAt: new Date().toISOString(),
-    active: true
+    createdAt: new Date().toISOString()
   };
   
-  users.push(newUser);
-  await fs.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
+  const createdUser = await cloudflareUserStorage.createUser(newUser);
+  if (!createdUser) {
+    throw new Error('Failed to create user');
+  }
   
   // Return user without password
-  const { password, ...userWithoutPassword } = newUser;
+  const { passwordHash, ...userWithoutPassword } = createdUser;
   return userWithoutPassword;
 }
 
 // Update user
 async function updateUser(id: string, updates: Partial<Omit<User, 'id' | 'createdAt'>>): Promise<User> {
-  await ensureUsersFile();
-  const data = await fs.readFile(USERS_FILE, 'utf-8');
-  const users: UserWithPassword[] = JSON.parse(data);
+  await ensureDefaultUser();
   
-  const userIndex = users.findIndex(u => u.id === id);
-  if (userIndex === -1) {
+  const user = await cloudflareUserStorage.findUserById(id);
+  if (!user) {
     throw new Error('User not found');
   }
   
   // Check for duplicate username/email if being updated
   if (updates.username || updates.email) {
-    const existingUser = users.find((u, index) => 
-      index !== userIndex && 
-      (u.username === updates.username || u.email === updates.email)
-    );
+    const existingByUsername = updates.username ? await cloudflareUserStorage.findUserByUsername(updates.username) : null;
+    const existingByEmail = updates.email ? await cloudflareUserStorage.findUserByEmail(updates.email) : null;
     
-    if (existingUser) {
+    if ((existingByUsername && existingByUsername.id !== id) || (existingByEmail && existingByEmail.id !== id)) {
       throw new Error('Username or email already exists');
     }
   }
   
-  users[userIndex] = { ...users[userIndex], ...updates };
-  await fs.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
+  const updatedUser = { ...user, ...updates };
+  const usersData = await cloudflareUserStorage.getUsers();
+  const userIndex = usersData.users.findIndex(u => u.id === id);
+  
+  if (userIndex === -1) {
+    throw new Error('User not found');
+  }
+  
+  usersData.users[userIndex] = updatedUser;
+  await cloudflareUserStorage.saveUsers(usersData);
   
   // Return user without password
-  const { password, ...userWithoutPassword } = users[userIndex];
+  const { passwordHash, ...userWithoutPassword } = updatedUser;
   return userWithoutPassword;
 }
 
 // Delete user
 async function deleteUser(id: string): Promise<void> {
-  await ensureUsersFile();
-  const data = await fs.readFile(USERS_FILE, 'utf-8');
-  const users: UserWithPassword[] = JSON.parse(data);
+  await ensureDefaultUser();
   
-  const userIndex = users.findIndex(u => u.id === id);
+  const usersData = await cloudflareUserStorage.getUsers();
+  const userIndex = usersData.users.findIndex(u => u.id === id);
+  
   if (userIndex === -1) {
     throw new Error('User not found');
   }
   
   // Prevent deleting the last admin
-  const remainingUsers = users.filter((u, index) => index !== userIndex);
-  const remainingAdmins = remainingUsers.filter(u => u.role === 'admin' && u.active);
+  const remainingUsers = usersData.users.filter((u, index) => index !== userIndex);
+  const remainingAdmins = remainingUsers.filter(u => u.role === 'admin');
   
-  if (users[userIndex].role === 'admin' && remainingAdmins.length === 0) {
+  if (usersData.users[userIndex].role === 'admin' && remainingAdmins.length === 0) {
     throw new Error('Cannot delete the last admin user');
   }
   
-  users.splice(userIndex, 1);
-  await fs.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
+  usersData.users.splice(userIndex, 1);
+  await cloudflareUserStorage.saveUsers(usersData);
 }
 
 // Update user password
 async function updateUserPassword(id: string, newPassword: string): Promise<void> {
-  await ensureUsersFile();
-  const data = await fs.readFile(USERS_FILE, 'utf-8');
-  const users: UserWithPassword[] = JSON.parse(data);
+  await ensureDefaultUser();
   
-  const userIndex = users.findIndex(u => u.id === id);
-  if (userIndex === -1) {
+  const updatedUser = await cloudflareUserStorage.updateUserPassword(id, newPassword);
+  if (!updatedUser) {
     throw new Error('User not found');
   }
-  
-  users[userIndex].password = await hashPassword(newPassword);
-  await fs.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
 }
 
 // GET - List all users
-const getUsersHandler: APIRoute = async ({ request }) => {
+const getUsersHandler: APIRoute = async ({ request, locals }) => {
   try {
+    await initializeStorage(locals);
     const users = await getUsers();
     return new Response(JSON.stringify({ users }), {
       status: 200,
@@ -184,8 +175,9 @@ const getUsersHandler: APIRoute = async ({ request }) => {
 };
 
 // POST - Create new user
-const createUserHandler: APIRoute = async ({ request }) => {
+const createUserHandler: APIRoute = async ({ request, locals }) => {
   try {
+    await initializeStorage(locals);
     const body = await request.json();
     const { username, email, password, role } = body;
     
@@ -205,20 +197,22 @@ const createUserHandler: APIRoute = async ({ request }) => {
       });
     }
     
-    // Sanitize inputs
+    // Sanitize inputs and map editor to user
     const sanitizedData = {
       username: sanitize.text(username),
       email: sanitize.text(email),
       password: password, // Don't sanitize passwords
-      role: role as 'admin' | 'editor'
+      role: (role === 'editor' ? 'user' : role) as 'admin' | 'user'
     };
     
     // Hash password
     const hashedPassword = await hashPassword(sanitizedData.password);
     
     const user = await createUser({
-      ...sanitizedData,
-      password: hashedPassword
+      username: sanitizedData.username,
+      email: sanitizedData.email,
+      role: sanitizedData.role,
+      passwordHash: hashedPassword
     });
     
     return new Response(JSON.stringify({ user }), {
@@ -237,8 +231,9 @@ const createUserHandler: APIRoute = async ({ request }) => {
 };
 
 // PUT - Update user
-const updateUserHandler: APIRoute = async ({ request }) => {
+const updateUserHandler: APIRoute = async ({ request, locals }) => {
   try {
+    await initializeStorage(locals);
     const url = new URL(request.url);
     const userId = url.searchParams.get('id');
     
@@ -263,7 +258,7 @@ const updateUserHandler: APIRoute = async ({ request }) => {
           headers: { 'Content-Type': 'application/json' }
         });
       }
-      updates.role = role;
+      updates.role = (role === 'editor' ? 'user' : role) as 'admin' | 'user';
     }
     if (active !== undefined) updates.active = Boolean(active);
     
@@ -290,8 +285,9 @@ const updateUserHandler: APIRoute = async ({ request }) => {
 };
 
 // DELETE - Delete user
-const deleteUserHandler: APIRoute = async ({ request }) => {
+const deleteUserHandler: APIRoute = async ({ request, locals }) => {
   try {
+    await initializeStorage(locals);
     const url = new URL(request.url);
     const userId = url.searchParams.get('id');
     

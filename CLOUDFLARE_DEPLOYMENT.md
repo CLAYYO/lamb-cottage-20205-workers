@@ -2,6 +2,10 @@
 
 This document outlines the correct Cloudflare Pages settings for deploying the Lamb Cottage 2025 Astro application.
 
+**Note**: This project is configured for Cloudflare Pages (not Workers) for simpler deployment and better Astro integration.
+
+**Important**: The `wrangler.toml` file is not used for Pages deployment - it's only for Workers. Pages deployment is configured through the Cloudflare Dashboard.
+
 ## Current Project Configuration
 
 ### Package.json ✅

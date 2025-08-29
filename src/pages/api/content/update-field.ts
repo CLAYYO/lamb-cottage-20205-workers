@@ -1,50 +1,12 @@
 import type { APIRoute } from 'astro';
 import { requireAuth } from '../../../lib/auth';
 import { sanitize } from '../../../lib/security';
-import fs from 'fs/promises';
-import path from 'path';
+import { cloudflareStorage } from '../../../lib/cloudflare-storage';
 
-const CONTENT_DIR = path.join(process.cwd(), 'content');
-const CONTENT_FILE = path.join(CONTENT_DIR, 'site-content.json');
-const BACKUP_DIR = path.join(CONTENT_DIR, 'backups');
-
-// Ensure content directory exists
-async function ensureContentDir() {
-  try {
-    await fs.access(CONTENT_DIR);
-  } catch {
-    await fs.mkdir(CONTENT_DIR, { recursive: true });
-  }
-  
-  try {
-    await fs.access(BACKUP_DIR);
-  } catch {
-    await fs.mkdir(BACKUP_DIR, { recursive: true });
-  }
-}
-
-// Create backup of current content
-async function createBackup() {
-  try {
-    const currentContent = await fs.readFile(CONTENT_FILE, 'utf-8');
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const backupFile = path.join(BACKUP_DIR, `content-backup-${timestamp}.json`);
-    await fs.writeFile(backupFile, currentContent);
-    
-    // Keep only last 10 backups
-    const backupFiles = await fs.readdir(BACKUP_DIR);
-    const sortedBackups = backupFiles
-      .filter(file => file.startsWith('content-backup-'))
-      .sort()
-      .reverse();
-    
-    if (sortedBackups.length > 10) {
-      for (const oldBackup of sortedBackups.slice(10)) {
-        await fs.unlink(path.join(BACKUP_DIR, oldBackup));
-      }
-    }
-  } catch (error) {
-    console.warn('Could not create backup:', error);
+// Initialize Cloudflare storage with runtime context
+function initializeStorage(context: any) {
+  if (context.locals?.runtime) {
+    cloudflareStorage.initialize(context.locals.runtime);
   }
 }
 
@@ -68,6 +30,9 @@ function setNestedProperty(obj: any, path: string, value: any) {
 
 const updateFieldHandler: APIRoute = async (context) => {
   try {
+    // Initialize Cloudflare storage
+    initializeStorage(context);
+    
     // Check authentication
     const authResult = await requireAuth(context);
     if (authResult) {
@@ -99,21 +64,8 @@ const updateFieldHandler: APIRoute = async (context) => {
       });
     }
     
-    // Ensure content directory exists
-    await ensureContentDir();
-    
-    // Load existing content
-    let existingContent = {};
-    try {
-      const contentStr = await fs.readFile(CONTENT_FILE, 'utf-8');
-      existingContent = JSON.parse(contentStr);
-    } catch (error) {
-      // If file doesn't exist, start with empty object
-      console.log('Content file not found, creating new one');
-    }
-    
-    // Create backup
-    await createBackup();
+    // Load existing content from Cloudflare storage
+    const existingContent = await cloudflareStorage.loadContent();
     
     // Sanitize content based on field type
     let sanitizedContent = content;
@@ -132,24 +84,24 @@ const updateFieldHandler: APIRoute = async (context) => {
     // Update the nested field
     setNestedProperty(existingContent, fullPath, sanitizedContent);
     
-    // Add metadata
-    const contentWithMetadata = {
-      ...existingContent,
-      _metadata: {
-        lastUpdated: new Date().toISOString(),
-        updatedBy: 'admin',
-        version: Date.now()
-      }
-    };
+    // Save updated content using Cloudflare storage
+    const saveResult = await cloudflareStorage.saveContent(existingContent);
     
-    // Save updated content
-    await fs.writeFile(CONTENT_FILE, JSON.stringify(contentWithMetadata, null, 2));
+    if (!saveResult.success) {
+      return new Response(JSON.stringify({ 
+        error: 'Failed to save content',
+        details: saveResult.errors 
+      }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
     
     return new Response(JSON.stringify({ 
       success: true, 
       message: 'Field updated successfully',
       field: fullPath,
-      timestamp: contentWithMetadata._metadata.lastUpdated
+      timestamp: new Date().toISOString()
     }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' }

@@ -1,20 +1,15 @@
 import type { APIRoute } from 'astro';
 import { secureAPIRoute, sanitize, validateFileUpload } from '../../../lib/security';
-import { promises as fs } from 'fs';
-import * as path from 'path';
-import { createHash } from 'crypto';
+import { cloudflareImageStorage } from '../../../lib/cloudflare-image-storage';
 
-const UPLOAD_DIR = path.join(process.cwd(), 'public', 'images', 'uploads');
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ALLOWED_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
 const ALLOWED_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
 
-// Ensure upload directory exists
-async function ensureUploadDir() {
-  try {
-    await fs.access(UPLOAD_DIR);
-  } catch {
-    await fs.mkdir(UPLOAD_DIR, { recursive: true });
+// Initialize Cloudflare storage with runtime context
+function initializeStorage(context: any) {
+  if (context.locals?.runtime) {
+    cloudflareImageStorage.initialize(context.locals.runtime);
   }
 }
 
@@ -27,26 +22,16 @@ function generateFilename(originalName: string): string {
 
 // Validate file type
 function isValidFileType(filename: string, mimeType: string): boolean {
-  const ext = path.extname(filename).toLowerCase();
-  return ALLOWED_EXTENSIONS.includes(ext) && ALLOWED_TYPES.includes(mimeType);
-}
-
-// Get file info
-async function getFileInfo(filePath: string) {
-  try {
-    const stats = await fs.stat(filePath);
-    return {
-      size: stats.size,
-      created: stats.birthtime,
-      modified: stats.mtime
-    };
-  } catch {
-    return null;
-  }
+  const ext = filename.toLowerCase().split('.').pop();
+  const normalizedExt = `.${ext}`;
+  return ALLOWED_EXTENSIONS.includes(normalizedExt) && ALLOWED_TYPES.includes(mimeType);
 }
 
 const uploadHandler: APIRoute = async (context) => {
   try {
+    // Initialize storage with runtime context
+    initializeStorage(context);
+    
     // Authentication is handled by secureAPIRoute wrapper
     
     // Check content type
@@ -101,9 +86,6 @@ const uploadHandler: APIRoute = async (context) => {
       });
     }
     
-    // Ensure upload directory exists
-    await ensureUploadDir();
-    
     // Validate file security
     const validation = validateFileUpload(file);
     if (!validation.valid) {
@@ -115,18 +97,19 @@ const uploadHandler: APIRoute = async (context) => {
     
     // Generate unique filename with sanitization
     const filename = generateFilename(file.name);
-    const filePath = path.join(UPLOAD_DIR, filename);
     
-    // Save file
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-    await fs.writeFile(filePath, buffer);
+    // Upload to Cloudflare storage
+    const uploadResult = await cloudflareImageStorage.uploadImage(file);
     
-    // Get file info
-    const fileInfo = await getFileInfo(filePath);
+    if (!uploadResult.success) {
+      return new Response(JSON.stringify({ error: uploadResult.error || 'Failed to upload image' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
     
-    // Generate public URL
-    const publicUrl = `/images/uploads/${filename}`;
+    // Get public URL
+    const publicUrl = uploadResult.url;
     
     // Log upload activity
     console.log(`File uploaded: ${filename} by authenticated user`);
@@ -141,8 +124,7 @@ const uploadHandler: APIRoute = async (context) => {
         type: file.type,
         url: publicUrl,
         uploadedAt: new Date().toISOString(),
-        uploadedBy: 'authenticated_user',
-        ...fileInfo
+        uploadedBy: 'authenticated_user'
       }
     }), {
       status: 200,
@@ -170,36 +152,13 @@ export const POST = secureAPIRoute(uploadHandler, {
 // Get list of uploaded images
 const getImagesHandler: APIRoute = async (context) => {
   try {
+    // Initialize storage with runtime context
+    initializeStorage(context);
+    
     // Authentication is handled by secureAPIRoute wrapper
     
-    // Ensure upload directory exists
-    await ensureUploadDir();
-    
-    // Get list of files
-    const files = await fs.readdir(UPLOAD_DIR);
-    const imageFiles = files.filter(file => {
-      const ext = path.extname(file).toLowerCase();
-      return ALLOWED_EXTENSIONS.includes(ext);
-    });
-    
-    // Get file info for each image
-    const images = await Promise.all(
-      imageFiles.map(async (filename) => {
-        const filePath = path.join(UPLOAD_DIR, filename);
-        const fileInfo = await getFileInfo(filePath);
-        
-        return {
-          filename,
-          url: `/images/uploads/${filename}`,
-          size: fileInfo?.size || 0,
-          created: fileInfo?.created || new Date(),
-          modified: fileInfo?.modified || new Date()
-        };
-      })
-    );
-    
-    // Sort by creation date (newest first)
-    images.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime());
+    // Get list of images from Cloudflare storage
+    const images = await cloudflareImageStorage.listImages();
     
     return new Response(JSON.stringify({
       success: true,
@@ -227,6 +186,9 @@ export const GET = secureAPIRoute(getImagesHandler, {
 // Delete uploaded image
 const deleteImageHandler: APIRoute = async (context) => {
   try {
+    // Initialize storage with runtime context
+    initializeStorage(context);
+    
     // Authentication is handled by secureAPIRoute wrapper
     
     // Parse request body
@@ -256,20 +218,15 @@ const deleteImageHandler: APIRoute = async (context) => {
       });
     }
     
-    const filePath = path.join(UPLOAD_DIR, filename);
+    // Delete from Cloudflare storage
+    const deleteResult = await cloudflareImageStorage.deleteImage(filename);
     
-    // Check if file exists
-    try {
-      await fs.access(filePath);
-    } catch {
-      return new Response(JSON.stringify({ error: 'File not found' }), {
+    if (!deleteResult) {
+      return new Response(JSON.stringify({ error: 'File not found or failed to delete' }), {
         status: 404,
         headers: { 'Content-Type': 'application/json' }
       });
     }
-    
-    // Delete file
-    await fs.unlink(filePath);
     
     // Log deletion activity
     console.log(`File deleted: ${filename} by user`);

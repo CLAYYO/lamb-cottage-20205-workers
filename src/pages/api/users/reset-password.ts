@@ -1,66 +1,34 @@
 import type { APIRoute } from 'astro';
 import { secureAPIRoute, sanitize } from '../../../lib/security';
-import fs from 'fs/promises';
-import path from 'path';
+import { cloudflareUserStorage, hashPassword } from '../../../lib/cloudflare-user-storage';
 
-// Simple password hashing using Web Crypto API
-async function hashPassword(password: string): Promise<string> {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(password + 'salt_2024');
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-}
-
-const USERS_FILE = path.join(process.cwd(), 'data', 'users.json');
-
-// Ensure users file exists
-async function ensureUsersFile() {
-  const dataDir = path.dirname(USERS_FILE);
-  try {
-    await fs.access(dataDir);
-  } catch {
-    await fs.mkdir(dataDir, { recursive: true });
+// Initialize Cloudflare storage with runtime context
+function initializeStorage(context: any) {
+  if (context.locals?.runtime) {
+    cloudflareUserStorage.initialize(context.locals.runtime);
   }
-  
-  try {
-    await fs.access(USERS_FILE);
-  } catch {
-    await fs.writeFile(USERS_FILE, JSON.stringify({ users: [] }, null, 2));
-  }
-}
-
-// Get all users
-async function getUsers() {
-  await ensureUsersFile();
-  const data = await fs.readFile(USERS_FILE, 'utf-8');
-  return JSON.parse(data);
-}
-
-// Save users
-async function saveUsers(data: any) {
-  await fs.writeFile(USERS_FILE, JSON.stringify(data, null, 2));
 }
 
 // Update user password
 async function updateUserPassword(userId: string, newPassword: string) {
-  const data = await getUsers();
-  const userIndex = data.users.findIndex((u: any) => u.id === userId);
+  const hashedPassword = await hashPassword(newPassword);
+  const success = await cloudflareUserStorage.updateUserPassword(userId, hashedPassword);
   
-  if (userIndex === -1) {
-    throw new Error('User not found');
+  if (!success) {
+    throw new Error('User not found or failed to update password');
   }
   
-  const hashedPassword = await hashPassword(newPassword);
-  data.users[userIndex].password = hashedPassword;
-  data.users[userIndex].updatedAt = new Date().toISOString();
-  
-  await saveUsers(data);
-  return data.users[userIndex];
+  // Get updated user for response
+  const updatedUser = await cloudflareUserStorage.findUserById(userId);
+  return updatedUser;
 }
 
 // Reset password handler
-async function resetPasswordHandler(request: Request): Promise<Response> {
+async function resetPasswordHandler(context: any): Promise<Response> {
+  const request = context.request;
+  
+  // Initialize storage with runtime context
+  initializeStorage(context);
   try {
     const body = await request.json();
     const { userId, newPassword } = body;
@@ -87,8 +55,15 @@ async function resetPasswordHandler(request: Request): Promise<Response> {
     // Update password
     const updatedUser = await updateUserPassword(sanitizedUserId, newPassword);
     
+    if (!updatedUser) {
+      return new Response(
+        JSON.stringify({ error: 'Failed to update user password' }),
+        { status: 500, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+    
     // Remove password from response
-    const { password, ...userResponse } = updatedUser;
+    const { passwordHash, ...userResponse } = updatedUser;
     
     return new Response(
       JSON.stringify({ 
@@ -110,11 +85,13 @@ async function resetPasswordHandler(request: Request): Promise<Response> {
 }
 
 // Export secured route
-export const POST: APIRoute = secureAPIRoute(resetPasswordHandler, {
-  requireAuth: true,
-  requireAdmin: true,
-  rateLimit: {
-    requests: 10,
-    windowMs: 15 * 60 * 1000 // 15 minutes
-  }
-});
+export const POST: APIRoute = (context) => {
+  return secureAPIRoute(resetPasswordHandler, {
+    requireAuth: true,
+    requireAdmin: true,
+    rateLimit: {
+      requests: 10,
+      window: 15 * 60 * 1000 // 15 minutes
+    }
+  })(context);
+};

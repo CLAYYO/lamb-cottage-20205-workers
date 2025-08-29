@@ -1,52 +1,11 @@
 import type { APIRoute } from 'astro';
 import { requireAuth } from '../../../lib/auth';
-import { saveContent, validateContent } from '../../../lib/content-storage';
+import { cloudflareStorage } from '../../../lib/cloudflare-storage';
 import { secureAPIRoute, sanitize } from '../../../lib/security';
-import fs from 'fs/promises';
-import path from 'path';
 
-const CONTENT_DIR = path.join(process.cwd(), 'content');
-const CONTENT_FILE = path.join(CONTENT_DIR, 'site-content.json');
-const BACKUP_DIR = path.join(CONTENT_DIR, 'backups');
-
-// Ensure content directory exists
-async function ensureContentDir() {
-  try {
-    await fs.access(CONTENT_DIR);
-  } catch {
-    await fs.mkdir(CONTENT_DIR, { recursive: true });
-  }
-  
-  try {
-    await fs.access(BACKUP_DIR);
-  } catch {
-    await fs.mkdir(BACKUP_DIR, { recursive: true });
-  }
-}
-
-// Create backup of current content
-async function createBackup() {
-  try {
-    const currentContent = await fs.readFile(CONTENT_FILE, 'utf-8');
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const backupFile = path.join(BACKUP_DIR, `content-backup-${timestamp}.json`);
-    await fs.writeFile(backupFile, currentContent);
-    
-    // Keep only last 10 backups
-    const backupFiles = await fs.readdir(BACKUP_DIR);
-    const sortedBackups = backupFiles
-      .filter(file => file.startsWith('content-backup-'))
-      .sort()
-      .reverse();
-    
-    if (sortedBackups.length > 10) {
-      for (const oldBackup of sortedBackups.slice(10)) {
-        await fs.unlink(path.join(BACKUP_DIR, oldBackup));
-      }
-    }
-  } catch (error) {
-    console.warn('Could not create backup:', error);
-  }
+// Initialize storage function
+async function initializeStorage(context: any) {
+  cloudflareStorage.initialize(context);
 }
 
 // Using imported validateContent function from lib/content-storage
@@ -113,24 +72,31 @@ const saveHandler: APIRoute = async (context) => {
       });
     }
     
+    // Initialize Cloudflare storage
+    await initializeStorage(context.locals);
+    
     // Load existing content and merge with incoming data
-    let existingContent = {};
+    let existingContent: Record<string, any> = {};
     try {
-      const existingContentStr = await fs.readFile(CONTENT_FILE, 'utf-8');
-      existingContent = JSON.parse(existingContentStr);
-      // Remove metadata from existing content for merging
-      delete existingContent._metadata;
+      const loadedContent = await cloudflareStorage.loadContent();
+      if (loadedContent && typeof loadedContent === 'object') {
+        existingContent = loadedContent as Record<string, any>;
+        // Remove metadata from existing content for merging
+        delete existingContent._metadata;
+      }
     } catch (error) {
-      console.log('No existing content file found, starting with empty content');
+      console.log('No existing content found, starting with empty content');
     }
     
     // Deep merge existing content with incoming partial data
-    function deepMerge(target: any, source: any): any {
-      const result = { ...target };
+    function deepMerge(target: Record<string, any>, source: Record<string, any>): Record<string, any> {
+      const result: Record<string, any> = { ...target };
       
       for (const key in source) {
         if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
-          result[key] = deepMerge(result[key] || {}, source[key]);
+          const targetValue = result[key];
+          const targetObj = (targetValue && typeof targetValue === 'object') ? targetValue as Record<string, any> : {};
+          result[key] = deepMerge(targetObj, source[key]);
         } else {
           result[key] = source[key];
         }
@@ -139,13 +105,14 @@ const saveHandler: APIRoute = async (context) => {
       return result;
     }
     
-    const mergedContent = deepMerge(existingContent, contentData);
+    const mergedContent = deepMerge(existingContent, contentData as Record<string, any>);
     
     console.log('\n=== COMPREHENSIVE VALIDATION DEBUG ===');
     console.log('Incoming content data:', JSON.stringify(contentData, null, 2));
     console.log('Existing content keys:', Object.keys(existingContent));
-    console.log('Merged content structure:', JSON.stringify(Object.keys(mergedContent).reduce((acc, key) => {
-      acc[key] = typeof mergedContent[key] === 'object' ? Object.keys(mergedContent[key] || {}) : typeof mergedContent[key];
+    console.log('Merged content structure:', JSON.stringify(Object.keys(mergedContent).reduce((acc: Record<string, any>, key) => {
+      const value = mergedContent[key];
+      acc[key] = typeof value === 'object' && value !== null ? Object.keys(value || {}) : typeof value;
       return acc;
     }, {}), null, 2));
     
@@ -164,7 +131,7 @@ const saveHandler: APIRoute = async (context) => {
     }
     
     console.log('\n=== STARTING VALIDATION ===');
-    const validationResult = validateContent(mergedContent);
+    const validationResult = cloudflareStorage.validateContent(mergedContent);
     
     console.log('Raw validation result:', JSON.stringify(validationResult, null, 2));
     console.log('Validation valid:', validationResult.valid);
@@ -189,14 +156,14 @@ const saveHandler: APIRoute = async (context) => {
           // Try to get the actual data at the error path
           try {
             const pathParts = errorPath.split('.');
-            let currentData = mergedContent;
+            let currentData: any = mergedContent;
             for (const part of pathParts) {
               if (currentData && typeof currentData === 'object') {
-                currentData = currentData[part];
-              } else {
-                currentData = undefined;
-                break;
-              }
+              currentData = (currentData as Record<string, any>)[part];
+            } else {
+              currentData = undefined;
+              break;
+            }
             }
             console.error('  Actual data at path:', JSON.stringify(currentData, null, 2));
           } catch (e) {
@@ -226,29 +193,24 @@ const saveHandler: APIRoute = async (context) => {
     // Sanitize the merged content
     const sanitizedContent = sanitizeContent(mergedContent);
     
-    // Ensure content directory exists
-    await ensureContentDir();
+    // Save the content using Cloudflare storage
+    const saveResult = await cloudflareStorage.saveContent(sanitizedContent);
+    const result: { success: boolean; errors?: string[] } = saveResult || { success: false, errors: ['Failed to save content'] };
     
-    // Create backup of current content
-    await createBackup();
-    
-    // Add metadata
-    const contentWithMetadata = {
-      ...sanitizedContent,
-      _metadata: {
-        lastUpdated: new Date().toISOString(),
-        updatedBy: 'admin',
-        version: Date.now()
-      }
-    };
-    
-    // Save content to file
-    await fs.writeFile(CONTENT_FILE, JSON.stringify(contentWithMetadata, null, 2));
+    if (!result.success) {
+      return new Response(JSON.stringify({ 
+        error: 'Failed to save content',
+        details: result.errors
+      }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
     
     return new Response(JSON.stringify({ 
       success: true, 
       message: 'Content saved successfully',
-      timestamp: contentWithMetadata._metadata.lastUpdated
+      timestamp: new Date().toISOString()
     }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' }

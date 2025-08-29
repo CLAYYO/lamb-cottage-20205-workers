@@ -10,9 +10,29 @@ export default defineConfig({
   adapter: cloudflare({
     platformProxy: {
       enabled: true
-    }
+    },
+    imageService: 'compile'
   }),
   server: {
     port: 4321
+  },
+  vite: {
+    ssr: {
+      external: [
+        'fs',
+        'fs/promises', 
+        'path',
+        'crypto',
+        'os',
+        'util',
+        'stream',
+        'buffer',
+        'url',
+        'querystring'
+      ]
+    },
+    define: {
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production')
+    }
   }
 });
