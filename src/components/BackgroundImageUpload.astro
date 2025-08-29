@@ -133,16 +133,17 @@ const uploadId = `${sectionId}-${fieldPath.replace(/\./g, '-')}`;
   }
 </style>
 
+<script src="/client-security.js"></script>
 <script>
   // Handle file upload
-  document.addEventListener('change', function(e) {
+  document.addEventListener('change', async function(e) {
     if (e.target && e.target.type === 'file') {
       const fileInput = e.target;
       const file = fileInput.files[0];
       
       if (file) {
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('file', file);
         
         // Show loading state
         const uploadBtn = fileInput.parentElement.querySelector('.upload-btn');
@@ -150,16 +151,24 @@ const uploadId = `${sectionId}-${fieldPath.replace(/\./g, '-')}`;
         uploadBtn.textContent = 'Uploading...';
         uploadBtn.disabled = true;
         
-        // Upload the image
-        fetch('/api/upload-image', {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest'
-          }
-        })
-        .then(response => response.json())
-        .then(data => {
+        try {
+          // Get CSRF tokens
+          const csrfManager = new CSRFManager();
+          const tokens = await csrfManager.getCSRFTokens();
+          
+          // Upload the image
+          const response = await fetch('/api/images/upload', {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest',
+              'X-CSRF-Token': tokens.token,
+              'X-Session-ID': tokens.sessionId
+            }
+          });
+          
+          const data = await response.json();
+          
           if (data.success) {
             // Update the preview and hidden input
             const container = fileInput.closest('.background-image-upload');
@@ -191,7 +200,7 @@ const uploadId = `${sectionId}-${fieldPath.replace(/\./g, '-')}`;
               removeBtn.onclick = function() {
                 const sectionId = hiddenInput.name.split('.')[0];
                 const fieldPath = hiddenInput.name.split('.').slice(1).join('.');
-                removeBackgroundImage(sectionId, fieldPath);
+                window.removeBackgroundImage(sectionId, fieldPath);
               };
               container.querySelector('.upload-controls').appendChild(removeBtn);
             }
@@ -200,15 +209,13 @@ const uploadId = `${sectionId}-${fieldPath.replace(/\./g, '-')}`;
           } else {
             alert('Upload failed: ' + (data.error || 'Unknown error'));
           }
-        })
-        .catch(error => {
+        } catch (error) {
           console.error('Upload error:', error);
           alert('Upload failed: ' + error.message);
-        })
-        .finally(() => {
+        } finally {
           uploadBtn.textContent = originalText;
           uploadBtn.disabled = false;
-        });
+        }
       }
     }
   });
