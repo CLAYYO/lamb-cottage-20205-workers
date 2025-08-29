@@ -1,33 +1,39 @@
-import type { APIRoute } from 'astro';
-import { promises as fs } from 'fs';
-import path from 'path';
+import type { APIRoute, APIContext } from 'astro';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+// Default values for environment variables
+const DEFAULT_JWT_SECRET = 'your-secret-key-change-in-production';
+
+// Get environment variables from Cloudflare context or fallback to process.env
+function getEnvVar(context: APIContext | undefined, key: string, defaultValue: string): string {
+  // Try Cloudflare runtime environment first (different access pattern)
+  if (context?.locals && 'runtime' in context.locals) {
+    const runtime = context.locals.runtime as any;
+    if (runtime?.env?.[key]) {
+      return runtime.env[key];
+    }
+  }
+  // Fallback to process.env for local development
+  return process.env[key] || defaultValue;
+}
 
 // Rate limiting store (in production, use Redis or similar)
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
 
-// CSRF token storage - persistent file-based storage
-const CSRF_STORAGE_PATH = path.join(process.cwd(), 'content', 'csrf-tokens.json');
+// CSRF token storage - in-memory for Cloudflare compatibility
+const csrfTokenStore = new Map<string, { token: string; expires: number }>();
 
-// Load CSRF tokens from file
+// Load CSRF tokens from memory store
 async function loadCSRFTokens(): Promise<Map<string, { token: string; expires: number }>> {
-  try {
-    const data = await fs.readFile(CSRF_STORAGE_PATH, 'utf-8');
-    const tokens = JSON.parse(data);
-    return new Map(Object.entries(tokens));
-  } catch {
-    return new Map();
-  }
+  return csrfTokenStore;
 }
 
-// Save CSRF tokens to file
+// Save CSRF tokens to memory store
 async function saveCSRFTokens(tokens: Map<string, { token: string; expires: number }>): Promise<void> {
-  try {
-    const tokensObj = Object.fromEntries(tokens);
-    await fs.writeFile(CSRF_STORAGE_PATH, JSON.stringify(tokensObj, null, 2));
-  } catch (error) {
-    console.error('Failed to save CSRF tokens:', error);
+  // Clear existing tokens
+  csrfTokenStore.clear();
+  // Copy new tokens
+  for (const [key, value] of tokens) {
+    csrfTokenStore.set(key, value);
   }
 }
 

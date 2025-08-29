@@ -20,7 +20,7 @@ const loginHandler: APIRoute = async ({ request, cookies }) => {
       });
     }
 
-    const user = await authenticateUser(username, password);
+    const user = await authenticateUser(username, password, { request, cookies } as any);
     
     if (!user) {
       return new Response(JSON.stringify({

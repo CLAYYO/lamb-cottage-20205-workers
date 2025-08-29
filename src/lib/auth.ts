@@ -1,7 +1,20 @@
 import type { APIContext } from 'astro';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
-const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH || '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'; // password
+// Get environment variables from Cloudflare context or fallback to process.env
+function getEnvVar(context: APIContext | undefined, key: string, defaultValue: string): string {
+  // Try Cloudflare runtime environment first (different access pattern)
+  if (context?.locals && 'runtime' in context.locals) {
+    const runtime = context.locals.runtime as any;
+    if (runtime?.env?.[key]) {
+      return runtime.env[key];
+    }
+  }
+  // Fallback to process.env for local development
+  return process.env[key] || defaultValue;
+}
+
+const DEFAULT_JWT_SECRET = 'your-secret-key-change-in-production';
+const DEFAULT_ADMIN_PASSWORD_HASH = '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'; // password
 
 // Web Crypto API compatible base64url encoding/decoding
 function base64urlEscape(str: string): string {
@@ -53,7 +66,9 @@ const ADMIN_USER: User = {
 };
 
 // Generate simple JWT-like token (Web Crypto API compatible)
-export async function generateToken(user: User): Promise<string> {
+export async function generateToken(user: User, context?: APIContext): Promise<string> {
+  const JWT_SECRET = getEnvVar(context, 'JWT_SECRET', DEFAULT_JWT_SECRET);
+  
   const header = { alg: 'HS256', typ: 'JWT' };
   const payload = {
     user,
@@ -83,8 +98,10 @@ export async function generateToken(user: User): Promise<string> {
 }
 
 // Verify JWT-like token
-export async function verifyToken(token: string): Promise<AuthToken | null> {
+export async function verifyToken(token: string, context?: APIContext): Promise<AuthToken | null> {
   try {
+    const JWT_SECRET = getEnvVar(context, 'JWT_SECRET', DEFAULT_JWT_SECRET);
+    
     const parts = token.split('.');
     if (parts.length !== 3) return null;
     
@@ -121,8 +138,10 @@ export async function verifyToken(token: string): Promise<AuthToken | null> {
 }
 
 // Verify password using Web Crypto API compatible method
-export async function verifyPassword(password: string): Promise<boolean> {
+export async function verifyPassword(password: string, context?: APIContext): Promise<boolean> {
   try {
+    const ADMIN_PASSWORD_HASH = getEnvVar(context, 'ADMIN_PASSWORD_HASH', DEFAULT_ADMIN_PASSWORD_HASH);
+    
     // For bcrypt hashes, we need to use a bcrypt-compatible verification
     // Since we can't use bcryptjs in Cloudflare Pages, we'll implement a simple verification
     // that works with the known admin password for now
@@ -172,9 +191,9 @@ async function hashPassword(password: string): Promise<string> {
 }
 
 // Authenticate user
-export async function authenticateUser(username: string, password: string): Promise<User | null> {
+export async function authenticateUser(username: string, password: string, context?: APIContext): Promise<User | null> {
   if (username === 'admin') {
-    const isValid = await verifyPassword(password);
+    const isValid = await verifyPassword(password, context);
     
     if (isValid) {
       return ADMIN_USER;
@@ -191,7 +210,7 @@ export async function getUserFromRequest(context: APIContext): Promise<User | nu
   
   if (!token) return null;
   
-  const authToken = await verifyToken(token);
+  const authToken = await verifyToken(token, context);
   return authToken?.user || null;
 }
 
@@ -209,10 +228,11 @@ export async function isAdmin(context: APIContext): Promise<boolean> {
 
 // Set auth cookie
 export async function setAuthCookie(context: APIContext, user: User): Promise<void> {
-  const token = await generateToken(user);
+  const token = await generateToken(user, context);
+  const NODE_ENV = getEnvVar(context, 'NODE_ENV', 'development');
   context.cookies.set('auth-token', token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: NODE_ENV === 'production',
     sameSite: 'lax',
     maxAge: 60 * 60 * 24, // 24 hours
     path: '/'
