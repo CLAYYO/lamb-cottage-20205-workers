@@ -54,15 +54,39 @@ This application uses server-side functionality including:
 
 Therefore, `output: 'server'` with the Cloudflare adapter is necessary.
 
+## Recreating Cloudflare Pages Project (Recommended)
+
+If Cloudflare keeps defaulting to "No Framework" instead of detecting Astro:
+
+### Step 1: Create New Cloudflare Pages Project
+1. Go to Cloudflare Dashboard → Pages
+2. Click "Create application"
+3. Choose "Connect to Git"
+4. Select your repository: `lambcottage2025`
+5. **IMPORTANT**: In "Set up builds and deployments":
+   - **Framework preset**: Select **"Astro"** from dropdown
+   - **Build command**: `npm run build` (auto-filled)
+   - **Build output directory**: `dist` (auto-filled)
+   - **Root directory**: (leave empty)
+
+### Step 2: Configure Environment Variables
+After project creation, go to Settings → Environment variables:
+- Add `NODE_VERSION` = `20`
+
+### Step 3: Deploy
+- The first deployment should start automatically
+- Monitor build logs for any issues
+
 ## Troubleshooting
 
-If deployment fails:
+If deployment still fails:
 
 1. **Check build logs** for specific error messages
 2. **Verify Node version** - ensure NODE_VERSION=20 is set
-3. **Check framework detection** - ensure "Astro" is selected as framework
+3. **Confirm framework preset** - should show "Astro" in project settings
 4. **Verify build command** - should be exactly `npm run build`
 5. **Check output directory** - should be `dist`
+6. **Delete old project** - Remove the old Cloudflare Pages project to avoid conflicts
 
 ## Post-Deployment Verification
 
