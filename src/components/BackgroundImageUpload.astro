@@ -133,7 +133,7 @@ const uploadId = `${sectionId}-${fieldPath.replace(/\./g, '-')}`;
   }
 </style>
 
-<script src="/client-security.js"></script>
+<script src="/client-security.js" is:inline></script>
 <script is:inline>
   // Handle file upload
   document.addEventListener('change', async function(e) {
