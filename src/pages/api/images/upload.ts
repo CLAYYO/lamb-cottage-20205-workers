@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { secureAPIRoute, sanitize, validateFileUpload } from '../../../lib/security';
-import fs from 'fs/promises';
-import path from 'path';
+import { promises as fs } from 'fs';
+import * as path from 'path';
 import { createHash } from 'crypto';
 
 const UPLOAD_DIR = path.join(process.cwd(), 'public', 'images', 'uploads');

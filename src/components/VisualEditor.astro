@@ -3,7 +3,7 @@
 const { type, sectionId, fieldPath, content, placeholder, className, min, max, step } = Astro.props;
 
 // Generate unique ID for this editor instance
-const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.random().toString(36).substr(2, 9)}`;
+const editorId = `editor-${sectionId}-${fieldPath ? fieldPath.replace(/\./g, '-') : 'field'}-${Math.random().toString(36).substr(2, 9)}`;
 ---
 
 {type === 'image' && (
@@ -93,15 +93,8 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
   />
 )}
 
-<script>
-  // Extend window interface for TypeScript
-  declare global {
-    interface Window {
-      securityManager: any;
-      VisualEditor: typeof VisualEditor;
-      visualEditor: VisualEditor;
-    }
-  }
+<script is:inline>
+  // VisualEditor functionality for admin interface
   
   // Function to get SecurityManager instance (should be available globally)
   function getSecurityManager() {
@@ -132,13 +125,13 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
           dataSection: element.getAttribute('data-section'),
           dataField: element.getAttribute('data-field')
         });
-        this.addEditButton(element as HTMLElement);
+        this.addEditButton(element);
       });
       
       console.log('VisualEditor initialization complete');
     }
 
-    addEditButton(element: HTMLElement) {
+    addEditButton(element) {
       // Check if button already exists
       if (element.querySelector('.edit-btn')) {
         console.log('Edit button already exists for element:', element.id);
@@ -163,7 +156,7 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
       console.log('Edit button added to element:', element.id, 'Button visible:', editBtn.offsetWidth > 0);
     }
 
-    startEdit(editorId: string) {
+    startEdit(editorId) {
       const editor = document.getElementById(editorId);
       if (!editor) return;
 
@@ -176,7 +169,7 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
       }
     }
 
-    editText(editorId: string) {
+    editText(editorId) {
       const editor = document.getElementById(editorId);
       if (!editor) return;
 
@@ -213,7 +206,7 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
       textarea.focus();
     }
 
-    editImage(editorId: string) {
+    editImage(editorId) {
       const editor = document.getElementById(editorId);
       if (!editor) return;
 
@@ -250,7 +243,7 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
       editor.appendChild(overlay);
     }
 
-    async saveContent(editorId: string) {
+    async saveContent(editorId) {
       if (!editorId) return;
       const editor = document.getElementById(editorId);
       if (!editor) return;
@@ -267,7 +260,7 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
       // Handle different editor types
       if (editor.tagName === 'IMG') {
         // For images, save the src attribute
-        content = (editor as HTMLImageElement).src || '';
+        content = editor.src || '';
       } else if (editor.classList.contains('image-placeholder')) {
         // For image placeholders, save empty string (no image uploaded yet)
         content = '';
@@ -309,7 +302,7 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
         
         // Update the display if it's an image
         if (editor.tagName === 'IMG') {
-          (editor as HTMLImageElement).src = content;
+          editor.src = content;
         }
         
       } catch (error) {
@@ -319,7 +312,7 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
       }
     }
 
-    cancelEdit(editorId: string) {
+    cancelEdit(editorId) {
       if (!editorId) return;
       const editor = document.getElementById(editorId);
       if (!editor) return;
@@ -331,7 +324,7 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
       }
     }
 
-    cancelImageEdit(editorId: string) {
+    cancelImageEdit(editorId) {
       if (!editorId) return;
       const editor = document.getElementById(editorId);
       if (!editor) return;
@@ -342,18 +335,18 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
       }
     }
 
-    changeImage(editorId: string) {
+    changeImage(editorId) {
       if (!editorId) return;
       
       // Store the editor ID for later use
-      (window as any).currentEditingImageId = editorId;
+      window.currentEditingImageId = editorId;
       
       // Open image manager in a new window/tab
         const imageManagerUrl = `/admin/images?editorId=${editorId}`;
         const imageManagerWindow = window.open(imageManagerUrl, 'imageManager', 'width=1200,height=800,scrollbars=yes,resizable=yes');
         
         // Store the editor ID globally for fallback
-        (window as any).currentEditingImageId = editorId;
+        window.currentEditingImageId = editorId;
       
       if (!imageManagerWindow) {
         // Fallback: redirect to image manager
@@ -365,7 +358,7 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
       const self = this;
       
       // Listen for image selection from the image manager
-      const messageHandler = (event: MessageEvent) => {
+      const messageHandler = (event) => {
         if (event.origin !== window.location.origin) return;
         
         if (event.data && event.data.type === 'imageSelected' && event.data.editorId === editorId) {
@@ -376,7 +369,7 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
           if (editor) {
             let newEditor = editor;
             if (editor.tagName === 'IMG') {
-              (editor as HTMLImageElement).src = imageUrl;
+              editor.src = imageUrl;
             } else if (editor.classList.contains('image-placeholder')) {
               // Replace placeholder with actual image
               const img = document.createElement('img');
@@ -388,7 +381,9 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
               img.setAttribute('data-section', editor.dataset.section || '');
               img.setAttribute('data-field', editor.dataset.field || '');
               img.style.cssText = 'max-width: 100%; height: auto; min-height: 200px; border: 2px dashed #d1d5db; border-radius: 8px; cursor: pointer;';
-              editor.parentNode?.replaceChild(img, editor);
+              if (editor.parentNode) {
+                editor.parentNode.replaceChild(img, editor);
+              }
               self.addEditButton(img);
               newEditor = img;
             }
@@ -409,10 +404,9 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
         
         // Add the event listener
         window.addEventListener('message', messageHandler);
-      }
     }
 
-    async saveImageContent(editorId: string, imageUrl: string) {
+    async saveImageContent(editorId, imageUrl) {
       if (!editorId) return;
       const editor = document.getElementById(editorId);
       if (!editor) return;
@@ -454,19 +448,19 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
       }
     }
 
-    deleteImage(editorId: string) {
+    deleteImage(editorId) {
       if (!editorId) return;
       if (confirm('Are you sure you want to delete this image?')) {
         const editor = document.getElementById(editorId);
         if (editor && editor.tagName === 'IMG') {
-          (editor as HTMLImageElement).src = '';
+          editor.src = '';
           this.saveImageContent(editorId, '');
           this.cancelImageEdit(editorId);
         }
       }
     }
     
-    showMessage(message: string, type: string) {
+    showMessage(message, type) {
       const notification = document.createElement('div');
       notification.className = `fixed top-4 right-4 px-4 py-2 rounded-md text-white z-50 ${
         type === 'success' ? 'bg-green-500' : 'bg-red-500'
@@ -480,22 +474,59 @@ const editorId = `editor-${sectionId}-${fieldPath?.replace(/\./g, '-')}-${Math.r
       }, 3000);
     }
     
-    showError(message: string) {
+    showError(message) {
       this.showMessage(message, 'error');
     }
   }
   
   // Expose VisualEditor class globally for testing and external access
-  (window as any).VisualEditor = VisualEditor;
+  window.VisualEditor = VisualEditor;
   
-  // Initialize when DOM is loaded and store instance globally
+  // Initialize with proper timing to ensure all elements are loaded
+  function initializeVisualEditor() {
+    // Only initialize in preview mode, not in admin mode
+    const isAdminPage = window.location.pathname.startsWith('/admin');
+    const isPreviewMode = window.location.search.includes('preview=true');
+    
+    console.log('VisualEditor initialization check:', {
+      isAdminPage,
+      isPreviewMode,
+      pathname: window.location.pathname,
+      search: window.location.search
+    });
+    
+    if (isAdminPage && !isPreviewMode) {
+      console.log('Skipping VisualEditor initialization - in admin mode');
+      return;
+    }
+    
+    if (isPreviewMode || (!isAdminPage)) {
+      console.log('Initializing VisualEditor for preview/frontend mode...');
+      window.visualEditor = new VisualEditor();
+    }
+  }
+  
+  // Use multiple strategies to ensure proper initialization
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-      (window as any).visualEditor = new VisualEditor();
+      // Add a small delay to ensure all elements are rendered
+      setTimeout(initializeVisualEditor, 100);
     });
+  } else if (document.readyState === 'interactive') {
+    // DOM is loaded but resources might still be loading
+    setTimeout(initializeVisualEditor, 100);
   } else {
-    (window as any).visualEditor = new VisualEditor();
+    // Document is fully loaded
+    initializeVisualEditor();
   }
+  
+  // Also initialize on window load as a fallback
+  window.addEventListener('load', () => {
+    if (!window.visualEditor) {
+      console.log('Fallback initialization of VisualEditor');
+      initializeVisualEditor();
+    }
+  });
 </script>
 
 <style>
