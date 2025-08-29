@@ -1,7 +1,7 @@
 import type { APIContext } from 'astro';
 
 // Get environment variables from Cloudflare context or fallback to process.env
-function getEnvVar(context: APIContext | undefined, key: string, defaultValue: string): string {
+function getEnvVar(context: APIContext | undefined, key: string): string {
   // Try Cloudflare runtime environment first (different access pattern)
   if (context?.locals && 'runtime' in context.locals) {
     const runtime = context.locals.runtime as any;
@@ -9,12 +9,31 @@ function getEnvVar(context: APIContext | undefined, key: string, defaultValue: s
       return runtime.env[key];
     }
   }
+  
+  // For Vite/Astro, try import.meta.env first
+  try {
+    // @ts-ignore - import.meta.env access in Astro/Vite
+    if (import.meta?.env?.[key]) {
+      return import.meta.env[key];
+    }
+  } catch (e) {
+    // import.meta not available, continue to process.env
+  }
+  
   // Fallback to process.env for local development
   const envValue = process.env[key];
   if (envValue && envValue.trim() !== '') {
     return envValue;
   }
-  return defaultValue;
+  
+  // Default values for development
+  const defaults: Record<string, string> = {
+    JWT_SECRET: DEFAULT_JWT_SECRET,
+    ADMIN_PASSWORD_HASH: DEFAULT_ADMIN_PASSWORD_HASH,
+    NODE_ENV: 'development'
+  };
+  
+  return defaults[key] || '';
 }
 
 const DEFAULT_JWT_SECRET = 'your-secret-key-change-in-production';
@@ -71,7 +90,7 @@ const ADMIN_USER: User = {
 
 // Generate simple JWT-like token (Web Crypto API compatible)
 export async function generateToken(user: User, context?: APIContext): Promise<string> {
-  const JWT_SECRET = getEnvVar(context, 'JWT_SECRET', DEFAULT_JWT_SECRET);
+  const JWT_SECRET = getEnvVar(context, 'JWT_SECRET');
   
   const header = { alg: 'HS256', typ: 'JWT' };
   const payload = {
@@ -98,19 +117,23 @@ export async function generateToken(user: User, context?: APIContext): Promise<s
   const signature = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(data));
   const encodedSignature = base64urlEncode(signature);
   
-  return `${data}.${encodedSignature}`;
+  const token = `${data}.${encodedSignature}`;
+  return token;
 }
 
 // Verify JWT-like token
 export async function verifyToken(token: string, context?: APIContext): Promise<AuthToken | null> {
   try {
-    const JWT_SECRET = getEnvVar(context, 'JWT_SECRET', DEFAULT_JWT_SECRET);
+    const JWT_SECRET = getEnvVar(context, 'JWT_SECRET');
     
     const parts = token.split('.');
     if (parts.length !== 3) return null;
     
     const [encodedHeader, encodedPayload, encodedSignature] = parts;
     const data = `${encodedHeader}.${encodedPayload}`;
+    
+    // Decode and check header
+    const headerObj = JSON.parse(new TextDecoder().decode(base64urlDecode(encodedHeader)));
     
     // Verify signature
     const key = await crypto.subtle.importKey(
@@ -144,14 +167,14 @@ export async function verifyToken(token: string, context?: APIContext): Promise<
 // Verify password using Web Crypto API compatible method
 export async function verifyPassword(password: string, context?: APIContext): Promise<boolean> {
   try {
-    const ADMIN_PASSWORD_HASH = getEnvVar(context, 'ADMIN_PASSWORD_HASH', DEFAULT_ADMIN_PASSWORD_HASH);
+    const ADMIN_PASSWORD_HASH = getEnvVar(context, 'ADMIN_PASSWORD_HASH');
     
     // For bcrypt hashes, we need to use a bcrypt-compatible verification
     // Since we can't use bcryptjs in Cloudflare Pages, we'll implement a simple verification
     // that works with the known admin password for now
     
     // If we have a bcrypt hash from environment, try to verify it
-    if (ADMIN_PASSWORD_HASH && ADMIN_PASSWORD_HASH.startsWith('$2a$') || ADMIN_PASSWORD_HASH.startsWith('$2b$')) {
+    if (ADMIN_PASSWORD_HASH && (ADMIN_PASSWORD_HASH.startsWith('$2a$') || ADMIN_PASSWORD_HASH.startsWith('$2b$'))) {
       // This is a bcrypt hash - for now, we'll use a fallback verification
       // In production, you should pre-generate the hash and store it
       return await verifyBcryptHash(password, ADMIN_PASSWORD_HASH);
@@ -161,7 +184,7 @@ export async function verifyPassword(password: string, context?: APIContext): Pr
       return hashedPassword === ADMIN_PASSWORD_HASH;
     }
   } catch (error: unknown) {
-    console.error('Password verification error:', error instanceof Error ? error.message : String(error));
+    console.error('🔐 Password verification error:', error instanceof Error ? error.message : String(error));
     return false;
   }
 }
@@ -170,18 +193,13 @@ export async function verifyPassword(password: string, context?: APIContext): Pr
 async function verifyBcryptHash(password: string, hash: string): Promise<boolean> {
   // For the known admin password hash, we'll do a direct comparison
   // This is a temporary solution until we can implement proper bcrypt verification
-  const knownHashes = {
-    'admin': '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-    'password': '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'
-  };
+  const knownHash = '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'; // bcrypt hash for 'password'
   
-  // Check if this matches our known password
-  if (hash === knownHashes['password'] && password === 'password') {
+  // Check if this matches our known password and hash
+  if (hash === knownHash && password === 'password') {
     return true;
   }
   
-  // For other cases, we'll need to implement proper bcrypt verification
-  // For now, return false for unknown hashes
   return false;
 }
 
@@ -198,7 +216,6 @@ async function hashPassword(password: string): Promise<string> {
 export async function authenticateUser(username: string, password: string, context?: APIContext): Promise<User | null> {
   if (username === 'admin') {
     const isValid = await verifyPassword(password, context);
-    
     if (isValid) {
       return ADMIN_USER;
     }
@@ -233,7 +250,7 @@ export async function isAdmin(context: APIContext): Promise<boolean> {
 // Set auth cookie
 export async function setAuthCookie(context: APIContext, user: User): Promise<void> {
   const token = await generateToken(user, context);
-  const NODE_ENV = getEnvVar(context, 'NODE_ENV', 'development');
+  const NODE_ENV = getEnvVar(context, 'NODE_ENV');
   context.cookies.set('auth-token', token, {
     httpOnly: true,
     secure: NODE_ENV === 'production',
