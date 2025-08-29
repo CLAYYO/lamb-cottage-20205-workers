@@ -134,26 +134,29 @@ const uploadId = `${sectionId}-${fieldPath.replace(/\./g, '-')}`;
 </style>
 
 <script src="/client-security.js"></script>
-<script>
+<script is:inline>
   // Handle file upload
   document.addEventListener('change', async function(e) {
-    if (e.target && e.target.type === 'file') {
-      const fileInput = e.target;
-      const file = fileInput.files[0];
+    const target = e.target;
+    if (target && target instanceof HTMLInputElement && target.type === 'file') {
+      const fileInput = target;
+      const file = fileInput.files && fileInput.files[0];
       
       if (file) {
         const formData = new FormData();
         formData.append('file', file);
         
         // Show loading state
-        const uploadBtn = fileInput.parentElement.querySelector('.upload-btn');
-        const originalText = uploadBtn.textContent;
+        const uploadBtn = fileInput.parentElement && fileInput.parentElement.querySelector('.upload-btn');
+        if (!uploadBtn) return;
+        
+        const originalText = uploadBtn.textContent || '';
         uploadBtn.textContent = 'Uploading...';
         uploadBtn.disabled = true;
         
         try {
           // Get CSRF tokens
-          const csrfManager = new CSRFManager();
+          const csrfManager = new window.CSRFManager();
           const tokens = await csrfManager.getCSRFTokens();
           
           // Upload the image
@@ -172,37 +175,44 @@ const uploadId = `${sectionId}-${fieldPath.replace(/\./g, '-')}`;
           if (data.success) {
             // Update the preview and hidden input
             const container = fileInput.closest('.background-image-upload');
+            if (!container) return;
+            
             const preview = container.querySelector('.current-image-preview');
             const hiddenInput = container.querySelector('input[type="hidden"]');
             
-            // Update preview
-            preview.innerHTML = `
-              <img 
-                src="${data.url}" 
-                alt="Current background image" 
-                class="preview-image"
-                style="max-width: 300px; max-height: 200px; object-fit: cover; border-radius: 8px;"
-              />
-            `;
-            
-            // Update hidden input
-            hiddenInput.value = data.url;
-            
-            // Update button text
-            uploadBtn.textContent = 'Change Image';
-            
-            // Add remove button if not exists
-            if (!container.querySelector('.remove-btn')) {
-              const removeBtn = document.createElement('button');
-              removeBtn.type = 'button';
-              removeBtn.className = 'remove-btn';
-              removeBtn.textContent = 'Remove';
-              removeBtn.onclick = function() {
-                const sectionId = hiddenInput.name.split('.')[0];
-                const fieldPath = hiddenInput.name.split('.').slice(1).join('.');
-                window.removeBackgroundImage(sectionId, fieldPath);
-              };
-              container.querySelector('.upload-controls').appendChild(removeBtn);
+            if (preview && hiddenInput) {
+              // Update preview
+              preview.innerHTML = `
+                <img 
+                  src="${data.url}" 
+                  alt="Current background image" 
+                  class="preview-image"
+                  style="max-width: 300px; max-height: 200px; object-fit: cover; border-radius: 8px;"
+                />
+              `;
+              
+              // Update hidden input
+              hiddenInput.value = data.url;
+              
+              // Update button text
+              uploadBtn.textContent = 'Change Image';
+              
+              // Add remove button if not exists
+              if (!container.querySelector('.remove-btn')) {
+                const removeBtn = document.createElement('button');
+                removeBtn.type = 'button';
+                removeBtn.className = 'remove-btn';
+                removeBtn.textContent = 'Remove';
+                removeBtn.onclick = function() {
+                  const sectionId = hiddenInput.name.split('.')[0];
+                  const fieldPath = hiddenInput.name.split('.').slice(1).join('.');
+                  window.removeBackgroundImage(sectionId, fieldPath);
+                };
+                const uploadControls = container.querySelector('.upload-controls');
+                if (uploadControls) {
+                  uploadControls.appendChild(removeBtn);
+                }
+              }
             }
             
             console.log('Image uploaded successfully:', data.url);
@@ -211,7 +221,7 @@ const uploadId = `${sectionId}-${fieldPath.replace(/\./g, '-')}`;
           }
         } catch (error) {
           console.error('Upload error:', error);
-          alert('Upload failed: ' + error.message);
+          alert('Upload failed: ' + (error && error.message ? error.message : 'Unknown error'));
         } finally {
           uploadBtn.textContent = originalText;
           uploadBtn.disabled = false;
@@ -223,28 +233,34 @@ const uploadId = `${sectionId}-${fieldPath.replace(/\./g, '-')}`;
   // Remove image function
   window.removeBackgroundImage = function(sectionId, fieldPath) {
     const hiddenInput = document.querySelector(`input[name="${sectionId}.${fieldPath}"]`);
+    if (!hiddenInput) return;
+    
     const container = hiddenInput.closest('.background-image-upload');
-    const preview = container.querySelector('.current-image-preview');
-    const uploadBtn = container.querySelector('.upload-btn');
-    const removeBtn = container.querySelector('.remove-btn');
+    const preview = container && container.querySelector('.current-image-preview');
+    const uploadBtn = container && container.querySelector('.upload-btn');
+    const removeBtn = container && container.querySelector('.remove-btn');
     
     // Clear the value
     hiddenInput.value = '';
     
     // Update preview to placeholder
-    preview.innerHTML = `
-      <div class="no-image-placeholder">
-        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-          <circle cx="8.5" cy="8.5" r="1.5"></circle>
-          <polyline points="21,15 16,10 5,21"></polyline>
-        </svg>
-        <p>No image selected</p>
-      </div>
-    `;
+    if (preview) {
+      preview.innerHTML = `
+        <div class="no-image-placeholder">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21,15 16,10 5,21"></polyline>
+          </svg>
+          <p>No image selected</p>
+        </div>
+      `;
+    }
     
     // Update button text
-    uploadBtn.textContent = 'Upload Image';
+    if (uploadBtn) {
+      uploadBtn.textContent = 'Upload Image';
+    }
     
     // Remove the remove button
     if (removeBtn) {
