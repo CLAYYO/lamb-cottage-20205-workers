@@ -43,6 +43,7 @@ const content = await getContent();
           <button class="section-btn" data-section="reviews">Customer Reviews</button>
           <button class="section-btn" data-section="booking">Booking Banner</button>
           <button class="section-btn" data-section="contact">Contact Form</button>
+          <button class="section-btn" data-section="pages">Page Heroes</button>
           <button class="section-btn" data-section="footer">Footer</button>
         </nav>
       </div>
@@ -621,7 +622,447 @@ const content = await getContent();
           </div>
         </div>
         
-        <!-- Footer Section Editor -->
+        <!-- Page Heroes Section Editor -->
+        <div class="section-editor" id="pages-editor">
+          <div class="section-header">
+            <h2 class="section-title">Page Hero Sections</h2>
+            <p class="section-description">Edit hero background images and content for all pages</p>
+          </div>
+          
+          <!-- About Page Hero -->
+          <div class="page-hero-group">
+            <h3 class="page-hero-title">About Page</h3>
+            <div class="form-group">
+              <label class="form-label">Hero Title</label>
+              <VisualEditor 
+                type="text" 
+                sectionId="pages" 
+                fieldPath="about.hero.title" 
+                content={content.pages?.about?.hero?.title || ''} 
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Hero Subtitle</label>
+              <VisualEditor 
+                type="textarea" 
+                sectionId="pages" 
+                fieldPath="about.hero.subtitle" 
+                content={content.pages?.about?.hero?.subtitle || ''} 
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Background Image</label>
+              <BackgroundImageUpload 
+                sectionId="pages" 
+                fieldPath="about.hero.backgroundImage.src" 
+                content={content.pages?.about?.hero?.backgroundImage?.src || ''} 
+                className="image-preview"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Background Opacity</label>
+              <div class="opacity-control">
+                <VisualEditor 
+                  sectionId="pages" 
+                  fieldPath="about.hero.backgroundImage.opacity" 
+                  content={content.pages?.about?.hero?.backgroundImage?.opacity || 0.4} 
+                  type="range" 
+                  className="opacity-slider"
+                  min="0" 
+                  max="1" 
+                  step="0.1"
+                />
+                <span class="opacity-value">{Math.round((content.pages?.about?.hero?.backgroundImage?.opacity || 0.4) * 100)}%</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Contact Page Hero -->
+          <div class="page-hero-group">
+            <h3 class="page-hero-title">Contact Page</h3>
+            <div class="form-group">
+              <label class="form-label">Hero Title</label>
+              <VisualEditor 
+                type="text" 
+                sectionId="pages" 
+                fieldPath="contact.hero.title" 
+                content={content.pages?.contact?.hero?.title || ''} 
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Hero Subtitle</label>
+              <VisualEditor 
+                type="textarea" 
+                sectionId="pages" 
+                fieldPath="contact.hero.subtitle" 
+                content={content.pages?.contact?.hero?.subtitle || ''} 
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Background Image</label>
+              <BackgroundImageUpload 
+                sectionId="pages" 
+                fieldPath="contact.hero.backgroundImage.src" 
+                content={content.pages?.contact?.hero?.backgroundImage?.src || ''} 
+                className="image-preview"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Background Opacity</label>
+              <div class="opacity-control">
+                <VisualEditor 
+                  sectionId="pages" 
+                  fieldPath="contact.hero.backgroundImage.opacity" 
+                  content={content.pages?.contact?.hero?.backgroundImage?.opacity || 0.4} 
+                  type="range" 
+                  className="opacity-slider"
+                  min="0" 
+                  max="1" 
+                  step="0.1"
+                />
+                <span class="opacity-value">{Math.round((content.pages?.contact?.hero?.backgroundImage?.opacity || 0.4) * 100)}%</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Facilities Page Hero -->
+          <div class="page-hero-group">
+            <h3 class="page-hero-title">Facilities Page</h3>
+            <div class="form-group">
+              <label class="form-label">Hero Title</label>
+              <VisualEditor 
+                type="text" 
+                sectionId="pages" 
+                fieldPath="facilities.hero.title" 
+                content={content.pages?.facilities?.hero?.title || ''} 
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Hero Subtitle</label>
+              <VisualEditor 
+                type="textarea" 
+                sectionId="pages" 
+                fieldPath="facilities.hero.subtitle" 
+                content={content.pages?.facilities?.hero?.subtitle || ''} 
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Background Image</label>
+              <BackgroundImageUpload 
+                sectionId="pages" 
+                fieldPath="facilities.hero.backgroundImage.src" 
+                content={content.pages?.facilities?.hero?.backgroundImage?.src || ''} 
+                className="image-preview"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Background Opacity</label>
+              <div class="opacity-control">
+                <VisualEditor 
+                  sectionId="pages" 
+                  fieldPath="facilities.hero.backgroundImage.opacity" 
+                  content={content.pages?.facilities?.hero?.backgroundImage?.opacity || 0.4} 
+                  type="range" 
+                  className="opacity-slider"
+                  min="0" 
+                  max="1" 
+                  step="0.1"
+                />
+                <span class="opacity-value">{Math.round((content.pages?.facilities?.hero?.backgroundImage?.opacity || 0.4) * 100)}%</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Attractions Page Hero -->
+          <div class="page-hero-group">
+            <h3 class="page-hero-title">Attractions Page</h3>
+            <div class="form-group">
+              <label class="form-label">Hero Title</label>
+              <VisualEditor 
+                type="text" 
+                sectionId="pages" 
+                fieldPath="attractions.hero.title" 
+                content={content.pages?.attractions?.hero?.title || ''} 
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Hero Subtitle</label>
+              <VisualEditor 
+                type="textarea" 
+                sectionId="pages" 
+                fieldPath="attractions.hero.subtitle" 
+                content={content.pages?.attractions?.hero?.subtitle || ''} 
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Background Image</label>
+              <BackgroundImageUpload 
+                sectionId="pages" 
+                fieldPath="attractions.hero.backgroundImage.src" 
+                content={content.pages?.attractions?.hero?.backgroundImage?.src || ''} 
+                className="image-preview"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Background Opacity</label>
+              <div class="opacity-control">
+                <VisualEditor 
+                  sectionId="pages" 
+                  fieldPath="attractions.hero.backgroundImage.opacity" 
+                  content={content.pages?.attractions?.hero?.backgroundImage?.opacity || 0.4} 
+                  type="range" 
+                  className="opacity-slider"
+                  min="0" 
+                  max="1" 
+                  step="0.1"
+                />
+                <span class="opacity-value">{Math.round((content.pages?.attractions?.hero?.backgroundImage?.opacity || 0.4) * 100)}%</span>
+              </div>
+            </div>
+          </div>
+           
+           <!-- Directions Page Hero -->
+           <div class="page-hero-group">
+             <h3 class="page-hero-title">Directions Page</h3>
+             <div class="form-group">
+               <label class="form-label">Hero Title</label>
+               <VisualEditor 
+                 type="text" 
+                 sectionId="pages" 
+                 fieldPath="directions.hero.title" 
+                 content={content.pages?.directions?.hero?.title || ''} 
+               />
+             </div>
+             <div class="form-group">
+               <label class="form-label">Hero Subtitle</label>
+               <VisualEditor 
+                 type="textarea" 
+                 sectionId="pages" 
+                 fieldPath="directions.hero.subtitle" 
+                 content={content.pages?.directions?.hero?.subtitle || ''} 
+               />
+             </div>
+             <div class="form-group">
+               <label class="form-label">Background Image</label>
+               <BackgroundImageUpload 
+                 sectionId="pages" 
+                 fieldPath="directions.hero.backgroundImage.src" 
+                 content={content.pages?.directions?.hero?.backgroundImage?.src || ''} 
+                 className="image-preview"
+               />
+             </div>
+             <div class="form-group">
+               <label class="form-label">Background Opacity</label>
+               <div class="opacity-control">
+                 <VisualEditor 
+                   sectionId="pages" 
+                   fieldPath="directions.hero.backgroundImage.opacity" 
+                   content={content.pages?.directions?.hero?.backgroundImage?.opacity || 0.4} 
+                   type="range" 
+                   className="opacity-slider"
+                   min="0" 
+                   max="1" 
+                   step="0.1"
+                 />
+                 <span class="opacity-value">{Math.round((content.pages?.directions?.hero?.backgroundImage?.opacity || 0.4) * 100)}%</span>
+               </div>
+             </div>
+           </div>
+           
+           <!-- Gallery Page Hero -->
+           <div class="page-hero-group">
+             <h3 class="page-hero-title">Gallery Page</h3>
+             <div class="form-group">
+               <label class="form-label">Hero Title</label>
+               <VisualEditor 
+                 type="text" 
+                 sectionId="pages" 
+                 fieldPath="gallery.hero.title" 
+                 content={content.pages?.gallery?.hero?.title || ''} 
+               />
+             </div>
+             <div class="form-group">
+               <label class="form-label">Hero Subtitle</label>
+               <VisualEditor 
+                 type="textarea" 
+                 sectionId="pages" 
+                 fieldPath="gallery.hero.subtitle" 
+                 content={content.pages?.gallery?.hero?.subtitle || ''} 
+               />
+             </div>
+             <div class="form-group">
+               <label class="form-label">Background Image</label>
+               <BackgroundImageUpload 
+                 sectionId="pages" 
+                 fieldPath="gallery.hero.backgroundImage.src" 
+                 content={content.pages?.gallery?.hero?.backgroundImage?.src || ''} 
+                 className="image-preview"
+               />
+             </div>
+             <div class="form-group">
+               <label class="form-label">Background Opacity</label>
+               <div class="opacity-control">
+                 <VisualEditor 
+                   sectionId="pages" 
+                   fieldPath="gallery.hero.backgroundImage.opacity" 
+                   content={content.pages?.gallery?.hero?.backgroundImage?.opacity || 0.4} 
+                   type="range" 
+                   className="opacity-slider"
+                   min="0" 
+                   max="1" 
+                   step="0.1"
+                 />
+                 <span class="opacity-value">{Math.round((content.pages?.gallery?.hero?.backgroundImage?.opacity || 0.4) * 100)}%</span>
+               </div>
+             </div>
+           </div>
+           
+           <!-- Reviews Page Hero -->
+           <div class="page-hero-group">
+             <h3 class="page-hero-title">Reviews Page</h3>
+             <div class="form-group">
+               <label class="form-label">Hero Title</label>
+               <VisualEditor 
+                 type="text" 
+                 sectionId="pages" 
+                 fieldPath="reviews.hero.title" 
+                 content={content.pages?.reviews?.hero?.title || ''} 
+               />
+             </div>
+             <div class="form-group">
+               <label class="form-label">Hero Subtitle</label>
+               <VisualEditor 
+                 type="textarea" 
+                 sectionId="pages" 
+                 fieldPath="reviews.hero.subtitle" 
+                 content={content.pages?.reviews?.hero?.subtitle || ''} 
+               />
+             </div>
+             <div class="form-group">
+               <label class="form-label">Background Image</label>
+               <BackgroundImageUpload 
+                 sectionId="pages" 
+                 fieldPath="reviews.hero.backgroundImage.src" 
+                 content={content.pages?.reviews?.hero?.backgroundImage?.src || ''} 
+                 className="image-preview"
+               />
+             </div>
+             <div class="form-group">
+               <label class="form-label">Background Opacity</label>
+               <div class="opacity-control">
+                 <VisualEditor 
+                   sectionId="pages" 
+                   fieldPath="reviews.hero.backgroundImage.opacity" 
+                   content={content.pages?.reviews?.hero?.backgroundImage?.opacity || 0.4} 
+                   type="range" 
+                   className="opacity-slider"
+                   min="0" 
+                   max="1" 
+                   step="0.1"
+                 />
+                 <span class="opacity-value">{Math.round((content.pages?.reviews?.hero?.backgroundImage?.opacity || 0.4) * 100)}%</span>
+               </div>
+             </div>
+           </div>
+           
+           <!-- Static Caravans Page Hero -->
+           <div class="page-hero-group">
+             <h3 class="page-hero-title">Static Caravans Page</h3>
+             <div class="form-group">
+               <label class="form-label">Hero Title</label>
+               <VisualEditor 
+                 type="text" 
+                 sectionId="pages" 
+                 fieldPath="static-caravans.hero.title" 
+                 content={content.pages?.["static-caravans"]?.hero?.title || ''} 
+               />
+             </div>
+             <div class="form-group">
+               <label class="form-label">Hero Subtitle</label>
+               <VisualEditor 
+                 type="textarea" 
+                 sectionId="pages" 
+                 fieldPath="static-caravans.hero.subtitle" 
+                 content={content.pages?.["static-caravans"]?.hero?.subtitle || ''} 
+               />
+             </div>
+             <div class="form-group">
+               <label class="form-label">Background Image</label>
+               <BackgroundImageUpload 
+                 sectionId="pages" 
+                 fieldPath="static-caravans.hero.backgroundImage.src" 
+                 content={content.pages?.["static-caravans"]?.hero?.backgroundImage?.src || ''} 
+                 className="image-preview"
+               />
+             </div>
+             <div class="form-group">
+               <label class="form-label">Background Opacity</label>
+               <div class="opacity-control">
+                 <VisualEditor 
+                   sectionId="pages" 
+                   fieldPath="static-caravans.hero.backgroundImage.opacity" 
+                   content={content.pages?.["static-caravans"]?.hero?.backgroundImage?.opacity || 0.4} 
+                   type="range" 
+                   className="opacity-slider"
+                   min="0" 
+                   max="1" 
+                   step="0.1"
+                 />
+                 <span class="opacity-value">{Math.round((content.pages?.["static-caravans"]?.hero?.backgroundImage?.opacity || 0.4) * 100)}%</span>
+               </div>
+             </div>
+           </div>
+           
+           <!-- Tariff Page Hero -->
+           <div class="page-hero-group">
+             <h3 class="page-hero-title">Tariff Page</h3>
+             <div class="form-group">
+               <label class="form-label">Hero Title</label>
+               <VisualEditor 
+                 type="text" 
+                 sectionId="pages" 
+                 fieldPath="tariff.hero.title" 
+                 content={content.pages?.tariff?.hero?.title || ''} 
+               />
+             </div>
+             <div class="form-group">
+               <label class="form-label">Hero Subtitle</label>
+               <VisualEditor 
+                 type="textarea" 
+                 sectionId="pages" 
+                 fieldPath="tariff.hero.subtitle" 
+                 content={content.pages?.tariff?.hero?.subtitle || ''} 
+               />
+             </div>
+             <div class="form-group">
+               <label class="form-label">Background Image</label>
+               <BackgroundImageUpload 
+                 sectionId="pages" 
+                 fieldPath="tariff.hero.backgroundImage.src" 
+                 content={content.pages?.tariff?.hero?.backgroundImage?.src || ''} 
+                 className="image-preview"
+               />
+             </div>
+             <div class="form-group">
+               <label class="form-label">Background Opacity</label>
+               <div class="opacity-control">
+                 <VisualEditor 
+                   sectionId="pages" 
+                   fieldPath="tariff.hero.backgroundImage.opacity" 
+                   content={content.pages?.tariff?.hero?.backgroundImage?.opacity || 0.4} 
+                   type="range" 
+                   className="opacity-slider"
+                   min="0" 
+                   max="1" 
+                   step="0.1"
+                 />
+                 <span class="opacity-value">{Math.round((content.pages?.tariff?.hero?.backgroundImage?.opacity || 0.4) * 100)}%</span>
+               </div>
+             </div>
+           </div>
+         </div>
+         
+         <!-- Footer Section Editor -->
         <div class="section-editor" id="footer-editor">
           <div class="section-header">
             <h2 class="section-title">Footer Section</h2>
@@ -1158,13 +1599,44 @@ const content = await getContent();
       });
     }
     
-    // Save functionality
+    // Save functionality with debouncing
     const saveBtn = document.getElementById('save-btn');
+    let lastSaveTime = 0;
+    let isSaving = false;
+    const SAVE_COOLDOWN = 2000; // 2 seconds cooldown between saves
     
     if (saveBtn) {
       saveBtn.addEventListener('click', async (e) => {
         e.preventDefault();
         
+        // Check if already saving
+        if (isSaving) {
+          console.log('Save already in progress, ignoring click');
+          return;
+        }
+        
+        // Check cooldown period
+        const now = Date.now();
+        if (now - lastSaveTime < SAVE_COOLDOWN) {
+          const remainingTime = Math.ceil((SAVE_COOLDOWN - (now - lastSaveTime)) / 1000);
+          console.log(`Please wait ${remainingTime} seconds before saving again`);
+          
+          // Show cooldown message
+          const cooldownMsg = document.createElement('div');
+          cooldownMsg.className = 'alert alert-warning';
+          cooldownMsg.textContent = `Please wait ${remainingTime} seconds before saving again`;
+          cooldownMsg.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #f59e0b; color: white; padding: 1rem; border-radius: 0.5rem; z-index: 1000;';
+          document.body.appendChild(cooldownMsg);
+          
+          setTimeout(() => {
+            cooldownMsg.remove();
+          }, 2000);
+          
+          return;
+        }
+        
+        isSaving = true;
+        lastSaveTime = now;
         saveBtn.textContent = 'Saving...';
         saveBtn.disabled = true;
         
@@ -1333,6 +1805,7 @@ const content = await getContent();
             }, 5000);
         } finally {
           // Always reset button state
+          isSaving = false;
           saveBtn.textContent = 'Save Changes';
           saveBtn.disabled = false;
         }

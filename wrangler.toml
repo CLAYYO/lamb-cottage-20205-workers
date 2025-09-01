@@ -8,8 +8,20 @@ binding = "CONTENT_KV"
 id = "content_kv_namespace"
 preview_id = "content_kv_namespace_preview"
 
+[[kv_namespaces]]
+binding = "IMAGES_KV"
+id = "images_kv_namespace"
+preview_id = "images_kv_namespace_preview"
+
+# R2 Bucket bindings
+[[r2_buckets]]
+binding = "IMAGES_R2"
+bucket_name = "lamb-cottage-images"
+preview_bucket_name = "lamb-cottage-images-preview"
+
 # Environment variables for production
 # Note: These should be configured in Cloudflare Pages dashboard
 # JWT_SECRET = "your-production-jwt-secret"
 # ADMIN_PASSWORD_HASH = "your-production-password-hash"
 # NODE_ENV = "production"
+# R2_PUBLIC_URL = "https://pub-{your-account-hash}.r2.dev/lamb-cottage-images"

@@ -166,6 +166,125 @@ const DEFAULT_CONTENT = {
       tripadvisor: "https://www.tripadvisor.com/Hotel_Review-g499515-d8592952-Reviews-Lamb_Cottage_Caravan_Park-Northwich_Cheshire_England.html"
     }
   },
+  pages: {
+    about: {
+      title: "About Lamb Cottage Caravan Park",
+      description: "Learn about our family-run caravan park and our commitment to providing exceptional countryside holidays.",
+      hero: {
+        title: "About Us",
+        subtitle: "Discover the story behind Lamb Cottage Caravan Park",
+        backgroundImage: {
+          src: "",
+          alt: "About us background",
+          opacity: 0.4
+        }
+      }
+    },
+    contact: {
+      title: "Contact Lamb Cottage Caravan Park",
+      description: "Get in touch with us for bookings, enquiries, or any questions about your stay.",
+      hero: {
+        title: "Contact Us",
+        subtitle: "We're here to help with all your enquiries",
+        backgroundImage: {
+          src: "",
+          alt: "Contact us background",
+          opacity: 0.4
+        }
+      }
+    },
+    facilities: {
+      title: "Facilities at Lamb Cottage Caravan Park",
+      description: "Discover all the amenities and facilities available during your stay with us.",
+      hero: {
+        title: "Our Facilities",
+        subtitle: "Everything you need for a comfortable stay",
+        backgroundImage: {
+          src: "",
+          alt: "Facilities background",
+          opacity: 0.4
+        }
+      }
+    },
+    attractions: {
+      title: "Local Attractions Near Lamb Cottage",
+      description: "Explore the wonderful attractions and activities available in our local area.",
+      hero: {
+        title: "Local Attractions",
+        subtitle: "Discover the beauty of our surrounding area",
+        backgroundImage: {
+          src: "",
+          alt: "Local attractions background",
+          opacity: 0.4
+        }
+      }
+    },
+    directions: {
+      title: "Directions to Lamb Cottage Caravan Park",
+      description: "Find us easily with detailed directions and travel information.",
+      hero: {
+        title: "Directions",
+        subtitle: "Find your way to our peaceful countryside location",
+        backgroundImage: {
+          src: "",
+          alt: "Directions background",
+          opacity: 0.4
+        }
+      }
+    },
+    gallery: {
+      title: "Photo Gallery - Lamb Cottage Caravan Park",
+      description: "Browse our photo gallery to see the beautiful facilities and surroundings.",
+      hero: {
+        title: "Photo Gallery",
+        subtitle: "See the beauty of Lamb Cottage Caravan Park",
+        backgroundImage: {
+          src: "",
+          alt: "Gallery background",
+          opacity: 0.4
+        }
+      }
+    },
+    reviews: {
+      title: "Guest Reviews - Lamb Cottage Caravan Park",
+      description: "Read what our guests have to say about their stay with us.",
+      hero: {
+        title: "Guest Reviews",
+        subtitle: "Hear from our happy guests",
+        backgroundImage: {
+          src: "",
+          alt: "Reviews background",
+          opacity: 0.4
+        }
+      }
+    },
+    "static-caravans": {
+      title: "Static Caravans for Sale",
+      description: "Discover our selection of quality static caravans available for purchase.",
+      hero: {
+        title: "Static Caravans for Sale",
+        subtitle: "Own your own piece of paradise",
+        backgroundImage: {
+          src: "",
+          alt: "Static caravans background",
+          opacity: 0.4
+        }
+      }
+    },
+    tariff: {
+      title: "Tariff & Pricing - Lamb Cottage Caravan Park",
+      description: "View our competitive rates and pricing information.",
+      hero: {
+        title: "Tariff & Pricing",
+        subtitle: "Competitive rates for your perfect getaway",
+        backgroundImage: {
+          src: "",
+          alt: "Tariff background",
+          opacity: 0.4
+        }
+      }
+    }
+  },
   _metadata: {
     lastUpdated: new Date().toISOString(),
     updatedBy: "system",

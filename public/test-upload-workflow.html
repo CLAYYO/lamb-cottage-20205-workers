@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Image Upload Workflow</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .result { margin: 10px 0; padding: 10px; background: #f5f5f5; }
+        img { max-width: 200px; height: auto; }
+    </style>
+</head>
+<body>
+    <h1>Image Upload Workflow Test</h1>
+    
+    <div class="test-section">
+        <h2>1. Test Image Upload API</h2>
+        <input type="file" id="testFile" accept="image/*">
+        <button onclick="testUpload()">Upload Test Image</button>
+        <div id="uploadResult" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. Test Image Access</h2>
+        <button onclick="testImageAccess()">Test Known Images</button>
+        <div id="accessResult" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. Test Admin Preview</h2>
+        <button onclick="openAdminPage()">Open Admin Page</button>
+        <div id="adminResult" class="result"></div>
+    </div>
+
+    <script>
+        async function testUpload() {
+            const fileInput = document.getElementById('testFile');
+            const resultDiv = document.getElementById('uploadResult');
+            
+            if (!fileInput.files[0]) {
+                resultDiv.innerHTML = 'Please select a file first';
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+            formData.append('sectionId', 'test');
+            formData.append('fieldPath', 'backgroundImage.src');
+            
+            try {
+                resultDiv.innerHTML = 'Uploading...';
+                const response = await fetch('/api/images/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <strong>Upload Success!</strong><br>
+                        URL: ${data.file?.url || data.url}<br>
+                        <img src="${data.file?.url || data.url}" alt="Uploaded image">
+                    `;
+                } else {
+                    resultDiv.innerHTML = `<strong>Upload Failed:</strong> ${data.error || 'Unknown error'}`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<strong>Upload Error:</strong> ${error.message}`;
+            }
+        }
+        
+        function testImageAccess() {
+            const resultDiv = document.getElementById('accessResult');
+            const testImages = [
+                '/images/uploads/1756398328508_dog-walaking-lamb-cottage.jpg',
+                '/images/uploads/1756721352177_dog-walk-track.jpg'
+            ];
+            
+            resultDiv.innerHTML = 'Testing image access...';
+            let results = [];
+            
+            testImages.forEach((url, index) => {
+                const img = new Image();
+                img.onload = () => {
+                    results.push(`✓ ${url} - Accessible`);
+                    updateResults();
+                };
+                img.onerror = () => {
+                    results.push(`✗ ${url} - Not accessible`);
+                    updateResults();
+                };
+                img.src = url;
+            });
+            
+            function updateResults() {
+                if (results.length === testImages.length) {
+                    resultDiv.innerHTML = results.join('<br>');
+                }
+            }
+        }
+        
+        function openAdminPage() {
+            window.open('/admin/content', '_blank');
+            document.getElementById('adminResult').innerHTML = 'Admin page opened in new tab';
+        }
+    </script>
+</body>
+</html>

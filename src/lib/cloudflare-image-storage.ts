@@ -152,18 +152,28 @@ export class CloudflareImageStorage {
       const filename = this.generateFilename(file.name);
       
       // Check if R2 is available, otherwise use local fallback
-      if (!this.r2) {
+      // Force local fallback in development mode
+      const isDevelopment = process.env.NODE_ENV === 'development' || 
+                           process.env.NODE_ENV !== 'production' ||
+                           !process.env.CLOUDFLARE_ACCOUNT_ID;
+      
+      if (!this.r2 || isDevelopment) {
         // Local development fallback - save to public/images/uploads
-        console.log('R2 not available, using local fallback for:', filename);
-        
         try {
           // Convert file to buffer
           const arrayBuffer = await file.arrayBuffer();
           const buffer = new Uint8Array(arrayBuffer);
           
-          // Write to local filesystem (this will work in Node.js environment)
-          const fs = await import('fs/promises');
-          const path = await import('path');
+          // Use dynamic import to handle Node.js modules in Astro
+          let fs, path;
+          try {
+            fs = await import('node:fs/promises');
+            path = await import('node:path');
+          } catch {
+            // Fallback to regular imports
+            fs = await import('fs/promises');
+            path = await import('path');
+          }
           
           const uploadsDir = path.join(process.cwd(), 'public', 'images', 'uploads');
           const filePath = path.join(uploadsDir, filename);
@@ -182,10 +192,10 @@ export class CloudflareImageStorage {
             filename
           };
         } catch (error) {
-          console.error('Local file save error:', error);
+          const errorMessage = error instanceof Error ? error.message : 'Unknown error';
           return {
             success: false,
-            error: 'Failed to save file locally'
+            error: `Failed to save file locally: ${errorMessage}`
           };
         }
       }
@@ -214,7 +224,7 @@ export class CloudflareImageStorage {
       }
 
       // Generate public URL
-      const url = this.baseUrl ? `${this.baseUrl}/${key}` : `/images/${filename}`;
+      const url = this.baseUrl ? `${this.baseUrl}/${key}` : `/images/uploads/${filename}`;
 
       // Store metadata in KV if available
       if (this.kv) {

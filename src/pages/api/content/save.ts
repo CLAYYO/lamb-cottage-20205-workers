@@ -228,5 +228,5 @@ const saveHandler: APIRoute = async (context) => {
 export const POST = secureAPIRoute(saveHandler, {
   requireAuth: true,
   requireCSRF: true,
-  rateLimit: { window: 60 * 1000, requests: 30 } // 30 requests per minute
+  rateLimit: { window: 60 * 1000, requests: 100 } // 100 requests per minute
 });

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Upload Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .result { margin: 10px 0; padding: 10px; background: #f5f5f5; }
+        .error { background: #fee; color: #c00; }
+        .success { background: #efe; color: #060; }
+    </style>
+</head>
+<body>
+    <h1>Simple Upload Test</h1>
+    
+    <form id="uploadForm">
+        <input type="file" id="fileInput" accept="image/*" required>
+        <button type="submit">Upload</button>
+    </form>
+    
+    <div id="result" class="result"></div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const fileInput = document.getElementById('fileInput');
+            const resultDiv = document.getElementById('result');
+            
+            if (!fileInput.files[0]) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = 'Please select a file';
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+            formData.append('sectionId', 'test');
+            formData.append('fieldPath', 'backgroundImage.src');
+            
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = 'Uploading...';
+            
+            try {
+                const response = await fetch('/api/images/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `
+                        <strong>Upload Success!</strong><br>
+                        Status: ${response.status}<br>
+                        URL: ${data.file?.url || data.url}<br>
+                        <img src="${data.file?.url || data.url}" style="max-width: 200px; margin-top: 10px;" alt="Uploaded image">
+                    `;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `
+                        <strong>Upload Failed!</strong><br>
+                        Status: ${response.status}<br>
+                        Error: ${data.error || 'Unknown error'}<br>
+                        Details: ${JSON.stringify(data, null, 2)}
+                    `;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `
+                    <strong>Network Error!</strong><br>
+                    ${error.message}
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

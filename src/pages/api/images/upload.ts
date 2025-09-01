@@ -9,7 +9,11 @@ const ALLOWED_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
 // Initialize Cloudflare storage with runtime context
 function initializeStorage(context: any) {
   if (context.locals?.runtime) {
-    cloudflareImageStorage.initialize(context.locals.runtime);
+    // Get R2 public URL from environment or construct it
+    const r2PublicUrl = context.locals.runtime.env?.R2_PUBLIC_URL || 
+                       context.locals.runtime.env?.CLOUDFLARE_R2_PUBLIC_URL;
+    
+    cloudflareImageStorage.initialize(context.locals.runtime, r2PublicUrl);
   }
 }
 
@@ -105,6 +109,7 @@ const uploadHandler: APIRoute = async (context) => {
     const uploadResult = await cloudflareImageStorage.uploadImage(file);
     
     if (!uploadResult.success) {
+      console.error('Upload failed:', uploadResult.error);
       return new Response(JSON.stringify({ error: uploadResult.error || 'Failed to upload image' }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' }
