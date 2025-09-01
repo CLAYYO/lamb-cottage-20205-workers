@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footer Delay Analysis</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .log {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .status {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        .status.success { background: #d4edda; color: #155724; }
+        .status.warning { background: #fff3cd; color: #856404; }
+        .status.error { background: #f8d7da; color: #721c24; }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .metric {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .metric-label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Footer Delay Analysis</h1>
+        <p>This tool analyzes the footer loading behavior on the Lamb Cottage website to identify delay causes.</p>
+        
+        <div class="test-section">
+            <h3>Test Results</h3>
+            <div id="status"></div>
+            <div class="metrics" id="metrics"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Performance Analysis</h3>
+            <div id="performance-log" class="log"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Footer Behavior Log</h3>
+            <div id="footer-log" class="log"></div>
+        </div>
+        
+        <button onclick="runAnalysis()" style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Run Footer Analysis</button>
+    </div>
+
+    <script>
+        let analysisResults = {
+            pageLoadTime: 0,
+            footerVisibleTime: 0,
+            contentLoadTime: 0,
+            intersectionObserverDelay: 0,
+            animationDuration: 0
+        };
+
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logElement = document.getElementById('footer-log');
+            const logEntry = `[${timestamp}] ${message}\n`;
+            logElement.textContent += logEntry;
+            logElement.scrollTop = logElement.scrollHeight;
+            console.log(`Footer Analysis: ${message}`);
+        }
+
+        function updateStatus(message, type = 'info') {
+            const statusElement = document.getElementById('status');
+            statusElement.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+
+        function updateMetrics() {
+            const metricsElement = document.getElementById('metrics');
+            metricsElement.innerHTML = `
+                <div class="metric">
+                    <div class="metric-value">${analysisResults.pageLoadTime}ms</div>
+                    <div class="metric-label">Page Load Time</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">${analysisResults.footerVisibleTime}ms</div>
+                    <div class="metric-label">Footer Visible Time</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">${analysisResults.contentLoadTime}ms</div>
+                    <div class="metric-label">Content Load Time</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">${analysisResults.intersectionObserverDelay}ms</div>
+                    <div class="metric-label">Observer Delay</div>
+                </div>
+            `;
+        }
+
+        async function runAnalysis() {
+            log('Starting footer delay analysis...');
+            updateStatus('Running analysis...', 'warning');
+            
+            const startTime = performance.now();
+            
+            try {
+                // Test 1: Load the main page and measure footer behavior
+                log('Loading main page to analyze footer...');
+                
+                const iframe = document.createElement('iframe');
+                iframe.style.width = '100%';
+                iframe.style.height = '600px';
+                iframe.style.border = '1px solid #ddd';
+                iframe.style.marginTop = '10px';
+                
+                const loadPromise = new Promise((resolve, reject) => {
+                    iframe.onload = () => {
+                        const loadTime = performance.now() - startTime;
+                        analysisResults.pageLoadTime = Math.round(loadTime);
+                        log(`Page loaded in ${analysisResults.pageLoadTime}ms`);
+                        resolve();
+                    };
+                    iframe.onerror = reject;
+                    setTimeout(() => reject(new Error('Timeout')), 10000);
+                });
+                
+                iframe.src = 'http://localhost:4321/';
+                document.querySelector('.test-section').appendChild(iframe);
+                
+                await loadPromise;
+                
+                // Test 2: Analyze footer visibility timing
+                setTimeout(() => {
+                    try {
+                        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                        const footer = iframeDoc.getElementById('site-footer');
+                        
+                        if (footer) {
+                            log('Footer element found, analyzing visibility...');
+                            
+                            // Check current footer state
+                            const hasHiddenClass = footer.classList.contains('footer-hidden');
+                            const hasVisibleClass = footer.classList.contains('footer-visible');
+                            
+                            log(`Footer classes: hidden=${hasHiddenClass}, visible=${hasVisibleClass}`);
+                            
+                            // Scroll to footer to trigger intersection observer
+                            footer.scrollIntoView({ behavior: 'smooth' });
+                            
+                            // Monitor footer visibility changes
+                            const observer = new MutationObserver((mutations) => {
+                                mutations.forEach((mutation) => {
+                                    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                                        const target = mutation.target;
+                                        const visibilityTime = performance.now() - startTime;
+                                        
+                                        if (target.classList.contains('footer-visible')) {
+                                            analysisResults.footerVisibleTime = Math.round(visibilityTime);
+                                            log(`Footer became visible at ${analysisResults.footerVisibleTime}ms`);
+                                            updateMetrics();
+                                        }
+                                    }
+                                });
+                            });
+                            
+                            observer.observe(footer, {
+                                attributes: true,
+                                attributeFilter: ['class']
+                            });
+                            
+                            // Check for content loading delays
+                            const footerContent = footer.querySelector('.footer-content');
+                            if (footerContent) {
+                                const contentLoadTime = performance.now() - startTime;
+                                analysisResults.contentLoadTime = Math.round(contentLoadTime);
+                                log(`Footer content loaded at ${analysisResults.contentLoadTime}ms`);
+                            }
+                            
+                        } else {
+                            log('Footer element not found!', 'error');
+                        }
+                        
+                    } catch (error) {
+                        log(`Error accessing iframe content: ${error.message}`, 'error');
+                    }
+                }, 1000);
+                
+                // Test 3: Check for network delays
+                log('Checking for network-related delays...');
+                
+                const networkStart = performance.now();
+                try {
+                    const response = await fetch('http://localhost:4321/api/content/load');
+                    const networkTime = performance.now() - networkStart;
+                    log(`Content API response time: ${Math.round(networkTime)}ms`);
+                    
+                    if (networkTime > 500) {
+                        log('WARNING: Content API is slow, this may cause footer delays', 'warning');
+                    }
+                } catch (error) {
+                    log(`Content API error: ${error.message}`, 'error');
+                }
+                
+                updateMetrics();
+                updateStatus('Analysis completed', 'success');
+                
+                // Generate recommendations
+                setTimeout(() => {
+                    generateRecommendations();
+                }, 2000);
+                
+            } catch (error) {
+                log(`Analysis failed: ${error.message}`, 'error');
+                updateStatus(`Analysis failed: ${error.message}`, 'error');
+            }
+        }
+        
+        function generateRecommendations() {
+            log('\n=== ANALYSIS RECOMMENDATIONS ===');
+            
+            if (analysisResults.footerVisibleTime > 2000) {
+                log('ISSUE: Footer takes too long to become visible (>2s)');
+                log('RECOMMENDATION: Reduce intersection observer threshold or rootMargin');
+            }
+            
+            if (analysisResults.contentLoadTime > 1000) {
+                log('ISSUE: Content loading is slow (>1s)');
+                log('RECOMMENDATION: Optimize content loading or add loading states');
+            }
+            
+            if (analysisResults.pageLoadTime > 3000) {
+                log('ISSUE: Overall page load is slow (>3s)');
+                log('RECOMMENDATION: Optimize page resources and reduce bundle size');
+            }
+            
+            log('\nFOOTER DELAY ANALYSIS COMPLETE');
+        }
+
+        // Auto-run analysis on page load
+        window.addEventListener('load', () => {
+            setTimeout(runAnalysis, 1000);
+        });
+    </script>
+</body>
+</html>

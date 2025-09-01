@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background Image Upload Debug</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .log {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .warning { background: #fff3cd; color: #856404; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #0056b3; }
+        button:disabled { background: #6c757d; cursor: not-allowed; }
+        input[type="file"] {
+            margin: 10px 0;
+            padding: 5px;
+        }
+        .upload-progress {
+            width: 100%;
+            height: 20px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .progress-bar {
+            height: 100%;
+            background: #007bff;
+            width: 0%;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <h1>Background Image Upload Debug Tool</h1>
+    
+    <div class="test-section">
+        <h2>1. Authentication Test</h2>
+        <button onclick="testAuth()">Test Authentication</button>
+        <div id="auth-status" class="status"></div>
+        <div id="auth-log" class="log"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. CSRF Token Test</h2>
+        <button onclick="testCSRF()">Get CSRF Tokens</button>
+        <div id="csrf-status" class="status"></div>
+        <div id="csrf-log" class="log"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. Image Upload Test</h2>
+        <input type="file" id="test-file" accept="image/*">
+        <button onclick="testImageUpload()">Test Upload</button>
+        <div class="upload-progress">
+            <div id="upload-progress-bar" class="progress-bar"></div>
+        </div>
+        <div id="upload-status" class="status"></div>
+        <div id="upload-log" class="log"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>4. Content Save Test</h2>
+        <button onclick="testContentSave()">Test Content Save</button>
+        <div id="save-status" class="status"></div>
+        <div id="save-log" class="log"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>5. Full Background Image Update Test</h2>
+        <input type="file" id="full-test-file" accept="image/*">
+        <select id="section-select">
+            <option value="facilities">Facilities Background</option>
+            <option value="hero">Hero Background</option>
+            <option value="bookingBanner">Booking Banner Background</option>
+        </select>
+        <button onclick="testFullBackgroundUpdate()">Test Full Update</button>
+        <div id="full-test-status" class="status"></div>
+        <div id="full-test-log" class="log"></div>
+    </div>
+
+    <script>
+        let authTokens = null;
+        
+        function log(elementId, message) {
+            const element = document.getElementById(elementId);
+            const timestamp = new Date().toLocaleTimeString();
+            element.textContent += `[${timestamp}] ${message}\n`;
+            element.scrollTop = element.scrollHeight;
+        }
+        
+        function setStatus(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `status ${type}`;
+        }
+        
+        async function testAuth() {
+            log('auth-log', 'Testing authentication...');
+            setStatus('auth-status', 'Testing...', 'info');
+            
+            try {
+                const response = await fetch('/api/auth/me');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    log('auth-log', `Authentication successful: ${JSON.stringify(data)}`);
+                    setStatus('auth-status', 'Authenticated successfully', 'success');
+                } else {
+                    log('auth-log', `Authentication failed: ${data.error}`);
+                    setStatus('auth-status', `Authentication failed: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                log('auth-log', `Authentication error: ${error.message}`);
+                setStatus('auth-status', `Error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testCSRF() {
+            log('csrf-log', 'Getting CSRF tokens...');
+            setStatus('csrf-status', 'Getting tokens...', 'info');
+            
+            try {
+                const response = await fetch('/api/auth/csrf');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    authTokens = data;
+                    log('csrf-log', `CSRF tokens received: ${JSON.stringify(data)}`);
+                    setStatus('csrf-status', 'CSRF tokens received', 'success');
+                } else {
+                    log('csrf-log', `CSRF token fetch failed: ${data.error}`);
+                    setStatus('csrf-status', `Failed: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                log('csrf-log', `CSRF token error: ${error.message}`);
+                setStatus('csrf-status', `Error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testImageUpload() {
+            const fileInput = document.getElementById('test-file');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                setStatus('upload-status', 'Please select a file first', 'warning');
+                return;
+            }
+            
+            log('upload-log', `Starting upload of: ${file.name} (${file.size} bytes)`);
+            setStatus('upload-status', 'Uploading...', 'info');
+            
+            // Reset progress bar
+            document.getElementById('upload-progress-bar').style.width = '0%';
+            
+            try {
+                // Get CSRF tokens if not already available
+                if (!authTokens) {
+                    log('upload-log', 'Getting CSRF tokens...');
+                    const csrfResponse = await fetch('/api/auth/csrf');
+                    authTokens = await csrfResponse.json();
+                }
+                
+                const formData = new FormData();
+                formData.append('file', file);
+                
+                // Simulate progress
+                let progress = 0;
+                const progressInterval = setInterval(() => {
+                    progress += 10;
+                    document.getElementById('upload-progress-bar').style.width = `${Math.min(progress, 90)}%`;
+                }, 100);
+                
+                const response = await fetch('/api/images/upload', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-Token': authTokens.csrfToken,
+                        'X-Session-ID': authTokens.sessionId
+                    }
+                });
+                
+                clearInterval(progressInterval);
+                document.getElementById('upload-progress-bar').style.width = '100%';
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    log('upload-log', `Upload successful: ${JSON.stringify(data)}`);
+                    setStatus('upload-status', `Upload successful: ${data.file.url}`, 'success');
+                } else {
+                    log('upload-log', `Upload failed: ${JSON.stringify(data)}`);
+                    setStatus('upload-status', `Upload failed: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                log('upload-log', `Upload error: ${error.message}`);
+                setStatus('upload-status', `Error: ${error.message}`, 'error');
+                document.getElementById('upload-progress-bar').style.width = '0%';
+            }
+        }
+        
+        async function testContentSave() {
+            log('save-log', 'Testing content save...');
+            setStatus('save-status', 'Testing save...', 'info');
+            
+            try {
+                // Get CSRF tokens if not already available
+                if (!authTokens) {
+                    log('save-log', 'Getting CSRF tokens...');
+                    const csrfResponse = await fetch('/api/auth/csrf');
+                    authTokens = await csrfResponse.json();
+                }
+                
+                // Test data with facilities background image
+                const testData = {
+                    facilities: {
+                        backgroundImage: {
+                            src: '/images/uploads/test-image.jpg',
+                            alt: 'Test background',
+                            opacity: 0.6
+                        }
+                    }
+                };
+                
+                log('save-log', `Sending test data: ${JSON.stringify(testData)}`);
+                
+                const response = await fetch('/api/content/save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': authTokens.csrfToken,
+                        'X-Session-ID': authTokens.sessionId
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    log('save-log', `Save successful: ${JSON.stringify(data)}`);
+                    setStatus('save-status', 'Save successful', 'success');
+                } else {
+                    log('save-log', `Save failed: ${JSON.stringify(data)}`);
+                    setStatus('save-status', `Save failed: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                log('save-log', `Save error: ${error.message}`);
+                setStatus('save-status', `Error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testFullBackgroundUpdate() {
+            const fileInput = document.getElementById('full-test-file');
+            const sectionSelect = document.getElementById('section-select');
+            const file = fileInput.files[0];
+            const section = sectionSelect.value;
+            
+            if (!file) {
+                setStatus('full-test-status', 'Please select a file first', 'warning');
+                return;
+            }
+            
+            log('full-test-log', `Starting full background update for ${section} section...`);
+            setStatus('full-test-status', 'Processing...', 'info');
+            
+            try {
+                // Step 1: Upload image
+                log('full-test-log', 'Step 1: Uploading image...');
+                
+                if (!authTokens) {
+                    const csrfResponse = await fetch('/api/auth/csrf');
+                    authTokens = await csrfResponse.json();
+                }
+                
+                const formData = new FormData();
+                formData.append('file', file);
+                
+                const uploadResponse = await fetch('/api/images/upload', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-Token': authTokens.csrfToken,
+                        'X-Session-ID': authTokens.sessionId
+                    }
+                });
+                
+                const uploadData = await uploadResponse.json();
+                
+                if (!uploadResponse.ok || !uploadData.success) {
+                    throw new Error(`Upload failed: ${uploadData.error}`);
+                }
+                
+                log('full-test-log', `Image uploaded: ${uploadData.file.url}`);
+                
+                // Step 2: Update content
+                log('full-test-log', 'Step 2: Updating content...');
+                
+                const contentData = {
+                    [section]: {
+                        backgroundImage: {
+                            src: uploadData.file.url,
+                            alt: `${section} background`,
+                            opacity: 0.6
+                        }
+                    }
+                };
+                
+                const saveResponse = await fetch('/api/content/save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': authTokens.csrfToken,
+                        'X-Session-ID': authTokens.sessionId
+                    },
+                    body: JSON.stringify(contentData)
+                });
+                
+                const saveData = await saveResponse.json();
+                
+                if (!saveResponse.ok || !saveData.success) {
+                    throw new Error(`Save failed: ${saveData.error}`);
+                }
+                
+                log('full-test-log', `Content updated successfully`);
+                setStatus('full-test-status', `Background image updated successfully for ${section}`, 'success');
+                
+            } catch (error) {
+                log('full-test-log', `Full update error: ${error.message}`);
+                setStatus('full-test-status', `Error: ${error.message}`, 'error');
+            }
+        }
+        
+        // Auto-run authentication test on page load
+        window.addEventListener('load', () => {
+            testAuth();
+        });
+    </script>
+</body>
+</html>

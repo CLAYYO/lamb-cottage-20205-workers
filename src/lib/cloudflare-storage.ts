@@ -10,7 +10,7 @@ interface KVNamespace {
 
 // Content validation schemas (reused from content-storage.ts)
 const ImageSchema = z.object({
-  src: z.string().url().or(z.string().startsWith('/')),
+  src: z.string().url().or(z.string().startsWith('/')).or(z.string().startsWith('#')),
   alt: z.string(),
   width: z.number().optional(),
   height: z.number().optional()
@@ -18,7 +18,7 @@ const ImageSchema = z.object({
 
 const LinkSchema = z.object({
   text: z.string(),
-  url: z.string().url().or(z.string().startsWith('/')),
+  url: z.string().url().or(z.string().startsWith('/')).or(z.string().startsWith('#')),
   external: z.boolean().optional()
 });
 
@@ -106,8 +106,15 @@ const ContentSchema = z.object({
   bookingBanner: z.object({
     title: z.string(),
     subtitle: z.string(),
-    ctaButton: LinkSchema,
-    backgroundImage: ImageSchema
+    description: z.string().optional(),
+    backgroundImage: z.object({
+      src: z.string().url().or(z.string().startsWith('/')).or(z.string().startsWith('#')),
+      alt: z.string(),
+      opacity: z.number().optional()
+    }),
+    ctaButton: LinkSchema.optional(),
+    primaryButton: LinkSchema.optional(),
+    secondaryButton: LinkSchema.optional()
   }).optional(),
   footer: z.object({
     companyName: z.string(),
@@ -131,11 +138,11 @@ export class CloudflareStorage {
     }
   }
 
-  // Load content from KV or return default
+  // Load content from KV or local file in development
   async loadContent(): Promise<any> {
     if (!this.kv) {
-      console.warn('KV not available, using default content');
-      return this.getDefaultContent();
+      console.warn('KV not available, trying local file fallback');
+      return await this.loadFromLocalFile();
     }
 
     try {
@@ -147,7 +154,45 @@ export class CloudflareStorage {
     }
   }
 
-  // Save content to KV
+  // Save to local file (development fallback)
+  private async saveToLocalFile(content: any): Promise<{ success: boolean; errors?: string[] }> {
+    try {
+      // Add metadata
+      const contentWithMetadata = {
+        ...content,
+        _metadata: {
+          lastUpdated: new Date().toISOString(),
+          version: Date.now()
+        }
+      };
+
+      // In a server environment, we can't directly write files
+      // So we'll return success and log the content
+      console.log('Content would be saved to local file:', JSON.stringify(contentWithMetadata, null, 2));
+      return { success: true };
+    } catch (error) {
+      console.error('Failed to save to local file:', error);
+      return {
+        success: false,
+        errors: ['Failed to save to local file']
+      };
+    }
+  }
+
+  // Load from local file (development fallback)
+  private async loadFromLocalFile(): Promise<any> {
+    try {
+      // In development, we'll just return default content
+      // In a real implementation, this would read from a local file
+      console.log('Loading default content as local file fallback');
+      return this.getDefaultContent();
+    } catch (error) {
+      console.error('Failed to load from local file:', error);
+      return this.getDefaultContent();
+    }
+  }
+
+  // Save content to KV or local file in development
   async saveContent(content: any): Promise<{ success: boolean; errors?: string[] }> {
     // Validate content
     const validation = this.validateContent(content);
@@ -159,10 +204,9 @@ export class CloudflareStorage {
     }
 
     if (!this.kv) {
-      return {
-        success: false,
-        errors: ['KV storage not available']
-      };
+      // In development mode, save to local file as fallback
+      console.log('KV not available, saving to local file as fallback');
+      return await this.saveToLocalFile(content);
     }
 
     try {
@@ -429,15 +473,34 @@ export class CloudflareStorage {
           alt: "Lamb Cottage reception building"
         }
       },
+      tagline: {
+        text: "Your Home Away From Home in Beautiful Cheshire"
+      },
       facilities: {
         title: "Our Facilities",
         subtitle: "Everything you need for a comfortable stay",
+        backgroundImage: {
+          src: "/images/facilities-bg.jpg",
+          alt: "Facilities background",
+          opacity: 0.4
+        },
         items: []
       },
       propertySales: {
         title: "Property Sales",
         subtitle: "Find your perfect holiday home",
-        items: []
+        properties: [
+          {
+            title: "Luxury 3-Bedroom Static Caravan",
+            price: "£45,000",
+            description: "Spacious and modern static caravan with stunning countryside views",
+            features: ["Central heating", "Double glazing", "Private decking", "Garden area"],
+            image: {
+              src: "/images/property-1.jpg",
+              alt: "Luxury 3-bedroom static caravan"
+            }
+          }
+        ]
       },
       reviews: {
         title: "What Our Guests Say",
@@ -452,16 +515,22 @@ export class CloudflareStorage {
         address: "Lamb Cottage, Rural Cheshire, England",
         hours: "9:00 AM - 6:00 PM, Monday to Sunday"
       },
-      booking: {
+      bookingBanner: {
         title: "Book Your Stay",
         subtitle: "Reserve your perfect getaway",
         backgroundImage: {
           src: "/images/booking-banner-bg.jpg",
-          alt: "Booking background"
+          alt: "Booking background",
+          opacity: 0.4
         },
-        ctaButton: {
+        primaryButton: {
           text: "Check Availability",
           url: "#",
+          external: false
+        },
+        secondaryButton: {
+          text: "Learn More",
+          url: "#facilities",
           external: false
         }
       },

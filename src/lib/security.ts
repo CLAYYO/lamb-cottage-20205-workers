@@ -63,10 +63,12 @@ export async function generateCSRFToken(sessionId: string): Promise<string> {
   const token = Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
   const expires = Date.now() + (60 * 60 * 1000); // 1 hour
   
-  const tokens = await loadCSRFTokens();
-  await cleanExpiredTokens(tokens);
-  tokens.set(sessionId, { token, expires });
-  await saveCSRFTokens(tokens);
+  // Clean expired tokens first
+  await cleanExpiredTokens(csrfTokenStore);
+  
+  // Directly set in the store
+  csrfTokenStore.set(sessionId, { token, expires });
+  
   return token;
 }
 
@@ -74,14 +76,12 @@ export async function generateCSRFToken(sessionId: string): Promise<string> {
  * Validate CSRF token
  */
 export async function validateCSRFToken(sessionId: string, token: string): Promise<boolean> {
-  const tokens = await loadCSRFTokens();
-  await cleanExpiredTokens(tokens);
+  await cleanExpiredTokens(csrfTokenStore);
   
-  const stored = tokens.get(sessionId);
+  const stored = csrfTokenStore.get(sessionId);
   
   if (!stored || stored.expires < Date.now()) {
-    tokens.delete(sessionId);
-    await saveCSRFTokens(tokens);
+    csrfTokenStore.delete(sessionId);
     return false;
   }
   
@@ -404,8 +404,10 @@ export function secureAPIRoute(
             headers: { 'Content-Type': 'application/json' }
           });
         }
-
-        if (!(await validateCSRFToken(sessionId, csrfToken))) {
+        
+        const isValid = await validateCSRFToken(sessionId, csrfToken);
+        
+        if (!isValid) {
           return new Response(JSON.stringify({ error: 'Invalid CSRF token' }), {
             status: 403,
             headers: { 'Content-Type': 'application/json' }

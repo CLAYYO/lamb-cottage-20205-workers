@@ -102,15 +102,44 @@ class VisualEditor {
       if (file) {
         try {
           const formData = new FormData();
-          formData.append('image', file);
+          formData.append('file', file);
           
-          const response = await fetch('/api/upload-image', {
+          // Wait for security manager to be available
+          let securityMgr = window.securityManager;
+          if (!securityMgr) {
+            // Wait up to 5 seconds for security manager to initialize
+            for (let i = 0; i < 50; i++) {
+              await new Promise(resolve => setTimeout(resolve, 100));
+              securityMgr = window.securityManager;
+              if (securityMgr) break;
+            }
+          }
+          
+          if (!securityMgr) {
+            throw new Error('Authentication required - security manager not initialized');
+          }
+          
+          // Get CSRF tokens manually for FormData uploads
+          const tokens = await securityMgr.getCSRFTokens();
+          
+          const headers = {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRF-Token': tokens.token,
+            'X-Session-ID': tokens.sessionId
+            // Don't set Content-Type - let browser set it for FormData
+          };
+          
+          const response = await fetch('/api/images/upload', {
             method: 'POST',
             body: formData,
-            headers: {
-              'X-Requested-With': 'XMLHttpRequest'
-            }
+            credentials: 'include',
+            headers
           });
+          
+          if (!response.ok) {
+            const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+            throw new Error(errorData.error || `Upload failed: ${response.status}`);
+          }
           
           const result = await response.json();
           
@@ -118,11 +147,11 @@ class VisualEditor {
             // Update the image source
             const img = element.querySelector('img');
             if (img) {
-              img.src = result.url;
+              img.src = result.file.url;
             }
             
             // Save the change
-            await this.saveContent(sectionId, fieldPath, result.url);
+            await this.saveContent(sectionId, fieldPath, result.file.url);
             console.log('Image updated successfully');
           } else {
             alert('Upload failed: ' + (result.error || 'Unknown error'));
@@ -160,18 +189,19 @@ class VisualEditor {
 
   async saveContent(sectionId, fieldPath, value) {
     try {
-      const response = await fetch('/api/content/save', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest'
-        },
-        body: JSON.stringify({
-          sectionId,
-          fieldPath,
-          value
-        })
-      });
+      // Use security manager for secure API calls
+      if (typeof securityManager !== 'undefined') {
+        const response = await securityManager.secureRequest('/api/content/update-field', {
+          method: 'POST',
+          body: JSON.stringify({
+            section: sectionId,
+            field: fieldPath,
+            content: value
+          })
+        });
+      } else {
+        throw new Error('Security manager not available');
+      }
       
       const result = await response.json();
       

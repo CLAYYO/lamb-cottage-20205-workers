@@ -131,7 +131,17 @@ const DEFAULT_CONTENT = {
   },
   bookingBanner: {
     title: "Ready to Book Your Stay?",
+    subtitle: "Experience the perfect countryside getaway",
     description: "Don't wait - secure your perfect countryside getaway today!",
+    backgroundImage: {
+      src: "/images/booking-banner-bg.jpg",
+      alt: "Booking Banner Background",
+      opacity: 0.4
+    },
+    ctaButton: {
+      text: "Book Now",
+      url: "/booking"
+    },
     primaryButton: {
       text: "Book Now",
       url: "/booking"

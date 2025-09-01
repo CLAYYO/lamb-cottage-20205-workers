@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 // Content validation schemas
 const ImageSchema = z.object({
-  src: z.string().url().or(z.string().startsWith('/')),
+  src: z.string().url().or(z.string().startsWith('/')).or(z.string().startsWith('#')),
   alt: z.string(),
   width: z.number().optional(),
   height: z.number().optional()
@@ -12,7 +12,7 @@ const ImageSchema = z.object({
 
 const LinkSchema = z.object({
   text: z.string(),
-  url: z.string().url().or(z.string().startsWith('/')),
+  url: z.string().url().or(z.string().startsWith('/')).or(z.string().startsWith('#')),
   external: z.boolean().optional()
 });
 

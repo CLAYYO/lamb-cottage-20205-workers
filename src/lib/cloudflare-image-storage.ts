@@ -129,7 +129,7 @@ export class CloudflareImageStorage {
     return `${timestamp}_${nameWithoutExt}${ext}`;
   }
 
-  // Upload image to R2
+  // Upload image to R2 or local fallback
   async uploadImage(file: File): Promise<{ success: boolean; url?: string; filename?: string; error?: string }> {
     try {
       // Validate file size
@@ -148,16 +148,48 @@ export class CloudflareImageStorage {
         };
       }
 
-      // Check if R2 is available
-      if (!this.r2) {
-        return {
-          success: false,
-          error: 'Image storage not available'
-        };
-      }
-
       // Generate unique filename
       const filename = this.generateFilename(file.name);
+      
+      // Check if R2 is available, otherwise use local fallback
+      if (!this.r2) {
+        // Local development fallback - save to public/images/uploads
+        console.log('R2 not available, using local fallback for:', filename);
+        
+        try {
+          // Convert file to buffer
+          const arrayBuffer = await file.arrayBuffer();
+          const buffer = new Uint8Array(arrayBuffer);
+          
+          // Write to local filesystem (this will work in Node.js environment)
+          const fs = await import('fs/promises');
+          const path = await import('path');
+          
+          const uploadsDir = path.join(process.cwd(), 'public', 'images', 'uploads');
+          const filePath = path.join(uploadsDir, filename);
+          
+          // Ensure directory exists
+          await fs.mkdir(uploadsDir, { recursive: true });
+          
+          // Write file
+          await fs.writeFile(filePath, buffer);
+          
+          const url = `/images/uploads/${filename}`;
+          
+          return {
+            success: true,
+            url,
+            filename
+          };
+        } catch (error) {
+          console.error('Local file save error:', error);
+          return {
+            success: false,
+            error: 'Failed to save file locally'
+          };
+        }
+      }
+
       const key = `uploads/${filename}`;
 
       // Convert file to ArrayBuffer

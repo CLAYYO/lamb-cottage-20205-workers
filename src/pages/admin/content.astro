@@ -173,6 +173,16 @@ const content = await getContent();
               content={content.tagline.text} 
             />
           </div>
+          
+          <div class="form-group">
+            <label class="form-label">Tagline Highlight</label>
+            <VisualEditor 
+              type="text" 
+              sectionId="tagline" 
+              fieldPath="highlight" 
+              content={content.tagline.highlight} 
+            />
+          </div>
         </div>
         
         <!-- Facilities Section Editor -->
@@ -294,7 +304,7 @@ const content = await getContent();
           <div class="form-group">
             <label class="form-label">Properties</label>
             <div class="properties-list">
-              {Object.values(content.propertySales.properties || {}).map((property: any, index: number) => (
+              {(content.propertySales.properties || []).map((property: any, index: number) => (
                 <div class="property-item border border-gray-200 rounded-lg p-4 mb-4">
                   <div class="grid grid-cols-2 gap-4 mb-4">
                     <div>
@@ -325,9 +335,19 @@ const content = await getContent();
                       content={property.description} 
                     />
                   </div>
+                  <div class="mb-4">
+                    <label class="form-label text-sm">Features</label>
+                    <VisualEditor 
+                      type="textarea" 
+                      sectionId="propertySales" 
+                      fieldPath={`properties.${index}.features`} 
+                      content={(property.features || []).join('\n')} 
+                      placeholder="Enter features, one per line"
+                    />
+                  </div>
                   <div class="grid grid-cols-2 gap-4">
                     <div>
-                      <label class="form-label text-sm">Property Image</label>
+                      <label class="form-label text-sm">Property Image URL</label>
                       <VisualEditor 
                         type="image" 
                         sectionId="propertySales" 
@@ -336,14 +356,25 @@ const content = await getContent();
                       />
                     </div>
                     <div>
-                      <label class="form-label text-sm">Link URL</label>
+                      <label class="form-label text-sm">Image Alt Text</label>
                       <VisualEditor 
                         type="text" 
                         sectionId="propertySales" 
-                        fieldPath={`properties.${index}.link.url`} 
-                        content={property.link?.url || ''} 
+                        fieldPath={`properties.${index}.image.alt`} 
+                        content={property.image?.alt || ''} 
+                        placeholder="Describe the image for accessibility"
                       />
                     </div>
+                  </div>
+                  <div class="mt-4">
+                    <label class="form-label text-sm">Link URL</label>
+                    <VisualEditor 
+                      type="text" 
+                      sectionId="propertySales" 
+                      fieldPath={`properties.${index}.link.url`} 
+                      content={property.link?.url || ''} 
+                      placeholder="URL to property details page"
+                    />
                   </div>
                 </div>
               ))}
@@ -1148,8 +1179,8 @@ const content = await getContent();
             // Collect all form data from VisualEditor components
             const contentData = {};
             
-            // Get all VisualEditor inputs and textareas
-            const editors = document.querySelectorAll('[data-section]');
+            // Get all VisualEditor inputs and textareas (must have both data-section and data-field)
+            const editors = document.querySelectorAll('[data-section][data-field]');
             console.log('Found editors:', editors.length);
             
             editors.forEach(editor => {
@@ -1160,6 +1191,10 @@ const content = await getContent();
               let value;
               if (editor.tagName === 'INPUT') {
                 value = editor.value;
+                // Convert numeric fields to numbers
+                if (editor.type === 'range' || editor.type === 'number' || fieldPath.includes('opacity')) {
+                  value = parseFloat(value) || 0;
+                }
               } else if (editor.tagName === 'TEXTAREA') {
                 value = editor.value;
               } else if (editor.tagName === 'IMG') {
@@ -1186,24 +1221,60 @@ const content = await getContent();
                 originalValue: editor.value || editor.textContent || editor.innerHTML
               });
               
+              // Special handling for features field - convert newline-separated text to array
+              if (fieldPath.endsWith('.features') && typeof value === 'string') {
+                value = value.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+                console.log(`Converted features to array:`, value);
+              }
+              
               // Build nested object structure
               if (sectionId && fieldPath && value !== undefined && value !== null) {
                 if (!contentData[sectionId]) {
                   contentData[sectionId] = {};
                 }
                 
-                // Handle nested field paths like 'backgroundImage.src'
+                // Handle nested field paths like 'backgroundImage.src' and array indices like 'properties.0.title'
                 const pathParts = fieldPath.split('.');
                 let current = contentData[sectionId];
                 
                 for (let i = 0; i < pathParts.length - 1; i++) {
-                  if (!current[pathParts[i]]) {
-                    current[pathParts[i]] = {};
+                  const part = pathParts[i];
+                  const isArrayIndex = /^\d+$/.test(part);
+                  
+                  if (isArrayIndex) {
+                    // This is an array index
+                    const index = parseInt(part);
+                    if (!Array.isArray(current)) {
+                      current = [];
+                    }
+                    if (!current[index]) {
+                      current[index] = {};
+                    }
+                    current = current[index];
+                  } else {
+                    // This is an object property
+                    if (!current[part]) {
+                      // Check if the next part is a numeric index to determine if this should be an array
+                      const nextPart = pathParts[i + 1];
+                      const nextIsArrayIndex = nextPart && /^\d+$/.test(nextPart);
+                      current[part] = nextIsArrayIndex ? [] : {};
+                    }
+                    current = current[part];
                   }
-                  current = current[pathParts[i]];
                 }
                 
-                current[pathParts[pathParts.length - 1]] = value;
+                const lastPart = pathParts[pathParts.length - 1];
+                const isLastArrayIndex = /^\d+$/.test(lastPart);
+                
+                if (isLastArrayIndex) {
+                  const index = parseInt(lastPart);
+                  if (!Array.isArray(current)) {
+                    current = [];
+                  }
+                  current[index] = value;
+                } else {
+                  current[lastPart] = value;
+                }
               }
             });
             
@@ -1267,6 +1338,12 @@ const content = await getContent();
         }
       });
     }
+  </script>
+  
+  <!-- Load SecurityManager for background image uploads -->
+  <script type="module">
+    import { SecurityManager } from '/client-security.js';
+    window.securityManager = new SecurityManager();
   </script>
   
   <!-- Background image upload functionality is now handled by BackgroundImageUpload components -->

@@ -34,6 +34,7 @@
     "title": "Our Facilities",
     "subtitle": "Everything you need for a comfortable stay",
     "backgroundImage": {
+      "src": "/images/property-placeholder.jpg",
       "alt": "Facilities background",
       "opacity": "0.3",
       "dimensions": {
@@ -180,7 +181,7 @@
     "subtitle": "Experience the tranquility of our adults-only caravan park",
     "description": "Book now for the perfect countryside getaway in beautiful Cheshire",
     "backgroundImage": {
-      "src": "/images/booking-banner-bg.jpg",
+      "src": "/images/uploads/1756398328508_dog-walaking-lamb-cottage.jpg",
       "alt": "Booking banner background",
       "opacity": 0.6
     },
@@ -193,7 +194,7 @@
   "footer": {
     "companyName": "Lamb Cottage Caravan Park",
     "description": "Lamb Cottage Caravan Park - Your peaceful retreat in the heart of the countryside. Family-run since 2003.",
-    "copyright": "© 2024 Lamb Cottage Caravan Park. All rights reserved.ss"
+    "copyright": "© 2025 Lamb Cottage Caravan Park. All rights reserved. Site by Area82"
   },
   "_backup_footer_data": {
     "address": "Lamb Cottage Caravan Park\nDalefords Lane\nWhitegate, Nr. Northwich\nCheshire CW8 2BN",
@@ -831,7 +832,11 @@
   },
   "about": {
     "hero": {
-      "backgroundImage": {}
+      "backgroundImage": {
+        "src": "/images/property-placeholder.jpg",
+        "alt": "About section background",
+        "opacity": 0.4
+      }
     }
   }
 }

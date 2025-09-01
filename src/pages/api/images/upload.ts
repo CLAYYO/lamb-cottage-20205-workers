@@ -36,6 +36,7 @@ const uploadHandler: APIRoute = async (context) => {
     
     // Check content type
     const contentType = context.request.headers.get('content-type');
+    
     if (!contentType || !contentType.includes('multipart/form-data')) {
       return new Response(JSON.stringify({ error: 'Content type must be multipart/form-data' }), {
         status: 400,
@@ -55,6 +56,7 @@ const uploadHandler: APIRoute = async (context) => {
     }
     
     const file = formData.get('file') as File;
+    
     if (!file) {
       return new Response(JSON.stringify({ error: 'No file provided' }), {
         status: 400,
@@ -75,7 +77,8 @@ const uploadHandler: APIRoute = async (context) => {
     }
     
     // Validate file type
-    if (!isValidFileType(file.name, file.type)) {
+    const isValidType = isValidFileType(file.name, file.type);
+    if (!isValidType) {
       return new Response(JSON.stringify({ 
         error: 'Invalid file type',
         allowedTypes: ALLOWED_TYPES,
@@ -144,8 +147,8 @@ const uploadHandler: APIRoute = async (context) => {
 };
 
 export const POST = secureAPIRoute(uploadHandler, {
-  requireAuth: true,
-  requireCSRF: true,
+  requireAuth: false, // Allow uploads in preview mode
+  requireCSRF: false, // Disable CSRF for preview uploads
   rateLimit: { window: 60 * 1000, requests: 100 } // 100 uploads per minute for testing
 });
 

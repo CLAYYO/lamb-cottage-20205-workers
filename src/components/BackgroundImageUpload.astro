@@ -133,7 +133,6 @@ const uploadId = `${sectionId}-${fieldPath.replace(/\./g, '-')}`;
   }
 </style>
 
-<script src="/client-security.js" is:inline></script>
 <script is:inline>
   // Handle file upload
   document.addEventListener('change', async function(e) {
@@ -155,20 +154,33 @@ const uploadId = `${sectionId}-${fieldPath.replace(/\./g, '-')}`;
         uploadBtn.disabled = true;
         
         try {
-          // Get CSRF tokens
-          const csrfManager = new window.CSRFManager();
-          const tokens = await csrfManager.getCSRFTokens();
+          // Wait for securityManager to be available
+          while (!window.securityManager) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+          }
           
-          // Upload the image
+          // Upload the image using direct fetch for FormData
+          // Get CSRF tokens manually for FormData uploads
+          const tokens = await window.securityManager.getCSRFTokens();
+          
+          const headers = {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRF-Token': tokens.token,
+            'X-Session-ID': tokens.sessionId
+            // Don't set Content-Type - let browser set it for FormData
+          };
+          
           const response = await fetch('/api/images/upload', {
             method: 'POST',
             body: formData,
-            headers: {
-              'X-Requested-With': 'XMLHttpRequest',
-              'X-CSRF-Token': tokens.token,
-              'X-Session-ID': tokens.sessionId
-            }
+            credentials: 'include',
+            headers
           });
+          
+          if (!response.ok) {
+            const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+            throw new Error(errorData.error || `Upload failed: ${response.status}`);
+          }
           
           const data = await response.json();
           
@@ -181,46 +193,63 @@ const uploadId = `${sectionId}-${fieldPath.replace(/\./g, '-')}`;
             const hiddenInput = container.querySelector('input[type="hidden"]');
             
             if (preview && hiddenInput) {
-              // Update preview
-              preview.innerHTML = `
-                <img 
-                  src="${data.url}" 
-                  alt="Current background image" 
-                  class="preview-image"
-                  style="max-width: 300px; max-height: 200px; object-fit: cover; border-radius: 8px;"
-                />
-              `;
+              // Get the correct URL from the API response
+              const imageUrl = data.file ? data.file.url : data.url;
               
-              // Update hidden input
-              hiddenInput.value = data.url;
-              
-              // Update button text
-              uploadBtn.textContent = 'Change Image';
-              
-              // Add remove button if not exists
-              if (!container.querySelector('.remove-btn')) {
-                const removeBtn = document.createElement('button');
-                removeBtn.type = 'button';
-                removeBtn.className = 'remove-btn';
-                removeBtn.textContent = 'Remove';
-                removeBtn.onclick = function() {
-                  const sectionId = hiddenInput.name.split('.')[0];
-                  const fieldPath = hiddenInput.name.split('.').slice(1).join('.');
-                  window.removeBackgroundImage(sectionId, fieldPath);
-                };
-                const uploadControls = container.querySelector('.upload-controls');
-                if (uploadControls) {
-                  uploadControls.appendChild(removeBtn);
-                }
+              if (!imageUrl) {
+                console.error('No image URL found in response:', data);
+                throw new Error('No image URL returned from server');
               }
+              
+              console.log('Using image URL:', imageUrl);
+              
+              // Add a small delay to allow the dev server to recognize the new file
+              setTimeout(() => {
+                // Update preview
+                preview.innerHTML = `
+                  <img 
+                    src="${imageUrl}" 
+                    alt="Current background image" 
+                    class="preview-image"
+                    style="max-width: 300px; max-height: 200px; object-fit: cover; border-radius: 8px;"
+                  />
+                `;
+                
+                // Update hidden input
+                hiddenInput.value = imageUrl;
+                
+                // Update button text
+                uploadBtn.textContent = 'Change Image';
+                
+                // Add remove button if not exists
+                if (!container.querySelector('.remove-btn')) {
+                  const removeBtn = document.createElement('button');
+                  removeBtn.type = 'button';
+                  removeBtn.className = 'remove-btn';
+                  removeBtn.textContent = 'Remove';
+                  removeBtn.onclick = function() {
+                    const sectionId = hiddenInput.name.split('.')[0];
+                    const fieldPath = hiddenInput.name.split('.').slice(1).join('.');
+                    window.removeBackgroundImage(sectionId, fieldPath);
+                  };
+                  const uploadControls = container.querySelector('.upload-controls');
+                  if (uploadControls) {
+                    uploadControls.appendChild(removeBtn);
+                  }
+                }
+                
+                console.log('Image uploaded successfully:', imageUrl);
+              }, 500); // 500ms delay to allow server to recognize the file
             }
-            
-            console.log('Image uploaded successfully:', data.url);
           } else {
             alert('Upload failed: ' + (data.error || 'Unknown error'));
           }
         } catch (error) {
-          console.error('Upload error:', error);
+          console.error('Upload error details:', {
+            message: error.message,
+            stack: error.stack,
+            error: error
+          });
           alert('Upload failed: ' + (error && error.message ? error.message : 'Unknown error'));
         } finally {
           uploadBtn.textContent = originalText;

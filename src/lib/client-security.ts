@@ -112,7 +112,11 @@ class SecurityManager {
 
     const headers = new Headers(options.headers);
     headers.set('Authorization', `Bearer ${authToken}`);
-    headers.set('Content-Type', 'application/json');
+    
+    // Don't set Content-Type for FormData - let browser set it with boundary
+    if (!(options.body instanceof FormData)) {
+      headers.set('Content-Type', 'application/json');
+    }
 
     if (needsCSRF) {
       try {

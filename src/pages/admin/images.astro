@@ -375,12 +375,29 @@ if (authResult) {
       const formData = new FormData();
       formData.append('file', file);
       
-      const response = await securityManager.secureRequest('/api/images/upload', {
+      // Get CSRF tokens manually for FormData uploads
+      const tokens = await securityManager.getCSRFTokens();
+      
+      const headers = {
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRF-Token': tokens.token,
+        'X-Session-ID': tokens.sessionId
+        // Don't set Content-Type - let browser set it for FormData
+      };
+      
+      const response = await fetch('/api/images/upload', {
         method: 'POST',
-        body: formData
+        body: formData,
+        credentials: 'include',
+        headers
       });
       
-      return await securityManager.handleResponse(response);
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+        throw new Error(errorData.error || `Upload failed: ${response.status}`);
+      }
+      
+      return await response.json();
     }
 
     // Load images

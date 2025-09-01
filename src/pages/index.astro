@@ -4,7 +4,6 @@ export const prerender = true;
 // Homepage - Lamb Cottage Caravan Park
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TopBar from '../components/layout/TopBar.astro';
-import Header from '../components/layout/Header.astro';
 import Hero from '../components/sections/Hero.astro';
 import Welcome from '../components/sections/Welcome.astro';
 import Tagline from '../components/sections/Tagline.astro';
@@ -162,8 +161,8 @@ const pageDescription = 'Experience tranquil countryside living at Lamb Cottage 
     
     // Add loading states for interactive elements
     document.querySelectorAll('button[type="submit"]').forEach(button => {
-      button.addEventListener('click', function() {
-        const btn = this as HTMLButtonElement;
+      button.addEventListener('click', function(this: HTMLButtonElement) {
+        const btn = this;
         if (btn.form && btn.form.checkValidity()) {
           btn.classList.add('loading');
         }
