@@ -7,7 +7,7 @@
       "url": "https://lambcottage.campmanager.com/19567/Check-Availability/"
     },
     "backgroundImage": {
-      "src": "http://localhost:4321/lamb-cottage-hero.jpg",
+      "src": "/lamb-cottage-hero.jpg",
       "alt": "Lamb Cottage Caravan Park",
       "opacity": "0.4",
       "dimensions": {
@@ -21,7 +21,7 @@
     "title": "Welcome to Lamb Cottage",
     "content": "Welcome to our award-winning adults-only caravan park, set in 7½ acres of meticulously maintained lawns and landscaped grounds in Cheshire's Vale Royal region. Surrounded by farmland and away from main roads, our tranquil location provides the perfect escape for a relaxing break.Our touring park is open from March until 2 January each year, offering 41 super pitches and 30 seasonal pitches. We accommodate caravans, motorhomes and privately owned holiday homes, with excellent facilities and easy access to Chester.✏️",
     "image": {
-      "src": "http://localhost:4321/images/welcome-cottage.jpg",
+      "src": "/images/welcome-cottage.jpg",
       "alt": "Welcome to Lamb Cottage"
     }
   },

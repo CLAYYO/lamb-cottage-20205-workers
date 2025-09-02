@@ -15,7 +15,7 @@ const uploadId = `${sectionId}-${fieldPath.replace(/\./g, '-')}`;
   <div class="current-image-preview">
     {content ? (
       <img 
-        src={content.startsWith('http') ? content : `${Astro.url.origin}${content}`} 
+        src={content.startsWith('http://localhost') ? content.replace(/^http:\/\/localhost:\d+/, '') : (content.startsWith('http') ? content : `${Astro.url.origin}${content}`)} 
         alt="Current background image" 
         class="preview-image"
         style="max-width: 300px; max-height: 200px; object-fit: cover; border-radius: 8px;"
@@ -205,8 +205,16 @@ const uploadId = `${sectionId}-${fieldPath.replace(/\./g, '-')}`;
               
               // Add a small delay to allow the dev server to recognize the new file
               setTimeout(() => {
-                // Update preview with proper URL handling
-                const displayUrl = imageUrl.startsWith('http') ? imageUrl : `${window.location.origin}${imageUrl}`;
+                // Update preview with proper URL handling - strip localhost URLs
+                let displayUrl;
+                if (imageUrl.startsWith('http://localhost')) {
+                  displayUrl = imageUrl.replace(/^http:\/\/localhost:\d+/, '');
+                  displayUrl = displayUrl.startsWith('/') ? `${window.location.origin}${displayUrl}` : `${window.location.origin}/${displayUrl}`;
+                } else if (imageUrl.startsWith('http')) {
+                  displayUrl = imageUrl;
+                } else {
+                  displayUrl = `${window.location.origin}${imageUrl}`;
+                }
                 preview.innerHTML = `
                   <img 
                     src="${displayUrl}" 
