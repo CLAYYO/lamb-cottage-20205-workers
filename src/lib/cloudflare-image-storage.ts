@@ -151,13 +151,23 @@ export class CloudflareImageStorage {
       // Generate unique filename
       const filename = this.generateFilename(file.name);
       
-      // Check if R2 is available, otherwise use local fallback
-      // Force local fallback in development mode
-      const isDevelopment = process.env.NODE_ENV === 'development' || 
-                           process.env.NODE_ENV !== 'production' ||
-                           !process.env.CLOUDFLARE_ACCOUNT_ID;
+      // Check if we're in Cloudflare Pages environment
+      const isCloudflarePages = typeof globalThis !== 'undefined' && 
+                               (globalThis as any).ASSETS !== undefined;
       
-      if (!this.r2 || isDevelopment) {
+      // Only use local fallback in true development environment (localhost)
+      const isLocalDevelopment = typeof process !== 'undefined' && 
+                                process.env.NODE_ENV === 'development' &&
+                                !isCloudflarePages;
+      
+      if (!this.r2 && !isLocalDevelopment) {
+        return {
+          success: false,
+          error: 'R2 storage not available and not in local development mode'
+        };
+      }
+      
+      if (!this.r2 && isLocalDevelopment) {
         // Local development fallback - save to public/images/uploads
         try {
           // Convert file to buffer
@@ -204,6 +214,14 @@ export class CloudflareImageStorage {
 
       // Convert file to ArrayBuffer
       const arrayBuffer = await file.arrayBuffer();
+
+      // Check if R2 is available
+      if (!this.r2) {
+        return {
+          success: false,
+          error: 'R2 storage not initialized'
+        };
+      }
 
       // Upload to R2
       const result = await this.r2.put(key, arrayBuffer, {

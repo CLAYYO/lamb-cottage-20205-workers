@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Direct Image Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        img { max-width: 300px; border: 1px solid #ccc; }
+        .test { margin: 20px 0; padding: 10px; background: #f5f5f5; }
+    </style>
+</head>
+<body>
+    <h1>Direct Image Access Test</h1>
+    
+    <div class="test">
+        <h3>Latest Uploaded Image:</h3>
+        <img src="/images/uploads/1756730016843_lamb-cottage-logo.png" alt="Latest upload" onload="console.log('Image loaded successfully')" onerror="console.error('Image failed to load')">
+        <p>URL: /images/uploads/1756730016843_lamb-cottage-logo.png</p>
+    </div>
+    
+    <div class="test">
+        <h3>Test with JavaScript:</h3>
+        <div id="imageTest">Loading...</div>
+    </div>
+
+    <script>
+        // Test image loading with JavaScript
+        const img = new Image();
+        img.onload = function() {
+            document.getElementById('imageTest').innerHTML = `
+                <p style="color: green;">✓ Image loads successfully!</p>
+                <img src="${this.src}" style="max-width: 200px;">
+            `;
+        };
+        img.onerror = function() {
+            document.getElementById('imageTest').innerHTML = `
+                <p style="color: red;">✗ Image failed to load</p>
+                <p>URL: ${this.src}</p>
+            `;
+        };
+        img.src = '/images/uploads/1756730016843_lamb-cottage-logo.png';
+    </script>
+</body>
+</html>

@@ -1,4 +1,3 @@
-import fs from 'fs/promises';
 import path from 'path';
 import { z } from 'zod';
 
@@ -321,6 +320,14 @@ export function validateContent(content: any): { valid: boolean; errors?: string
 // Load content from file
 export async function loadContent(): Promise<any> {
   try {
+    // Dynamic import for Node.js modules
+    let fs;
+    try {
+      fs = await import('node:fs/promises');
+    } catch {
+      fs = await import('fs/promises');
+    }
+    
     const contentData = await fs.readFile(CONTENT_FILE, 'utf-8');
     const content = JSON.parse(contentData);
     
@@ -345,6 +352,14 @@ export async function saveContent(content: any): Promise<{ success: boolean; err
   }
   
   try {
+    // Dynamic import for Node.js modules
+    let fs;
+    try {
+      fs = await import('node:fs/promises');
+    } catch {
+      fs = await import('fs/promises');
+    }
+    
     // Create backup of existing content
     await createBackup('auto');
     
@@ -373,6 +388,14 @@ export async function saveContent(content: any): Promise<{ success: boolean; err
 // Create content backup
 export async function createBackup(type: 'manual' | 'auto' = 'manual'): Promise<boolean> {
   try {
+    // Dynamic import for Node.js modules
+    let fs;
+    try {
+      fs = await import('node:fs/promises');
+    } catch {
+      fs = await import('fs/promises');
+    }
+    
     // Ensure backup directory exists
     await fs.mkdir(BACKUP_DIR, { recursive: true });
     
@@ -415,6 +438,14 @@ export async function createBackup(type: 'manual' | 'auto' = 'manual'): Promise<
 // Initialize content file if it doesn't exist
 export async function initializeContent(): Promise<void> {
   try {
+    // Dynamic import for Node.js modules
+    let fs;
+    try {
+      fs = await import('node:fs/promises');
+    } catch {
+      fs = await import('fs/promises');
+    }
+    
     await fs.access(CONTENT_FILE);
   } catch {
     // Content file doesn't exist, create it with default content
