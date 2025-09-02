@@ -1,4 +1,6 @@
 ---
+import { normalizeImageUrl } from '../lib/url-utils';
+
 export interface Props {
   sectionId: string;
   fieldPath: string;
@@ -8,6 +10,7 @@ export interface Props {
 
 const { sectionId, fieldPath, content, className = '' } = Astro.props;
 const uploadId = `${sectionId}-${fieldPath.replace(/\./g, '-')}`;
+const imageUrl = normalizeImageUrl(content);
 ---
 
 <div class={`background-image-upload ${className}`}>
@@ -15,7 +18,7 @@ const uploadId = `${sectionId}-${fieldPath.replace(/\./g, '-')}`;
   <div class="current-image-preview">
     {content ? (
       <img 
-        src={content.startsWith('http://localhost') ? content.replace(/^http:\/\/localhost:\d+/, '') : (content.startsWith('http') ? content : `${Astro.url.origin}${content}`)} 
+        src={imageUrl} 
         alt="Current background image" 
         class="preview-image"
         style="max-width: 300px; max-height: 200px; object-fit: cover; border-radius: 8px;"
@@ -134,6 +137,9 @@ const uploadId = `${sectionId}-${fieldPath.replace(/\./g, '-')}`;
 </style>
 
 <script is:inline>
+  // Import URL utilities
+  const { normalizeImageUrl, toRelativeUrl } = await import('/src/lib/url-utils.js');
+  
   // Handle file upload
   document.addEventListener('change', async function(e) {
     const target = e.target;
@@ -205,16 +211,8 @@ const uploadId = `${sectionId}-${fieldPath.replace(/\./g, '-')}`;
               
               // Add a small delay to allow the dev server to recognize the new file
               setTimeout(() => {
-                // Update preview with proper URL handling - strip localhost URLs
-                let displayUrl;
-                if (imageUrl.startsWith('http://localhost')) {
-                  displayUrl = imageUrl.replace(/^http:\/\/localhost:\d+/, '');
-                  displayUrl = displayUrl.startsWith('/') ? `${window.location.origin}${displayUrl}` : `${window.location.origin}/${displayUrl}`;
-                } else if (imageUrl.startsWith('http')) {
-                  displayUrl = imageUrl;
-                } else {
-                  displayUrl = `${window.location.origin}${imageUrl}`;
-                }
+                // Update preview with consistent URL handling using utility function
+                const displayUrl = normalizeImageUrl(imageUrl);
                 preview.innerHTML = `
                   <img 
                     src="${displayUrl}" 
@@ -224,8 +222,8 @@ const uploadId = `${sectionId}-${fieldPath.replace(/\./g, '-')}`;
                   />
                 `;
                 
-                // Update hidden input
-                hiddenInput.value = imageUrl;
+                // Update hidden input with relative URL for cross-environment compatibility
+                hiddenInput.value = toRelativeUrl(imageUrl);
                 
                 // Update button text
                 uploadBtn.textContent = 'Change Image';
