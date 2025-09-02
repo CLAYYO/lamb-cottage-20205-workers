@@ -35,6 +35,11 @@ const DEFAULT_CONTENT = {
   facilities: {
     title: "Our Facilities",
     subtitle: "Everything you need for a comfortable stay",
+    backgroundImage: {
+      src: "/images/property-placeholder.jpg",
+      alt: "Facilities background",
+      opacity: 0.4
+    },
     items: [
       {
         name: "Electric Hook-ups",

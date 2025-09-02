@@ -83,6 +83,11 @@ const ContentSchema = z.object({
   facilities: z.object({
     title: z.string(),
     subtitle: z.string(),
+    backgroundImage: z.object({
+      src: z.string().url().or(z.string().startsWith('/')).or(z.string().startsWith('#')),
+      alt: z.string(),
+      opacity: z.number().optional()
+    }).optional(),
     items: z.array(FacilitySchema)
   }).optional(),
   propertySales: z.object({
@@ -120,6 +125,107 @@ const ContentSchema = z.object({
     companyName: z.string(),
     description: z.string(),
     copyright: z.string()
+  }).optional(),
+  pages: z.object({
+    about: z.object({
+      hero: z.object({
+        title: z.string(),
+        subtitle: z.string(),
+        backgroundImage: z.object({
+          src: z.string().url().or(z.string().startsWith('/')).or(z.string().startsWith('#')),
+          alt: z.string(),
+          opacity: z.number().optional()
+        }).optional()
+      }).optional()
+    }).optional(),
+    attractions: z.object({
+      hero: z.object({
+        title: z.string(),
+        subtitle: z.string(),
+        backgroundImage: z.object({
+          src: z.string().url().or(z.string().startsWith('/')).or(z.string().startsWith('#')),
+          alt: z.string(),
+          opacity: z.number().optional()
+        }).optional()
+      }).optional()
+    }).optional(),
+    contact: z.object({
+      hero: z.object({
+        title: z.string(),
+        subtitle: z.string(),
+        backgroundImage: z.object({
+          src: z.string().url().or(z.string().startsWith('/')).or(z.string().startsWith('#')),
+          alt: z.string(),
+          opacity: z.number().optional()
+        }).optional()
+      }).optional()
+    }).optional(),
+    directions: z.object({
+      hero: z.object({
+        title: z.string(),
+        subtitle: z.string(),
+        backgroundImage: z.object({
+          src: z.string().url().or(z.string().startsWith('/')).or(z.string().startsWith('#')),
+          alt: z.string(),
+          opacity: z.number().optional()
+        }).optional()
+      }).optional()
+    }).optional(),
+    facilities: z.object({
+      hero: z.object({
+        title: z.string(),
+        subtitle: z.string(),
+        backgroundImage: z.object({
+          src: z.string().url().or(z.string().startsWith('/')).or(z.string().startsWith('#')),
+          alt: z.string(),
+          opacity: z.number().optional()
+        }).optional()
+      }).optional()
+    }).optional(),
+    gallery: z.object({
+      hero: z.object({
+        title: z.string(),
+        subtitle: z.string(),
+        backgroundImage: z.object({
+          src: z.string().url().or(z.string().startsWith('/')).or(z.string().startsWith('#')),
+          alt: z.string(),
+          opacity: z.number().optional()
+        }).optional()
+      }).optional()
+    }).optional(),
+    reviews: z.object({
+      hero: z.object({
+        title: z.string(),
+        subtitle: z.string(),
+        backgroundImage: z.object({
+          src: z.string().url().or(z.string().startsWith('/')).or(z.string().startsWith('#')),
+          alt: z.string(),
+          opacity: z.number().optional()
+        }).optional()
+      }).optional()
+    }).optional(),
+    staticCaravans: z.object({
+      hero: z.object({
+        title: z.string(),
+        subtitle: z.string(),
+        backgroundImage: z.object({
+          src: z.string().url().or(z.string().startsWith('/')).or(z.string().startsWith('#')),
+          alt: z.string(),
+          opacity: z.number().optional()
+        }).optional()
+      }).optional()
+    }).optional(),
+    tariff: z.object({
+      hero: z.object({
+        title: z.string(),
+        subtitle: z.string(),
+        backgroundImage: z.object({
+          src: z.string().url().or(z.string().startsWith('/')).or(z.string().startsWith('#')),
+          alt: z.string(),
+          opacity: z.number().optional()
+        }).optional()
+      }).optional()
+    }).optional()
   }).optional()
 });
 
