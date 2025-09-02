@@ -185,10 +185,9 @@
       "alt": "Booking banner background",
       "opacity": 0.6
     },
-    "ctaButton": {
+    "primaryButton": {
       "text": "Book Now",
-      "url": "/contact",
-      "style": "primary"
+      "url": "/contact"
     }
   },
   "footer": {
