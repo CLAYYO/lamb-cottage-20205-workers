@@ -6,13 +6,13 @@ pages_build_output_dir = "dist"
 # KV Namespace bindings
 [[kv_namespaces]]
 binding = "CONTENT_KV"
-id = "content_kv_namespace"
-preview_id = "content_kv_namespace_preview"
+id = "60c75603f410405db23bca3438e6b383"
+preview_id = "81fd92a660ce4f3292c51952f0ecb209"
 
 [[kv_namespaces]]
 binding = "IMAGES_KV"
-id = "images_kv_namespace"
-preview_id = "images_kv_namespace_preview"
+id = "d1dbc062bcb843bbb49659c1527d0625"
+preview_id = "c1404b234127419d802e68193a55d89f"
 
 # R2 Bucket bindings
 [[r2_buckets]]
