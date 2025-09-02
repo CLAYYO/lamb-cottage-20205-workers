@@ -80,6 +80,11 @@ const ContentSchema = z.object({
   facilities: z.object({
     title: z.string(),
     subtitle: z.string(),
+    backgroundImage: z.object({
+      src: z.string().url().or(z.string().startsWith('/')).or(z.string().startsWith('#')),
+      alt: z.string(),
+      opacity: z.number().optional()
+    }).optional(),
     items: z.array(FacilitySchema)
   }).optional(),
   propertySales: z.object({
