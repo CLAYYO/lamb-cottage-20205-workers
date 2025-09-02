@@ -59,7 +59,11 @@ const ContentSchema = z.object({
     links: z.array(LinkSchema)
   }).optional(),
   hero: z.object({
-    backgroundImage: ImageSchema,
+    backgroundImage: z.object({
+      src: z.string().url().or(z.string().startsWith('/')).or(z.string().startsWith('#')),
+      alt: z.string(),
+      opacity: z.number().optional()
+    }).optional(),
     title: z.string(),
     subtitle: z.string(),
     ctaButton: LinkSchema
@@ -100,7 +104,11 @@ const ContentSchema = z.object({
     title: z.string(),
     subtitle: z.string(),
     ctaButton: LinkSchema,
-    backgroundImage: ImageSchema
+    backgroundImage: z.object({
+      src: z.string().url().or(z.string().startsWith('/')).or(z.string().startsWith('#')),
+      alt: z.string(),
+      opacity: z.number().optional()
+    }).optional()
   }).optional(),
   footer: z.object({
     companyName: z.string(),
