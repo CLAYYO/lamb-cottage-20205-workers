@@ -1,0 +1,27 @@
+{
+  "title": "About Us",
+  "description": "Learn more about Lamb Cottage Caravan Park",
+  "slug": "about",
+  "hero": {
+    "title": "About Us",
+    "subtitle": "Discover the story behind Lamb Cottage Caravan Park",
+    "ctaButton": {
+      "text": "Book Now",
+      "url": "/booking"
+    },
+    "backgroundImage": {
+      "src": "",
+      "alt": "About us background",
+      "opacity": 0.4,
+      "dimensions": {
+        "width": 1920,
+        "height": 1080,
+        "recommended": "1920x1080"
+      }
+    }
+  },
+  "content": {
+    "introduction": "",
+    "sections": []
+  }
+}

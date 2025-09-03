@@ -1,0 +1,33 @@
+{
+  "title": "Facilities",
+  "description": "Discover our excellent facilities and amenities",
+  "slug": "facilities",
+  "hero": {
+    "title": "Our Facilities",
+    "subtitle": "Everything you need for a comfortable stay",
+    "ctaButton": {
+      "text": "Book Now",
+      "url": "/booking"
+    },
+    "backgroundImage": {
+      "src": "",
+      "alt": "Facilities background",
+      "opacity": 0.4,
+      "dimensions": {
+        "width": 1920,
+        "height": 1080,
+        "recommended": "1920x1080"
+      }
+    }
+  },
+  "content": {
+    "introduction": "",
+    "sections": [
+      {
+        "type": "feature_list",
+        "title": "Park Amenities",
+        "items": []
+      }
+    ]
+  }
+}

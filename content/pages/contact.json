@@ -1,0 +1,33 @@
+{
+  "title": "Contact Us",
+  "description": "Get in touch with Lamb Cottage Caravan Park",
+  "slug": "contact",
+  "hero": {
+    "title": "Contact Us",
+    "subtitle": "We're here to help with all your enquiries",
+    "ctaButton": {
+      "text": "Book Now",
+      "url": "/booking"
+    },
+    "backgroundImage": {
+      "src": "",
+      "alt": "Contact us background",
+      "opacity": 0.4,
+      "dimensions": {
+        "width": 1920,
+        "height": 1080,
+        "recommended": "1920x1080"
+      }
+    }
+  },
+  "content": {
+    "introduction": "",
+    "sections": [
+      {
+        "type": "text_section",
+        "title": "Contact Information",
+        "content": "**Phone:** 01606 882302\n**Email:** info@lambcottage.co.uk\n**Address:** Lamb Cottage Caravan Park, Dalefords Lane, Whitegate, Nr. Northwich, Cheshire CW8 2BN\n**Hours:** Monday - Friday: 9:00 AM - 5:00 PM, Saturday - Sunday: 10:00 AM - 4:00 PM. Please call during these hours for the quickest response."
+      }
+    ]
+  }
+}
