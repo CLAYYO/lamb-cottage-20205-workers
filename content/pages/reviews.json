@@ -1,0 +1,81 @@
+{
+  "title": "Guest Reviews",
+  "description": "Read what our guests say about their stay at Lamb Cottage Caravan Park",
+  "slug": "reviews",
+  "hero": {
+    "title": "Guest Reviews",
+    "subtitle": "Discover why our guests love staying at Lamb Cottage Caravan Park",
+    "ctaButton": {
+      "text": "Book Your Stay",
+      "url": "/booking"
+    },
+    "backgroundImage": {
+      "src": "",
+      "alt": "Reviews background",
+      "opacity": 0.4,
+      "dimensions": {
+        "width": 1920,
+        "height": 1080,
+        "recommended": "1920x1080"
+      }
+    }
+  },
+  "content": {
+    "introduction": {
+      "title": "What Our Guests Say",
+      "content": "We're proud of the exceptional service and facilities we provide. Here's what our guests have to say about their experiences at Lamb Cottage Caravan Park."
+    },
+    "awards": [
+      {
+        "name": "AA Gold Pennant",
+        "description": "Recognized for exceptional quality and service",
+        "icon": "star",
+        "color": "yellow"
+      },
+      {
+        "name": "Visit England",
+        "description": "Official recognition for tourism excellence",
+        "icon": "badge",
+        "color": "blue"
+      },
+      {
+        "name": "Award-Winning Park",
+        "description": "Exclusively for adults seeking quality",
+        "icon": "star",
+        "color": "green"
+      }
+    ],
+    "reviews": [
+      {
+        "name": "Margaret & John",
+        "title": "Regular Guests",
+        "rating": 5,
+        "comment": "Absolutely immaculate facilities and beautifully maintained grounds. The adult-only policy creates such a peaceful atmosphere. We've been returning for five years now and it never disappoints."
+      },
+      {
+        "name": "David & Sarah",
+        "title": "First-time Visitors",
+        "rating": 5,
+        "comment": "The location is perfect - so close to Chester but feels like you're in the middle of the countryside. The shower facilities are like a luxury hotel. Highly recommended!"
+      },
+      {
+        "name": "Robert & Linda",
+        "title": "Dog Owners",
+        "rating": 5,
+        "comment": "Our dogs love the dedicated walking area, and we love the peace and quiet. The grounds are stunning and the pitches are spacious. We'll definitely be back next year."
+      },
+      {
+        "name": "Michael & Patricia",
+        "title": "Seasonal Pitch Holders",
+        "rating": 5,
+        "comment": "Exceptional value for money. The facilities are spotless, the WiFi is excellent, and the location couldn't be better for exploring Cheshire. The AA Gold Pennant is well deserved."
+      },
+      {
+        "name": "James & Helen",
+        "title": "Touring Enthusiasts",
+        "rating": 5,
+        "comment": "We've stayed at many caravan parks across the UK, but Lamb Cottage stands out for its attention to detail and genuine care for guests. The landscaping is beautiful year-round."
+      }
+    ]
+  }
+}

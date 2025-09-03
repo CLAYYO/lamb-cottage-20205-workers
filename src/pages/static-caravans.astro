@@ -3,16 +3,16 @@ export const prerender = true;
 
 // Static Caravans - Lamb Cottage Caravan Park
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { contentStorage } from '../lib/content-storage';
-import siteContent from '../../content/site-content.json';
 
-// Load content
-const content = await contentStorage.load();
-const pageContent = siteContent.pages.staticCaravans;
+// Import content directly - this works in both Node.js and Workers environments
+import staticCaravansContentRaw from '../../content/pages/static-caravans.json';
+
+// Ensure we have the content as an object
+const pageContent = typeof staticCaravansContentRaw === 'string' ? JSON.parse(staticCaravansContentRaw) : staticCaravansContentRaw;
 
 // Page metadata
-const title = 'Static Caravans - Lamb Cottage Caravan Park';
-const description = 'Explore our comfortable static caravans for hire at Lamb Cottage Caravan Park in Vale Royal, Cheshire.';
+const title = pageContent.title || 'Static Caravans - Lamb Cottage Caravan Park';
+const description = pageContent.description || 'Explore our comfortable static caravans for hire at Lamb Cottage Caravan Park in Vale Royal, Cheshire.';
 ---
 
 <BaseLayout title={pageContent.title} description={pageContent.description}>

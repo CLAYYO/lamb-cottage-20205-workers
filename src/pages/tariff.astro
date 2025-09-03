@@ -3,16 +3,16 @@ export const prerender = true;
 
 // Tariff & Conditions - Lamb Cottage Caravan Park
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { contentStorage } from '../lib/content-storage';
-import siteContent from '../../content/site-content.json';
 
-// Load content
-const content = await contentStorage.load();
-const pageContent = siteContent.pages.tariff;
+// Import content directly - this works in both Node.js and Workers environments
+import tariffContentRaw from '../../content/pages/tariff.json';
+
+// Ensure we have the content as an object
+const pageContent = typeof tariffContentRaw === 'string' ? JSON.parse(tariffContentRaw) : tariffContentRaw;
 
 // Page metadata
-const title = 'Tariff & Pricing - Lamb Cottage Caravan Park';
-const description = 'View our competitive pricing and tariff information for stays at Lamb Cottage Caravan Park in Cheshire.';
+const title = pageContent.title || 'Tariff & Pricing - Lamb Cottage Caravan Park';
+const description = pageContent.description || 'View our competitive pricing and tariff information for stays at Lamb Cottage Caravan Park in Cheshire.';
 ---
 
 <BaseLayout title={pageContent?.title || 'Tariff & Pricing - Lamb Cottage Caravan Park'} description={pageContent?.description || 'View our competitive pricing and tariff information for stays at Lamb Cottage Caravan Park in Cheshire.'}>

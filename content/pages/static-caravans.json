@@ -1,0 +1,108 @@
+{
+  "title": "Static Caravans",
+  "description": "Explore our comfortable static caravans for hire at Lamb Cottage Caravan Park in Vale Royal, Cheshire",
+  "slug": "static-caravans",
+  "hero": {
+    "title": "Static Caravans",
+    "subtitle": "Comfortable and convenient static caravan options in the heart of Cheshire",
+    "ctaButton": {
+      "text": "View Options",
+      "url": "#options"
+    },
+    "backgroundImage": {
+      "src": "",
+      "alt": "Static caravans background",
+      "opacity": 0.4,
+      "dimensions": {
+        "width": 1920,
+        "height": 1080,
+        "recommended": "1920x1080"
+      }
+    }
+  },
+  "content": {
+    "introduction": {
+      "title": "Your Home Away From Home",
+      "content": "Discover the perfect blend of comfort and convenience with our static caravan options. Whether you're looking for a seasonal pitch, annual agreement, or purchase opportunity, we have the perfect solution for your holiday home needs."
+    },
+    "options": [
+      {
+        "id": "seasonal",
+        "name": "Seasonal Pitch",
+        "description": "Perfect for regular visitors who want their own space throughout the season. Store your caravan with us and enjoy hassle-free holidays.",
+        "features": [
+          "March to October season",
+          "Secure winter storage",
+          "All facilities included",
+          "Priority booking"
+        ],
+        "color": "green",
+        "icon": "calendar",
+        "popular": false
+      },
+      {
+        "id": "annual",
+        "name": "Annual Agreement",
+        "description": "Year-round access to your static caravan with the flexibility to visit whenever you want. Perfect for weekend getaways and extended holidays.",
+        "features": [
+          "12-month agreement",
+          "Year-round access",
+          "Premium pitch locations",
+          "Flexible payment terms"
+        ],
+        "color": "blue",
+        "icon": "home",
+        "popular": true
+      },
+      {
+        "id": "purchase",
+        "name": "Purchase Option",
+        "description": "Own your own static caravan on our beautiful site. Full ownership with all the benefits of our premium location and facilities.",
+        "features": [
+          "Full ownership rights",
+          "Choice of new or pre-owned",
+          "Site fees included",
+          "Investment opportunity"
+        ],
+        "color": "purple",
+        "icon": "key",
+        "popular": false
+      }
+    ],
+    "benefits": [
+      {
+        "title": "Premium Locations",
+        "description": "Choose from our selection of prime pitches across our beautiful 7.5-acre site",
+        "icon": "location"
+      },
+      {
+        "title": "All Facilities Included",
+        "description": "Full access to our luxury amenities, WiFi, and beautifully maintained grounds",
+        "icon": "check"
+      },
+      {
+        "title": "Flexible Options",
+        "description": "Seasonal pitches, annual agreements, or purchase opportunities available",
+        "icon": "options"
+      }
+    ],
+    "specifications": {
+      "title": "What's Included",
+      "items": [
+        "Fully serviced pitches with electric, water, and drainage",
+        "Access to luxury shower and toilet facilities",
+        "Free WiFi throughout the site",
+        "Use of laundry facilities",
+        "Access to dog walking areas",
+        "24/7 security and site management",
+        "Beautifully landscaped surroundings",
+        "Convenient location near Chester and local attractions"
+      ]
+    },
+    "pricing": {
+      "title": "Competitive Pricing",
+      "description": "We offer competitive rates for all our static caravan options. Contact us for current pricing and availability.",
+      "note": "Prices vary by pitch location, caravan size, and agreement type. Special rates available for long-term commitments."
+    }
+  }
+}

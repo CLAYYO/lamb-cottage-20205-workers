@@ -1,17 +1,18 @@
 ---
 export const prerender = true;
 
-// Onsite Facilities - Lamb Cottage Caravan Park
+// Facilities - Lamb Cottage Caravan Park
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { contentStorage } from '../lib/content-storage';
 
-// Load content
-const siteContent = await contentStorage.load();
-const pageContent = siteContent.pages.facilities;
+// Import content directly - this works in both Node.js and Workers environments
+import facilitiesContentRaw from '../../content/pages/facilities.json';
+
+// Ensure we have the content as an object
+const pageContent = typeof facilitiesContentRaw === 'string' ? JSON.parse(facilitiesContentRaw) : facilitiesContentRaw;
 
 // Page metadata
-const title = pageContent.title;
-const description = pageContent.description;
+const title = pageContent.title || "Facilities";
+const description = pageContent.description || "Discover our facilities at Lamb Cottage Caravan Park";
 ---
 
 <BaseLayout title={title} description={description}>

@@ -3,14 +3,14 @@
   "description": "Learn more about Lamb Cottage Caravan Park",
   "slug": "about",
   "hero": {
-    "title": "About Us",
-    "subtitle": "Discover the story behind Lamb Cottage Caravan Park",
+    "title": "About Lamb Cottage Caravan Park",
+    "subtitle": "Discover the story behind our award-winning adults-only caravan park",
     "ctaButton": {
       "text": "Book Now",
       "url": "/booking"
     },
     "backgroundImage": {
-      "src": "",
+      "src": "/lamb-cottage-hero.jpg",
       "alt": "About us background",
       "opacity": 0.4,
       "dimensions": {
@@ -21,7 +21,21 @@
     }
   },
   "content": {
-    "introduction": "",
-    "sections": []
+    "introduction": {
+      "title": "Welcome to Lamb Cottage",
+      "content": "<p>Welcome to our award-winning adults-only caravan park, set in 7½ acres of meticulously maintained lawns and landscaped grounds in Cheshire's Vale Royal region. Surrounded by farmland and away from main roads, our tranquil location provides the perfect escape for a relaxing break.</p><p>Our touring park is open from March until 2 January each year, offering 41 super pitches and 30 seasonal pitches. We accommodate caravans, motorhomes and privately owned holiday homes, with excellent facilities and easy access to Chester.</p>"
+    },
+    "awards": {
+      "title": "Awards & Recognition",
+      "content": "<p>We are proud to hold the AA Gold Pennant award, recognizing our exceptional standards of facilities and customer service. Our commitment to excellence has earned us recognition from Visit England and consistently high ratings from our guests.</p>"
+    },
+    "facilities": {
+      "title": "Premium Facilities",
+      "content": "<p>Our five-star luxury en-suite style shower rooms feature free hot water and hairdryers. We provide 16-amp electric hook-ups, modern laundry facilities, motor-home services, and full disabled access facilities. Additional amenities include an on-site woodland dog walk, information centre, and complimentary Wi-Fi throughout the park.</p>"
+    },
+    "management": {
+      "title": "Personal Service",
+      "content": "<p>As a family-run business, we take pride in providing personal attention to each of our guests. Our experienced team is always on hand to ensure your stay is comfortable and memorable, offering local knowledge and assistance whenever needed.</p>"
+    }
   }
 }

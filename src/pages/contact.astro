@@ -3,15 +3,16 @@ export const prerender = true;
 
 // Contact Us - Lamb Cottage Caravan Park
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { contentStorage } from '../lib/content-storage';
 
-// Load content
-const siteContent = await contentStorage.load();
-const pageContent = siteContent.pages.contact;
+// Import content directly - this works in both Node.js and Workers environments
+import contactContentRaw from '../../content/pages/contact.json';
+
+// Ensure we have the content as an object
+const pageContent = typeof contactContentRaw === 'string' ? JSON.parse(contactContentRaw) : contactContentRaw;
 
 // Page metadata
-const title = pageContent.title;
-const description = pageContent.description;
+const title = pageContent.title || "Contact Us";
+const description = pageContent.description || "Get in touch with Lamb Cottage Caravan Park";
 ---
 
 <BaseLayout title={title} description={description}>

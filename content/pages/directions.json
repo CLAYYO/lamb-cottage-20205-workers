@@ -1,0 +1,80 @@
+{
+  "title": "How To Find Us",
+  "description": "Directions and location information for Lamb Cottage Caravan Park",
+  "slug": "directions",
+  "hero": {
+    "title": "How To Find Us",
+    "subtitle": "Easy directions to Lamb Cottage Caravan Park in the heart of Cheshire",
+    "ctaButton": {
+      "text": "Book Now",
+      "url": "/booking"
+    },
+    "backgroundImage": {
+      "src": "",
+      "alt": "Directions background",
+      "opacity": 0.4,
+      "dimensions": {
+        "width": 1920,
+        "height": 1080,
+        "recommended": "1920x1080"
+      }
+    }
+  },
+  "content": {
+    "address": {
+      "name": "Lamb Cottage Caravan Park",
+      "street": "Dalefords Lane",
+      "area": "Whitegate, Nr. Northwich",
+      "county": "Cheshire",
+      "postcode": "CW8 2BN",
+      "phone": "01606 882302",
+      "email": "info@lambcottage.co.uk"
+    },
+    "location": {
+      "what3words": "///example.words.location",
+      "latitude": "53.2734",
+      "longitude": "-2.5678"
+    },
+    "directions": [
+      {
+        "from": "Manchester",
+        "duration": "45 minutes",
+        "color": "green",
+        "steps": [
+          "Take the M56 westbound towards Chester",
+          "Exit at Junction 12 for the A557 towards Runcorn",
+          "Follow signs for Vale Royal and local directions",
+          "Look for Lamb Cottage Caravan Park signs"
+        ]
+      },
+      {
+        "from": "Liverpool",
+        "duration": "35 minutes",
+        "color": "blue",
+        "steps": [
+          "Take the M62 eastbound, then M56 towards Chester",
+          "Exit at Junction 12 for the A557",
+          "Follow local signs to Vale Royal area",
+          "Continue to Lamb Cottage Caravan Park"
+        ]
+      },
+      {
+        "from": "Chester",
+        "duration": "20 minutes",
+        "color": "purple",
+        "steps": [
+          "Head north on the A556 towards Northwich",
+          "Follow signs for Whitegate and Vale Royal",
+          "Turn onto Dalefords Lane",
+          "Lamb Cottage Caravan Park will be on your right"
+        ]
+      }
+    ],
+    "tips": [
+      "Look out for our distinctive entrance sign",
+      "The park is well signposted from main roads",
+      "If you get lost, call us on 01606 882302",
+      "Check-in is available from 2:00 PM"
+    ]
+  }
+}

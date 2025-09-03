@@ -20,15 +20,25 @@ export default defineConfig({
     ssr: {
       external: [
         'fs',
-        'fs/promises', 
+        'fs/promises',
+        'node:fs',
+        'node:fs/promises',
         'path',
+        'node:path',
         'crypto',
+        'node:crypto',
         'os',
+        'node:os',
         'util',
+        'node:util',
         'stream',
+        'node:stream',
         'buffer',
+        'node:buffer',
         'url',
-        'querystring'
+        'node:url',
+        'querystring',
+        'node:querystring'
       ]
     },
     define: {

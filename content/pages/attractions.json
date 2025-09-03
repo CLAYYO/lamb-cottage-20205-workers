@@ -1,0 +1,98 @@
+{
+  "title": "Local Attractions",
+  "description": "Discover the best attractions and events near Lamb Cottage Caravan Park",
+  "slug": "attractions",
+  "hero": {
+    "title": "Local Attractions",
+    "subtitle": "Explore the best of Cheshire and surrounding areas",
+    "ctaButton": {
+      "text": "Book Now",
+      "url": "/booking"
+    },
+    "backgroundImage": {
+      "src": "",
+      "alt": "Local attractions background",
+      "opacity": 0.4,
+      "dimensions": {
+        "width": 1920,
+        "height": 1080,
+        "recommended": "1920x1080"
+      }
+    }
+  },
+  "content": {
+    "introduction": "Located in the heart of the Vale Royal area, Lamb Cottage is perfectly positioned for exploring Cheshire's rich heritage, stunning countryside, and vibrant attractions. From historic Chester to seasonal events, there's something for everyone.",
+    "sections": [
+      {
+        "type": "attractions_grid",
+        "title": "Nearby Attractions",
+        "attractions": [
+          {
+            "name": "Chester Christmas Markets",
+            "type": "Seasonal Event",
+            "description": "Experience the magic of Christmas in historic Chester with traditional markets, festive food, and unique gifts in the heart of this Roman city.",
+            "season": "November - December",
+            "distance": "15 minutes drive",
+            "gradient": "from-red-500 to-green-600"
+          },
+          {
+            "name": "Arley Christmas Fairs",
+            "type": "Seasonal Event",
+            "description": "Charming local Christmas fairs featuring local crafts, seasonal treats, and festive entertainment in the picturesque village of Arley.",
+            "season": "December",
+            "distance": "10 minutes drive",
+            "gradient": "from-green-600 to-red-500"
+          },
+          {
+            "name": "Whitegate Daffodil Walk",
+            "type": "Spring Attraction",
+            "description": "A spectacular spring display of thousands of daffodils creating a golden carpet through the Cheshire countryside.",
+            "season": "March - April",
+            "distance": "5 minutes drive",
+            "gradient": "from-yellow-400 to-green-500"
+          },
+          {
+            "name": "RHS Flower Show",
+            "type": "Annual Event",
+            "description": "World-class horticultural displays, garden inspiration, and expert advice at one of the UK's premier flower shows.",
+            "season": "Summer",
+            "distance": "30 minutes drive",
+            "gradient": "from-pink-500 to-purple-600"
+          },
+          {
+            "name": "Storyhouse Chester",
+            "type": "Theatre & Cinema",
+            "description": "Award-winning theatre, cinema, and library complex offering world-class performances, films, and cultural events in Chester's city center.",
+            "season": "Year-round",
+            "distance": "15 minutes drive",
+            "gradient": "from-blue-600 to-purple-700"
+          },
+          {
+            "name": "Royal Cheshire Show",
+            "type": "Annual Agricultural Show",
+            "description": "Cheshire's premier agricultural show featuring livestock competitions, rural crafts, local food, and family entertainment.",
+            "season": "June",
+            "distance": "20 minutes drive",
+            "gradient": "from-green-700 to-blue-600"
+          },
+          {
+            "name": "Beeston Castle",
+            "type": "Historic Castle",
+            "description": "Spectacular 13th-century castle ruins perched on a rocky crag with panoramic views across the Cheshire Plain.",
+            "season": "Year-round",
+            "distance": "10 minutes drive",
+            "gradient": "from-gray-600 to-stone-700"
+          },
+          {
+            "name": "Chester Food & Drink Festival",
+            "type": "Annual Festival",
+            "description": "Celebrate local and international cuisine with food stalls, cooking demonstrations, and tastings in Chester's historic streets.",
+            "season": "September",
+            "distance": "15 minutes drive",
+            "gradient": "from-orange-500 to-red-600"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -2,10 +2,12 @@
 export const prerender = true;
 
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { contentStorage } from '../lib/content-storage';
 
-const siteContent = await contentStorage.load();
-const pageContent = siteContent.pages.reviews;
+// Import content directly - this works in both Node.js and Workers environments
+import reviewsContentRaw from '../../content/pages/reviews.json';
+
+// Ensure we have the content as an object
+const pageContent = typeof reviewsContentRaw === 'string' ? JSON.parse(reviewsContentRaw) : reviewsContentRaw;
 ---
 
 <BaseLayout title={pageContent.title} description={pageContent.description}>

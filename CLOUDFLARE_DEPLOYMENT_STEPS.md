@@ -1,177 +1,203 @@
-# Cloudflare Pages Deployment Steps for Lamb Cottage CMS
+# 🚀 Cloudflare Pages Deployment - Step by Step Guide
 
-## Current Status
-✅ Supabase database configured
-✅ Resend email service configured
-✅ GitHub App created
-❌ GitHub App private key needs to be added
-❌ Cloudflare Pages deployment pending
+## Prerequisites Checklist ✅
+- [x] GitHub repository: `https://github.com/CLAYYO/lambcottage2025.git`
+- [x] All environment variables configured in `.env.local`
+- [x] Pages CMS project structure ready
+- [x] GitHub App configured with Installation ID
 
-## Step 1: Complete GitHub App Configuration
+---
 
-### 1.1 Add the GitHub App Private Key
-You need to add the base64-encoded private key to your environment variables:
+## Step 1: Access Cloudflare Pages Dashboard
 
-1. Go to your GitHub App settings: https://github.com/settings/apps
-2. Click on your "Lamb Cottage CMS" app
-3. Scroll down to "Private keys" section
-4. Click "Generate a private key" (if you haven't already)
-5. Download the `.pem` file
-6. Convert it to base64:
-   ```bash
-   cat path/to/your-private-key.pem | base64 | tr -d '\n'
-   ```
-7. Copy the base64 string and update your `.env.local` file:
-   ```
-   GITHUB_APP_PRIVATE_KEY=your_actual_base64_encoded_private_key_here
-   ```
+1. **Login to Cloudflare**
+   - Go to [https://dash.cloudflare.com/](https://dash.cloudflare.com/)
+   - Login with your Cloudflare account
 
-### 1.2 Get Installation ID
-1. Install your GitHub App on your repository if you haven't already
-2. Go to: https://github.com/settings/installations
-3. Click "Configure" next to your app
-4. Note the Installation ID from the URL (e.g., `/settings/installations/12345678`)
-5. Add it to your environment variables:
-   ```
-   GITHUB_INSTALLATION_ID=12345678
-   ```
+2. **Navigate to Pages**
+   - Click on "Pages" in the left sidebar
+   - Click "Create a project" button
 
-## Step 2: Prepare for Cloudflare Pages Deployment
+---
 
-### 2.1 Update Next.js Configuration
-The Pages CMS needs to be configured for Cloudflare Pages compatibility. Update the `next.config.mjs` file in the pages-cms-evaluation folder:
+## Step 2: Connect GitHub Repository
 
-```javascript
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  // Cloudflare Pages compatibility
-  experimental: {
-    runtime: 'edge'
-  },
-  images: {
-    unoptimized: true
-  },
-  // Environment variables for build
-  env: {
-    CUSTOM_KEY: 'my-value',
-  },
-}
+1. **Connect to Git**
+   - Select "Connect to Git"
+   - Choose "GitHub" as your Git provider
+   - Authorize Cloudflare to access your GitHub account if prompted
 
-export default nextConfig
+2. **Select Repository**
+   - Find and select: `CLAYYO/lambcottage2025`
+   - Click "Begin setup"
+
+---
+
+## Step 3: Configure Build Settings
+
+**IMPORTANT: Use these exact settings for your Next.js project:**
+
+```
+Project name: lambcottage-cms
+Production branch: main (or master)
+Build command: npm run build
+Build output directory: out
+Root directory: / (leave empty)
 ```
 
-### 2.2 Create Production Environment Variables File
-Create a file with all the environment variables needed for Cloudflare Pages:
+**Environment Variables (Framework preset):**
+- Framework preset: **Next.js (Static HTML Export)**
+- Node.js version: **18** or higher
 
-```env
-# GitHub App Configuration
-GITHUB_APP_ID=1889189
-GITHUB_CLIENT_ID=Iv23lih0ogyX94Q1ZGRN
-GITHUB_CLIENT_SECRET=447932d75f45dc687db2dd190d2df8073bae33eb
-GITHUB_APP_PRIVATE_KEY=[YOUR_BASE64_PRIVATE_KEY]
-GITHUB_WEBHOOK_SECRET=88c3adc521de16c5ead96a87e09ad126d569077a8bb350d67731c6f67fab0736
-GITHUB_INSTALLATION_ID=[YOUR_INSTALLATION_ID]
-GITHUB_OWNER=nickroberts
-GITHUB_REPO=lamb-cottage-2025
+---
+
+## Step 4: Add Environment Variables
+
+**CRITICAL: Add ALL these environment variables in Cloudflare Pages:**
+
+### Supabase Configuration
+```
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+```
+
+### GitHub App Configuration
+```
+GITHUB_APP_ID=your-app-id
+GITHUB_CLIENT_ID=your-client-id
+GITHUB_CLIENT_SECRET=your-client-secret
+GITHUB_WEBHOOK_SECRET=your-webhook-secret
+GITHUB_APP_PRIVATE_KEY=your-base64-encoded-private-key
+GITHUB_INSTALLATION_ID=84118502
+GITHUB_OWNER=CLAYYO
+GITHUB_REPO=lambcottage2025
 GITHUB_BRANCH=main
+```
 
-# Supabase Configuration
-NEXT_PUBLIC_SUPABASE_URL=https://okmefogqzhnivtnpqlrc.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9rbWVmb2dxemhuaXZ0bnBxbHJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4ODg0MDgsImV4cCI6MjA3MjQ2NDQwOH0.WRH1bN2qSxIt2YWMAfiFbTL0CevMAK_wjuMFPs78U-E
-SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9rbWVmb2dxemhuaXZ0bnBxbHJjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Njg4ODQwOCwiZXhwIjoyMDcyNDY0NDA4fQ.oHAarmc-Exo9rhe2LLUJZbgXzDg3laDiNUXPbphgRiE
-
-# Resend Email Configuration
-RESEND_API_KEY=re_KfRMFBEi_5aSGr92JWFpZEhJAjcpforuJ
+### Resend Email Configuration
+```
+RESEND_API_KEY=your-resend-api-key
 RESEND_FROM_EMAIL=noreply@lambcottage.co.uk
+```
 
-# Pages CMS Configuration (will be updated after deployment)
-NEXTAUTH_URL=https://lamb-cottage-cms.pages.dev
-NEXTAUTH_SECRET=88c3adc521de16c5ead96a87e09ad126d569077a8bb350d67731c6f67fab0736
+### NextAuth Configuration
+```
+NEXTAUTH_URL=https://lambcottage.co.uk
+NEXTAUTH_SECRET=your-nextauth-secret
+```
 
-# Site Configuration
+### Site Configuration
+```
 SITE_URL=https://lambcottage.co.uk
 SITE_NAME=Lamb Cottage
 ```
 
-## Step 3: Deploy to Cloudflare Pages
-
-### 3.1 Create Cloudflare Pages Project
-1. Go to [Cloudflare Dashboard](https://dash.cloudflare.com/)
-2. Navigate to **Pages** in the left sidebar
-3. Click **Create a project**
-4. Select **Connect to Git**
-5. Choose **GitHub** and authorize Cloudflare
-6. Select your `pages-cms-evaluation` repository (or fork it first)
-
-### 3.2 Configure Build Settings
-- **Project name**: `lamb-cottage-cms`
-- **Framework preset**: Next.js
-- **Build command**: `npm run build`
-- **Build output directory**: `.next`
-- **Root directory**: `/` (or `/pages-cms-evaluation` if it's a subdirectory)
-- **Node.js version**: 18.x
-
-### 3.3 Add Environment Variables
-In the Cloudflare Pages project settings, add all the environment variables from Step 2.2.
-
-### 3.4 Deploy
-1. Click **Save and Deploy**
-2. Wait for the build to complete (5-10 minutes)
-3. Note your deployment URL: `https://lamb-cottage-cms.pages.dev`
-
-## Step 4: Update GitHub App Webhook URL
-
-1. Go to your GitHub App settings
-2. Update the **Webhook URL** to:
-   ```
-   https://lamb-cottage-cms.pages.dev/api/webhooks/github
-   ```
-3. Update the **User authorization callback URL** to:
-   ```
-   https://lamb-cottage-cms.pages.dev/api/auth/callback/github
-   ```
-4. Save the changes
-
-## Step 5: Update Environment Variables
-
-Update the following environment variables in Cloudflare Pages:
-```
-NEXTAUTH_URL=https://lamb-cottage-cms.pages.dev
-```
-
-## Step 6: Test the Deployment
-
-1. Visit `https://lamb-cottage-cms.pages.dev`
-2. Test GitHub OAuth login
-3. Verify repository connection
-4. Test content editing functionality
-5. Make a test commit to verify webhooks work
-
-## Step 7: Optional - Custom Domain
-
-If you want to use a custom domain like `cms.lambcottage.co.uk`:
-
-1. In Cloudflare Pages, go to **Custom domains**
-2. Add `cms.lambcottage.co.uk`
-3. Update DNS records as instructed
-4. Update environment variables with the new domain
-5. Update GitHub App URLs with the new domain
-
-## Troubleshooting
-
-### Common Issues:
-1. **Build failures**: Check Node.js version and environment variables
-2. **GitHub authentication issues**: Verify private key is correctly base64 encoded
-3. **Webhook failures**: Ensure webhook URL is correctly set in GitHub App
-4. **Database connection issues**: Verify Supabase credentials
-
-### Next Steps After Deployment:
-1. Test all CMS functionality
-2. Migrate existing content
-3. Set up monitoring and backups
-4. Configure custom domain (optional)
-5. Remove old admin system
+**How to add variables:**
+1. In build settings, scroll to "Environment variables"
+2. Click "Add variable" for each one
+3. Copy the exact values from your `.env.local` file
 
 ---
 
-**Ready to proceed?** Start with Step 1.1 to add your GitHub App private key, then we can move forward with the Cloudflare Pages deployment.
+## Step 5: Deploy the Project
+
+1. **Save and Deploy**
+   - Click "Save and Deploy"
+   - Wait for the build to complete (usually 2-5 minutes)
+   - Monitor the build logs for any errors
+
+2. **Verify Deployment**
+   - Once complete, you'll get a temporary URL like: `https://lambcottage-cms.pages.dev`
+   - Test this URL to ensure the site loads correctly
+
+---
+
+## Step 6: Configure Custom Domain
+
+1. **Add Custom Domain**
+   - In your Pages project, go to "Custom domains"
+   - Click "Set up a custom domain"
+   - Enter: `lambcottage.co.uk`
+
+2. **DNS Configuration**
+   - Cloudflare will provide DNS records to add
+   - If your domain is already on Cloudflare, it will auto-configure
+   - If not, add the provided CNAME record to your DNS provider
+
+3. **SSL Certificate**
+   - Cloudflare will automatically provision an SSL certificate
+   - Wait for "Active" status (usually 5-15 minutes)
+
+---
+
+## Step 7: Update GitHub App Webhook
+
+**IMPORTANT: After deployment, update your GitHub App webhook URL:**
+
+1. Go to your GitHub App settings
+2. Update webhook URL to: `https://lambcottage.co.uk/api/github/webhook`
+3. Save the changes
+
+---
+
+## Step 8: Test CMS Functionality
+
+1. **Access CMS**
+   - Go to: `https://lambcottage.co.uk/admin`
+   - Login with GitHub authentication
+
+2. **Test Features**
+   - Create a test blog post
+   - Edit existing content
+   - Verify file uploads work
+   - Check email notifications
+
+---
+
+## Troubleshooting Common Issues
+
+### Build Failures
+- Check build logs in Cloudflare Pages dashboard
+- Verify all environment variables are set correctly
+- Ensure Node.js version is 18+
+
+### Authentication Issues
+- Verify GitHub App credentials
+- Check webhook URL is correct
+- Confirm Installation ID is accurate
+
+### Domain Issues
+- Verify DNS records are correct
+- Wait for SSL certificate provisioning
+- Check domain is not conflicting with other services
+
+---
+
+## Next Steps After Deployment
+
+1. **Content Migration**
+   - Import existing blog posts and pages
+   - Update image paths and links
+   - Configure SEO settings
+
+2. **User Management**
+   - Set up additional admin users
+   - Configure user roles and permissions
+
+3. **Monitoring**
+   - Set up analytics
+   - Configure error monitoring
+   - Set up backup strategies
+
+---
+
+## Support Resources
+
+- **Cloudflare Pages Docs**: [https://developers.cloudflare.com/pages/](https://developers.cloudflare.com/pages/)
+- **Next.js Deployment**: [https://nextjs.org/docs/deployment](https://nextjs.org/docs/deployment)
+- **Pages CMS Documentation**: Check the project README
+
+---
+
+**🎉 Ready to deploy? Follow these steps carefully and your CMS will be live at https://lambcottage.co.uk!**

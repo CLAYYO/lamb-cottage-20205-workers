@@ -3,15 +3,16 @@ export const prerender = true;
 
 // How To Find Us - Lamb Cottage Caravan Park
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { contentStorage } from '../lib/content-storage';
 
-// Load content
-const siteContent = await contentStorage.load();
-const pageContent = siteContent.pages.directions;
+// Import content directly - this works in both Node.js and Workers environments
+import directionsContentRaw from '../../content/pages/directions.json';
+
+// Ensure we have the content as an object
+const pageContent = typeof directionsContentRaw === 'string' ? JSON.parse(directionsContentRaw) : directionsContentRaw;
 
 // Page metadata
-const title = pageContent.title;
-const description = pageContent.description;
+const title = pageContent.title || "How To Find Us";
+const description = pageContent.description || "Directions to Lamb Cottage Caravan Park";
 ---
 
 <BaseLayout title={title} description={description}>

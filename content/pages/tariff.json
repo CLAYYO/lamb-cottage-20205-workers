@@ -1,0 +1,123 @@
+{
+  "title": "Tariff & Pricing",
+  "description": "View our competitive pricing and tariff information for stays at Lamb Cottage Caravan Park in Cheshire",
+  "slug": "tariff",
+  "hero": {
+    "title": "Prices & Tariffs",
+    "subtitle": "Transparent pricing for your perfect getaway",
+    "backgroundImage": {
+      "src": "",
+      "alt": "Pricing background",
+      "opacity": 0.4,
+      "dimensions": {
+        "width": 1920,
+        "height": 1080,
+        "recommended": "1920x1080"
+      }
+    }
+  },
+  "content": {
+    "introduction": "We offer competitive rates with no hidden fees, ensuring great value for your countryside holiday.",
+    "pricing": {
+      "superPitch": {
+        "title": "Super Pitch Rates (Per Night)",
+        "rates": [
+          {
+            "period": "Standard Season",
+            "rate": "£35",
+            "description": "Most weekdays and off-peak periods",
+            "color": "green"
+          },
+          {
+            "period": "Peak Season",
+            "rate": "£40",
+            "description": "Weekends and popular periods",
+            "color": "orange"
+          },
+          {
+            "period": "Bank Holidays",
+            "rate": "£40",
+            "description": "All UK bank holiday periods",
+            "color": "red"
+          }
+        ]
+      },
+      "additionalCharges": [
+        {
+          "item": "Dogs (per dog, per night)",
+          "price": "£1.00"
+        },
+        {
+          "item": "Extra Adults (per person, per night)",
+          "price": "£8.00"
+        },
+        {
+          "item": "Extra Cars (per car, per night)",
+          "price": "£1.00"
+        },
+        {
+          "item": "Awnings",
+          "price": "FREE"
+        }
+      ],
+      "included": [
+        "16 amp electric hook-up",
+        "Fresh water supply",
+        "Waste disposal facilities",
+        "Access to all facilities",
+        "Free WiFi throughout park",
+        "Awning space (no extra charge)"
+      ]
+    },
+    "seasonDates": {
+      "title": "2025 Season Dates",
+      "seasons": [
+        {
+          "name": "Standard Season",
+          "rate": "£35 per night",
+          "dates": "March 15 - October 31",
+          "description": "Most weekdays and off-peak periods",
+          "color": "green"
+        },
+        {
+          "name": "Peak Season",
+          "rate": "£40 per night",
+          "dates": "Weekends & School Holidays",
+          "description": "Friday-Sunday and school holiday periods",
+          "color": "orange"
+        },
+        {
+          "name": "Bank Holidays",
+          "rate": "£40 per night",
+          "dates": "All UK Bank Holidays",
+          "description": "Easter, May Day, Spring Bank Holiday, etc.",
+          "color": "red"
+        }
+      ]
+    },
+    "bookingInfo": {
+      "title": "Booking Information",
+      "details": [
+        "Minimum 2-night stay on weekends",
+        "Minimum 3-night stay on bank holidays",
+        "Check-in: 2:00 PM onwards",
+        "Check-out: 11:00 AM",
+        "Deposit required at time of booking",
+        "Balance due on arrival"
+      ]
+    },
+    "terms": {
+      "title": "Terms & Conditions",
+      "conditions": [
+        "All prices are per night and include VAT",
+        "Prices subject to change without notice",
+        "Cancellation policy applies - see booking terms",
+        "Maximum 6 people per pitch",
+        "Dogs must be kept on leads at all times",
+        "Quiet hours: 10:00 PM - 8:00 AM",
+        "No commercial vehicles permitted",
+        "Management reserves the right to refuse admission"
+      ]
+    }
+  }
+}
