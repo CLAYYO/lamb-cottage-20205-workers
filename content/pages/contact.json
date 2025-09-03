@@ -1,33 +1,48 @@
 {
-  "title": "Contact Us",
-  "description": "Get in touch with Lamb Cottage Caravan Park",
-  "slug": "contact",
+  "title": "Contact Us - Lamb Cottage Caravan Park",
+  "description": "Get in touch with Lamb Cottage Caravan Park. Contact us for bookings, inquiries, or general information about our facilities and services.",
   "hero": {
     "title": "Contact Us",
-    "subtitle": "We're here to help with all your enquiries",
-    "ctaButton": {
-      "text": "Book Now",
-      "url": "/booking"
-    },
+    "subtitle": "We're here to help with all your caravan park needs",
     "backgroundImage": {
-      "src": "",
-      "alt": "Contact us background",
-      "opacity": 0.4,
-      "dimensions": {
-        "width": 1920,
-        "height": 1080,
-        "recommended": "1920x1080"
-      }
+      "src": "https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Beautiful%20caravan%20park%20reception%20building%20with%20welcoming%20entrance%2C%20green%20countryside%20setting%2C%20professional%20photography%20style&image_size=landscape_16_9",
+      "alt": "Lamb Cottage Caravan Park Reception",
+      "opacity": 0.4
     }
   },
   "content": {
-    "introduction": "",
-    "sections": [
-      {
-        "type": "text_section",
-        "title": "Contact Information",
-        "content": "**Phone:** 01606 882302\n**Email:** info@lambcottage.co.uk\n**Address:** Lamb Cottage Caravan Park, Dalefords Lane, Whitegate, Nr. Northwich, Cheshire CW8 2BN\n**Hours:** Monday - Friday: 9:00 AM - 5:00 PM, Saturday - Sunday: 10:00 AM - 4:00 PM. Please call during these hours for the quickest response."
+    "introduction": "We'd love to hear from you! Whether you're planning a visit, have questions about our facilities, or need assistance with your booking, our friendly team is here to help.",
+    "office_hours": "Monday - Friday: 9:00 AM - 5:00 PM\nSaturday: 9:00 AM - 4:00 PM\nSunday: 10:00 AM - 2:00 PM",
+    "contact_details": {
+      "phone": {
+        "number": "01606 889455",
+        "description": "Call us for immediate assistance"
+      },
+      "email": {
+        "address": "info@lambcottage.co.uk",
+        "description": "Send us a message anytime"
+      },
+      "address": {
+        "name": "Lamb Cottage Caravan Park",
+        "street": "Vale Royal",
+        "city": "Cheshire",
+        "country": "England",
+        "description": "Visit us in beautiful Cheshire"
       }
-    ]
+    },
+    "emergency_contact": {
+      "note": "For emergencies outside office hours, please call our emergency line or contact local emergency services if required.",
+      "emergency_phone": "01606 889455"
+    },
+    "booking_information": {
+      "advance_booking": "We recommend booking in advance, especially during peak seasons (Easter to October).",
+      "deposit_required": "A deposit is required to secure your booking.",
+      "cancellation_policy": "Please see our terms and conditions for cancellation policies."
+    },
+    "directions_note": "For detailed directions to our park, please visit our Directions page or contact us directly.",
+    "social_media": {
+      "facebook": "Follow us on Facebook for updates and special offers",
+      "note": "Stay connected with us on social media for the latest news and seasonal updates."
+    }
   }
 }

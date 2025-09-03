@@ -1,33 +1,144 @@
 {
-  "title": "Facilities",
-  "description": "Discover our excellent facilities and amenities",
-  "slug": "facilities",
+  "title": "Facilities - Lamb Cottage Caravan Park",
+  "description": "Discover our comprehensive range of modern facilities at Lamb Cottage Caravan Park. From luxury shower rooms to laundry facilities, we provide everything you need for a comfortable stay.",
   "hero": {
     "title": "Our Facilities",
-    "subtitle": "Everything you need for a comfortable stay",
-    "ctaButton": {
-      "text": "Book Now",
-      "url": "/booking"
-    },
+    "subtitle": "Modern amenities for your comfort and convenience",
     "backgroundImage": {
-      "src": "",
-      "alt": "Facilities background",
-      "opacity": 0.4,
-      "dimensions": {
-        "width": 1920,
-        "height": 1080,
-        "recommended": "1920x1080"
-      }
+      "src": "https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Modern%20caravan%20park%20facilities%20building%20with%20clean%20amenities%2C%20shower%20blocks%2C%20laundry%20room%2C%20countryside%20setting%2C%20professional%20photography&image_size=landscape_16_9",
+      "alt": "Lamb Cottage Caravan Park Facilities",
+      "opacity": 0.4
     }
   },
-  "content": {
-    "introduction": "",
-    "sections": [
-      {
-        "type": "feature_list",
-        "title": "Park Amenities",
-        "items": []
-      }
-    ]
+  "facilities": {
+    "shower_rooms": {
+      "title": "Luxury Shower Rooms",
+      "icon": "building",
+      "color": "blue",
+      "features": [
+        "Modern, spacious shower cubicles",
+        "Hot water available 24/7",
+        "Individual changing areas",
+        "Heated facilities",
+        "Non-slip flooring for safety",
+        "Privacy locks on all cubicles"
+      ],
+      "description": "Our luxury shower rooms provide a comfortable and private bathing experience with modern fixtures and constant hot water."
+    },
+    "laundry": {
+      "title": "Laundry Facilities",
+      "icon": "washing-machine",
+      "color": "purple",
+      "features": [
+        "Coin-operated washing machines",
+        "Tumble dryers available",
+        "Iron and ironing board",
+        "Washing powder available",
+        "Fabric softener dispensers",
+        "Folding tables provided"
+      ],
+      "description": "Keep your clothes fresh and clean with our modern laundry facilities, perfect for longer stays."
+    },
+    "hair_dryers": {
+      "title": "Hair Dryers",
+      "icon": "zap",
+      "color": "pink",
+      "features": [
+        "Professional hair dryers",
+        "Available in shower rooms",
+        "Coin-operated",
+        "Multiple heat settings",
+        "Wall-mounted for convenience",
+        "Regularly maintained and cleaned"
+      ],
+      "description": "Professional-grade hair dryers are conveniently located in our shower facilities."
+    },
+    "dishwashing": {
+      "title": "Dishwashing Area",
+      "icon": "utensils",
+      "color": "teal",
+      "features": [
+        "Stainless steel sinks",
+        "Hot and cold water",
+        "Draining boards",
+        "Washing up liquid provided",
+        "Drying racks available",
+        "Covered washing area"
+      ],
+      "description": "Clean and hygienic dishwashing facilities with all the essentials provided for your convenience."
+    },
+    "disabled_suite": {
+      "title": "Disabled Suite",
+      "icon": "accessibility",
+      "color": "indigo",
+      "features": [
+        "Wheelchair accessible",
+        "Grab rails and support",
+        "Level access shower",
+        "Emergency alarm system",
+        "Wide doorways",
+        "Adjustable shower head"
+      ],
+      "description": "Fully accessible facilities designed to meet the needs of guests with mobility requirements."
+    },
+    "dog_walking": {
+      "title": "Dog Walking Area",
+      "icon": "heart",
+      "color": "green",
+      "features": [
+        "Designated exercise area",
+        "Waste disposal bins",
+        "Water tap for dogs",
+        "Safe, enclosed space",
+        "Agility equipment",
+        "Seating for owners"
+      ],
+      "description": "A secure and well-equipped area where your four-legged friends can exercise and play safely."
+    }
+  },
+  "additional_amenities": {
+    "electric_hookups": {
+      "title": "Electric Hook-ups",
+      "icon": "zap",
+      "color": "yellow",
+      "description": "16amp electrical connections on all pitches",
+      "details": "Every pitch comes with a reliable 16amp electrical connection, perfect for powering your caravan, motorhome, or camping equipment."
+    },
+    "wifi": {
+      "title": "Free WiFi",
+      "icon": "wifi",
+      "color": "blue",
+      "description": "Complimentary wireless internet throughout the site",
+      "details": "Stay connected with our free WiFi service available across the entire park, perfect for keeping in touch or planning your next adventure."
+    },
+    "water_points": {
+      "title": "Fresh Water",
+      "icon": "droplet",
+      "color": "cyan",
+      "description": "Multiple water points across the site",
+      "details": "Convenient fresh water access points are strategically located throughout the park for easy filling of water containers and tanks."
+    },
+    "waste_disposal": {
+      "title": "Waste Disposal",
+      "icon": "trash",
+      "color": "gray",
+      "description": "Chemical toilet disposal and grey water drainage",
+      "details": "Proper waste disposal facilities including chemical toilet emptying points and grey water drainage for motorhomes and caravans."
+    }
+  },
+  "included_banner": {
+    "title": "All Facilities Included",
+    "description": "All our luxury facilities are included in your pitch fee - no hidden charges or extra costs for using our amenities",
+    "background_color": "green"
+  },
+  "opening_hours": {
+    "shower_rooms": "Available 24/7",
+    "laundry": "6:00 AM - 10:00 PM",
+    "reception": "8:00 AM - 6:00 PM (Summer), 9:00 AM - 5:00 PM (Winter)"
+  },
+  "maintenance": {
+    "cleaning_schedule": "All facilities are cleaned twice daily",
+    "maintenance_day": "Weekly deep cleaning every Wednesday morning",
+    "emergency_contact": "For any facility issues, please contact reception immediately"
   }
 }
