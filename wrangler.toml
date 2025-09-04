@@ -1,5 +1,5 @@
 name = "lamb-cottage-20205-workers"
-compatibility_date = "2024-01-01"
+compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 main = "dist/_worker.js"
 
