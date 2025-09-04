@@ -2,6 +2,7 @@
   "name": "exotic-ellipse",
   "type": "module",
   "version": "0.0.1",
+  "description": "Lamb Cottage 2025 - Holiday Park Website",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
