@@ -3,14 +3,15 @@
   "type": "module",
   "version": "0.0.1",
   "description": "Lamb Cottage 2025 - Holiday Park Website",
+  "_deployment_trigger": "2025-01-24T17:00:00Z",
   "scripts": {
     "dev": "astro dev",
+    "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
     "deploy": "wrangler pages deploy"
-  },
-  "dependencies": {
+  },"dependencies": {
     "@astrojs/cloudflare": "^12.6.4",
     "@astrojs/node": "^9.4.3",
     "@astrojs/tailwind": "^6.0.2",
