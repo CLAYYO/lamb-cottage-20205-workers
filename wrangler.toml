@@ -1,4 +1,4 @@
-name = "lamb-cottage-caravan-park"
+name = "lamb-cottage-20205-workers"
 compatibility_date = "2024-01-01"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = "dist"
